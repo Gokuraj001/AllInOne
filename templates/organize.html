@@ -1,13 +1,49 @@
 <!DOCTYPE html>
-<html>
-<head><title>Organize PDF</title></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organize PDF</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
 <body>
-    <h2>Organize PDF</h2>
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="pdf" required><br><br>
-        <input type="text" name="pages" placeholder="Enter pages to keep (e.g. 1,3,5)" required><br><br>
-        <button type="submit">Organize</button>
-    </form>
-    <br><a href="/">⬅ Back</a>
+
+    <div class="hero">
+        <h1>Organize PDF</h1>
+        <p>Keep or reorder selected pages from your PDF</p>
+    </div>
+
+    <div class="upload-box">
+        <form method="POST" enctype="multipart/form-data" id="uploadForm">
+            <label for="pdf" class="drop-area" id="dropArea">
+                <p>📂 Drag & Drop PDF here</p>
+                <p>or click to browse</p>
+                <input type="file" name="pdf" id="pdf" accept=".pdf,application/pdf" required hidden>
+            </label>
+
+            <div id="filePreview"></div>
+
+            <input type="text" name="pages" placeholder="Example: 1,3,5 or 3,1,2" required>
+
+            <small style="display:block; margin-top:8px; color:#cbd5e1;">
+                Tip: Use <b>3,1,2</b> to reorder pages too.
+            </small>
+
+            <div id="progressContainer" style="display:none; margin-top:20px;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="loadingText">Organizing...</p>
+            </div>
+
+            <br>
+            <button type="submit" class="nav-btn">Organize Now</button>
+        </form>
+    </div>
+
+    <br>
+    <a href="/" class="back-link">⬅ Back</a>
+
+    <script src="/static/script.js"></script>
 </body>
 </html>

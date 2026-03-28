@@ -1,35 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartPDF Toolkit</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-    <h1>📄 SmartPDF Toolkit</h1>
-    <p class="subtitle">All your PDF tools in one place</p>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h2>📄 SmartPDF</h2>
+        <button class="nav-btn">Login</button>
+    </nav>
 
-    <div class="section">
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1>All PDF Tools in One Place</h1>
+        <p>Merge, Split, Convert, Compress & Manage your PDFs easily</p>
+    </header>
+
+    <!-- Organize & Edit -->
+    <section class="section">
         <h2>📂 Organize & Edit</h2>
-        <div class="container">
+        <div class="grid">
             <div class="card"><a href="/merge">Merge PDF</a></div>
             <div class="card"><a href="/split">Split PDF</a></div>
             <div class="card"><a href="/organize">Organize PDF</a></div>
             <div class="card"><a href="/rotate">Rotate PDF</a></div>
         </div>
-    </div>
+    </section>
 
-    <div class="section">
+    <!-- Optimization -->
+    <section class="section">
         <h2>⚡ Optimization</h2>
-        <div class="container">
+        <div class="grid">
             <div class="card"><a href="/compress">Compress PDF</a></div>
             <div class="card"><a href="/repair">Repair PDF</a></div>
         </div>
-    </div>
+    </section>
 
-    <div class="section">
+    <!-- Conversion -->
+    <section class="section">
         <h2>🔄 Conversion</h2>
-        <div class="container">
+        <div class="grid">
             <div class="card"><a href="/jpg-to-pdf">JPG to PDF</a></div>
             <div class="card"><a href="/pdf-to-jpg">PDF to JPG</a></div>
             <div class="card"><a href="/pdf-to-text">PDF to Text</a></div>
@@ -37,7 +51,12 @@
             <div class="card"><a href="/pdf-to-word">PDF to Word</a></div>
             <div class="card"><a href="/word-to-pdf">Word to PDF</a></div>
         </div>
-    </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 SmartPDF Toolkit | Built with Flask + Python 🚀</p>
+    </footer>
 
 </body>
 </html>

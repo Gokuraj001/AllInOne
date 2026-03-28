@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compress PDF</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <div class="hero">
+        <h1>Compress PDF</h1>
+        <p>Reduce PDF file size quickly</p>
+    </div>
+
+    <div class="upload-box">
+        <form method="POST" enctype="multipart/form-data" id="uploadForm">
+            <label for="pdf" class="drop-area" id="dropArea">
+                <p>📂 Drag & Drop PDF here</p>
+                <p>or click to browse</p>
+                <input type="file" name="pdf" id="pdf" accept=".pdf,application/pdf" required hidden>
+            </label>
+
+            <div id="filePreview"></div>
+
+            <div id="progressContainer" style="display:none; margin-top:20px;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="loadingText">Compressing...</p>
+            </div>
+
+            <br>
+            <button type="submit" class="nav-btn">Compress Now</button>
+        </form>
+    </div>
+
+    <br>
+    <a href="/" class="back-link">⬅ Back</a>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

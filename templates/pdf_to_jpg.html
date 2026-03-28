@@ -1,12 +1,47 @@
 <!DOCTYPE html>
-<html>
-<head><title>PDF to JPG</title></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to JPG</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
 <body>
-    <h2>PDF to JPG</h2>
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="pdf" required><br><br>
-        <button type="submit">Convert</button>
-    </form>
-    <br><a href="/">⬅ Back</a>
+
+    <div class="hero">
+        <h1>PDF to JPG</h1>
+        <p>Convert PDF pages into JPG images</p>
+    </div>
+
+    <div class="upload-box">
+        <form method="POST" enctype="multipart/form-data" id="uploadForm">
+            <label for="pdf" class="drop-area" id="dropArea">
+                <p>📂 Drag & Drop PDF here</p>
+                <p>or click to browse</p>
+                <input type="file" name="pdf" id="pdf" accept=".pdf,application/pdf" required hidden>
+            </label>
+
+            <div id="filePreview"></div>
+
+            <small style="display:block; margin-top:8px; color:#cbd5e1;">
+                Each PDF page will be converted into a JPG image.
+            </small>
+
+            <div id="progressContainer" style="display:none; margin-top:20px;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="loadingText">Converting PDF to JPG...</p>
+            </div>
+
+            <br>
+            <button type="submit" class="nav-btn">Convert Now</button>
+        </form>
+    </div>
+
+    <br>
+    <a href="/" class="back-link">⬅ Back</a>
+
+    <script src="/static/script.js"></script>
 </body>
 </html>

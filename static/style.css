@@ -1,15 +1,70 @@
+/* =========================
+   RESET
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================
+   BODY
+========================= */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     background: linear-gradient(135deg, #0f172a, #1e293b);
     color: white;
-    margin: 0;
+    min-height: 100vh;
     padding: 20px;
     text-align: center;
 }
 
+/* =========================
+   NAVBAR
+========================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    margin-bottom: 20px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+}
+
+.navbar h2 {
+    font-size: 24px;
+}
+
+/* =========================
+   HERO
+========================= */
+.hero {
+    text-align: center;
+    padding: 50px 20px 30px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #cbd5e1;
+    font-size: 18px;
+}
+
+/* =========================
+   HEADINGS / SECTIONS
+========================= */
 h1 {
     font-size: 42px;
     margin-bottom: 10px;
+}
+
+h2 {
+    margin-bottom: 20px;
 }
 
 .subtitle {
@@ -19,9 +74,14 @@ h1 {
 
 .section {
     margin-bottom: 50px;
+    padding: 20px 0;
 }
 
-.container {
+/* =========================
+   GRID / CARDS
+========================= */
+.container,
+.grid {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -32,10 +92,15 @@ h1 {
 .card {
     background: rgba(255, 255, 255, 0.08);
     padding: 25px;
-    width: 180px;
-    border-radius: 15px;
-    transition: 0.3s;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    width: 200px;
+    min-height: 120px;
+    border-radius: 20px;
+    transition: 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card:hover {
@@ -43,9 +108,185 @@ h1 {
     background: #3b82f6;
 }
 
+/* =========================
+   LINKS
+========================= */
 a {
     text-decoration: none;
     color: white;
     font-size: 18px;
     font-weight: bold;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+button,
+.nav-btn {
+    padding: 12px 22px;
+    background: #3b82f6;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:hover,
+.nav-btn:hover {
+    transform: scale(1.05);
+    background: #2563eb;
+}
+
+/* =========================
+   FORMS / INPUTS
+========================= */
+input[type="text"],
+input[type="number"],
+input[type="password"],
+select,
+textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 15px;
+    margin: 10px auto;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 16px;
+    display: block;
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #cbd5e1;
+}
+
+select option {
+    color: black;
+}
+
+/* =========================
+   UPLOAD BOX
+========================= */
+.upload-box {
+    max-width: 550px;
+    margin: auto;
+    text-align: center;
+}
+
+.drop-area {
+    display: block;
+    border: 2px dashed #60a5fa;
+    border-radius: 20px;
+    padding: 40px 20px;
+    background: rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.drop-area:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.drop-area.dragover {
+    background: rgba(59,130,246,0.2);
+    border-color: #3b82f6;
+}
+
+/* =========================
+   FILE PREVIEW
+========================= */
+#filePreview {
+    margin-top: 20px;
+    text-align: left;
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    padding: 15px;
+    min-height: 50px;
+}
+
+.file-item {
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+/* =========================
+   PROGRESS BAR
+========================= */
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #3b82f6;
+    transition: width 0.3s ease;
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+    text-align: center;
+    padding: 30px 10px 10px;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+/* =========================
+   BACK LINK
+========================= */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #93c5fd;
+    font-size: 16px;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .hero h1,
+    h1 {
+        font-size: 30px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 320px;
+        min-height: 100px;
+    }
+
+    .drop-area {
+        padding: 30px 15px;
+    }
 }

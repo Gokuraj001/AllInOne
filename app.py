@@ -1,11 +1,14 @@
 from flask import Flask, render_template, request, send_file
 from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 from pdf2image import convert_from_path
-from PIL import Image
 import img2pdf
 import pdfplumber
 import os
 import zipfile
+import fitz  # PyMuPDF
+from werkzeug.utils import secure_filename
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 app = Flask(__name__)
 
@@ -21,6 +24,7 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 def home():
     return render_template('index.html')
 
+
 # ===================== MERGE PDF =====================
 @app.route('/merge', methods=['GET', 'POST'])
 def merge_pdf():
@@ -29,7 +33,10 @@ def merge_pdf():
         merger = PdfMerger()
 
         for file in files:
-            filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+            if file.filename == '':
+                continue
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(UPLOAD_FOLDER, filename)
             file.save(filepath)
             merger.append(filepath)
 
@@ -49,12 +56,16 @@ def split_pdf():
         file = request.files['pdf']
         page_number = int(request.form['page_number'])
 
-        filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
         file.save(filepath)
 
         reader = PdfReader(filepath)
-        writer = PdfWriter()
 
+        if page_number < 1 or page_number > len(reader.pages):
+            return f"<h2>Invalid page number. This PDF has only {len(reader.pages)} pages.</h2>"
+
+        writer = PdfWriter()
         writer.add_page(reader.pages[page_number - 1])
 
         output_path = os.path.join(OUTPUT_FOLDER, 'split_page.pdf')
@@ -73,14 +84,15 @@ def rotate_pdf():
         file = request.files['pdf']
         angle = int(request.form['angle'])
 
-        filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
         file.save(filepath)
 
         reader = PdfReader(filepath)
         writer = PdfWriter()
 
         for page in reader.pages:
-            page.rotate(angle)
+            page.rotate_clockwise(angle)
             writer.add_page(page)
 
         output_path = os.path.join(OUTPUT_FOLDER, 'rotated.pdf')
@@ -97,15 +109,19 @@ def rotate_pdf():
 def organize_pdf():
     if request.method == 'POST':
         file = request.files['pdf']
-        pages_to_keep = request.form['pages']  # Example: 1,3,5
+        pages_to_keep = request.form['pages']
 
-        filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
         file.save(filepath)
 
         reader = PdfReader(filepath)
         writer = PdfWriter()
 
-        pages = [int(p.strip()) - 1 for p in pages_to_keep.split(',')]
+        try:
+            pages = [int(p.strip()) - 1 for p in pages_to_keep.split(',')]
+        except ValueError:
+            return "<h2>Invalid input. Please enter pages like: 1,3,5</h2>"
 
         for p in pages:
             if 0 <= p < len(reader.pages):
@@ -128,9 +144,15 @@ def jpg_to_pdf():
         image_paths = []
 
         for file in files:
-            filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+            if file.filename == '':
+                continue
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(UPLOAD_FOLDER, filename)
             file.save(filepath)
             image_paths.append(filepath)
+
+        if not image_paths:
+            return "<h2>No valid image files uploaded.</h2>"
 
         output_path = os.path.join(OUTPUT_FOLDER, 'images_to_pdf.pdf')
 
@@ -141,16 +163,20 @@ def jpg_to_pdf():
 
     return render_template('jpg_to_pdf.html')
 
-
 # ===================== PDF TO JPG =====================
 @app.route('/pdf-to-jpg', methods=['GET', 'POST'])
 def pdf_to_jpg():
     if request.method == 'POST':
         file = request.files['pdf']
-        filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
         file.save(filepath)
 
-        images = convert_from_path(filepath)
+        try:
+            images = convert_from_path(filepath)
+        except Exception as e:
+            return f"<h2>Error converting PDF to JPG: {str(e)}</h2>"
+
         zip_path = os.path.join(OUTPUT_FOLDER, 'pdf_images.zip')
 
         with zipfile.ZipFile(zip_path, 'w') as zipf:
@@ -169,14 +195,17 @@ def pdf_to_jpg():
 def pdf_to_text():
     if request.method == 'POST':
         file = request.files['pdf']
-        filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
         file.save(filepath)
 
         text_output = ""
 
         with pdfplumber.open(filepath) as pdf:
             for page in pdf.pages:
-                text_output += page.extract_text() + "\n\n"
+                text = page.extract_text()
+                if text:
+                    text_output += text + "\n\n"
 
         output_path = os.path.join(OUTPUT_FOLDER, 'extracted_text.txt')
         with open(output_path, 'w', encoding='utf-8') as f:
@@ -190,19 +219,58 @@ def pdf_to_text():
 # ===================== HTML TO PDF =====================
 @app.route('/html-to-pdf', methods=['GET', 'POST'])
 def html_to_pdf():
-    return "<h2>Coming Soon 🚧</h2>"
+    if request.method == 'POST':
+        html_content = request.form['html_content']
+
+        output_path = os.path.join(OUTPUT_FOLDER, 'html_to_pdf.pdf')
+
+        c = canvas.Canvas(output_path, pagesize=letter)
+        width, height = letter
+
+        y = height - 40
+        lines = html_content.split('\n')
+
+        c.setFont("Helvetica", 10)
+
+        for line in lines:
+            if y < 40:
+                c.showPage()
+                c.setFont("Helvetica", 10)
+                y = height - 40
+            c.drawString(40, y, line[:100])  # Avoid too-long lines
+            y -= 15
+
+        c.save()
+
+        return send_file(output_path, as_attachment=True)
+
+    return render_template('html_to_pdf.html')
 
 
 # ===================== COMPRESS PDF =====================
 @app.route('/compress', methods=['GET', 'POST'])
 def compress_pdf():
-    return "<h2>Coming Soon 🚧</h2>"
+    if request.method == 'POST':
+        file = request.files['pdf']
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        file.save(filepath)
+
+        output_path = os.path.join(OUTPUT_FOLDER, 'compressed.pdf')
+
+        doc = fitz.open(filepath)
+        doc.save(output_path, garbage=4, deflate=True)
+        doc.close()
+
+        return send_file(output_path, as_attachment=True)
+
+    return render_template('compress.html')
 
 
 # ===================== REPAIR PDF =====================
 @app.route('/repair', methods=['GET', 'POST'])
 def repair_pdf():
-    return "<h2>Coming Soon 🚧</h2>"
+    return "<h2>Repair PDF feature coming soon 🚧</h2>"
 
 
 # ===================== PDF TO WORD =====================

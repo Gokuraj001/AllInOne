@@ -1,13 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head><title>Merge PDF</title></head>
+<head>
+    <title>Merge PDF</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
 <body>
-    <h2>Merge PDF Files</h2>
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="pdfs" multiple required>
-        <br><br>
-        <button type="submit">Merge</button>
-    </form>
-    <br><a href="/">⬅ Back</a>
+
+    <div class="hero">
+        <h1>Merge PDF</h1>
+        <p>Combine multiple PDFs into one file</p>
+    </div>
+
+    <div class="upload-box">
+        <form method="POST" enctype="multipart/form-data" id="uploadForm">
+            <label for="pdfs" class="drop-area" id="dropArea">
+                <p>📂 Drag & Drop PDF files here</p>
+                <p>or click to browse</p>
+                <input type="file" name="pdfs" id="pdfs" multiple required hidden>
+            </label>
+
+            <div id="filePreview"></div>
+
+            <div id="progressContainer" style="display:none; margin-top:20px;">
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+            </div>
+    <p id="loadingText">Processing...</p>
+    </div>
+
+            <br>
+            <button type="submit" class="nav-btn">Merge Now</button>
+        </form>
+    </div>
+
+    <br>
+    <a href="/">⬅ Back</a>
+
+    <script src="/static/script.js"></script>
 </body>
 </html>
