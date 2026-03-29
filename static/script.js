@@ -58,35 +58,38 @@ function showFiles(files) {
 }
 
 // =======================
-// Form Submit Handling
+// Fake Progress Bar
 // =======================
 if (uploadForm) {
     uploadForm.addEventListener("submit", (e) => {
-        // If files were dropped, inject them into input using DataTransfer
-        if (droppedFiles) {
+        e.preventDefault(); // ⛔ STOP default instant submission
+
+        // Attach dropped files safely
+        if (droppedFiles && fileInput) {
             const dataTransfer = new DataTransfer();
             Array.from(droppedFiles).forEach(file => dataTransfer.items.add(file));
             fileInput.files = dataTransfer.files;
         }
 
-        // Show progress UI if available
         if (progressContainer && progressFill) {
             progressContainer.style.display = "block";
 
             let width = 0;
+
             const interval = setInterval(() => {
-                if (width >= 95) {
-                    clearInterval(interval);
-                } else {
+                if (width < 100) {
                     width += 5;
                     progressFill.style.width = width + "%";
-                }
-            }, 200);
+                } else {
+                    clearInterval(interval);
 
-            // Just before actual submit, push it to 100%
-            setTimeout(() => {
-                progressFill.style.width = "100%";
-            }, 2200);
+                    // ✅ Submit AFTER reaching 100%
+                    uploadForm.submit();
+                }
+            }, 100);
+        } else {
+            // fallback if no progress bar
+            uploadForm.submit();
         }
     });
 }

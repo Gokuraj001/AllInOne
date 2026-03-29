@@ -9,6 +9,7 @@ import fitz  # PyMuPDF
 from werkzeug.utils import secure_filename
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from PIL import Image, ImageOps
 
 app = Flask(__name__)
 
@@ -141,23 +142,46 @@ def organize_pdf():
 def jpg_to_pdf():
     if request.method == 'POST':
         files = request.files.getlist('images')
-        image_paths = []
+        cleaned_image_paths = []
 
-        for file in files:
+        for index, file in enumerate(files):
+            if not file.filename.lower().endswith(('.jpg', '.jpeg', '.png')):
+                continue
             if file.filename == '':
                 continue
+
             filename = secure_filename(file.filename)
             filepath = os.path.join(UPLOAD_FOLDER, filename)
             file.save(filepath)
-            image_paths.append(filepath)
 
-        if not image_paths:
+            try:
+                img = Image.open(filepath)
+
+                # Fix EXIF orientation safely
+                img = ImageOps.exif_transpose(img)
+
+                # Convert RGBA / PNG / transparent images to RGB
+                if img.mode in ("RGBA", "P"):
+                    img = img.convert("RGB")
+
+                cleaned_path = os.path.join(UPLOAD_FOLDER, f"cleaned_{index}.jpg")
+                img.save(cleaned_path, "JPEG")
+
+                cleaned_image_paths.append(cleaned_path)
+
+            except Exception as e:
+                return f"<h2>Error processing image {filename}: {str(e)}</h2>"
+
+        if not cleaned_image_paths:
             return "<h2>No valid image files uploaded.</h2>"
 
         output_path = os.path.join(OUTPUT_FOLDER, 'images_to_pdf.pdf')
 
-        with open(output_path, "wb") as f:
-            f.write(img2pdf.convert(image_paths))
+        try:
+            with open(output_path, "wb") as f:
+                f.write(img2pdf.convert(cleaned_image_paths))
+        except Exception as e:
+            return f"<h2>Error converting images to PDF: {str(e)}</h2>"
 
         return send_file(output_path, as_attachment=True)
 
