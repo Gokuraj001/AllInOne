@@ -440,7 +440,7 @@ header {
 .btn-ghost:hover { transform: translateY(-4px); border-color: var(--accent); background: var(--surface2); }
 
 /* scroll hint */
-.scroll-hint {
+/* .scroll-hint {
   position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   animation: fadeUp 1s 1.2s cubic-bezier(0.22,1,.36,1) both;
@@ -454,7 +454,7 @@ header {
   content: ''; width: 4px; height: 8px; background: var(--accent2);
   border-radius: 2px; animation: scrollBob 1.8s ease-in-out infinite;
 }
-@keyframes scrollBob { 0%,100% { transform:translateY(0); opacity:.9; } 60% { transform:translateY(12px); opacity:.2; } }
+@keyframes scrollBob { 0%,100% { transform:translateY(0); opacity:.9; } 60% { transform:translateY(12px); opacity:.2; } } */
 
 /* ══════════════════════════════════════════════
    TOOLS SECTION
@@ -796,10 +796,10 @@ footer {
       <button class="btn-grad" data-i18n="ctaExplore">Explore Tools</button>
       <button class="btn-ghost" data-i18n="ctaLearn">Learn More</button>
     </div>
-    <div class="scroll-hint">
+    <!-- <div class="scroll-hint">
       <span data-i18n="scrollHint">Scroll</span>
       <div class="scroll-wheel"></div>
-    </div>
+    </div> -->
   </section>
 
   <!-- Tools -->
@@ -897,8 +897,12 @@ const LANGUAGES = [
 ];
 
 const LANG_CODE = {
-  English:'en', Spanish:'es', French:'fr', German:'de',
-  Japanese:'ja', Portuguese:'pt', Italian:'it',
+  English:'en', Spanish:'es', French:'fr', German:'de', Japanese:'ja', 
+  Portuguese:'pt', Arabic:'ar', Hindi:'hi', 'Chinese (Simplified)':'zh', 
+  Korean:'ko', Italian:'it', Russian:'ru', Dutch:'nl', Turkish:'tr', 
+  Polish:'pl', Swedish:'sv', Indonesian:'id', Vietnamese:'vi', 
+  Thai:'th', Greek:'el', Czech:'cs', Romanian:'ro', Hungarian:'hu', 
+  Finnish:'fi', Danish:'da', Norwegian:'no'
 };
 
 /* ─── TRANSLATIONS ─────────────────────────────── */
@@ -1014,6 +1018,142 @@ const T = {
     t5n:'PDF zu Text',       t5d:'PDF-Inhalte in bearbeitbaren Text konvertieren.',
     t6n:'PDF komprimieren',  t6d:'PDF-Größe bei gleichbleibender Qualität reduzieren.',
     t7n:'PDF aufteilen',     t7d:'Ein großes PDF in einzelne Dokumente aufteilen.',
+  },
+  hi: {
+    brand:'ALL-IN-ONE', menuTitle:'नेविगेशन', navPricing:'कीमत', navLang:'भाषा', navPrivacy:'गोपनीयता नीति', navTerms:'नियम और शर्तें', navAbout:'हमारे बारे में', navContact:'संपर्क करें',
+    heroBadge:'मुफ्त · तेज · असीमित', heroLine1:'ALL-IN-ONE टूल्स', heroLine2:'में आपका स्वागत है',
+    heroSub:'ALL-IN-ONE एक ऐसा प्लेटफॉर्म है जहां आप सभी टूल्स मुफ्त में पा सकते हैं!!!',
+    ctaExplore:'टूल्स देखें', ctaLearn:'और जानें', scrollHint:'स्क्रॉल करें',
+    toolsEye:'हमारा टूलकिट', toolsTitleA:'8 शक्तिशाली टूल्स,', toolsTitleB:'जीरो कॉस्ट',
+    pricingTitle:'जल्द आ रहा है!', pricingMsg:'यह सुविधा जल्द ही उपलब्ध होगी।', modalClose:'ठीक है!',
+    modeLabel:'डार्क मोड', modeLabelLight:'लाइट मोड', toolAction:'टूल खोलें →',
+    t0n:'इमेज कंप्रेस', t0d:'बिना क्वालिटी खोए इमेज फाइल का साइज कम करें।',
+    t1n:'इमेज से PDF', t1d:'किसी भी इमेज को तुरंत PDF में बदलें।',
+    t2n:'PDF मर्ज करें', t2d:'कई PDF को एक फाइल में जोड़ें।',
+    t3n:'PDF व्यवस्थित करें', t3d:'आसानी से अपने PDF पेजों को पुनर्व्यवस्थित और प्रबंधित करें।',
+    t4n:'PDF से इमेज', t4d:'किसी भी PDF से स्पष्ट, उच्च-रिज़ॉल्यूशन वाली इमेज निकालें।',
+    t5n:'PDF से टेक्स्ट', t5d:'PDF सामग्री को पूरी तरह से संपादन योग्य टेक्स्ट में बदलें।',
+    t6n:'PDF कंप्रेस', t6d:'क्वालिटी बनाए रखते हुए PDF साइज कम करें।',
+    t7n:'PDF विभाजित करें', t7d:'बड़े PDF को कई छोटे दस्तावेज़ों में विभाजित करें।',
+  },
+  es: {
+    brand:'ALL-IN-ONE', menuTitle:'Navegación', navPricing:'Precios', navLang:'Idioma', navPrivacy:'Privacidad', navTerms:'Términos', navAbout:'Nosotros', navContact:'Contacto',
+    heroBadge:'Gratis · Rápido · Ilimitado', heroLine1:'Bienvenido ALL-IN-ONE', heroLine2:'Tools',
+    heroSub:'¡ALL-IN-ONE es una plataforma donde obtienes todas las herramientas gratis!',
+    ctaExplore:'Explorar', ctaLearn:'Saber más', scrollHint:'Desplazar',
+    toolsEye:'Nuestro Kit', toolsTitleA:'8 Herramientas Potentes,', toolsTitleB:'Cero Costo',
+    pricingTitle:'¡Próximamente!', pricingMsg:'Esta función estará disponible pronto.', modalClose:'¡Entendido!',
+    modeLabel:'Modo Oscuro', modeLabelLight:'Modo Claro', toolAction:'Abrir →',
+    t0n:'Comprimir Imagen', t0d:'Reduce el tamaño sin perder calidad visual.',
+    t1n:'Imagen a PDF', t1d:'Convierte imágenes en PDF al instante.',
+    t2n:'Unir PDF', t2d:'Combina múltiples PDFs en un solo archivo.',
+    t3n:'Organizar PDF', t3d:'Reordena y gestiona tus páginas PDF con facilidad.',
+    t4n:'PDF a Imagen', t4d:'Extrae imágenes en alta resolución de cualquier PDF.',
+    t5n:'PDF a Texto', t5d:'Convierte contenido PDF en archivos de texto editables.',
+    t6n:'Comprimir PDF', t6d:'Reduce el tamaño del PDF conservando la calidad.',
+    t7n:'Dividir PDF', t7d:'Divide un PDF grande en varios documentos.',
+  },
+  fr: {
+    brand:'ALL-IN-ONE', menuTitle:'Navigation', navPricing:'Tarifs', navLang:'Langue', navPrivacy:'Confidentialité', navTerms:'Conditions', navAbout:'À Propos', navContact:'Contact',
+    heroBadge:'Gratuit · Rapide · Illimité', heroLine1:'Bienvenue ALL-IN-ONE', heroLine2:'Outils',
+    heroSub:'ALL-IN-ONE est une plateforme où tout est gratuit !!!',
+    ctaExplore:'Explorer', ctaLearn:'En savoir plus', scrollHint:'Défiler',
+    toolsEye:'Nos Outils', toolsTitleA:'8 Outils Puissants,', toolsTitleB:'Zéro Coût',
+    pricingTitle:'Bientôt disponible!', pricingMsg:'Cette fonctionnalité arrive bientôt.', modalClose:'Compris!',
+    modeLabel:'Mode Sombre', modeLabelLight:'Mode Clair', toolAction:'Ouvrir →',
+    t0n:'Compresser Image', t0d:'Réduisez la taille sans perte de qualité.',
+    t1n:'Image en PDF', t1d:'Transformez une image en PDF instantanément.',
+    t2n:'Fusionner PDF', t2d:'Combinez plusieurs PDFs en un seul fichier.',
+    t3n:'Organiser PDF', t3d:'Réorganisez vos pages PDF facilement.',
+    t4n:'PDF en Image', t4d:'Extrayez des images haute résolution d’un PDF.',
+    t5n:'PDF en Texte', t5d:'Convertissez un PDF en texte éditable.',
+    t6n:'Compresser PDF', t6d:'Réduisez la taille en préservant la qualité.',
+    t7n:'Diviser PDF', t7d:'Divisez un PDF en plusieurs documents.',
+  },
+  de: {
+    brand:'ALL-IN-ONE', menuTitle:'Navigation', navPricing:'Preise', navLang:'Sprache', navPrivacy:'Datenschutz', navTerms:'AGB', navAbout:'Über uns', navContact:'Kontakt',
+    heroBadge:'Gratis · Schnell · Unbegrenzt', heroLine1:'Willkommen ALL-IN-ONE', heroLine2:'Tools',
+    heroSub:'ALL-IN-ONE: Alle Tools kostenlos an einem Ort!',
+    ctaExplore:'Entdecken', ctaLearn:'Mehr erfahren', scrollHint:'Scrollen',
+    toolsEye:'Toolkit', toolsTitleA:'8 Starke Tools,', toolsTitleB:'Kostenlos',
+    pricingTitle:'Demnächst!', pricingMsg:'Diese Funktion kommt bald.', modalClose:'Verstanden!',
+    modeLabel:'Dunkelmodus', modeLabelLight:'Hellmodus', toolAction:'Öffnen →',
+    t0n:'Bild komprimieren', t0d:'Bildgröße ohne Qualitätsverlust reduzieren.',
+    t1n:'Bild zu PDF', t1d:'Bilder sofort in PDF umwandeln.',
+    t2n:'PDF zusammenfügen', t2d:'Mehrere PDFs in eine Datei verbinden.',
+    t3n:'PDF organisieren', t3d:'Seiten einfach neu anordnen.',
+    t4n:'PDF zu Bild', t4d:'Bilder aus PDF extrahieren.',
+    t5n:'PDF zu Text', t5d:'PDF in bearbeitbaren Text umwandeln.',
+    t6n:'PDF komprimieren', t6d:'Größe reduzieren bei voller Qualität.',
+    t7n:'PDF teilen', t7d:'Große PDFs in mehrere Dateien splitten.',
+  },
+  zh: {
+    brand:'ALL-IN-ONE', menuTitle:'导航', navPricing:'价格', navLang:'语言', navPrivacy:'隐私政策', navTerms:'条款', navAbout:'关于', navContact:'联系',
+    heroBadge:'免费 · 快速 · 无限制', heroLine1:'欢迎来到 ALL-IN-ONE', heroLine2:'工具箱',
+    heroSub:'ALL-IN-ONE 是一个完全免费的工具平台！',
+    ctaExplore:'浏览工具', ctaLearn:'了解更多', scrollHint:'滚动',
+    toolsEye:'我们的工具', toolsTitleA:'8个强大的工具,', toolsTitleB:'完全免费',
+    pricingTitle:'敬请期待！', pricingMsg:'此功能即将推出。', modalClose:'明白了！',
+    modeLabel:'深色模式', modeLabelLight:'浅色模式', toolAction:'打开 →',
+    t0n:'图像压缩', t0d:'减小体积而不损失画质。',
+    t1n:'图像转PDF', t1d:'将图片立即转换为PDF。',
+    t2n:'合并PDF', t2d:'将多个PDF合并为一个。',
+    t3n:'整理PDF', t3d:'轻松调整PDF页面顺序。',
+    t4n:'PDF转图像', t4d:'从PDF中提取高质图片。',
+    t5n:'PDF转文本', t5d:'将PDF转换为可编辑文本。',
+    t6n:'压缩PDF', t6d:'保持质量的同时缩小PDF。',
+    t7n:'拆分PDF', t7d:'将大PDF拆分为多个。',
+  },
+  ar: {
+    brand:'ALL-IN-ONE', menuTitle:'التنقل', navPricing:'الأسعار', navLang:'اللغة', navPrivacy:'الخصوصية', navTerms:'الشروط', navAbout:'حول', navContact:'اتصل',
+    heroBadge:'مجاني · سريع · غير محدود', heroLine1:'مرحباً بك في', heroLine2:'ALL-IN-ONE',
+    heroSub:'منصة ALL-IN-ONE توفر لك كل الأدوات مجاناً!',
+    ctaExplore:'استكشاف', ctaLearn:'المزيد', scrollHint:'مرر',
+    toolsEye:'أدواتنا', toolsTitleA:'8 أدوات قوية،', toolsTitleB:'مجانية تماماً',
+    pricingTitle:'قريباً!', pricingMsg:'هذه الميزة ستتوفر قريباً.', modalClose:'موافق!',
+    modeLabel:'وضع ليلي', modeLabelLight:'وضع نهاري', toolAction:'فتح ←',
+    t0n:'ضغط الصور', t0d:'تقليل الحجم دون فقدان الجودة.',
+    t1n:'تحويل الصور لـ PDF', t1d:'حول أي صورة إلى PDF فوراً.',
+    t2n:'دمج PDF', t2d:'دمج ملفات PDF في ملف واحد.',
+    t3n:'تنظيم PDF', t3d:'إعادة ترتيب صفحات PDF بسهولة.',
+    t4n:'PDF إلى صور', t4d:'استخراج الصور من ملف PDF.',
+    t5n:'PDF إلى نص', t5d:'تحويل PDF إلى نص قابل للتعديل.',
+    t6n:'ضغط PDF', t6d:'تقليل حجم الملف مع حفظ الجودة.',
+    t7n:'تقسيم PDF', t7d:'تقسيم ملف PDF إلى أجزاء.',
+  },
+  ru: {
+    brand:'ALL-IN-ONE', menuTitle:'Навигация', navPricing:'Цены', navLang:'Язык', navPrivacy:'Лицензия', navTerms:'Условия', navAbout:'О нас', navContact:'Контакт',
+    heroBadge:'Бесплатно · Быстро · Безлимитно', heroLine1:'Добро пожаловать в', heroLine2:'ALL-IN-ONE',
+    heroSub:'ALL-IN-ONE — платформа с бесплатными инструментами!',
+    ctaExplore:'Инструменты', ctaLearn:'Подробнее', scrollHint:'Скролл',
+    toolsEye:'Наш набор', toolsTitleA:'8 мощных утилит,', toolsTitleB:'Бесплатно',
+    pricingTitle:'Скоро!', pricingMsg:'Этот раздел скоро появится.', modalClose:'Понятно!',
+    modeLabel:'Темный', modeLabelLight:'Светлый', toolAction:'Открыть →',
+    t0n:'Сжатие фото', t0d:'Уменьшите размер без потери качества.',
+    t1n:'Фото в PDF', t1d:'Мгновенная конвертация фото в PDF.',
+    t2n:'Объединить PDF', t2d:'Склейте несколько PDF в один.',
+    t3n:'Организовать PDF', t3d:'Управление страницами PDF.',
+    t4n:'PDF в картинку', t4d:'Извлечение фото из PDF.',
+    t5n:'PDF в текст', t5d:'Конвертация PDF в текст.',
+    t6n:'Сжать PDF', t6d:'Уменьшение размера файла PDF.',
+    t7n:'Разбить PDF', t7d:'Разделение PDF на части.',
+  },
+  pt: {
+    brand:'ALL-IN-ONE', menuTitle:'Navegação', navPricing:'Preços', navLang:'Idioma', navPrivacy:'Privacidade', navTerms:'Termos', navAbout:'Sobre', navContact:'Contato',
+    heroBadge:'Grátis · Rápido · Ilimitado', heroLine1:'Bem-vindo ao ALL-IN-ONE', heroLine2:'Tools',
+    heroSub:'ALL-IN-ONE é uma plataforma onde você encontra tudo de graça!',
+    ctaExplore:'Explorar', ctaLearn:'Saber mais', scrollHint:'Rolar',
+    toolsEye:'Nosso Kit', toolsTitleA:'8 Ferramentas Poderosas,', toolsTitleB:'Custo Zero',
+    pricingTitle:'Em Breve!', pricingMsg:'Recurso disponível em breve.', modalClose:'Entendido!',
+    modeLabel:'Modo Escuro', modeLabelLight:'Modo Claro', toolAction:'Abrir →',
+    t0n:'Comprimir Imagem', t0d:'Reduza o tamanho sem perder qualidade.',
+    t1n:'Imagem para PDF', t1d:'Transforme imagens em PDF instantaneamente.',
+    t2n:'Juntar PDF', t2d:'Combine vários PDFs em um só arquivo.',
+    t3n:'Organizar PDF', t3d:'Reordene páginas PDF com facilidade.',
+    t4n:'PDF para Imagem', t4d:'Extraia imagens de alta resolução.',
+    t5n:'PDF para Texto', t5d:'Converta PDF em texto editável.',
+    t6n:'Comprimir PDF', t6d:'Diminua o PDF mantendo a qualidade.',
+    t7n:'Dividir PDF', t7d:'Divida PDFs em vários documentos.',
   },
   ja: {
     brand:'ALL-IN-ONE', menuTitle:'ナビゲーション',
