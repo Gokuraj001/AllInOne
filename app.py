@@ -309,5 +309,75 @@ def word_to_pdf():
     return "<h2>Coming Soon 🚧</h2>"
 
 
+# ===================== COMPRESS IMAGE =====================
+@app.route('/compress-image', methods=['GET', 'POST'])
+def compress_image_tool():
+    if request.method == 'POST':
+        image = request.files['image']
+        mode = request.form.get("mode")
+        target_size = request.form.get("target_size")
+
+        if not image:
+            return "<h2>No image uploaded</h2>"
+
+        from PIL import Image
+        import io
+
+        img = Image.open(image)
+
+        # Function: compress using quality
+        def compress_quality(img, q):
+            buffer = io.BytesIO()
+            img.save(buffer, format="JPEG", quality=q, optimize=True)
+            buffer.seek(0)
+            return buffer
+
+        # Function: compress to target file size
+        def compress_to_size(img, target_kb):
+            target_bytes = target_kb * 1024
+            low, high = 5, 95
+            best = None
+
+            while low <= high:
+                mid = (low + high) // 2
+                buffer = io.BytesIO()
+                img.save(buffer, format="JPEG", quality=mid, optimize=True)
+                size = len(buffer.getvalue())
+
+                if size <= target_bytes:
+                    best = buffer
+                    low = mid + 1
+                else:
+                    high = mid - 1
+
+            if best:
+                best.seek(0)
+                return best
+
+            # fallback
+            fallback = io.BytesIO()
+            img.save(fallback, format="JPEG", quality=10, optimize=True)
+            fallback.seek(0)
+            return fallback
+
+        # Custom size entered
+        if target_size:
+            output = compress_to_size(img, int(target_size))
+            return send_file(output, mimetype="image/jpeg", as_attachment=True, download_name="compressed.jpg")
+
+        # Predefined modes
+        quality_map = {
+            "maximum": 20,
+            "medium": 40,
+            "minimum": 70
+        }
+        quality = quality_map.get(mode, 40)
+
+        output = compress_quality(img, quality)
+        return send_file(output, mimetype="image/jpeg", as_attachment=True, download_name="compressed.jpg")
+
+    return render_template('compress_image.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
