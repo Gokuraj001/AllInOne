@@ -5,10 +5,17 @@ import pdfplumber
 import os
 import zipfile
 import pymupdf as fitz  # PyMuPDF
+import uuid
+import pandas as pd
+import tabula
+from pdf2docx import Converter
+from pdf2image import convert_from_path
+from pptx import Presentation
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from PIL import Image, ImageOps
 from werkzeug.utils import secure_filename
+
 
 # ===================== APP SETUP =====================
 def create_app():
@@ -41,6 +48,62 @@ def create_app():
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
         return filename, filepath
+    
+        # ===================== PDF CONVERTER HELPERS =====================
+    def convert_pdf_to_word(pdf_path):
+        output_filename = f"converted_{uuid.uuid4().hex}.docx"
+        output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
+
+        cv = Converter(pdf_path)
+        cv.convert(output_path, start=0, end=None)
+        cv.close()
+
+        return output_filename, output_path
+
+
+    def convert_pdf_to_excel(pdf_path):
+        output_filename = f"converted_{uuid.uuid4().hex}.xlsx"
+        output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
+
+        tables = tabula.read_pdf(pdf_path, pages='all', multiple_tables=True)
+
+        if not tables or len(tables) == 0:
+            raise Exception("No tables found in this PDF for Excel conversion.")
+
+        with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
+            for i, table in enumerate(tables):
+                table.to_excel(writer, sheet_name=f"Table_{i+1}", index=False)
+
+        return output_filename, output_path
+
+
+    def convert_pdf_to_ppt(pdf_path):
+        output_filename = f"converted_{uuid.uuid4().hex}.pptx"
+        output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
+
+        image_folder = os.path.join(current_app.config['OUTPUT_FOLDER'], f"ppt_pages_{uuid.uuid4().hex}")
+        os.makedirs(image_folder, exist_ok=True)
+
+        # IMPORTANT: Change this if your Poppler path is different
+        poppler_path = r"C:\poppler\Library\bin"
+
+        pages = convert_from_path(pdf_path, dpi=200, poppler_path=poppler_path)
+
+        prs = Presentation()
+
+        for i, page in enumerate(pages):
+            img_path = os.path.join(image_folder, f'page_{i+1}.png')
+            page.save(img_path, "PNG")
+
+            slide = prs.slides.add_slide(prs.slide_layouts[6])  # blank slide
+            slide_width = prs.slide_width
+            slide_height = prs.slide_height
+
+            slide.shapes.add_picture(img_path, 0, 0, width=slide_width, height=slide_height)
+
+        prs.save(output_path)
+
+        return output_filename, output_path
 
     # ===================== HOME =====================
     @app.route('/')
@@ -161,7 +224,7 @@ def create_app():
                 return "<h3>No image uploaded</h3>"
 
             # Save input file
-            filename = file.filename
+            filename = secure_filename(file.filename)
             input_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
             file.save(input_path)
 
@@ -330,6 +393,40 @@ def create_app():
             return send_file(output_path, as_attachment=True)
 
         return render_template('html_to_pdf.html')
+    
+        # ===================== PDF CONVERTER =====================
+    @app.route('/pdf_converter', methods=['GET', 'POST'])
+    def pdf_converter():
+        if request.method == 'POST':
+            file = request.files.get('file')
+            convert_to = request.form.get('convert_to')
+
+            filename, filepath = save_uploaded_file(file, 'pdf')
+            if not filename:
+                return "<h2>No file uploaded or invalid PDF.</h2>"
+
+            if not convert_to:
+                return "<h2>Please select a conversion format.</h2>"
+
+            try:
+                if convert_to == 'word':
+                    output_filename, output_path = convert_pdf_to_word(filepath)
+
+                elif convert_to == 'excel':
+                    output_filename, output_path = convert_pdf_to_excel(filepath)
+
+                elif convert_to == 'ppt':
+                    output_filename, output_path = convert_pdf_to_ppt(filepath)
+
+                else:
+                    return "<h2>Invalid conversion format selected.</h2>"
+
+                return send_file(output_path, as_attachment=True)
+
+            except Exception as e:
+                return f"<h2>Conversion failed: {str(e)}</h2>"
+
+        return render_template('pdf_converter.html')
     
     # ===================== DOWNLOAD =====================
     @app.route('/download/<filename>')
