@@ -66,10 +66,19 @@ def create_app():
         output_filename = f"converted_{uuid.uuid4().hex}.xlsx"
         output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
 
-        tables = tabula.read_pdf(pdf_path, pages='all', multiple_tables=True)
+        try:
+            tables = tabula.read_pdf(
+                pdf_path,
+                pages='all',
+                multiple_tables=True,
+                pandas_options={'header': None},
+                lattice=True  # helps detect tables better
+            )
+        except Exception as e:
+            raise Exception(f"Tabula failed: {str(e)}")
 
         if not tables or len(tables) == 0:
-            raise Exception("No tables found in this PDF for Excel conversion.")
+            raise Exception("No tables found in this PDF. Try another file with proper tables.")
 
         with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
             for i, table in enumerate(tables):
