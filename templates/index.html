@@ -1,446 +1,839 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ALL-IN-ONE Tools</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-<style>
-/* ══════════════════════════════════════════════
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ALL-IN-ONE Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ══════════════════════════════════════════════
    DESIGN TOKENS
 ══════════════════════════════════════════════ */
-:root {
-  --tr: 0.45s cubic-bezier(0.4,0,0.2,1);
-  --tr-fast: 0.25s cubic-bezier(0.4,0,0.2,1);
-  --radius: 20px;
-  --radius-sm: 12px;
-  --font-display: 'Outfit', sans-serif;
-  --font-body: 'Instrument Sans', sans-serif;
-}
+    :root {
+      --tr: 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      --tr-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Instrument Sans', sans-serif;
+    }
 
-[data-theme="dark"] {
-  --bg:          #060610;
-  --bg2:         #0b0b1e;
-  --bg3:         #0f0f28;
-  --surface:     rgba(255,255,255,0.042);
-  --surface2:    rgba(255,255,255,0.07);
-  --border:      rgba(255,255,255,0.08);
-  --border2:     rgba(255,255,255,0.14);
-  --text:        #eeeef8;
-  --text2:       rgba(238,238,248,0.55);
-  --text3:       rgba(238,238,248,0.28);
-  --accent:      #8b72ff;
-  --accent2:     #2dd4f0;
-  --accent3:     #ff6bd6;
-  --glow-a:      rgba(139,114,255,0.32);
-  --glow-b:      rgba(45,212,240,0.22);
-  --card-sel:    rgba(139,114,255,0.12);
-  --footer-bg:   #000000;
-  --header-bg:   rgba(6,6,16,0.6);
-  --shadow:      0 8px 40px rgba(0,0,0,0.6);
-  --shadow-card: 0 4px 30px rgba(0,0,0,0.5);
-  --orb1: rgba(139,114,255,0.1);
-  --orb2: rgba(45,212,240,0.08);
-  --orb3: rgba(255,107,214,0.07);
-  --particle-color: 139,114,255;
-}
+    [data-theme="dark"] {
+      --bg: #060610;
+      --bg2: #0b0b1e;
+      --bg3: #0f0f28;
+      --surface: rgba(255, 255, 255, 0.042);
+      --surface2: rgba(255, 255, 255, 0.07);
+      --border: rgba(255, 255, 255, 0.08);
+      --border2: rgba(255, 255, 255, 0.14);
+      --text: #eeeef8;
+      --text2: rgba(238, 238, 248, 0.55);
+      --text3: rgba(238, 238, 248, 0.28);
+      --accent: #8b72ff;
+      --accent2: #2dd4f0;
+      --accent3: #ff6bd6;
+      --glow-a: rgba(139, 114, 255, 0.32);
+      --glow-b: rgba(45, 212, 240, 0.22);
+      --card-sel: rgba(139, 114, 255, 0.12);
+      --footer-bg: #000000;
+      --header-bg: rgba(6, 6, 16, 0.6);
+      --shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+      --shadow-card: 0 4px 30px rgba(0, 0, 0, 0.5);
+      --orb1: rgba(139, 114, 255, 0.1);
+      --orb2: rgba(45, 212, 240, 0.08);
+      --orb3: rgba(255, 107, 214, 0.07);
+      --particle-color: 139, 114, 255;
+    }
 
-[data-theme="light"] {
-  --bg:          #f4f3ff;
-  --bg2:         #ede9ff;
-  --bg3:         #e6e0ff;
-  --surface:     rgba(255,255,255,0.72);
-  --surface2:    rgba(255,255,255,0.9);
-  --border:      rgba(100,80,200,0.12);
-  --border2:     rgba(100,80,200,0.22);
-  --text:        #1a1540;
-  --text2:       rgba(26,21,64,0.58);
-  --text3:       rgba(26,21,64,0.32);
-  --accent:      #6c4fff;
-  --accent2:     #0ea5c9;
-  --accent3:     #d946ab;
-  --glow-a:      rgba(108,79,255,0.2);
-  --glow-b:      rgba(14,165,201,0.15);
-  --card-sel:    rgba(108,79,255,0.1);
-  --footer-bg:   #0f0e1a;
-  --header-bg:   rgba(244,243,255,0.65);
-  --shadow:      0 8px 40px rgba(100,80,200,0.15);
-  --shadow-card: 0 4px 30px rgba(100,80,200,0.12);
-  --orb1: rgba(108,79,255,0.12);
-  --orb2: rgba(14,165,201,0.1);
-  --orb3: rgba(217,70,171,0.09);
-  --particle-color: 108,79,255;
-}
+    [data-theme="light"] {
+      --bg: #f4f3ff;
+      --bg2: #ede9ff;
+      --bg3: #e6e0ff;
+      --surface: rgba(255, 255, 255, 0.72);
+      --surface2: rgba(255, 255, 255, 0.9);
+      --border: rgba(100, 80, 200, 0.12);
+      --border2: rgba(100, 80, 200, 0.22);
+      --text: #1a1540;
+      --text2: rgba(26, 21, 64, 0.58);
+      --text3: rgba(26, 21, 64, 0.32);
+      --accent: #6c4fff;
+      --accent2: #0ea5c9;
+      --accent3: #d946ab;
+      --glow-a: rgba(108, 79, 255, 0.2);
+      --glow-b: rgba(14, 165, 201, 0.15);
+      --card-sel: rgba(108, 79, 255, 0.1);
+      --footer-bg: #0f0e1a;
+      --header-bg: rgba(244, 243, 255, 0.65);
+      --shadow: 0 8px 40px rgba(100, 80, 200, 0.15);
+      --shadow-card: 0 4px 30px rgba(100, 80, 200, 0.12);
+      --orb1: rgba(108, 79, 255, 0.12);
+      --orb2: rgba(14, 165, 201, 0.1);
+      --orb3: rgba(217, 70, 171, 0.09);
+      --particle-color: 108, 79, 255;
+    }
 
-/* ══════════════════════════════════════════════
+    /* ══════════════════════════════════════════════
    RESET & BASE
 ══════════════════════════════════════════════ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-  transition: background var(--tr), color var(--tr);
-}
-a { color: inherit; text-decoration: none; }
-button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-/* ══════════════════════════════════════════════
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background var(--tr), color var(--tr);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font: inherit;
+      color: inherit;
+    }
+
+    /* ══════════════════════════════════════════════
    BACKGROUND SYSTEM
 ══════════════════════════════════════════════ */
-.bg-layer {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
-}
-.bg-gradient {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 90% 60% at 20% 0%,   var(--orb1) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 50% at 90% 70%,   var(--orb2) 0%, transparent 55%),
-    radial-gradient(ellipse 55% 45% at 55% 40%,   var(--orb3) 0%, transparent 60%);
-  animation: bgBreath 14s ease-in-out infinite alternate;
-}
-@keyframes bgBreath {
-  from { opacity: .75; transform: scale(1); }
-  to   { opacity: 1;   transform: scale(1.04); }
-}
-.bg-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 52px 52px;
-  mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
-  transition: opacity var(--tr);
-}
-[data-theme="light"] .bg-grid { opacity: 0.55; }
-canvas#px { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
 
-/* ══════════════════════════════════════════════
+    .bg-gradient {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 60% at 20% 0%, var(--orb1) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 90% 70%, var(--orb2) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 45% at 55% 40%, var(--orb3) 0%, transparent 60%);
+      animation: bgBreath 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgBreath {
+      from {
+        opacity: .75;
+        transform: scale(1);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1.04);
+      }
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
+      transition: opacity var(--tr);
+    }
+
+    [data-theme="light"] .bg-grid {
+      opacity: 0.55;
+    }
+
+    canvas#px {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ══════════════════════════════════════════════
    HEADER
 ══════════════════════════════════════════════ */
-header {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  height: 70px;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 28px;
-  background: var(--header-bg);
-  backdrop-filter: blur(22px) saturate(160%);
-  -webkit-backdrop-filter: blur(22px) saturate(160%);
-  border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 0 var(--border), 0 8px 40px rgba(0,0,0,0.15);
-  transition: background var(--tr), border-color var(--tr);
-  animation: hdrIn 0.8s cubic-bezier(0.22,1,.36,1) both;
-}
-@keyframes hdrIn { from { transform:translateY(-100%); opacity:0; } to { transform:translateY(0); opacity:1; } }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: var(--header-bg);
+      backdrop-filter: blur(22px) saturate(160%);
+      -webkit-backdrop-filter: blur(22px) saturate(160%);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 0 var(--border), 0 8px 40px rgba(0, 0, 0, 0.15);
+      transition: background var(--tr), border-color var(--tr);
+      animation: hdrIn 0.8s cubic-bezier(0.22, 1, .36, 1) both;
+    }
 
-/* Brand — LEFT */
-.brand {
-  display: flex; align-items: center; gap: 11px; z-index: 2;
-  animation: fadeUp 0.8s 0.2s cubic-bezier(0.22,1,.36,1) both;
-}
-.brand-icon {
-  width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 20px var(--glow-a);
-  animation: iconPulse 4s ease-in-out infinite;
-  transition: box-shadow var(--tr);
-}
-@keyframes iconPulse {
-  0%,100% { box-shadow: 0 0 16px var(--glow-a); }
-  50%      { box-shadow: 0 0 32px var(--glow-a), 0 0 50px var(--glow-b); }
-}
-.brand-icon svg { width: 22px; height: 22px; }
-.brand-name {
-  font-family: var(--font-display); font-weight: 800;
-  font-size: 1.18rem; letter-spacing: 0.08em;
-  background: linear-gradient(110deg, var(--text) 30%, var(--accent2) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  transition: background var(--tr);
-}
+    @keyframes hdrIn {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
 
-/* Hamburger — RIGHT */
-.hamburger {
-  display: flex; flex-direction: column; justify-content: center; gap: 5.5px;
-  width: 44px; height: 44px; padding: 10px; border-radius: 12px;
-  transition: background var(--tr-fast);
-  position: relative; z-index: 310;
-}
-.hamburger:hover { background: var(--surface2); }
-.hamburger span {
-  display: block; width: 100%; height: 2px;
-  background: var(--text); border-radius: 2px;
-  transition: transform 0.4s cubic-bezier(0.4,0,.2,1), opacity 0.25s, width 0.3s;
-  transform-origin: center;
-}
-.hamburger span:nth-child(3) { width: 65%; margin-left: auto; }
-.hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); width: 100%; }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
 
-/* ══════════════════════════════════════════════
+    /* Brand — LEFT */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      z-index: 2;
+      animation: fadeUp 0.8s 0.2s cubic-bezier(0.22, 1, .36, 1) both;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--glow-a);
+      animation: iconPulse 4s ease-in-out infinite;
+      transition: box-shadow var(--tr);
+    }
+
+    @keyframes iconPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 16px var(--glow-a);
+      }
+
+      50% {
+        box-shadow: 0 0 32px var(--glow-a), 0 0 50px var(--glow-b);
+      }
+    }
+
+    .brand-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.18rem;
+      letter-spacing: 0.08em;
+      background: linear-gradient(110deg, var(--text) 30%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: background var(--tr);
+    }
+
+    /* Hamburger — RIGHT */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5.5px;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      border-radius: 12px;
+      transition: background var(--tr-fast);
+      position: relative;
+      z-index: 310;
+    }
+
+    .hamburger:hover {
+      background: var(--surface2);
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.4s cubic-bezier(0.4, 0, .2, 1), opacity 0.25s, width 0.3s;
+      transform-origin: center;
+    }
+
+    .hamburger span:nth-child(3) {
+      width: 65%;
+      margin-left: auto;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7.5px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7.5px) rotate(-45deg);
+      width: 100%;
+    }
+
+    /* ══════════════════════════════════════════════
    DRAWER MENU
 ══════════════════════════════════════════════ */
-.drawer-overlay {
-  position: fixed; inset: 0; z-index: 250;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(5px);
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.4s;
-}
-.drawer-overlay.open { opacity: 1; pointer-events: all; }
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
 
-.drawer {
-  position: fixed; top: 0; right: 0; z-index: 260;
-  width: min(340px, 88vw); height: 100vh;
-  background: var(--bg2);
-  border-left: 1px solid var(--border2);
-  box-shadow: -12px 0 60px rgba(0,0,0,0.5);
-  display: flex; flex-direction: column;
-  transform: translateX(100%);
-  transition: transform 0.48s cubic-bezier(0.22,1,.36,1), background var(--tr);
-  overflow: hidden;
-}
-.drawer.open { transform: translateX(0); }
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
 
-/* Drawer top bar */
-.drawer-header {
-  height: 70px; padding: 0 24px;
-  display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-.drawer-title {
-  font-family: var(--font-display); font-weight: 700; font-size: 0.9rem;
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3);
-}
-.drawer-close {
-  width: 36px; height: 36px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text2); transition: background var(--tr-fast), color var(--tr-fast);
-}
-.drawer-close:hover { background: var(--surface2); color: var(--text); }
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 260;
+      width: min(340px, 88vw);
+      height: 100vh;
+      background: var(--bg2);
+      border-left: 1px solid var(--border2);
+      box-shadow: -12px 0 60px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.48s cubic-bezier(0.22, 1, .36, 1), background var(--tr);
+      overflow: hidden;
+    }
 
-/* Shimmering top stripe */
-.drawer::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
-  background-size: 200% 100%;
-  animation: shimmer 3s linear infinite;
-}
-@keyframes shimmer { from { background-position: 0 0; } to { background-position: 200% 0; } }
+    .drawer.open {
+      transform: translateX(0);
+    }
 
-/* Menu items */
-.drawer-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
-.drawer-nav::-webkit-scrollbar { width: 3px; }
-.drawer-nav::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+    /* Drawer top bar */
+    .drawer-header {
+      height: 70px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
 
-.menu-item {
-  display: flex; align-items: center; gap: 16px;
-  width: 100%; padding: 15px 24px;
-  font-family: var(--font-display); font-weight: 600; font-size: 0.97rem;
-  color: var(--text2);
-  transition: color var(--tr-fast), background var(--tr-fast), padding-left var(--tr-fast);
-  position: relative; border: none; text-align: left;
-}
-.menu-item::after {
-  content: '';
-  position: absolute; left: 0; top: 10%; bottom: 10%;
-  width: 3px; border-radius: 2px;
-  background: linear-gradient(var(--accent), var(--accent2));
-  transform: scaleY(0); transition: transform var(--tr-fast);
-}
-.menu-item:hover { color: var(--text); padding-left: 32px; background: var(--surface2); }
-.menu-item:hover::after { transform: scaleY(1); }
-.menu-item-ico {
-  width: 38px; height: 38px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; flex-shrink: 0;
-  background: var(--surface); border: 1px solid var(--border);
-  transition: background var(--tr-fast), border-color var(--tr-fast);
-}
-.menu-item:hover .menu-item-ico { background: var(--surface2); border-color: var(--border2); }
-.menu-item-chevron { margin-left: auto; font-size: 0.8rem; color: var(--text3); }
+    .drawer-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
 
-/* Mode toggle inside drawer */
-.drawer-footer {
-  padding: 20px 24px; border-top: 1px solid var(--border); flex-shrink: 0;
-}
-.mode-toggle-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border);
-}
-.mode-label {
-  display: flex; align-items: center; gap: 10px;
-  font-family: var(--font-display); font-weight: 600; font-size: 0.88rem; color: var(--text2);
-}
-.toggle-switch {
-  position: relative; width: 50px; height: 28px;
-  background: var(--surface2); border: 1px solid var(--border2);
-  border-radius: 100px; cursor: pointer;
-  transition: background 0.3s;
-}
-.toggle-switch.on {
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  border-color: transparent;
-}
-.toggle-knob {
-  position: absolute; top: 3px; left: 3px;
-  width: 20px; height: 20px; border-radius: 50%;
-  background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  transition: transform 0.35s cubic-bezier(0.22,1,.36,1);
-}
-.toggle-switch.on .toggle-knob { transform: translateX(22px); }
+    .drawer-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text2);
+      transition: background var(--tr-fast), color var(--tr-fast);
+    }
 
-/* ══════════════════════════════════════════════
+    .drawer-close:hover {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    /* Shimmering top stripe */
+    .drawer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      from {
+        background-position: 0 0;
+      }
+
+      to {
+        background-position: 200% 0;
+      }
+    }
+
+    /* Menu items */
+    .drawer-nav {
+      flex: 1;
+      padding: 12px 0;
+      overflow-y: auto;
+    }
+
+    .drawer-nav::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .drawer-nav::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 2px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      padding: 15px 24px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.97rem;
+      color: var(--text2);
+      transition: color var(--tr-fast), background var(--tr-fast), padding-left var(--tr-fast);
+      position: relative;
+      border: none;
+      text-align: left;
+    }
+
+    .menu-item::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10%;
+      bottom: 10%;
+      width: 3px;
+      border-radius: 2px;
+      background: linear-gradient(var(--accent), var(--accent2));
+      transform: scaleY(0);
+      transition: transform var(--tr-fast);
+    }
+
+    .menu-item:hover {
+      color: var(--text);
+      padding-left: 32px;
+      background: var(--surface2);
+    }
+
+    .menu-item:hover::after {
+      transform: scaleY(1);
+    }
+
+    .menu-item-ico {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: background var(--tr-fast), border-color var(--tr-fast);
+    }
+
+    .menu-item:hover .menu-item-ico {
+      background: var(--surface2);
+      border-color: var(--border2);
+    }
+
+    .menu-item-chevron {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: var(--text3);
+    }
+
+    /* Mode toggle inside drawer */
+    .drawer-footer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .mode-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .mode-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--text2);
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 28px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toggle-switch.on {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent;
+    }
+
+    .toggle-knob {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.35s cubic-bezier(0.22, 1, .36, 1);
+    }
+
+    .toggle-switch.on .toggle-knob {
+      transform: translateX(22px);
+    }
+
+    /* ══════════════════════════════════════════════
    LANGUAGE DROPDOWN
 ══════════════════════════════════════════════ */
-.lang-panel {
-  position: absolute; right: 0; top: calc(100% + 6px);
-  width: 260px; max-height: 320px; overflow-y: auto;
-  background: var(--bg3); border: 1px solid var(--border2);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow);
-  opacity: 0; transform: translateY(-10px) scale(0.97);
-  pointer-events: none;
-  transition: opacity 0.28s, transform 0.28s;
-  z-index: 400;
-  scrollbar-width: thin; scrollbar-color: var(--border2) transparent;
-}
-.lang-panel::-webkit-scrollbar { width: 4px; }
-.lang-panel::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
-.lang-panel.open { opacity: 1; transform: none; pointer-events: all; }
-.lang-item {
-  display: block; width: 100%; padding: 11px 18px; text-align: left;
-  font-size: 0.88rem; color: var(--text2);
-  transition: background var(--tr-fast), color var(--tr-fast), padding-left var(--tr-fast);
-}
-.lang-item:hover { background: var(--surface2); color: var(--text); padding-left: 24px; }
-.lang-item.active { color: var(--accent); font-weight: 600; }
+    .lang-panel {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      width: 260px;
+      max-height: 320px;
+      overflow-y: auto;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(-10px) scale(0.97);
+      pointer-events: none;
+      transition: opacity 0.28s, transform 0.28s;
+      z-index: 400;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border2) transparent;
+    }
 
-/* ══════════════════════════════════════════════
+    .lang-panel::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .lang-panel::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 2px;
+    }
+
+    .lang-panel.open {
+      opacity: 1;
+      transform: none;
+      pointer-events: all;
+    }
+
+    .lang-item {
+      display: block;
+      width: 100%;
+      padding: 11px 18px;
+      text-align: left;
+      font-size: 0.88rem;
+      color: var(--text2);
+      transition: background var(--tr-fast), color var(--tr-fast), padding-left var(--tr-fast);
+    }
+
+    .lang-item:hover {
+      background: var(--surface2);
+      color: var(--text);
+      padding-left: 24px;
+    }
+
+    .lang-item.active {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ══════════════════════════════════════════════
    PRICING MODAL
 ══════════════════════════════════════════════ */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 500;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(10px);
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.3s;
-}
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-.modal-box {
-  background: var(--bg2); border: 1px solid var(--border2);
-  border-radius: 28px; padding: 52px 48px;
-  max-width: 420px; width: 90%; text-align: center;
-  box-shadow: 0 0 80px var(--glow-a), var(--shadow);
-  transform: scale(0.85) translateY(24px); opacity: 0;
-  transition: transform 0.4s cubic-bezier(0.22,1,.36,1), opacity 0.3s;
-  position: relative; overflow: hidden;
-}
-.modal-box::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, var(--glow-a), transparent 60%);
-  pointer-events: none;
-}
-.modal-overlay.open .modal-box { transform: scale(1) translateY(0); opacity: 1; }
-.modal-emoji { font-size: 3rem; display: block; margin-bottom: 18px; }
-.modal-title {
-  font-family: var(--font-display); font-weight: 800; font-size: 1.4rem;
-  margin-bottom: 10px; color: var(--text);
-}
-.modal-sub { font-size: 0.9rem; color: var(--text2); line-height: 1.7; margin-bottom: 32px; }
-.modal-btn {
-  padding: 13px 36px; border-radius: 14px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 0.95rem;
-  box-shadow: 0 4px 24px var(--glow-a);
-  transition: transform var(--tr-fast), box-shadow var(--tr-fast);
-}
-.modal-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 36px var(--glow-a); }
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
 
-/* ══════════════════════════════════════════════
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 28px;
+      padding: 52px 48px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 80px var(--glow-a), var(--shadow);
+      transform: scale(0.85) translateY(24px);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.22, 1, .36, 1), opacity 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .modal-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--glow-a), transparent 60%);
+      pointer-events: none;
+    }
+
+    .modal-overlay.open .modal-box {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    .modal-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 18px;
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .modal-sub {
+      font-size: 0.9rem;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .modal-btn {
+      padding: 13px 36px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 24px var(--glow-a);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast);
+    }
+
+    .modal-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 36px var(--glow-a);
+    }
+
+    /* ══════════════════════════════════════════════
    HERO
 ══════════════════════════════════════════════ */
-.hero {
-  position: relative; z-index: 1;
-  min-height: 100vh;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; padding: 120px 20px 80px;
-}
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 18px; border-radius: 100px;
-  border: 1px solid var(--border2);
-  background: var(--surface);
-  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--accent2); margin-bottom: 32px;
-  backdrop-filter: blur(8px);
-  animation: fadeUp 0.8s 0.25s cubic-bezier(0.22,1,.36,1) both;
-}
-.hero-badge-dot {
-  width: 7px; height: 7px; border-radius: 50%; background: var(--accent2);
-  animation: blink 2s infinite;
-}
-@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 20px 80px;
+    }
 
-.hero h1 {
-  font-family: var(--font-display); font-weight: 900;
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  line-height: 1.05; letter-spacing: -0.025em;
-  margin-bottom: 24px;
-  animation: fadeUp 0.9s 0.4s cubic-bezier(0.22,1,.36,1) both;
-}
-.hero h1 .line1 {
-  display: block;
-  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 50%, var(--accent2) 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  animation: fadeUp 0.9s 0.4s cubic-bezier(0.22,1,.36,1) both,
-             textShift 6s linear 1.5s infinite alternate;
-}
-@keyframes textShift { from { background-position:0% 50%; } to { background-position:100% 50%; } }
-.hero h1 .line2 {
-  display: block; color: var(--text);
-  -webkit-text-fill-color: var(--text);
-}
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 100px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 32px;
+      backdrop-filter: blur(8px);
+      animation: fadeUp 0.8s 0.25s cubic-bezier(0.22, 1, .36, 1) both;
+    }
 
-.hero-sub {
-  font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--text2);
-  max-width: 560px; line-height: 1.75;
-  animation: fadeUp 0.9s 0.55s cubic-bezier(0.22,1,.36,1) both;
-}
-.hero-cta {
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
-  margin-top: 44px;
-  animation: fadeUp 0.9s 0.7s cubic-bezier(0.22,1,.36,1) both;
-}
-.btn-grad {
-  padding: 15px 34px; border-radius: 14px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 0.97rem;
-  box-shadow: 0 4px 28px var(--glow-a);
-  transition: transform var(--tr-fast), box-shadow var(--tr-fast);
-}
-.btn-grad:hover { transform: translateY(-4px); box-shadow: 0 12px 40px var(--glow-a); }
-.btn-ghost {
-  padding: 15px 34px; border-radius: 14px;
-  border: 1px solid var(--border2); background: var(--surface);
-  color: var(--text); font-family: var(--font-display); font-weight: 600; font-size: 0.97rem;
-  backdrop-filter: blur(10px);
-  transition: transform var(--tr-fast), border-color var(--tr-fast), background var(--tr-fast);
-}
-.btn-ghost:hover { transform: translateY(-4px); border-color: var(--accent); background: var(--surface2); }
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent2);
+      animation: blink 2s infinite;
+    }
 
-/* scroll hint */
-/* .scroll-hint {
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.2;
+      }
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin-bottom: 24px;
+      animation: fadeUp 0.9s 0.4s cubic-bezier(0.22, 1, .36, 1) both;
+    }
+
+    .hero h1 .line1 {
+      display: block;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 50%, var(--accent2) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeUp 0.9s 0.4s cubic-bezier(0.22, 1, .36, 1) both,
+        textShift 6s linear 1.5s infinite alternate;
+    }
+
+    @keyframes textShift {
+      from {
+        background-position: 0% 50%;
+      }
+
+      to {
+        background-position: 100% 50%;
+      }
+    }
+
+    .hero h1 .line2 {
+      display: block;
+      color: var(--text);
+      -webkit-text-fill-color: var(--text);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--text2);
+      max-width: 560px;
+      line-height: 1.75;
+      animation: fadeUp 0.9s 0.55s cubic-bezier(0.22, 1, .36, 1) both;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 44px;
+      animation: fadeUp 0.9s 0.7s cubic-bezier(0.22, 1, .36, 1) both;
+    }
+
+    .btn-grad {
+      padding: 15px 34px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.97rem;
+      box-shadow: 0 4px 28px var(--glow-a);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast);
+    }
+
+    .btn-grad:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px var(--glow-a);
+    }
+
+    .btn-ghost {
+      padding: 15px 34px;
+      border-radius: 14px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      color: var(--text);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.97rem;
+      backdrop-filter: blur(10px);
+      transition: transform var(--tr-fast), border-color var(--tr-fast), background var(--tr-fast);
+    }
+
+    .btn-ghost:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      background: var(--surface2);
+    }
+
+    /* scroll hint */
+    /* .scroll-hint {
   position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   animation: fadeUp 1s 1.2s cubic-bezier(0.22,1,.36,1) both;
@@ -456,405 +849,673 @@ header {
 }
 @keyframes scrollBob { 0%,100% { transform:translateY(0); opacity:.9; } 60% { transform:translateY(12px); opacity:.2; } } */
 
-/* ══════════════════════════════════════════════
+    /* ══════════════════════════════════════════════
    TOOLS SECTION
 ══════════════════════════════════════════════ */
-.tools-section {
-  position: relative; z-index: 1;
-  padding: 20px 24px 100px;
-  max-width: 1240px; margin: 0 auto;
-}
-.section-header { text-align: center; margin-bottom: 60px; }
-.section-eyebrow {
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 12px;
-}
-.section-title {
-  font-family: var(--font-display); font-size: clamp(1.7rem, 4vw, 2.8rem);
-  font-weight: 800; letter-spacing: -0.02em; color: var(--text);
-}
-.section-title span {
-  background: linear-gradient(110deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
+    .tools-section {
+      position: relative;
+      z-index: 1;
+      padding: 20px 24px 100px;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
 
-/* Grid */
-.tools-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-@media (max-width: 1100px) { .tools-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 768px)  { .tools-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px)  { .tools-grid { grid-template-columns: 1fr; } }
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
 
-/* Cards */
-.tool-card {
-  opacity: 0;
-  animation: cardRise 0.65s ease both;
-}
-.tool-card:nth-child(1){animation-delay:0.1s}
-.tool-card:nth-child(2){animation-delay:0.18s}
-.tool-card:nth-child(3){animation-delay:0.26s}
-.tool-card:nth-child(4){animation-delay:0.34s}
-.tool-card:nth-child(5){animation-delay:0.42s}
-.tool-card:nth-child(6){animation-delay:0.50s}
-.tool-card:nth-child(7){animation-delay:0.58s}
-.tool-card:nth-child(8){animation-delay:0.66s}
-@keyframes cardRise {
-  from { opacity:0; transform: translateY(36px) scale(0.95); }
-  to   { opacity:1; transform: translateY(0) scale(1); }
-}
+    .section-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
 
-.tool-inner {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px 22px 26px;
-  cursor: pointer; position: relative; overflow: hidden;
-  transition:
-    transform 0.42s cubic-bezier(0.22,1,.36,1),
-    box-shadow 0.42s, border-color 0.3s, background 0.3s;
-  display: flex; flex-direction: column; gap: 14px;
-  min-height: 200px;
-  backdrop-filter: blur(10px);
-}
-.tool-inner::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, var(--glow-a), transparent 55%);
-  opacity: 0; transition: opacity 0.35s;
-  pointer-events: none;
-}
-.tool-inner:hover {
-  transform: translateY(-10px) scale(1.025);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 35px var(--glow-a);
-  border-color: var(--border2);
-}
-.tool-inner:hover::before { opacity: 1; }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.7rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
 
-.tool-inner.active {
-  transform: translateY(-16px) scale(1.04);
-  background: var(--card-sel);
-  border-color: var(--accent);
-  box-shadow: 0 28px 70px rgba(0,0,0,0.5), 0 0 55px var(--glow-a), inset 0 0 30px rgba(139,114,255,0.06);
-}
-.tool-inner.active::before { opacity: 1; }
+    .section-title span {
+      background: linear-gradient(110deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-.tool-badge {
-  position: absolute; top: 14px; right: 14px;
-  width: 24px; height: 24px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.65rem; color: #fff;
-  transform: scale(0) rotate(-90deg);
-  transition: transform 0.4s cubic-bezier(0.22,1,.36,1);
-  box-shadow: 0 0 14px var(--glow-a);
-}
-.tool-inner.active .tool-badge { transform: scale(1) rotate(0deg); }
+    /* Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
 
-.tool-icon-wrap {
-  width: 52px; height: 52px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.5rem; flex-shrink: 0;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.tool-inner:hover .tool-icon-wrap { transform: scale(1.1) rotate(-3deg); }
+    @media (max-width: 1100px) {
+      .tools-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
 
-.tool-name {
-  font-family: var(--font-display); font-weight: 700; font-size: 0.97rem;
-  color: var(--text); line-height: 1.3;
-}
-.tool-desc { font-size: 0.8rem; color: var(--text2); line-height: 1.6; flex: 1; }
-.tool-action {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 0.78rem; font-weight: 600; color: var(--accent);
-  margin-top: 4px; opacity: 0;
-  transition: opacity 0.3s, transform 0.3s;
-  transform: translateY(4px);
-}
-.tool-inner:hover .tool-action, .tool-inner.active .tool-action {
-  opacity: 1; transform: translateY(0);
-}
+    @media (max-width: 768px) {
+      .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
 
-/* icon palettes */
-.ico-v { background:rgba(139,114,255,.15); box-shadow:0 0 22px rgba(139,114,255,.25); }
-.ico-c { background:rgba(45,212,240,.13);  box-shadow:0 0 22px rgba(45,212,240,.2); }
-.ico-p { background:rgba(255,107,214,.12); box-shadow:0 0 22px rgba(255,107,214,.2); }
-.ico-a { background:rgba(251,191,36,.12);  box-shadow:0 0 22px rgba(251,191,36,.18); }
-.ico-g { background:rgba(52,211,153,.12);  box-shadow:0 0 22px rgba(52,211,153,.18); }
-.ico-b { background:rgba(96,165,250,.12);  box-shadow:0 0 22px rgba(96,165,250,.2); }
-.ico-r { background:rgba(248,113,113,.12); box-shadow:0 0 22px rgba(248,113,113,.2); }
-.ico-o { background:rgba(251,146,60,.12);  box-shadow:0 0 22px rgba(251,146,60,.18); }
+    @media (max-width: 480px) {
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+    }
 
-/* ══════════════════════════════════════════════
+    /* Cards */
+    .tool-card {
+      opacity: 0;
+      animation: cardRise 0.65s ease both;
+    }
+
+    .tool-card:nth-child(1) {
+      animation-delay: 0.1s
+    }
+
+    .tool-card:nth-child(2) {
+      animation-delay: 0.18s
+    }
+
+    .tool-card:nth-child(3) {
+      animation-delay: 0.26s
+    }
+
+    .tool-card:nth-child(4) {
+      animation-delay: 0.34s
+    }
+
+    .tool-card:nth-child(5) {
+      animation-delay: 0.42s
+    }
+
+    .tool-card:nth-child(6) {
+      animation-delay: 0.50s
+    }
+
+    .tool-card:nth-child(7) {
+      animation-delay: 0.58s
+    }
+
+    .tool-card:nth-child(8) {
+      animation-delay: 0.66s
+    }
+
+    @keyframes cardRise {
+      from {
+        opacity: 0;
+        transform: translateY(36px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .tool-inner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 22px 26px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform 0.42s cubic-bezier(0.22, 1, .36, 1),
+        box-shadow 0.42s, border-color 0.3s, background 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 200px;
+      backdrop-filter: blur(10px);
+    }
+
+    .tool-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--glow-a), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.35s;
+      pointer-events: none;
+    }
+
+    .tool-inner:hover {
+      transform: translateY(-10px) scale(1.025);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 35px var(--glow-a);
+      border-color: var(--border2);
+    }
+
+    .tool-inner:hover::before {
+      opacity: 1;
+    }
+
+    .tool-inner.active {
+      transform: translateY(-16px) scale(1.04);
+      background: var(--card-sel);
+      border-color: var(--accent);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.5), 0 0 55px var(--glow-a), inset 0 0 30px rgba(139, 114, 255, 0.06);
+    }
+
+    .tool-inner.active::before {
+      opacity: 1;
+    }
+
+    .tool-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: #fff;
+      transform: scale(0) rotate(-90deg);
+      transition: transform 0.4s cubic-bezier(0.22, 1, .36, 1);
+      box-shadow: 0 0 14px var(--glow-a);
+    }
+
+    .tool-inner.active .tool-badge {
+      transform: scale(1) rotate(0deg);
+    }
+
+    .tool-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .tool-inner:hover .tool-icon-wrap {
+      transform: scale(1.1) rotate(-3deg);
+    }
+
+    .tool-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.97rem;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .tool-desc {
+      font-size: 0.8rem;
+      color: var(--text2);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .tool-action {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: 4px;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      transform: translateY(4px);
+    }
+
+    .tool-inner:hover .tool-action,
+    .tool-inner.active .tool-action {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* icon palettes */
+    .ico-v {
+      background: rgba(139, 114, 255, .15);
+      box-shadow: 0 0 22px rgba(139, 114, 255, .25);
+    }
+
+    .ico-c {
+      background: rgba(45, 212, 240, .13);
+      box-shadow: 0 0 22px rgba(45, 212, 240, .2);
+    }
+
+    .ico-p {
+      background: rgba(255, 107, 214, .12);
+      box-shadow: 0 0 22px rgba(255, 107, 214, .2);
+    }
+
+    .ico-a {
+      background: rgba(251, 191, 36, .12);
+      box-shadow: 0 0 22px rgba(251, 191, 36, .18);
+    }
+
+    .ico-g {
+      background: rgba(52, 211, 153, .12);
+      box-shadow: 0 0 22px rgba(52, 211, 153, .18);
+    }
+
+    .ico-b {
+      background: rgba(96, 165, 250, .12);
+      box-shadow: 0 0 22px rgba(96, 165, 250, .2);
+    }
+
+    .ico-r {
+      background: rgba(248, 113, 113, .12);
+      box-shadow: 0 0 22px rgba(248, 113, 113, .2);
+    }
+
+    .ico-o {
+      background: rgba(251, 146, 60, .12);
+      box-shadow: 0 0 22px rgba(251, 146, 60, .18);
+    }
+
+    /* ══════════════════════════════════════════════
    FLOATING MODE BUTTON
 ══════════════════════════════════════════════ */
-.float-mode {
-  position: fixed; bottom: 30px; right: 28px; z-index: 300;
-  width: 56px; height: 56px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 28px var(--glow-a), 0 2px 8px rgba(0,0,0,0.3);
-  transition: transform var(--tr-fast), box-shadow var(--tr-fast);
-  animation: fadeUp 1s 1.4s cubic-bezier(0.22,1,.36,1) both;
-  font-size: 1.3rem;
-}
-.float-mode:hover { transform: scale(1.12) rotate(12deg); box-shadow: 0 8px 40px var(--glow-a); }
-.float-mode:active { transform: scale(0.95); }
+    .float-mode {
+      position: fixed;
+      bottom: 30px;
+      right: 28px;
+      z-index: 300;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 28px var(--glow-a), 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast);
+      animation: fadeUp 1s 1.4s cubic-bezier(0.22, 1, .36, 1) both;
+      font-size: 1.3rem;
+    }
 
-/* ══════════════════════════════════════════════
+    .float-mode:hover {
+      transform: scale(1.12) rotate(12deg);
+      box-shadow: 0 8px 40px var(--glow-a);
+    }
+
+    .float-mode:active {
+      transform: scale(0.95);
+    }
+
+    /* ══════════════════════════════════════════════
    FOOTER
 ══════════════════════════════════════════════ */
-footer {
-  background: #000;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  position: relative; z-index: 1;
-}
-.footer-inner { max-width: 1200px; margin: 0 auto; padding: 70px 28px 40px; }
-.footer-top {
-  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr;
-  gap: 48px; margin-bottom: 56px;
-}
-@media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 540px) { .footer-top { grid-template-columns: 1fr; } }
+    footer {
+      background: #000;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      position: relative;
+      z-index: 1;
+    }
 
-.footer-brand-name {
-  font-family: var(--font-display); font-weight: 800; font-size: 1.2rem;
-  letter-spacing: 0.06em; color: #fff; margin-bottom: 12px;
-}
-.footer-tagline { font-size: 0.85rem; color: rgba(255,255,255,.32); line-height: 1.7; max-width: 240px; }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 70px 28px 40px;
+    }
 
-.footer-col h4 {
-  font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(255,255,255,.22); margin-bottom: 20px;
-}
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 13px; }
-.footer-col a {
-  font-size: 0.88rem; color: rgba(255,255,255,.4);
-  transition: color var(--tr-fast), padding-left var(--tr-fast);
-  display: inline-block;
-}
-.footer-col a:hover { color: #fff; padding-left: 5px; }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 56px;
+    }
 
-/* Footer mode toggle */
-.footer-mode-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 14px 18px; border-radius: 14px;
-  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
-  margin-top: 24px;
-}
-.footer-mode-label { font-size: 0.85rem; color: rgba(255,255,255,.45); font-family: var(--font-display); font-weight: 600; }
-.footer-mode-label span { margin-right: 8px; }
+    @media (max-width: 900px) {
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
 
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,.06);
-  padding-top: 28px;
-  display: flex; flex-wrap: wrap; gap: 14px;
-  align-items: center; justify-content: space-between;
-}
-.footer-copy { font-size: 0.8rem; color: rgba(255,255,255,.18); }
-.footer-pills { display: flex; gap: 8px; }
-.pill {
-  padding: 5px 14px; border-radius: 100px; font-size: 0.73rem; font-weight: 600;
-  border: 1px solid rgba(255,255,255,.08); color: rgba(255,255,255,.22);
-}
+    @media (max-width: 540px) {
+      .footer-top {
+        grid-template-columns: 1fr;
+      }
+    }
 
-/* ══════════════════════════════════════════════
+    .footer-brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: 0.06em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, .32);
+      line-height: 1.7;
+      max-width: 240px;
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .22);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .footer-col a {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, .4);
+      transition: color var(--tr-fast), padding-left var(--tr-fast);
+      display: inline-block;
+    }
+
+    .footer-col a:hover {
+      color: #fff;
+      padding-left: 5px;
+    }
+
+    /* Footer mode toggle */
+    .footer-mode-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .08);
+      margin-top: 24px;
+    }
+
+    .footer-mode-label {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, .45);
+      font-family: var(--font-display);
+      font-weight: 600;
+    }
+
+    .footer-mode-label span {
+      margin-right: 8px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, .06);
+      padding-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, .18);
+    }
+
+    .footer-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .pill {
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: 0.73rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, .08);
+      color: rgba(255, 255, 255, .22);
+    }
+
+    /* ══════════════════════════════════════════════
    UTILITY ANIMATIONS
 ══════════════════════════════════════════════ */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
 
-/* scrollbar */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(139,114,255,.3); border-radius: 3px; }
-</style>
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(139, 114, 255, .3);
+      border-radius: 3px;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ── BACKGROUND ── -->
-<div class="bg-layer">
-  <div class="bg-gradient"></div>
-  <div class="bg-grid"></div>
-</div>
-<canvas id="px"></canvas>
-
-<!-- ── HEADER ── -->
-<header>
-  <!-- LEFT: Brand -->
-  <div class="brand">
-    <div class="brand-icon">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 6h16M4 12h10M4 18h13" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
-        <circle cx="19" cy="12" r="3" stroke="#fff" stroke-width="2"/>
-      </svg>
-    </div>
-    <span class="brand-name" data-i18n="brand">ALL-IN-ONE</span>
+  <!-- ── BACKGROUND ── -->
+  <div class="bg-layer">
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
   </div>
+  <canvas id="px"></canvas>
 
-  <!-- RIGHT: Hamburger -->
-  <button class="hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</header>
+  <!-- ── HEADER ── -->
+  <header>
+    <!-- LEFT: Brand -->
+    <a href="index.html" class="brand" style="text-decoration: none;">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6h16M4 12h10M4 18h13" stroke="#fff" stroke-width="2.2" stroke-linecap="round" />
+          <circle cx="19" cy="12" r="3" stroke="#fff" stroke-width="2" />
+        </svg>
+      </div>
+      <span class="brand-name" data-i18n="brand">ALL-IN-ONE</span>
+    </a>
 
-<!-- ── DRAWER OVERLAY ── -->
-<div class="drawer-overlay" id="overlay"></div>
-
-<!-- ── DRAWER ── -->
-<div class="drawer" id="drawer">
-  <div class="drawer-header">
-    <span class="drawer-title" data-i18n="menuTitle">Navigation</span>
-    <button class="drawer-close" id="closeDrawer" aria-label="Close">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    <!-- RIGHT: Hamburger -->
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
     </button>
-  </div>
+  </header>
 
-  <nav class="drawer-nav">
-    <!-- Pricing -->
-    <button class="menu-item" id="menuPricing">
-      <span class="menu-item-ico">💎</span>
-      <span data-i18n="navPricing">Pricing</span>
-    </button>
+  <!-- ── DRAWER OVERLAY ── -->
+  <div class="drawer-overlay" id="overlay"></div>
 
-    <!-- Language (with sub-panel) -->
-    <div style="position:relative;">
-      <button class="menu-item" id="menuLang">
-        <span class="menu-item-ico">🌍</span>
-        <span data-i18n="navLang">Language</span>
-        <span class="menu-item-chevron" id="langChevron">▾</span>
+  <!-- ── DRAWER ── -->
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <span class="drawer-title" data-i18n="menuTitle">Navigation</span>
+      <button class="drawer-close" id="closeDrawer" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+        </svg>
       </button>
-      <div class="lang-panel" id="langPanel" style="position:relative;top:0;right:auto;left:0;width:100%;border-radius:0;border-left:none;border-right:none;border-top:1px solid var(--border);box-shadow:none;">
-        <!-- populated by JS -->
-      </div>
     </div>
 
-    <!-- Nav links -->
-    <a href="#footer" class="menu-item" onclick="closeDrawer()">
-      <span class="menu-item-ico">🔒</span>
-      <span data-i18n="navPrivacy">Privacy Policy</span>
-    </a>
-    <a href="#footer" class="menu-item" onclick="closeDrawer()">
-      <span class="menu-item-ico">📜</span>
-      <span data-i18n="navTerms">Terms &amp; Conditions</span>
-    </a>
-    <a href="#footer" class="menu-item" onclick="closeDrawer()">
-      <span class="menu-item-ico">👥</span>
-      <span data-i18n="navAbout">About Us</span>
-    </a>
-    <a href="#footer" class="menu-item" onclick="closeDrawer()">
-      <span class="menu-item-ico">✉️</span>
-      <span data-i18n="navContact">Contact Us</span>
-    </a>
-  </nav>
+    <nav class="drawer-nav">
+      <!-- Pricing -->
+      <button class="menu-item" id="menuPricing">
+        <span class="menu-item-ico">💎</span>
+        <span data-i18n="navPricing">Pricing</span>
+      </button>
 
-  <!-- Mode toggle inside drawer -->
-  <div class="drawer-footer">
-    <div class="mode-toggle-row">
-      <div class="mode-label">
-        <span id="drawerModeIcon">🌙</span>
-        <span data-i18n="modeLabel" id="drawerModeLabel">Dark Mode</span>
+      <!-- Language (with sub-panel) -->
+      <div style="position:relative;">
+        <button class="menu-item" id="menuLang">
+          <span class="menu-item-ico">🌍</span>
+          <span data-i18n="navLang">Language</span>
+          <span class="menu-item-chevron" id="langChevron">▾</span>
+        </button>
+        <div class="lang-panel" id="langPanel"
+          style="position:relative;top:0;right:auto;left:0;width:100%;border-radius:0;border-left:none;border-right:none;border-top:1px solid var(--border);box-shadow:none;">
+          <!-- populated by JS -->
+        </div>
       </div>
-      <div class="toggle-switch on" id="drawerToggle" onclick="toggleMode()">
-        <div class="toggle-knob"></div>
+
+      <!-- Nav links -->
+      <a href="#footer" class="menu-item" onclick="closeDrawer()">
+        <span class="menu-item-ico">🔒</span>
+        <span data-i18n="navPrivacy">Privacy Policy</span>
+      </a>
+      <a href="#footer" class="menu-item" onclick="closeDrawer()">
+        <span class="menu-item-ico">📜</span>
+        <span data-i18n="navTerms">Terms &amp; Conditions</span>
+      </a>
+      <a href="#footer" class="menu-item" onclick="closeDrawer()">
+        <span class="menu-item-ico">👥</span>
+        <span data-i18n="navAbout">About Us</span>
+      </a>
+      <a href="#footer" class="menu-item" onclick="closeDrawer()">
+        <span class="menu-item-ico">✉️</span>
+        <span data-i18n="navContact">Contact Us</span>
+      </a>
+    </nav>
+
+    <!-- Mode toggle inside drawer -->
+    <div class="drawer-footer">
+      <div class="mode-toggle-row">
+        <div class="mode-label">
+          <span id="drawerModeIcon">🌙</span>
+          <span data-i18n="modeLabel" id="drawerModeLabel">Dark Mode</span>
+        </div>
+        <div class="toggle-switch on" id="drawerToggle" onclick="toggleMode()">
+          <div class="toggle-knob"></div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ── PRICING MODAL ── -->
-<div class="modal-overlay" id="pricingModal">
-  <div class="modal-box">
-    <span class="modal-emoji">🚀</span>
-    <div class="modal-title" data-i18n="pricingTitle">Coming Soon!</div>
-    <div class="modal-sub" data-i18n="pricingMsg">This feature will be available soon.<br>We're crafting something extraordinary for you.</div>
-    <button class="modal-btn" onclick="closeModal()" data-i18n="modalClose">Awesome, got it!</button>
+  <!-- ── PRICING MODAL ── -->
+  <div class="modal-overlay" id="pricingModal">
+    <div class="modal-box">
+      <span class="modal-emoji">🚀</span>
+      <div class="modal-title" data-i18n="pricingTitle">Coming Soon!</div>
+      <div class="modal-sub" data-i18n="pricingMsg">This feature will be available soon.<br>We're crafting something
+        extraordinary for you.</div>
+      <button class="modal-btn" onclick="closeModal()" data-i18n="modalClose">Awesome, got it!</button>
+    </div>
   </div>
-</div>
 
-<!-- ── MAIN ── -->
-<main>
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-badge">
-      <span class="hero-badge-dot"></span>
-      <span data-i18n="heroBadge">Free · Fast · Unlimited</span>
-    </div>
-    <h1>
-      <span class="line1" data-i18n="heroLine1">Welcome ALL-IN-ONE</span>
-      <span class="line2" data-i18n="heroLine2">Tools</span>
-    </h1>
-    <p class="hero-sub" data-i18n="heroSub">
-      ALL-IN-ONE is a platform where you can get all the tools for free!!!
-    </p>
-    <div class="hero-cta">
-      <button class="btn-grad" data-i18n="ctaExplore">Explore Tools</button>
-      <button class="btn-ghost" data-i18n="ctaLearn">Learn More</button>
-    </div>
-    <!-- <div class="scroll-hint">
+  <!-- ── MAIN ── -->
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span data-i18n="heroBadge">Free · Fast · Unlimited</span>
+      </div>
+      <h1>
+        <span class="line1" data-i18n="heroLine1">Welcome ALL-IN-ONE</span>
+        <span class="line2" data-i18n="heroLine2">Tools</span>
+      </h1>
+      <p class="hero-sub" data-i18n="heroSub">
+        ALL-IN-ONE is a platform where you can get all the tools for free!!!
+      </p>
+      <div class="hero-cta">
+        <button class="btn-grad" data-i18n="ctaExplore"
+          onclick="document.getElementById('tools').scrollIntoView({ behavior: 'smooth' })">Explore Tools</button>
+        <button class="btn-ghost" data-i18n="ctaLearn">Learn More</button>
+      </div>
+      <!-- <div class="scroll-hint">
       <span data-i18n="scrollHint">Scroll</span>
       <div class="scroll-wheel"></div>
     </div> -->
-  </section>
+    </section>
 
-  <!-- Tools -->
-  <section class="tools-section" id="tools">
-    <div class="section-header">
-      <p class="section-eyebrow" data-i18n="toolsEye">Our Toolkit</p>
-      <h2 class="section-title"><span data-i18n="toolsTitleA">8 Powerful Tools,</span> <span data-i18n="toolsTitleB">Zero Cost</span></h2>
-    </div>
-    <div class="tools-grid" id="toolsGrid"></div>
-  </section>
-</main>
+    <!-- Tools -->
+    <section class="tools-section" id="tools">
+      <div class="section-header">
+        <p class="section-eyebrow" data-i18n="toolsEye">Our Toolkit</p>
+        <h2 class="section-title"><span data-i18n="toolsTitleA">10 Powerful Tools,</span> <span
+            data-i18n="toolsTitleB">Zero Cost</span></h2>
+      </div>
+      <div class="tools-grid" id="toolsGrid"></div>
+    </section>
+  </main>
 
-<!-- ── FLOATING MODE BUTTON ── -->
-<button class="float-mode" id="floatModeBtn" onclick="toggleMode()" title="Toggle light/dark mode">
-  <span id="floatIcon">🌙</span>
-</button>
+  <!-- ── FLOATING MODE BUTTON ── -->
+  <button class="float-mode" id="floatModeBtn" onclick="toggleMode()" title="Toggle light/dark mode">
+    <span id="floatIcon">🌙</span>
+  </button>
 
-<!-- ── FOOTER ── -->
-<footer id="footer">
-  <div class="footer-inner">
-    <div class="footer-top">
-      <!-- Brand col -->
-      <div>
-        <div class="footer-brand-name" data-i18n="brand">ALL-IN-ONE</div>
-        <p class="footer-tagline" data-i18n="footerTagline">All-IN-ONE is a set of Advanced powerful, free tools. No cost, no limits.</p>
-        <!-- Footer mode toggle -->
-        <div class="footer-mode-row">
-          <span id="footerModeIcon">🌙</span>
-          <span class="footer-mode-label"><span data-i18n="modeLabel">Dark Mode</span></span>
-          <div style="margin-left:auto;">
-            <div class="toggle-switch on" id="footerToggle" onclick="toggleMode()">
-              <div class="toggle-knob"></div>
+  <!-- ── FOOTER ── -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <!-- Brand col -->
+        <div>
+          <div class="footer-brand-name" data-i18n="brand">ALL-IN-ONE</div>
+          <p class="footer-tagline" data-i18n="footerTagline">All-IN-ONE is a set of Advanced powerful, free tools. No
+            cost, no limits.</p>
+          <!-- Footer mode toggle -->
+          <div class="footer-mode-row">
+            <span id="footerModeIcon">🌙</span>
+            <span class="footer-mode-label"><span data-i18n="modeLabel">Dark Mode</span></span>
+            <div style="margin-left:auto;">
+              <div class="toggle-switch on" id="footerToggle" onclick="toggleMode()">
+                <div class="toggle-knob"></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Legal -->
-      <div class="footer-col">
-        <h4 data-i18n="footerLegal">Legal</h4>
-        <ul>
-          <li><a href="#" data-i18n="navPrivacy">Privacy Policy</a></li>
-          <li><a href="#" data-i18n="navTerms">Terms &amp; Conditions</a></li>
-        </ul>
-      </div>
-      <!-- Company -->
-      <div class="footer-col">
-        <h4 data-i18n="footerCompany">Company</h4>
-        <ul>
-          <li><a href="#" data-i18n="navAbout">About Us</a></li>
-          <li><a href="#" data-i18n="navContact">Contact Us</a></li>
-          <li><a href="#" onclick="openPricing();return false;" data-i18n="navPricing">Pricing</a></li>
-        </ul>
-      </div>
-      <!-- Tools -->
-      <!-- <div class="footer-col">
+        <!-- Legal -->
+        <div class="footer-col">
+          <h4 data-i18n="footerLegal">Legal</h4>
+          <ul>
+            <li><a href="#" data-i18n="navPrivacy">Privacy Policy</a></li>
+            <li><a href="#" data-i18n="navTerms">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+        <!-- Company -->
+        <div class="footer-col">
+          <h4 data-i18n="footerCompany">Company</h4>
+          <ul>
+            <li><a href="#" data-i18n="navAbout">About Us</a></li>
+            <li><a href="#" data-i18n="navContact">Contact Us</a></li>
+            <li><a href="#" onclick="openPricing();return false;" data-i18n="navPricing">Pricing</a></li>
+          </ul>
+        </div>
+        <!-- Tools -->
+        <!-- <div class="footer-col">
         <h4 data-i18n="footerTools">Tools</h4>
         <ul>
           <li><a href="#tools" data-i18n="t0n">Image Compress</a></li>
@@ -863,538 +1524,1011 @@ footer {
           <li><a href="#tools" data-i18n="t7n">Split PDF</a></li>
         </ul>
       </div> -->
-    </div>
-    <div class="footer-bottom">
-      <p class="footer-copy" data-i18n="footerCopy">© 2025 ALL-IN-ONE. All rights reserved.</p>
-      <div class="footer-pills">
-        <span class="pill" data-i18n="pill1">Free Forever</span>
-        <span class="pill" data-i18n="pill2">No Sign-up</span>
-        <span class="pill" data-i18n="pill3">100% Private</span>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy" data-i18n="footerCopy">© 2025 ALL-IN-ONE. All rights reserved.</p>
+        <div class="footer-pills">
+          <span class="pill" data-i18n="pill1">Free Forever</span>
+          <span class="pill" data-i18n="pill2">No Sign-up</span>
+          <span class="pill" data-i18n="pill3">100% Private</span>
+        </div>
       </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
-<!-- ══════════════════════════════════════════ JS ══ -->
-<script>
-/* ─── DATA ──────────────────────────────────────── */
-const TOOLS = [
-  { ico:'🗜️', pal:'ico-v', nk:'t0n', dk:'t0d', url: '/compress_image' }, // Added url here
-  { ico:'📄', pal:'ico-p', nk:'t1n', dk:'t1d', url: '/jpg_to_pdf' },
-  { ico:'🔗', pal:'ico-c', nk:'t2n', dk:'t2d', url: '/merge' },
-  { ico:'📋', pal:'ico-a', nk:'t3n', dk:'t3d', url: '/organize' },
-  { ico:'🖼️', pal:'ico-g', nk:'t4n', dk:'t4d', url: '/pdf_to_jpg' },
-  { ico:'📝', pal:'ico-b', nk:'t5n', dk:'t5d', url: '/pdf_to_text' },
-  { ico:'⬇️', pal:'ico-r', nk:'t6n', dk:'t6d', url: '/compress' },
-  { ico:'✂️', pal:'ico-o', nk:'t7n', dk:'t7d', url: '/split' },
-];
-const LANGUAGES = [
-  'English','Spanish','French','German','Japanese','Portuguese',
-  'Arabic','Hindi','Chinese (Simplified)','Korean','Italian','Russian',
-  'Dutch','Turkish','Polish','Swedish','Indonesian','Vietnamese',
-  'Thai','Greek','Czech','Romanian','Hungarian','Finnish','Danish','Norwegian',
-];
+  <!-- ══════════════════════════════════════════ JS ══ -->
+  <script>
+    /* ─── DATA ──────────────────────────────────────── */
+    const TOOLS = [
+      { ico: '🗜️', pal: 'ico-v', nk: 't0n', dk: 't0d', url: 'compress_image.html' }, // Added url here
+      { ico: '📄', pal: 'ico-p', nk: 't1n', dk: 't1d', url: 'jpg_to_pdf.html' },
+      { ico: '🔗', pal: 'ico-c', nk: 't2n', dk: 't2d', url: 'merge.html' },
+      { ico: '📋', pal: 'ico-a', nk: 't3n', dk: 't3d', url: 'organize.html' },
+      { ico: '🖼️', pal: 'ico-g', nk: 't4n', dk: 't4d', url: 'pdf_to_jpg.html' },
+      { ico: '📝', pal: 'ico-b', nk: 't5n', dk: 't5d', url: 'pdf_to_text.html' },
+      { ico: '⬇️', pal: 'ico-r', nk: 't6n', dk: 't6d', url: 'compress.html' },
+      { ico: '✂️', pal: 'ico-o', nk: 't7n', dk: 't7d', url: 'split.html' },
+      { ico: '📊', pal: 'ico-a', nk: 't8n', dk: 't8d', url: 'office_to_pdf.html' }, // NEW: Office to PDF
+      { ico: '📑', pal: 'ico-c', nk: 't9n', dk: 't9d', url: 'Pdftoanyformat.html' }
+    ];
 
-const LANG_CODE = {
-  English:'en', Spanish:'es', French:'fr', German:'de', Japanese:'ja', 
-  Portuguese:'pt', Arabic:'ar', Hindi:'hi', 'Chinese (Simplified)':'zh', 
-  Korean:'ko', Italian:'it', Russian:'ru', Dutch:'nl', Turkish:'tr', 
-  Polish:'pl', Swedish:'sv', Indonesian:'id', Vietnamese:'vi', 
-  Thai:'th', Greek:'el', Czech:'cs', Romanian:'ro', Hungarian:'hu', 
-  Finnish:'fi', Danish:'da', Norwegian:'no'
-};
+    const LANGUAGES = [
+      'English', 'Spanish', 'French', 'German', 'Japanese', 'Portuguese',
+      'Arabic', 'Hindi', 'Chinese (Simplified)', 'Korean', 'Italian', 'Russian',
+      'Dutch', 'Turkish', 'Polish', 'Swedish', 'Indonesian', 'Vietnamese',
+      'Thai', 'Greek', 'Czech', 'Romanian', 'Hungarian', 'Finnish', 'Danish', 'Norwegian',
+    ];
 
-/* ─── TRANSLATIONS ─────────────────────────────── */
-const T = {
-  en: {
-    brand:'ALL-IN-ONE', menuTitle:'Navigation',
-    navPricing:'Pricing', navLang:'Language', navPrivacy:'Privacy Policy',
-    navTerms:'Terms & Conditions', navAbout:'About Us', navContact:'Contact Us',
-    heroBadge:'Free · Fast · Unlimited',
-    heroLine1:'Welcome ALL-IN-ONE', heroLine2:'Tools',
-    heroSub:'ALL-IN-ONE is a platform where you can get all the tools for free!!!',
-    ctaExplore:'Explore Tools', ctaLearn:'Learn More',
-    scrollHint:'Scroll',
-    toolsEye:'Our Toolkit', toolsTitleA:'8 Powerful Tools,', toolsTitleB:'Zero Cost',
-    pricingTitle:'Coming Soon!',
-    pricingMsg:'This feature will be available soon.<br>We\'re crafting something extraordinary for you.',
-    modalClose:'Awesome, got it!',
-    modeLabel:'Dark Mode', modeLabelLight:'Light Mode',
-    footerTagline:'Your all-in-one destination for powerful, free tools. No cost, no limits.',
-    footerLegal:'Legal', footerCompany:'Company', footerTools:'Tools',
-    footerCopy:'© 2025 ALL-IN-ONE. All rights reserved.',
-    pill1:'Free Forever', pill2:'No Sign-up', pill3:'100% Private',
-    toolAction:'Open Tool →',
-    t0n:'Image Compress',  t0d:'Reduce image file sizes without losing a pixel of quality.',
-    t1n:'Image to PDF',    t1d:'Transform any image into a polished PDF document instantly.',
-    t2n:'Merge PDF',       t2d:'Combine multiple PDFs into one seamless, unified file.',
-    t3n:'Organise PDF',    t3d:'Reorder, rotate and manage your PDF pages with ease.',
-    t4n:'PDF to Image',    t4d:'Extract crisp, high-resolution images from any PDF.',
-    t5n:'PDF to Text',     t5d:'Convert PDF content into fully editable plain-text files.',
-    t6n:'Compress PDF',    t6d:'Shrink PDF sizes dramatically while keeping full quality.',
-    t7n:'Split PDF',       t7d:'Divide large PDFs into multiple focused documents.',
-  },
-  es: {
-    brand:'ALL-IN-ONE', menuTitle:'Navegación',
-    navPricing:'Precios', navLang:'Idioma', navPrivacy:'Política de Privacidad',
-    navTerms:'Términos y Condiciones', navAbout:'Sobre Nosotros', navContact:'Contáctenos',
-    heroBadge:'Gratis · Rápido · Ilimitado',
-    heroLine1:'Bienvenido ALL-IN-ONE', heroLine2:'Herramientas',
-    heroSub:'ALL-IN-ONE es una plataforma donde puedes obtener todas las herramientas gratis!!!',
-    ctaExplore:'Explorar Herramientas', ctaLearn:'Más Información',
-    scrollHint:'Desplazar',
-    toolsEye:'Nuestras Herramientas', toolsTitleA:'8 Herramientas Potentes,', toolsTitleB:'Sin Costo',
-    pricingTitle:'¡Próximamente!',
-    pricingMsg:'Esta función estará disponible pronto.<br>Estamos creando algo extraordinario para ti.',
-    modalClose:'¡Genial, entendido!',
-    modeLabel:'Modo Oscuro', modeLabelLight:'Modo Claro',
-    footerTagline:'Tu destino todo en uno para herramientas gratuitas y potentes.',
-    footerLegal:'Legal', footerCompany:'Empresa', footerTools:'Herramientas',
-    footerCopy:'© 2025 ALL-IN-ONE. Todos los derechos reservados.',
-    pill1:'Siempre gratis', pill2:'Sin registro', pill3:'100% Privado',
-    toolAction:'Abrir herramienta →',
-    t0n:'Comprimir Imagen',  t0d:'Reduce el tamaño sin perder calidad visual.',
-    t1n:'Imagen a PDF',      t1d:'Convierte cualquier imagen en un PDF al instante.',
-    t2n:'Unir PDF',          t2d:'Combina múltiples PDFs en un único archivo.',
-    t3n:'Organizar PDF',     t3d:'Reordena y gestiona páginas PDF fácilmente.',
-    t4n:'PDF a Imagen',      t4d:'Extrae imágenes de alta resolución de PDFs.',
-    t5n:'PDF a Texto',       t5d:'Convierte PDF a archivos de texto editables.',
-    t6n:'Comprimir PDF',     t6d:'Reduce el tamaño del PDF conservando calidad.',
-    t7n:'Dividir PDF',       t7d:'Divide un PDF en múltiples documentos.',
-  },
-  fr: {
-    brand:'ALL-IN-ONE', menuTitle:'Navigation',
-    navPricing:'Tarifs', navLang:'Langue', navPrivacy:'Confidentialité',
-    navTerms:'Conditions', navAbout:'À Propos', navContact:'Contact',
-    heroBadge:'Gratuit · Rapide · Illimité',
-    heroLine1:'Bienvenue ALL-IN-ONE', heroLine2:'Outils',
-    heroSub:"ALL-IN-ONE est une plateforme où vous pouvez accéder à tous les outils gratuitement!!!",
-    ctaExplore:'Explorer', ctaLearn:'En savoir plus',
-    scrollHint:'Défiler',
-    toolsEye:'Nos Outils', toolsTitleA:'8 Outils Puissants,', toolsTitleB:'Zéro Coût',
-    pricingTitle:'Bientôt disponible!',
-    pricingMsg:"Cette fonctionnalité sera bientôt disponible.<br>Nous créons quelque chose d'extraordinaire pour vous.",
-    modalClose:'Super, compris!',
-    modeLabel:'Mode Sombre', modeLabelLight:'Mode Clair',
-    footerTagline:'Votre destination tout-en-un pour des outils gratuits et puissants.',
-    footerLegal:'Légal', footerCompany:'Entreprise', footerTools:'Outils',
-    footerCopy:'© 2025 ALL-IN-ONE. Tous droits réservés.',
-    pill1:'Toujours gratuit', pill2:'Sans inscription', pill3:'100% Privé',
-    toolAction:'Ouvrir →',
-    t0n:'Compresser Image',  t0d:'Réduisez la taille sans perte de qualité.',
-    t1n:'Image vers PDF',    t1d:'Convertissez une image en PDF instantanément.',
-    t2n:'Fusionner PDF',     t2d:'Combinez plusieurs PDFs en un seul fichier.',
-    t3n:'Organiser PDF',     t3d:'Réorganisez et gérez vos pages PDF.',
-    t4n:'PDF vers Image',    t4d:'Extrayez des images haute résolution depuis un PDF.',
-    t5n:'PDF vers Texte',    t5d:'Convertissez le contenu PDF en texte éditable.',
-    t6n:'Compresser PDF',    t6d:'Réduisez la taille en préservant la qualité.',
-    t7n:'Diviser PDF',       t7d:'Découpez un PDF en plusieurs documents.',
-  },
-  de: {
-    brand:'ALL-IN-ONE', menuTitle:'Navigation',
-    navPricing:'Preise', navLang:'Sprache', navPrivacy:'Datenschutz',
-    navTerms:'AGB', navAbout:'Über uns', navContact:'Kontakt',
-    heroBadge:'Kostenlos · Schnell · Unbegrenzt',
-    heroLine1:'Willkommen ALL-IN-ONE', heroLine2:'Tools',
-    heroSub:'ALL-IN-ONE ist eine Plattform, auf der Sie alle Tools kostenlos nutzen können!!!',
-    ctaExplore:'Tools erkunden', ctaLearn:'Mehr erfahren',
-    scrollHint:'Scrollen',
-    toolsEye:'Unser Toolkit', toolsTitleA:'8 Leistungsstarke Tools,', toolsTitleB:'Kostenlos',
-    pricingTitle:'Demnächst!',
-    pricingMsg:'Diese Funktion wird bald verfügbar sein.<br>Wir arbeiten an etwas Außergewöhnlichem für Sie.',
-    modalClose:'Super, verstanden!',
-    modeLabel:'Dunkelmodus', modeLabelLight:'Hellmodus',
-    footerTagline:'Ihre All-in-One-Plattform für leistungsstarke, kostenlose Tools.',
-    footerLegal:'Rechtliches', footerCompany:'Unternehmen', footerTools:'Tools',
-    footerCopy:'© 2025 ALL-IN-ONE. Alle Rechte vorbehalten.',
-    pill1:'Immer kostenlos', pill2:'Kein Login', pill3:'100% Privat',
-    toolAction:'Tool öffnen →',
-    t0n:'Bild komprimieren', t0d:'Bildgröße ohne Qualitätsverlust reduzieren.',
-    t1n:'Bild zu PDF',       t1d:'Jedes Bild sofort in ein PDF konvertieren.',
-    t2n:'PDF zusammenführen',t2d:'Mehrere PDFs zu einer Datei zusammenführen.',
-    t3n:'PDF organisieren',  t3d:'PDF-Seiten neu anordnen und verwalten.',
-    t4n:'PDF zu Bild',       t4d:'Hochauflösende Bilder aus PDFs extrahieren.',
-    t5n:'PDF zu Text',       t5d:'PDF-Inhalte in bearbeitbaren Text konvertieren.',
-    t6n:'PDF komprimieren',  t6d:'PDF-Größe bei gleichbleibender Qualität reduzieren.',
-    t7n:'PDF aufteilen',     t7d:'Ein großes PDF in einzelne Dokumente aufteilen.',
-  },
-  hi: {
-    brand:'ALL-IN-ONE', menuTitle:'नेविगेशन', navPricing:'कीमत', navLang:'भाषा', navPrivacy:'गोपनीयता नीति', navTerms:'नियम और शर्तें', navAbout:'हमारे बारे में', navContact:'संपर्क करें',
-    heroBadge:'मुफ्त · तेज · असीमित', heroLine1:'ALL-IN-ONE टूल्स', heroLine2:'में आपका स्वागत है',
-    heroSub:'ALL-IN-ONE एक ऐसा प्लेटफॉर्म है जहां आप सभी टूल्स मुफ्त में पा सकते हैं!!!',
-    ctaExplore:'टूल्स देखें', ctaLearn:'और जानें', scrollHint:'स्क्रॉल करें',
-    toolsEye:'हमारा टूलकिट', toolsTitleA:'8 शक्तिशाली टूल्स,', toolsTitleB:'जीरो कॉस्ट',
-    pricingTitle:'जल्द आ रहा है!', pricingMsg:'यह सुविधा जल्द ही उपलब्ध होगी।', modalClose:'ठीक है!',
-    modeLabel:'डार्क मोड', modeLabelLight:'लाइट मोड', toolAction:'टूल खोलें →',
-    t0n:'इमेज कंप्रेस', t0d:'बिना क्वालिटी खोए इमेज फाइल का साइज कम करें।',
-    t1n:'इमेज से PDF', t1d:'किसी भी इमेज को तुरंत PDF में बदलें।',
-    t2n:'PDF मर्ज करें', t2d:'कई PDF को एक फाइल में जोड़ें।',
-    t3n:'PDF व्यवस्थित करें', t3d:'आसानी से अपने PDF पेजों को पुनर्व्यवस्थित और प्रबंधित करें।',
-    t4n:'PDF से इमेज', t4d:'किसी भी PDF से स्पष्ट, उच्च-रिज़ॉल्यूशन वाली इमेज निकालें।',
-    t5n:'PDF से टेक्स्ट', t5d:'PDF सामग्री को पूरी तरह से संपादन योग्य टेक्स्ट में बदलें।',
-    t6n:'PDF कंप्रेस', t6d:'क्वालिटी बनाए रखते हुए PDF साइज कम करें।',
-    t7n:'PDF विभाजित करें', t7d:'बड़े PDF को कई छोटे दस्तावेज़ों में विभाजित करें।',
-  },
-  es: {
-    brand:'ALL-IN-ONE', menuTitle:'Navegación', navPricing:'Precios', navLang:'Idioma', navPrivacy:'Privacidad', navTerms:'Términos', navAbout:'Nosotros', navContact:'Contacto',
-    heroBadge:'Gratis · Rápido · Ilimitado', heroLine1:'Bienvenido ALL-IN-ONE', heroLine2:'Tools',
-    heroSub:'¡ALL-IN-ONE es una plataforma donde obtienes todas las herramientas gratis!',
-    ctaExplore:'Explorar', ctaLearn:'Saber más', scrollHint:'Desplazar',
-    toolsEye:'Nuestro Kit', toolsTitleA:'8 Herramientas Potentes,', toolsTitleB:'Cero Costo',
-    pricingTitle:'¡Próximamente!', pricingMsg:'Esta función estará disponible pronto.', modalClose:'¡Entendido!',
-    modeLabel:'Modo Oscuro', modeLabelLight:'Modo Claro', toolAction:'Abrir →',
-    t0n:'Comprimir Imagen', t0d:'Reduce el tamaño sin perder calidad visual.',
-    t1n:'Imagen a PDF', t1d:'Convierte imágenes en PDF al instante.',
-    t2n:'Unir PDF', t2d:'Combina múltiples PDFs en un solo archivo.',
-    t3n:'Organizar PDF', t3d:'Reordena y gestiona tus páginas PDF con facilidad.',
-    t4n:'PDF a Imagen', t4d:'Extrae imágenes en alta resolución de cualquier PDF.',
-    t5n:'PDF a Texto', t5d:'Convierte contenido PDF en archivos de texto editables.',
-    t6n:'Comprimir PDF', t6d:'Reduce el tamaño del PDF conservando la calidad.',
-    t7n:'Dividir PDF', t7d:'Divide un PDF grande en varios documentos.',
-  },
-  fr: {
-    brand:'ALL-IN-ONE', menuTitle:'Navigation', navPricing:'Tarifs', navLang:'Langue', navPrivacy:'Confidentialité', navTerms:'Conditions', navAbout:'À Propos', navContact:'Contact',
-    heroBadge:'Gratuit · Rapide · Illimité', heroLine1:'Bienvenue ALL-IN-ONE', heroLine2:'Outils',
-    heroSub:'ALL-IN-ONE est une plateforme où tout est gratuit !!!',
-    ctaExplore:'Explorer', ctaLearn:'En savoir plus', scrollHint:'Défiler',
-    toolsEye:'Nos Outils', toolsTitleA:'8 Outils Puissants,', toolsTitleB:'Zéro Coût',
-    pricingTitle:'Bientôt disponible!', pricingMsg:'Cette fonctionnalité arrive bientôt.', modalClose:'Compris!',
-    modeLabel:'Mode Sombre', modeLabelLight:'Mode Clair', toolAction:'Ouvrir →',
-    t0n:'Compresser Image', t0d:'Réduisez la taille sans perte de qualité.',
-    t1n:'Image en PDF', t1d:'Transformez une image en PDF instantanément.',
-    t2n:'Fusionner PDF', t2d:'Combinez plusieurs PDFs en un seul fichier.',
-    t3n:'Organiser PDF', t3d:'Réorganisez vos pages PDF facilement.',
-    t4n:'PDF en Image', t4d:'Extrayez des images haute résolution d’un PDF.',
-    t5n:'PDF en Texte', t5d:'Convertissez un PDF en texte éditable.',
-    t6n:'Compresser PDF', t6d:'Réduisez la taille en préservant la qualité.',
-    t7n:'Diviser PDF', t7d:'Divisez un PDF en plusieurs documents.',
-  },
-  de: {
-    brand:'ALL-IN-ONE', menuTitle:'Navigation', navPricing:'Preise', navLang:'Sprache', navPrivacy:'Datenschutz', navTerms:'AGB', navAbout:'Über uns', navContact:'Kontakt',
-    heroBadge:'Gratis · Schnell · Unbegrenzt', heroLine1:'Willkommen ALL-IN-ONE', heroLine2:'Tools',
-    heroSub:'ALL-IN-ONE: Alle Tools kostenlos an einem Ort!',
-    ctaExplore:'Entdecken', ctaLearn:'Mehr erfahren', scrollHint:'Scrollen',
-    toolsEye:'Toolkit', toolsTitleA:'8 Starke Tools,', toolsTitleB:'Kostenlos',
-    pricingTitle:'Demnächst!', pricingMsg:'Diese Funktion kommt bald.', modalClose:'Verstanden!',
-    modeLabel:'Dunkelmodus', modeLabelLight:'Hellmodus', toolAction:'Öffnen →',
-    t0n:'Bild komprimieren', t0d:'Bildgröße ohne Qualitätsverlust reduzieren.',
-    t1n:'Bild zu PDF', t1d:'Bilder sofort in PDF umwandeln.',
-    t2n:'PDF zusammenfügen', t2d:'Mehrere PDFs in eine Datei verbinden.',
-    t3n:'PDF organisieren', t3d:'Seiten einfach neu anordnen.',
-    t4n:'PDF zu Bild', t4d:'Bilder aus PDF extrahieren.',
-    t5n:'PDF zu Text', t5d:'PDF in bearbeitbaren Text umwandeln.',
-    t6n:'PDF komprimieren', t6d:'Größe reduzieren bei voller Qualität.',
-    t7n:'PDF teilen', t7d:'Große PDFs in mehrere Dateien splitten.',
-  },
-  zh: {
-    brand:'ALL-IN-ONE', menuTitle:'导航', navPricing:'价格', navLang:'语言', navPrivacy:'隐私政策', navTerms:'条款', navAbout:'关于', navContact:'联系',
-    heroBadge:'免费 · 快速 · 无限制', heroLine1:'欢迎来到 ALL-IN-ONE', heroLine2:'工具箱',
-    heroSub:'ALL-IN-ONE 是一个完全免费的工具平台！',
-    ctaExplore:'浏览工具', ctaLearn:'了解更多', scrollHint:'滚动',
-    toolsEye:'我们的工具', toolsTitleA:'8个强大的工具,', toolsTitleB:'完全免费',
-    pricingTitle:'敬请期待！', pricingMsg:'此功能即将推出。', modalClose:'明白了！',
-    modeLabel:'深色模式', modeLabelLight:'浅色模式', toolAction:'打开 →',
-    t0n:'图像压缩', t0d:'减小体积而不损失画质。',
-    t1n:'图像转PDF', t1d:'将图片立即转换为PDF。',
-    t2n:'合并PDF', t2d:'将多个PDF合并为一个。',
-    t3n:'整理PDF', t3d:'轻松调整PDF页面顺序。',
-    t4n:'PDF转图像', t4d:'从PDF中提取高质图片。',
-    t5n:'PDF转文本', t5d:'将PDF转换为可编辑文本。',
-    t6n:'压缩PDF', t6d:'保持质量的同时缩小PDF。',
-    t7n:'拆分PDF', t7d:'将大PDF拆分为多个。',
-  },
-  ar: {
-    brand:'ALL-IN-ONE', menuTitle:'التنقل', navPricing:'الأسعار', navLang:'اللغة', navPrivacy:'الخصوصية', navTerms:'الشروط', navAbout:'حول', navContact:'اتصل',
-    heroBadge:'مجاني · سريع · غير محدود', heroLine1:'مرحباً بك في', heroLine2:'ALL-IN-ONE',
-    heroSub:'منصة ALL-IN-ONE توفر لك كل الأدوات مجاناً!',
-    ctaExplore:'استكشاف', ctaLearn:'المزيد', scrollHint:'مرر',
-    toolsEye:'أدواتنا', toolsTitleA:'8 أدوات قوية،', toolsTitleB:'مجانية تماماً',
-    pricingTitle:'قريباً!', pricingMsg:'هذه الميزة ستتوفر قريباً.', modalClose:'موافق!',
-    modeLabel:'وضع ليلي', modeLabelLight:'وضع نهاري', toolAction:'فتح ←',
-    t0n:'ضغط الصور', t0d:'تقليل الحجم دون فقدان الجودة.',
-    t1n:'تحويل الصور لـ PDF', t1d:'حول أي صورة إلى PDF فوراً.',
-    t2n:'دمج PDF', t2d:'دمج ملفات PDF في ملف واحد.',
-    t3n:'تنظيم PDF', t3d:'إعادة ترتيب صفحات PDF بسهولة.',
-    t4n:'PDF إلى صور', t4d:'استخراج الصور من ملف PDF.',
-    t5n:'PDF إلى نص', t5d:'تحويل PDF إلى نص قابل للتعديل.',
-    t6n:'ضغط PDF', t6d:'تقليل حجم الملف مع حفظ الجودة.',
-    t7n:'تقسيم PDF', t7d:'تقسيم ملف PDF إلى أجزاء.',
-  },
-  ru: {
-    brand:'ALL-IN-ONE', menuTitle:'Навигация', navPricing:'Цены', navLang:'Язык', navPrivacy:'Лицензия', navTerms:'Условия', navAbout:'О нас', navContact:'Контакт',
-    heroBadge:'Бесплатно · Быстро · Безлимитно', heroLine1:'Добро пожаловать в', heroLine2:'ALL-IN-ONE',
-    heroSub:'ALL-IN-ONE — платформа с бесплатными инструментами!',
-    ctaExplore:'Инструменты', ctaLearn:'Подробнее', scrollHint:'Скролл',
-    toolsEye:'Наш набор', toolsTitleA:'8 мощных утилит,', toolsTitleB:'Бесплатно',
-    pricingTitle:'Скоро!', pricingMsg:'Этот раздел скоро появится.', modalClose:'Понятно!',
-    modeLabel:'Темный', modeLabelLight:'Светлый', toolAction:'Открыть →',
-    t0n:'Сжатие фото', t0d:'Уменьшите размер без потери качества.',
-    t1n:'Фото в PDF', t1d:'Мгновенная конвертация фото в PDF.',
-    t2n:'Объединить PDF', t2d:'Склейте несколько PDF в один.',
-    t3n:'Организовать PDF', t3d:'Управление страницами PDF.',
-    t4n:'PDF в картинку', t4d:'Извлечение фото из PDF.',
-    t5n:'PDF в текст', t5d:'Конвертация PDF в текст.',
-    t6n:'Сжать PDF', t6d:'Уменьшение размера файла PDF.',
-    t7n:'Разбить PDF', t7d:'Разделение PDF на части.',
-  },
-  pt: {
-    brand:'ALL-IN-ONE', menuTitle:'Navegação', navPricing:'Preços', navLang:'Idioma', navPrivacy:'Privacidade', navTerms:'Termos', navAbout:'Sobre', navContact:'Contato',
-    heroBadge:'Grátis · Rápido · Ilimitado', heroLine1:'Bem-vindo ao ALL-IN-ONE', heroLine2:'Tools',
-    heroSub:'ALL-IN-ONE é uma plataforma onde você encontra tudo de graça!',
-    ctaExplore:'Explorar', ctaLearn:'Saber mais', scrollHint:'Rolar',
-    toolsEye:'Nosso Kit', toolsTitleA:'8 Ferramentas Poderosas,', toolsTitleB:'Custo Zero',
-    pricingTitle:'Em Breve!', pricingMsg:'Recurso disponível em breve.', modalClose:'Entendido!',
-    modeLabel:'Modo Escuro', modeLabelLight:'Modo Claro', toolAction:'Abrir →',
-    t0n:'Comprimir Imagem', t0d:'Reduza o tamanho sem perder qualidade.',
-    t1n:'Imagem para PDF', t1d:'Transforme imagens em PDF instantaneamente.',
-    t2n:'Juntar PDF', t2d:'Combine vários PDFs em um só arquivo.',
-    t3n:'Organizar PDF', t3d:'Reordene páginas PDF com facilidade.',
-    t4n:'PDF para Imagem', t4d:'Extraia imagens de alta resolução.',
-    t5n:'PDF para Texto', t5d:'Converta PDF em texto editável.',
-    t6n:'Comprimir PDF', t6d:'Diminua o PDF mantendo a qualidade.',
-    t7n:'Dividir PDF', t7d:'Divida PDFs em vários documentos.',
-  },
-  ja: {
-    brand:'ALL-IN-ONE', menuTitle:'ナビゲーション',
-    navPricing:'料金', navLang:'言語', navPrivacy:'プライバシー',
-    navTerms:'利用規約', navAbout:'会社概要', navContact:'お問い合わせ',
-    heroBadge:'無料 · 高速 · 無制限',
-    heroLine1:'ALL-IN-ONEへ', heroLine2:'ようこそ',
-    heroSub:'ALL-IN-ONEはすべてのツールを無料で使えるプラットフォームです!!!',
-    ctaExplore:'ツールを見る', ctaLearn:'詳細を見る',
-    scrollHint:'スクロール',
-    toolsEye:'ツール一覧', toolsTitleA:'8つの強力なツール、', toolsTitleB:'すべて無料',
-    pricingTitle:'近日公開！',
-    pricingMsg:'この機能は近日公開予定です。<br>素晴らしいものを準備中です。',
-    modalClose:'了解しました！',
-    modeLabel:'ダークモード', modeLabelLight:'ライトモード',
-    footerTagline:'強力な無料ツールのオールインワンプラットフォーム。',
-    footerLegal:'法的事項', footerCompany:'会社情報', footerTools:'ツール',
-    footerCopy:'© 2025 ALL-IN-ONE. 無断複製禁止。',
-    pill1:'常に無料', pill2:'登録不要', pill3:'完全プライベート',
-    toolAction:'ツールを開く →',
-    t0n:'画像圧縮',    t0d:'画質を維持しながらサイズを削減。',
-    t1n:'画像→PDF',    t1d:'任意の画像を即座にPDFに変換。',
-    t2n:'PDF結合',     t2d:'複数のPDFを1つのファイルに統合。',
-    t3n:'PDF整理',     t3d:'PDFページの並べ替え・管理を簡単に。',
-    t4n:'PDF→画像',    t4d:'PDFから高解像度画像を抽出。',
-    t5n:'PDF→テキスト',t5d:'PDFをテキストファイルに変換。',
-    t6n:'PDF圧縮',     t6d:'品質を保ちながらPDFサイズを縮小。',
-    t7n:'PDF分割',     t7d:'大きなPDFを複数に分割。',
-  },
-};
+    const LANG_CODE = {
+      English: 'en', Spanish: 'es', French: 'fr', German: 'de', Japanese: 'ja',
+      Portuguese: 'pt', Arabic: 'ar', Hindi: 'hi', 'Chinese (Simplified)': 'zh',
+      Korean: 'ko', Italian: 'it', Russian: 'ru', Dutch: 'nl', Turkish: 'tr',
+      Polish: 'pl', Swedish: 'sv', Indonesian: 'id', Vietnamese: 'vi',
+      Thai: 'th', Greek: 'el', Czech: 'cs', Romanian: 'ro', Hungarian: 'hu',
+      Finnish: 'fi', Danish: 'da', Norwegian: 'no'
+    };
 
-/* ─── STATE ─────────────────────────────────────── */
-let isDark = true;
-let currentLang = 'en';
-let selectedTool = -1;
-let drawerOpen = false;
-let langPanelOpen = false;
+    /* ─── TRANSLATIONS ─────────────────────────────── */
+    const T = {
+      en: {
+        brand: 'ALL-IN-ONE', menuTitle: 'Navigation',
+        navPricing: 'Pricing', navLang: 'Language', navPrivacy: 'Privacy Policy',
+        navTerms: 'Terms & Conditions', navAbout: 'About Us', navContact: 'Contact Us',
+        heroBadge: 'Free · Fast · Unlimited',
+        heroLine1: 'Welcome ALL-IN-ONE', heroLine2: 'Tools',
+        heroSub: 'ALL-IN-ONE is a platform where you can get all the tools for free!!!',
+        ctaExplore: 'Explore Tools', ctaLearn: 'Learn More',
+        scrollHint: 'Scroll',
+        toolsEye: 'Our Toolkit', toolsTitleA: '10 Powerful Tools,', toolsTitleB: 'Zero Cost',
+        pricingTitle: 'Coming Soon!',
+        pricingMsg: 'This feature will be available soon.<br>We\'re crafting something extraordinary for you.',
+        modalClose: 'Awesome, got it!',
+        modeLabel: 'Dark Mode', modeLabelLight: 'Light Mode',
+        footerTagline: 'Your all-in-one destination for powerful, free tools. No cost, no limits.',
+        footerLegal: 'Legal', footerCompany: 'Company', footerTools: 'Tools',
+        footerCopy: '© 2025 ALL-IN-ONE. All rights reserved.',
+        pill1: 'Free Forever', pill2: 'No Sign-up', pill3: '100% Private',
+        toolAction: 'Open Tool →',
+        t0n: 'Image Compress', t0d: 'Reduce image file sizes without losing a pixel of quality.',
+        t1n: 'Image to PDF', t1d: 'Transform any image into a polished PDF document instantly.',
+        t2n: 'Merge PDF', t2d: 'Combine multiple PDFs into one seamless, unified file.',
+        t3n: 'Organise PDF', t3d: 'Reorder, rotate and manage your PDF pages with ease.',
+        t4n: 'PDF to Image', t4d: 'Extract crisp, high-resolution images from any PDF.',
+        t5n: 'PDF to Text', t5d: 'Convert PDF content into fully editable plain-text files.',
+        t6n: 'Compress PDF', t6d: 'Shrink PDF sizes dramatically while keeping full quality.',
+        t7n: 'Split PDF', t7d: 'Divide large PDFs into multiple focused documents.',
+        t8n: 'Excel, Word & PPT to PDF', t8d: 'Convert Word, Excel, or PowerPoint files to professional PDF documents.',
+        t9n: 'PDF to Excel, Word & PPT', t9d: 'Transform PDF files back into editable Word, Excel, or PowerPoint formats.'
+      },
+      es: {
+        brand: 'TODO-EN-UNO', menuTitle: 'Navegación',
+        navPricing: 'Precios', navLang: 'Idioma', navPrivacy: 'Política de Privacidad',
+        navTerms: 'Términos y Condiciones', navAbout: 'Sobre Nosotros', navContact: 'Contáctenos',
+        heroBadge: 'Gratis · Rápido · Ilimitado',
+        heroLine1: 'Bienvenido a TODO-EN-UNO', heroLine2: 'Herramientas',
+        heroSub: 'TODO-EN-UNO es una plataforma donde puedes obtener todas las herramientas de forma gratuita!!!',
+        ctaExplore: 'Explorar Herramientas', ctaLearn: 'Más Información',
+        scrollHint: 'Desplazar',
+        toolsEye: 'Nuestro Conjunto de Herramientas', toolsTitleA: '10 Herramientas Poderosas,', toolsTitleB: 'Costo Cero',
+        pricingTitle: '¡Próximamente!',
+        pricingMsg: 'Esta función estará disponible pronto.<br>Estamos creando algo extraordinario para ti.',
+        modalClose: '¡Genial, entendido!',
+        modeLabel: 'Modo Oscuro', modeLabelLight: 'Modo Claro',
+        footerTagline: 'Tu destino todo en uno para herramientas potentes y gratuitas. Sin costo, sin límites.',
+        footerLegal: 'Legal', footerCompany: 'Empresa', footerTools: 'Herramientas',
+        footerCopy: '© 2025 TODO-EN-UNO. Todos los derechos reservados.',
+        pill1: 'Gratis para Siempre', pill2: 'Sin Registro', pill3: '100% Privado',
+        toolAction: 'Abrir Herramienta →',
+        t0n: 'Comprimir Imagen', t0d: 'Reduce el tamaño de los archivos de imagen sin perder calidad.',
+        t1n: 'Imagen a PDF', t1d: 'Transforma cualquier imagen en un documento PDF pulido al instante.',
+        t2n: 'Combinar PDF', t2d: 'Combina múltiples PDF en un solo archivo unificado.',
+        t3n: 'Organizar PDF', t3d: 'Reordena, gira y gestiona las páginas de tus PDF con facilidad.',
+        t4n: 'PDF a Imagen', t4d: 'Extrae imágenes nítidas y de alta resolución de cualquier PDF.',
+        t5n: 'PDF a Texto', t5d: 'Convierte el contenido de PDF en archivos de texto plano completamente editables.',
+        t6n: 'Comprimir PDF', t6d: 'Reduce drásticamente el tamaño de los PDF manteniendo la calidad completa.',
+        t7n: 'Dividir PDF', t7d: 'Divide PDF grandes en múltiples documentos enfocados.',
+        t8n: 'Excel, Word y PPT a PDF', t8d: 'Convierte archivos de Word, Excel o PowerPoint en documentos PDF profesionales.',
+        t9n: 'PDF a Excel, Word y PPT', t9d: 'Transforma archivos PDF de nuevo en formatos editables de Word, Excel o PowerPoint.'
+      },
+      fr: {
+        brand: 'TOUT-EN-UN', menuTitle: 'Navigation',
+        navPricing: 'Tarifs', navLang: 'Langue', navPrivacy: 'Politique de Confidentialité',
+        navTerms: 'Conditions Générales', navAbout: 'À Propos', navContact: 'Contactez-Nous',
+        heroBadge: 'Gratuit · Rapide · Illimité',
+        heroLine1: 'Bienvenue sur TOUT-EN-UN', heroLine2: 'Outils',
+        heroSub: 'TOUT-EN-UN est une plateforme où vous pouvez obtenir tous les outils gratuitement!!!',
+        ctaExplore: 'Explorer les Outils', ctaLearn: 'En Savoir Plus',
+        scrollHint: 'Faire Défiler',
+        toolsEye: 'Notre Boîte à Outils', toolsTitleA: '10 Outils Puissants,', toolsTitleB: 'Zéro Coût',
+        pricingTitle: 'Bientôt Disponible!',
+        pricingMsg: 'Cette fonctionnalité sera bientôt disponible.<br>Nous préparons quelque chose d\'extraordinaire pour vous.',
+        modalClose: 'Super, compris!',
+        modeLabel: 'Mode Sombre', modeLabelLight: 'Mode Clair',
+        footerTagline: 'Votre destination tout-en-un pour des outils puissants et gratuits. Aucun coût, aucune limite.',
+        footerLegal: 'Juridique', footerCompany: 'Entreprise', footerTools: 'Outils',
+        footerCopy: '© 2025 TOUT-EN-UN. Tous droits réservés.',
+        pill1: 'Gratuit pour Toujours', pill2: 'Pas d\'Inscription', pill3: '100% Privé',
+        toolAction: 'Ouvrir l\'Outil →',
+        t0n: 'Compresser l\'Image', t0d: 'Réduisez la taille des fichiers image sans perdre en qualité.',
+        t1n: 'Image en PDF', t1d: 'Transformez n\'importe quelle image en un document PDF poli instantanément.',
+        t2n: 'Fusionner PDF', t2d: 'Combinez plusieurs PDF en un seul fichier unifié.',
+        t3n: 'Organiser PDF', t3d: 'Réorganisez, faites pivoter et gérez les pages de vos PDF avec facilité.',
+        t4n: 'PDF en Image', t4d: 'Extrayez des images nettes et haute résolution de n\'importe quel PDF.',
+        t5n: 'PDF en Texte', t5d: 'Convertissez le contenu PDF en fichiers texte brut entièrement modifiables.',
+        t6n: 'Compresser PDF', t6d: 'Réduisez considérablement la taille des PDF tout en conservant une qualité optimale.',
+        t7n: 'Diviser PDF', t7d: 'Divisez les grands PDF en plusieurs documents ciblés.',
+        t8n: 'Excel, Word & PPT en PDF', t8d: 'Convertissez les fichiers Word, Excel ou PowerPoint en documents PDF professionnels.',
+        t9n: 'PDF en Excel, Word & PPT', t9d: 'Transformez les fichiers PDF en formats Word, Excel ou PowerPoint modifiables.'
+      },
+      de: {
+        brand: 'ALL-IN-EINEM', menuTitle: 'Navigation',
+        navPricing: 'Preise', navLang: 'Sprache', navPrivacy: 'Datenschutzrichtlinie',
+        navTerms: 'Allgemeine Geschäftsbedingungen', navAbout: 'Über Uns', navContact: 'Kontaktieren Sie Uns',
+        heroBadge: 'Kostenlos · Schnell · Unbegrenzt',
+        heroLine1: 'Willkommen bei ALL-IN-EINEM', heroLine2: 'Tools',
+        heroSub: 'ALL-IN-EINEM ist eine Plattform, auf der Sie alle Tools kostenlos erhalten können!!!',
+        ctaExplore: 'Tools Erkunden', ctaLearn: 'Mehr Erfahren',
+        scrollHint: 'Scrollen',
+        toolsEye: 'Unser Werkzeugkasten', toolsTitleA: '10 Leistungsstarke Tools,', toolsTitleB: 'Null Kosten',
+        pricingTitle: 'Demnächst!',
+        pricingMsg: 'Diese Funktion wird bald verfügbar sein.<br>Wir erstellen etwas Außergewöhnliches für Sie.',
+        modalClose: 'Super, verstanden!',
+        modeLabel: 'Dunkelmodus', modeLabelLight: 'Hellmodus',
+        footerTagline: 'Ihr All-in-One-Ziel für leistungsstarke, kostenlose Tools. Keine Kosten, keine Grenzen.',
+        footerLegal: 'Rechtliches', footerCompany: 'Unternehmen', footerTools: 'Tools',
+        footerCopy: '© 2025 ALL-IN-EINEM. Alle Rechte vorbehalten.',
+        pill1: 'Für Immer Kostenlos', pill2: 'Keine Anmeldung', pill3: '100% Privat',
+        toolAction: 'Tool Öffnen →',
+        t0n: 'Bild Komprimieren', t0d: 'Reduzieren Sie die Bilddateigrößen ohne Qualitätsverlust.',
+        t1n: 'Bild zu PDF', t1d: 'Wandeln Sie jedes Bild sofort in ein professionelles PDF-Dokument um.',
+        t2n: 'PDF Zusammenführen', t2d: 'Kombinieren Sie mehrere PDFs zu einer nahtlosen, einheitlichen Datei.',
+        t3n: 'PDF Organisieren', t3d: 'Ordnen Sie Ihre PDF-Seiten neu an, drehen Sie sie und verwalten Sie sie mit Leichtigkeit.',
+        t4n: 'PDF zu Bild', t4d: 'Extrahieren Sie scharfe, hochauflösende Bilder aus jedem PDF.',
+        t5n: 'PDF zu Text', t5d: 'Wandeln Sie PDF-Inhalte in vollständig editierbare Textdateien um.',
+        t6n: 'PDF Komprimieren', t6d: 'Verkleinern Sie die PDF-Größen dramatisch, während die volle Qualität erhalten bleibt.',
+        t7n: 'PDF Aufteilen', t7d: 'Teilen Sie große PDFs in mehrere fokussierte Dokumente auf.',
+        t8n: 'Excel, Word & PPT zu PDF', t8d: 'Konvertieren Sie Word-, Excel- oder PowerPoint-Dateien in professionelle PDF-Dokumente.',
+        t9n: 'PDF zu Excel, Word & PPT', t9d: 'Transformieren Sie PDF-Dateien zurück in editierbare Word-, Excel- oder PowerPoint-Formate.'
+      },
+      hi: {
+        brand: 'ऑल-इन-वन', menuTitle: 'नेविगेशन',
+        navPricing: 'कीमत', navLang: 'भाषा', navPrivacy: 'गोपनीयता नीति', navTerms: 'नियम और शर्तें',
+        navAbout: 'हमारे बारे में', navContact: 'संपर्क करें',
+        heroBadge: 'मुफ्त · तेज · असीमित',
+        heroLine1: 'ऑल-इन-वन टूल्स', heroLine2: 'में आपका स्वागत है',
+        heroSub: 'ऑल-इन-वन एक ऐसा प्लेटफॉर्म है जहां आप सभी टूल्स मुफ्त में पा सकते हैं!!!',
+        ctaExplore: 'टूल्स देखें', ctaLearn: 'और जानें', scrollHint: 'स्क्रॉल करें',
+        toolsEye: 'हमारा टूलकिट', toolsTitleA: '10 शक्तिशाली टूल्स,', toolsTitleB: 'जीरो कॉस्ट',
+        pricingTitle: 'जल्द आ रहा है!', pricingMsg: 'यह सुविधा जल्द ही उपलब्ध होगी।', modalClose: 'ठीक है!',
+        modeLabel: 'डार्क मोड', modeLabelLight: 'लाइट मोड',
+        footerTagline: 'शक्तिशाली, मुफ्त टूल्स के लिए आपका ऑल-इन-वन गंतव्य। कोई लागत नहीं, कोई सीमा नहीं।',
+        footerLegal: 'कानूनी', footerCompany: 'कंपनी', footerTools: 'टूल्स',
+        footerCopy: '© 2025 ऑल-इन-वन। सभी अधिकार सुरक्षित।',
+        pill1: 'हमेशा मुफ्त', pill2: 'कोई साइन-अप नहीं', pill3: '100% प्राइवेट',
+        toolAction: 'टूल खोलें →',
+        t0n: 'इमेज कंप्रेस', t0d: 'बिना क्वालिटी खोए इमेज फाइल का साइज कम करें।',
+        t1n: 'इमेज से PDF', t1d: 'किसी भी इमेज को तुरंत PDF में बदलें।',
+        t2n: 'PDF मर्ज करें', t2d: 'कई PDF को एक फाइल में जोड़ें।',
+        t3n: 'PDF व्यवस्थित करें', t3d: 'आसानी से अपने PDF पेजों को पुनर्व्यवस्थित और प्रबंधित करें।',
+        t4n: 'PDF से इमेज', t4d: 'किसी भी PDF से स्पष्ट, उच्च-रिज़ॉल्यूशन वाली इमेज निकालें।',
+        t5n: 'PDF से टेक्स्ट', t5d: 'PDF सामग्री को पूरी तरह से संपादन योग्य टेक्स्ट में बदलें।',
+        t6n: 'PDF कंप्रेस', t6d: 'क्वालिटी बनाए रखते हुए PDF साइज कम करें।',
+        t7n: 'PDF विभाजित करें', t7d: 'बड़े PDF को कई छोटे दस्तावेज़ों में विभाजित करें।',
+        t8n: 'एक्सेल, वर्ड & PPT से PDF', t8d: 'वर्ड, एक्सेल, या पावरपॉइंट फाइल्स को प्रोफेशनल PDF दस्तावेज़ में परिवर्तित करें।',
+        t9n: 'PDF से एक्सेल, वर्ड & PPT', t9d: 'PDF फाइल्स को वापस एडिटेबल वर्ड, एक्सेल, या पावरपॉइंट फॉर्मेट में परिवर्तित करें।'
+      },
+      ja: {
+        brand: 'オールインワン', menuTitle: 'ナビゲーション',
+        navPricing: '料金', navLang: '言語', navPrivacy: 'プライバシーポリシー',
+        navTerms: '利用規約', navAbout: '会社概要', navContact: 'お問い合わせ',
+        heroBadge: '無料 · 高速 · 無制限',
+        heroLine1: 'オールインワンへ', heroLine2: 'ようこそ',
+        heroSub: 'オールインワンはすべてのツールを無料で使えるプラットフォームです!!!',
+        ctaExplore: 'ツールを見る', ctaLearn: '詳細を見る',
+        scrollHint: 'スクロール',
+        toolsEye: 'ツールキット', toolsTitleA: '10つの強力なツール、', toolsTitleB: 'ゼロコスト',
+        pricingTitle: '近日公開！',
+        pricingMsg: 'この機能は近日公開予定です。<br>素晴らしいものを準備中です。',
+        modalClose: '了解しました！',
+        modeLabel: 'ダークモード', modeLabelLight: 'ライトモード',
+        footerTagline: '強力な無料ツールのオールインワンプラットフォーム。コストゼロ、制限なし。',
+        footerLegal: '法的事項', footerCompany: '会社情報', footerTools: 'ツール',
+        footerCopy: '© 2025 オールインワン。無断複製禁止。',
+        pill1: '永久無料', pill2: '登録不要', pill3: '100% プライベート',
+        toolAction: 'ツールを開く →',
+        t0n: '画像圧縮', t0d: '画質を維持しながらサイズを削減。',
+        t1n: '画像→PDF', t1d: '任意の画像を即座にPDFに変換。',
+        t2n: 'PDF結合', t2d: '複数のPDFを1つのファイルに統合。',
+        t3n: 'PDF整理', t3d: 'PDFページの並べ替え・管理を簡単に。',
+        t4n: 'PDF→画像', t4d: 'PDFから高解像度画像を抽出。',
+        t5n: 'PDF→テキスト', t5d: 'PDFをテキストファイルに変換。',
+        t6n: 'PDF圧縮', t6d: '品質を保ちながらPDFサイズを縮小。',
+        t7n: 'PDF分割', t7d: '大きなPDFを複数に分割。',
+        t8n: 'Excel、Word & PPTをPDFに', t8d: 'Word、Excel、またはPowerPointファイルをプロフェッショナルなPDFドキュメントに変換。',
+        t9n: 'PDFをExcel、Word & PPTに', t9d: 'PDFファイルを編集可能なWord、Excel、またはPowerPoint形式に変換。'
+      },
+      ar: {
+        brand: 'الكل في واحد', menuTitle: 'التنقل',
+        navPricing: 'الأسعار', navLang: 'اللغة', navPrivacy: 'سياسة الخصوصية',
+        navTerms: 'الشروط والأحكام', navAbout: 'عننا', navContact: 'اتصل بنا',
+        heroBadge: 'مجاني · سريع · غير محدود',
+        heroLine1: 'مرحبًا بك في', heroLine2: 'الكل في واحد',
+        heroSub: 'الكل في واحد هو منصة يمكنك من خلالها الحصول على جميع الأدوات مجانًا!!!',
+        ctaExplore: 'استكشاف الأدوات', ctaLearn: 'المزيد', scrollHint: 'تمرير',
+        toolsEye: 'عدة أدواتنا', toolsTitleA: '10 أدوات قوية،', toolsTitleB: 'بدون تكلفة',
+        pricingTitle: 'قريبًا!', pricingMsg: 'سيكون هذا الميزة متاحة قريبًا.<br>نحن نعد شيء استثنائي لك.',
+        modalClose: 'رائع، فهمت!',
+        modeLabel: 'الوضع الليلي', modeLabelLight: 'الوضع النهاري',
+        footerTagline: 'وجهتك الشاملة للأدوات القوية والمجانية. بدون تكلفة، بدون حدود.',
+        footerLegal: 'القانوني', footerCompany: 'الشركة', footerTools: 'الأدوات',
+        footerCopy: '© 2025 الكل في واحد. جميع الحقوق محفوظة.',
+        pill1: 'مجاني إلى الأبد', pill2: 'لا تسجيل', pill3: '100% خاص',
+        toolAction: 'فتح الأداة →',
+        t0n: 'ضغط الصور', t0d: 'تقليل حجم ملفات الصور دون فقدان الجودة.',
+        t1n: 'تحويل الصور إلى PDF', t1d: 'حول أي صورة إلى مستند PDF محترف على الفور.',
+        t2n: 'دمج PDF', t2d: 'دمج ملفات PDF متعددة في ملف موحد واحد.',
+        t3n: 'تنظيم PDF', t3d: 'إعادة ترتيب ودوران وإدارة صفحات PDF بسهولة.',
+        t4n: 'PDF إلى صور', t4d: 'استخراج صور عالية الدقة من أي ملف PDF.',
+        t5n: 'PDF إلى نص', t5d: 'تحويل محتوى PDF إلى ملفات نصية قابلة للتحرير بالكامل.',
+        t6n: 'ضغط PDF', t6d: 'تقليل حجم ملفات PDF بشكل كبير مع الحفاظ على الجودة الكاملة.',
+        t7n: 'تقسيم PDF', t7d: 'تقسيم ملفات PDF الكبيرة إلى مستندات متعددة.',
+        t8n: 'Excel وWord وPPT إلى PDF', t8d: 'تحويل ملفات Word أو Excel أو PowerPoint إلى مستندات PDF احترافية.',
+        t9n: 'PDF إلى Excel وWord وPPT', t9d: 'تحويل ملفات PDF مرة أخرى إلى Formats Word أو Excel أو PowerPoint القابلة للتحرير.'
+      },
+      ru: {
+        brand: 'ВСЁ-В-ОДНОМ', menuTitle: 'Навигация',
+        navPricing: 'Цены', navLang: 'Язык', navPrivacy: 'Политика Конфиденциальности',
+        navTerms: 'Условия Использования', navAbout: 'О Нас', navContact: 'Связаться с Нами',
+        heroBadge: 'Бесплатно · Быстро · Без Ограничений',
+        heroLine1: 'Добро пожаловать в', heroLine2: 'ВСЁ-В-ОДНОМ',
+        heroSub: 'ВСЁ-В-ОДНОМ - это платформа, где вы можете получить все инструменты бесплатно!!!',
+        ctaExplore: 'Исследовать Инструменты', ctaLearn: 'Узнать Больше',
+        scrollHint: 'Прокрутить',
+        toolsEye: 'Наш Набор Инструментов', toolsTitleA: '10 Мощных Инструментов,', toolsTitleB: 'Нулевая Стоимость',
+        pricingTitle: 'Скоро!',
+        pricingMsg: 'Эта функция будет доступна в ближайшее время.<br>Мы создаем что-то особенное для вас.',
+        modalClose: 'Отлично, понял!',
+        modeLabel: 'Темный Режим', modeLabelLight: 'Светлый Режим',
+        footerTagline: 'Ваше универсальное место для мощных и бесплатных инструментов. Без стоимости, без ограничений.',
+        footerLegal: 'Юридическая Информация', footerCompany: 'Компания', footerTools: 'Инструменты',
+        footerCopy: '© 2025 ВСЁ-В-ОДНОМ. Все права защищены.',
+        pill1: 'Бесплатно Навсегда', pill2: 'Без Регистрации', pill3: '100% Приватность',
+        toolAction: 'Открыть Инструмент →',
+        t0n: 'Сжатие Изображений', t0d: 'Уменьшите размер файлов изображений без потери качества.',
+        t1n: 'Изображение в PDF', t1d: 'Мгновенно преобразуйте любое изображение в профессиональный PDF-документ.',
+        t2n: 'Объединить PDF', t2d: 'Объедините несколько PDF-файлов в один единый файл.',
+        t3n: 'Организовать PDF', t3d: 'Переставляйте, поворачивайте и управляйте страницами ваших PDF-файлов с легкостью.',
+        t4n: 'PDF в Изображение', t4d: 'Извлекайте четкие изображения высокого разрешения из любого PDF.',
+        t5n: 'PDF в Текст', t5d: 'Преобразуйте содержимое PDF в полностью редактируемые текстовые файлы.',
+        t6n: 'Сжать PDF', t6d: 'Значительно уменьшите размер PDF-файлов, сохраняя полное качество.',
+        t7n: 'Разделить PDF', t7d: 'Разделите большие PDF-файлы на несколько целевых документов.',
+        t8n: 'Excel, Word & PPT в PDF', t8d: 'Преобразуйте файлы Word, Excel или PowerPoint в профессиональные PDF-документы.',
+        t9n: 'PDF в Excel, Word & PPT', t9d: 'Преобразуйте PDF-файлы обратно в редактируемые форматы Word, Excel или PowerPoint.'
+      },
+      pt: {
+        brand: 'TUDO-EM-UM', menuTitle: 'Navegação',
+        navPricing: 'Preços', navLang: 'Idioma', navPrivacy: 'Política de Privacidade',
+        navTerms: 'Termos e Condições', navAbout: 'Sobre Nós', navContact: 'Contate-Nos',
+        heroBadge: 'Grátis · Rápido · Ilimitado',
+        heroLine1: 'Bem-vindo ao TUDO-EM-UM', heroLine2: 'Ferramentas',
+        heroSub: 'TUDO-EM-UM é uma plataforma onde você pode obter todas as ferramentas de graça!!!',
+        ctaExplore: 'Explorar Ferramentas', ctaLearn: 'Saiba Mais',
+        scrollHint: 'Rolar',
+        toolsEye: 'Nosso Kit de Ferramentas', toolsTitleA: '10 Ferramentas Poderosas,', toolsTitleB: 'Custo Zero',
+        pricingTitle: 'Em Breve!',
+        pricingMsg: 'Este recurso estará disponível em breve.<br>Estamos criando algo extraordinário para você.',
+        modalClose: 'Ótimo, entendi!',
+        modeLabel: 'Modo Escuro', modeLabelLight: 'Modo Claro',
+        footerTagline: 'Seu destino tudo-em-um para ferramentas poderosas e gratuitas. Sem custo, sem limites.',
+        footerLegal: 'Jurídico', footerCompany: 'Empresa', footerTools: 'Ferramentas',
+        footerCopy: '© 2025 TUDO-EM-UM. Todos os direitos reservados.',
+        pill1: 'Grátis para Sempre', pill2: 'Sem Cadastro', pill3: '100% Privado',
+        toolAction: 'Abrir Ferramenta →',
+        t0n: 'Comprimir Imagem', t0d: 'Reduza o tamanho dos arquivos de imagem sem perder qualidade.',
+        t1n: 'Imagem para PDF', t1d: 'Transforme qualquer imagem em um documento PDF polido instantaneamente.',
+        t2n: 'Mesclar PDF', t2d: 'Combine vários PDFs em um único arquivo unificado.',
+        t3n: 'Organizar PDF', t3d: 'Reorganize, gire e gerencie as páginas de seus PDFs com facilidade.',
+        t4n: 'PDF para Imagem', t4d: 'Extraia imagens nítidas e de alta resolução de qualquer PDF.',
+        t5n: 'PDF para Texto', t5d: 'Converta o conteúdo do PDF em arquivos de texto simples totalmente editáveis.',
+        t6n: 'Comprimir PDF', t6d: 'Reduza drasticamente os tamanhos dos PDFs mantendo a qualidade total.',
+        t7n: 'Dividir PDF', t7d: 'Divida PDFs grandes em vários documentos focados.',
+        t8n: 'Excel, Word & PPT para PDF', t8d: 'Converta arquivos do Word, Excel ou PowerPoint em documentos PDF profissionais.',
+        t9n: 'PDF para Excel, Word & PPT', t9d: 'Transforme arquivos PDF de volta em formatos editáveis do Word, Excel ou PowerPoint.'
+      },
+      it: {
+        brand: 'TUTTO-IN-UNO', menuTitle: 'Navigazione',
+        navPricing: 'Prezzi', navLang: 'Lingua', navPrivacy: 'Politica sulla Privacy',
+        navTerms: 'Termini e Condizioni', navAbout: 'Chi Siamo', navContact: 'Contattaci',
+        heroBadge: 'Gratis · Veloce · Illimitato',
+        heroLine1: 'Benvenuto in TUTTO-IN-UNO', heroLine2: 'Strumenti',
+        heroSub: 'TUTTO-IN-UNO è una piattaforma dove puoi ottenere tutti gli strumenti gratuitamente!!!',
+        ctaExplore: 'Esplora Strumenti', ctaLearn: 'Scopri di Più',
+        scrollHint: 'Scorri',
+        toolsEye: 'Il Nostro Kit di Strumenti', toolsTitleA: '10 Strumenti Potenti,', toolsTitleB: 'Costo Zero',
+        pricingTitle: 'Prossimamente!',
+        pricingMsg: 'Questa funzione sarà disponibile presto.<br>Stiamo creando qualcosa di straordinario per te.',
+        modalClose: 'Fantastico, ho capito!',
+        modeLabel: 'Modalità Scura', modeLabelLight: 'Modalità Chiara',
+        footerTagline: 'La tua destinazione tutto-in-uno per strumenti potenti e gratuiti. Nessun costo, nessun limite.',
+        footerLegal: 'Legale', footerCompany: 'Azienda', footerTools: 'Strumenti',
+        footerCopy: '© 2025 TUTTO-IN-UNO. Tutti i diritti riservati.',
+        pill1: 'Gratis per Sempre', pill2: 'Nessuna Registrazione', pill3: '100% Privato',
+        toolAction: 'Apri Strumento →',
+        t0n: 'Comprimi Immagine', t0d: 'Riduce le dimensioni dei file immagine senza perdere qualità.',
+        t1n: 'Immagine in PDF', t1d: 'Trasforma qualsiasi immagine in un documento PDF raffinato istantaneamente.',
+        t2n: 'Unisci PDF', t2d: 'Combina più PDF in un unico file unificato.',
+        t3n: 'Organizza PDF', t3d: 'Riordina, ruota e gestisci le pagine dei tuoi PDF con facilità.',
+        t4n: 'PDF in Immagine', t4d: 'Estrai immagini nitide e ad alta risoluzione da qualsiasi PDF.',
+        t5n: 'PDF in Testo', t5d: 'Converti il contenuto PDF in file di testo semplice completamente modificabili.',
+        t6n: 'Comprimi PDF', t6d: 'Riduce drasticamente le dimensioni dei PDF mantenendo la qualità completa.',
+        t7n: 'Dividi PDF', t7d: 'Dividi PDF grandi in più documenti mirati.',
+        t8n: 'Excel, Word & PPT in PDF', t8d: 'Converti file Word, Excel o PowerPoint in documenti PDF professionali.',
+        t9n: 'PDF in Excel, Word & PPT', t9d: 'Trasforma i file PDF nuovamente in formati Word, Excel o PowerPoint modificabili.'
+      },
+      ko: {
+        brand: '올인원', menuTitle: '네비게이션',
+        navPricing: '가격', navLang: '언어', navPrivacy: '개인정보 정책',
+        navTerms: '이용 약관', navAbout: '회사 소개', navContact: '연락처',
+        heroBadge: '무료 · 빠름 · 무제한',
+        heroLine1: '올인원에 오신 것을 환영합니다', heroLine2: '도구',
+        heroSub: '올인원은 모든 도구를 무료로 제공하는 플랫폼입니다!!!',
+        ctaExplore: '도구 탐색', ctaLearn: '더 알아보기',
+        scrollHint: '스크롤',
+        toolsEye: '우리의 도구 키트', toolsTitleA: '10개의 강력한 도구,', toolsTitleB: '제로 비용',
+        pricingTitle: '곧 출시!',
+        pricingMsg: '이 기능은 곧 사용할 수 있습니다.<br>당신을 위한 특별한 것을 준비 중입니다.',
+        modalClose: '좋아요, 알았습니다!',
+        modeLabel: '다크 모드', modeLabelLight: '라이트 모드',
+        footerTagline: '강력하고 무료 도구의 올인원 목적지. 비용 없음, 제한 없음.',
+        footerLegal: '법적 정보', footerCompany: '회사', footerTools: '도구',
+        footerCopy: '© 2025 올인원. 모든 권리 보유.',
+        pill1: '영구 무료', pill2: '가입 불필요', pill3: '100% 개인',
+        toolAction: '도구 열기 →',
+        t0n: '이미지 압축', t0d: '품질 손실 없이 이미지 파일 크기를 줄입니다.',
+        t1n: '이미지를 PDF로', t1d: '모든 이미지를 즉시 다듬어진 PDF 문서로 변환합니다.',
+        t2n: 'PDF 병합', t2d: '여러 PDF를 하나의 통합 파일로 결합합니다.',
+        t3n: 'PDF 정리', t3d: 'PDF 페이지를 쉽게 재정렬, 회전 및 관리합니다.',
+        t4n: 'PDF를 이미지로', t4d: '모든 PDF에서 선명하고 고해상도 이미지를 추출합니다.',
+        t5n: 'PDF를 텍스트로', t5d: 'PDF 콘텐츠를 완전히 편집 가능한 일반 텍스트 파일로 변환합니다.',
+        t6n: 'PDF 압축', t6d: '품질을 유지하면서 PDF 크기를 크게 줄입니다.',
+        t7n: 'PDF 분할', t7d: '큰 PDF를 여러 개의 집중된 문서로 분할합니다.',
+        t8n: 'Excel, Word & PPT를 PDF로', t8d: 'Word, Excel 또는 PowerPoint 파일을 전문적인 PDF 문서로 변환합니다.',
+        t9n: 'PDF를 Excel, Word & PPT로', t9d: 'PDF 파일을 다시 편집 가능한 Word, Excel 또는 PowerPoint 형식으로 변환합니다.'
+      },
+      nl: {
+        brand: 'ALL-IN-ONE', menuTitle: 'Navigatie',
+        navPricing: 'Prijzen', navLang: 'Taal', navPrivacy: 'Privacybeleid',
+        navTerms: 'Algemene Voorwaarden', navAbout: 'Over Ons', navContact: 'Contacteer Ons',
+        heroBadge: 'Gratis · Snel · Onbeperkt',
+        heroLine1: 'Welkom bij ALL-IN-ONE', heroLine2: 'Tools',
+        heroSub: 'ALL-IN-ONE is een platform waar je alle tools gratis kunt krijgen!!!',
+        ctaExplore: 'Tools Ontdekken', ctaLearn: 'Meer Weten',
+        scrollHint: 'Scrollen',
+        toolsEye: 'Onze Toolkit', toolsTitleA: '10 Krachtige Tools,', toolsTitleB: 'Nul Kosten',
+        pricingTitle: 'Binnenkort!',
+        pricingMsg: 'Deze functie is binnenkort beschikbaar.<br>We maken iets buitengewoons voor je.',
+        modalClose: 'Geweldig, begrepen!',
+        modeLabel: 'Donkere Modus', modeLabelLight: 'Lichte Modus',
+        footerTagline: 'Jouw all-in-one bestemming voor krachtige, gratis tools. Geen kosten, geen beperkingen.',
+        footerLegal: 'Juridisch', footerCompany: 'Bedrijf', footerTools: 'Tools',
+        footerCopy: '© 2025 ALL-IN-ONE. Alle rechten voorbehouden.',
+        pill1: 'Voor Altijd Gratis', pill2: 'Geen Registratie', pill3: '100% Privé',
+        toolAction: 'Tool Openen →',
+        t0n: 'Afbeelding Comprimeren', t0d: 'Verklein afbeeldingsbestandsgroottes zonder kwaliteitsverlies.',
+        t1n: 'Afbeelding naar PDF', t1d: 'Verander elke afbeelding direct in een gepolijst PDF-document.',
+        t2n: 'PDF Samenvoegen', t2d: 'Combineer meerdere PDF\'s in één naadloos, uniform bestand.',
+        t3n: 'PDF Organiseren', t3d: 'Herschik, draai en beheer je PDF-pagina\'s met gemak.',
+        t4n: 'PDF naar Afbeelding', t4d: 'Extraheer scherpe, hoogwaardige afbeeldingen uit elke PDF.',
+        t5n: 'PDF naar Tekst', t5d: 'Converteer PDF-inhoud in volledig bewerkbare tekstbestanden.',
+        t6n: 'PDF Comprimeren', t6d: 'Verklein PDF-groottes aanzienlijk terwijl de volledige kwaliteit behouden blijft.',
+        t7n: 'PDF Splitsen', t7d: 'Deel grote PDF\'s op in meerdere gefocuste documenten.',
+        t8n: 'Excel, Word & PPT naar PDF', t8d: 'Converteer Word-, Excel- of PowerPoint-bestanden naar professionele PDF-documenten.',
+        t9n: 'PDF naar Excel, Word & PPT', t9d: 'Transformeer PDF-bestanden terug naar bewerkbare Word-, Excel- of PowerPoint-formaten.'
+      },
+      tr: {
+        brand: 'HEPSİ-BİR-ARADA', menuTitle: 'Gezinme',
+        navPricing: 'Fiyatlandırma', navLang: 'Dil', navPrivacy: 'Gizlilik Politikası',
+        navTerms: 'Kullanım Şartları', navAbout: 'Hakkımızda', navContact: 'İletişim',
+        heroBadge: 'Ücretsiz · Hızlı · Sınırsız',
+        heroLine1: 'HEPSİ-BİR-ARADA\'ya Hoş Geldiniz', heroLine2: 'Araçlar',
+        heroSub: 'HEPSİ-BİR-ARADA, tüm araçları ücretsiz olarak elde edebileceğiniz bir platformdur!!!',
+        ctaExplore: 'Araçları Keşfedin', ctaLearn: 'Daha Fazla Bilgi',
+        scrollHint: 'Kaydır',
+        toolsEye: 'Araç Setimiz', toolsTitleA: '10 Güçlü Araç,', toolsTitleB: 'Sıfır Maliyet',
+        pricingTitle: 'Yakında!',
+        pricingMsg: 'Bu özellik yakında kullanılabilir olacak.<br>Sizin için olağanüstü bir şey hazırlıyoruz.',
+        modalClose: 'Harika, anladım!',
+        modeLabel: 'Koyu Mod', modeLabelLight: 'Açık Mod',
+        footerTagline: 'Güçlü, ücretsiz araçlar için tek durak noktanız. Maliyet yok, sınır yok.',
+        footerLegal: 'Yasal', footerCompany: 'Şirket', footerTools: 'Araçlar',
+        footerCopy: '© 2025 HEPSİ-BİR-ARADA. Tüm hakları saklıdır.',
+        pill1: 'Sonsuza Dek Ücretsiz', pill2: 'Kayıt Gerekmez', pill3: 'Tamamen Özel',
+        toolAction: 'Aracı Aç →',
+        t0n: 'Resmi Sıkıştır', t0d: 'Kalite kaybı olmadan resim dosya boyutlarını küçültün.',
+        t1n: 'Resimden PDF\'ye', t1d: 'Herhangi bir resmi anında düzgün bir PDF belgesine dönüştürün.',
+        t2n: 'PDF\'leri Birleştir', t2d: 'Birden fazla PDF\'yi sorunsuz, tek bir dosyada birleştirin.',
+        t3n: 'PDF\'yi Düzenle', t3d: 'PDF sayfalarınızı kolayca yeniden sıralayın, döndürün ve yönetin.',
+        t4n: 'PDF\'den Resime', t4d: 'Herhangi bir PDF\'den net, yüksek çözünürlüklü resimler çıkarın.',
+        t5n: 'PDF\'den Metne', t5d: 'PDF içeriğini tamamen düzenlenebilir düz metin dosyalarına dönüştürün.',
+        t6n: 'PDF\'yi Sıkıştır', t6d: 'PDF boyutlarını tam kaliteyi koruyarak önemli ölçüde küçültün.',
+        t7n: 'PDF\'yi Böl', t7d: 'Büyük PDF\'leri birkaç odaklanmış belgeye bölün.',
+        t8n: 'Excel, Word & PPT\'yi PDF\'ye', t8d: 'Word, Excel veya PowerPoint dosyalarını profesyonel PDF belgelerine dönüştürün.',
+        t9n: 'PDF\'yi Excel, Word & PPT\'ye', t9d: 'PDF dosyalarını düzenlenebilir Word, Excel veya PowerPoint formatlarına geri dönüştürün.'
+      },
+      pl: {
+        brand: 'WSZYSTKO-W-JEDNYM', menuTitle: 'Nawigacja',
+        navPricing: 'Cennik', navLang: 'Język', navPrivacy: 'Polityka Prywatności',
+        navTerms: 'Regulamin', navAbout: 'O Nas', navContact: 'Kontakt',
+        heroBadge: 'Darmowe · Szybkie · Bez Ograniczeń',
+        heroLine1: 'Witaj w WSZYSTKO-W-JEDNYM', heroLine2: 'Narzędzia',
+        heroSub: 'WSZYSTKO-W-JEDNYM to platforma, gdzie możesz uzyskać wszystkie narzędzia za darmo!!!',
+        ctaExplore: 'Odkryj Narzędzia', ctaLearn: 'Dowiedz się Więcej',
+        scrollHint: 'Przewiń',
+        toolsEye: 'Nasze Zestawy Narzędzi', toolsTitleA: '10 Potężnych Narzędzi,', toolsTitleB: 'Zero Kosztów',
+        pricingTitle: 'Wkrótce!',
+        pricingMsg: 'Ta funkcja będzie wkrótce dostępna.<br>Przygotowujemy dla Ciebie coś wyjątkowego.',
+        modalClose: 'Świetnie, zrozumiałem!',
+        modeLabel: 'Tryb Ciemny', modeLabelLight: 'Tryb Jasny',
+        footerTagline: 'Twoje kompleksowe miejsce docelowe dla potężnych, darmowych narzędzi. Zero kosztów, zero ograniczeń.',
+        footerLegal: 'Prawne', footerCompany: 'Firma', footerTools: 'Narzędzia',
+        footerCopy: '© 2025 WSZYSTKO-W-JEDNYM. Wszelkie prawa zastrzeżone.',
+        pill1: 'Zawsze Darmowe', pill2: 'Bez Rejestracji', pill3: '100% Prywatne',
+        toolAction: 'Otwórz Narzędzie →',
+        t0n: 'Kompresja Obrazu', t0d: 'Zmniejsz rozmiar plików graficznych bez utraty jakości.',
+        t1n: 'Obraz do PDF', t1d: 'Natychmiast przekształć dowolny obraz w dopracowany dokument PDF.',
+        t2n: 'Scal PDF', t2d: 'Połącz wiele plików PDF w jeden spójny plik.',
+        t3n: 'Organizuj PDF', t3d: 'Przeorganizuj, obracaj i zarządzaj stronami swoich plików PDF z łatwością.',
+        t4n: 'PDF do Obrazu', t4d: 'Wyodrębnij ostre, wysokiej rozdzielczości obrazy z dowolnego pliku PDF.',
+        t5n: 'PDF do Tekstu', t5d: 'Przekształć zawartość PDF w całkowicie edytowalne pliki tekstowe.',
+        t6n: 'Kompresja PDF', t6d: 'Zmniejsz rozmiar plików PDF, zachowując pełną jakość.',
+        t7n: 'Podziel PDF', t7d: 'Podziel duże pliki PDF na wiele ukierunkowanych dokumentów.',
+        t8n: 'Excel, Word & PPT do PDF', t8d: 'Przekształć pliki Word, Excel lub PowerPoint w profesjonalne dokumenty PDF.',
+        t9n: 'PDF do Excel, Word & PPT', t9d: 'Przekształć pliki PDF z powrotem w edytowalne formaty Word, Excel lub PowerPoint.'
+      },
+      sv: {
+        brand: 'ALLT-I-ETT', menuTitle: 'Navigation',
+        navPricing: 'Priser', navLang: 'Språk', navPrivacy: 'Integritetspolicy',
+        navTerms: 'Användarvillkor', navAbout: 'Om Oss', navContact: 'Kontakta Oss',
+        heroBadge: 'Gratis · Snabb · Obegränsat',
+        heroLine1: 'Välkommen till ALLT-I-ETT', heroLine2: 'Verktyg',
+        heroSub: 'ALLT-I-ETT är en plattform där du kan få alla verktyg gratis!!!',
+        ctaExplore: 'Utforska Verktyg', ctaLearn: 'Lär Dig Mer',
+        scrollHint: 'Scrolla',
+        toolsEye: 'Vårt Verktygspaket', toolsTitleA: '10 Kraftfulla Verktyg,', toolsTitleB: 'Noll Kostnad',
+        pricingTitle: 'Kommer Snart!',
+        pricingMsg: 'Denna funktion kommer snart att finnas tillgänglig.<br>Vi skapar något extraordinärt åt dig.',
+        modalClose: 'Toppen, förstått!',
+        modeLabel: 'Mörkt Läge', modeLabelLight: 'Ljust Läge',
+        footerTagline: 'Din allt-i-ett-destination för kraftfulla, gratis verktyg. Ingen kostnad, inga begränsningar.',
+        footerLegal: 'Juridisk', footerCompany: 'Företag', footerTools: 'Verktyg',
+        footerCopy: '© 2025 ALLT-I-ETT. Alla rättigheter förbehållna.',
+        pill1: 'Gratis För Alltid', pill2: 'Ingen Registrering', pill3: '100% Privat',
+        toolAction: 'Öppna Verktyg →',
+        t0n: 'Komprimera Bild', t0d: 'Minska bildfilsstorlekar utan att förlora kvalitet.',
+        t1n: 'Bild till PDF', t1d: 'Omvandla vilken bild som helst till ett polerat PDF-dokument omedelbart.',
+        t2n: 'Sammanfoga PDF', t2d: 'Kombinera flera PDF:er till en sömlös, enad fil.',
+        t3n: 'Organisera PDF', t3d: 'Omorganisera, rotera och hantera dina PDF-sidor med lätthet.',
+        t4n: 'PDF till Bild', t4d: 'Extrahera skarpa, högupplösta bilder från vilken PDF som helst.',
+        t5n: 'PDF till Text', t5d: 'Omvandla PDF-innehåll till helt redigerbara textfiler.',
+        t6n: 'Komprimera PDF', t6d: 'Minska PDF-storlekar avsevärt samtidigt som full kvalitet behålls.',
+        t7n: 'Dela PDF', t7d: 'Dela upp stora PDF:er i flera fokuserade dokument.',
+        t8n: 'Excel, Word & PPT till PDF', t8d: 'Omvandla Word-, Excel- eller PowerPoint-filer till professionella PDF-dokument.',
+        t9n: 'PDF till Excel, Word & PPT', t9d: 'Omvandla PDF-filer tillbaka till redigerbara Word-, Excel- eller PowerPoint-format.'
+      },
+      id: {
+        brand: 'SEMUA-DI-SATU', menuTitle: 'Navigasi',
+        navPricing: 'Harga', navLang: 'Bahasa', navPrivacy: 'Kebijakan Privasi',
+        navTerms: 'Syarat & Ketentuan', navAbout: 'Tentang Kami', navContact: 'Hubungi Kami',
+        heroBadge: 'Gratis · Cepat · Tanpa Batas',
+        heroLine1: 'Selamat Datang di SEMUA-DI-SATU', heroLine2: 'Alat',
+        heroSub: 'SEMUA-DI-SATU adalah platform di mana Anda bisa mendapatkan semua alat secara gratis!!!',
+        ctaExplore: 'Jelajahi Alat', ctaLearn: 'Pelajari Lebih Lanjut',
+        scrollHint: 'Gulir',
+        toolsEye: 'Kotak Alat Kami', toolsTitleA: '10 Alat Kuat,', toolsTitleB: 'Biaya Nol',
+        pricingTitle: 'Segera Hadir!',
+        pricingMsg: 'Fitur ini akan segera tersedia.<br>Kami sedang menyiapkan sesuatu yang luar biasa untuk Anda.',
+        modalClose: 'Bagus, mengerti!',
+        modeLabel: 'Mode Gelap', modeLabelLight: 'Mode Terang',
+        footerTagline: 'Destinasi semua-dalam-satu Anda untuk alat yang kuat dan gratis. Tanpa biaya, tanpa batas.',
+        footerLegal: 'Hukum', footerCompany: 'Perusahaan', footerTools: 'Alat',
+        footerCopy: '© 2025 SEMUA-DI-SATU. Seluruh hak cipta.',
+        pill1: 'Gratis Selamanya', pill2: 'Tidak Perlu Daftar', pill3: '100% Pribadi',
+        toolAction: 'Buka Alat →',
+        t0n: 'Kompres Gambar', t0d: 'Kurangi ukuran file gambar tanpa kehilangan kualitas.',
+        t1n: 'Gambar ke PDF', t1d: 'Ubah gambar apa pun menjadi dokumen PDF yang rapi secara instan.',
+        t2n: 'Gabungkan PDF', t2d: 'Gabungkan beberapa PDF menjadi satu file yang mulus dan terpadu.',
+        t3n: 'Atur PDF', t3d: 'Susun ulang, putar, dan kelola halaman PDF Anda dengan mudah.',
+        t4n: 'PDF ke Gambar', t4d: 'Ekstrak gambar tajam dan beresolusi tinggi dari PDF apa pun.',
+        t5n: 'PDF ke Teks', t5d: 'Ubah konten PDF menjadi file teks polos yang sepenuhnya dapat diedit.',
+        t6n: 'Kompres PDF', t6d: 'Kurangi ukuran PDF secara dramatis sambil menjaga kualitas penuh.',
+        t7n: 'Pisahkan PDF', t7d: 'Bagi PDF besar menjadi beberapa dokumen terfokus.',
+        t8n: 'Excel, Word & PPT ke PDF', t8d: 'Ubah file Word, Excel, atau PowerPoint menjadi dokumen PDF profesional.',
+        t9n: 'PDF ke Excel, Word & PPT', t9d: 'Ubah file PDF kembali menjadi format Word, Excel, atau PowerPoint yang dapat diedit.'
+      },
+      vi: {
+        brand: 'TẤT-CẢ-TRONG-MỘT', menuTitle: 'Điều Hướng',
+        navPricing: 'Bảng Giá', navLang: 'Ngôn Ngữ', navPrivacy: 'Chính Sách Riêng Tư',
+        navTerms: 'Điều Khoản & Điều Kiện', navAbout: 'Về Chúng Tôi', navContact: 'Liên Hệ Chúng Tôi',
+        heroBadge: 'Miễn Phí · Nhanh · Không Giới Hạn',
+        heroLine1: 'Chào Mừng Đến Với TẤT-CẢ-TRONG-MỘT', heroLine2: 'Công Cụ',
+        heroSub: 'TẤT-CẢ-TRONG-MỘT là nền tảng nơi bạn có thể nhận tất cả các công cụ miễn phí!!!',
+        ctaExplore: 'Khám Phá Công Cụ', ctaLearn: 'Tìm Hiểu Thêm',
+        scrollHint: 'Cuộn',
+        toolsEye: 'Bộ Công Cụ Của Chúng Tôi', toolsTitleA: '10 Công Cụ Mạnh Mẽ,', toolsTitleB: 'Chi Phí Bằng Không',
+        pricingTitle: 'Sắp Ra Mắt!',
+        pricingMsg: 'Tính năng này sẽ sớm có mặt.<br>Chúng tôi đang tạo ra điều gì đó đặc biệt cho bạn.',
+        modalClose: 'Tuyệt vời, tôi hiểu rồi!',
+        modeLabel: 'Chế Độ Tối', modeLabelLight: 'Chế Độ Sáng',
+        footerTagline: 'Điểm đến tất-cả-trong-một của bạn cho các công cụ mạnh mẽ, miễn phí. Không chi phí, không giới hạn.',
+        footerLegal: 'Pháp Lý', footerCompany: 'Công Ty', footerTools: 'Công Cụ',
+        footerCopy: '© 2025 TẤT-CẢ-TRONG-MỘT. Đã đăng ký bản quyền.',
+        pill1: 'Miễn Phí Mãi Mãi', pill2: 'Không Cần Đăng Ký', pill3: '100% Riêng Tư',
+        toolAction: 'Mở Công Cụ →',
+        t0n: 'Nén Ảnh', t0d: 'Giảm kích thước tệp ảnh mà không mất chất lượng.',
+        t1n: 'Ảnh sang PDF', t1d: 'Biến đổi bất kỳ ảnh nào thành tài liệu PDF hoàn chỉnh ngay lập tức.',
+        t2n: 'Hợp Nhất PDF', t2d: 'Kết hợp nhiều PDF thành một tệp thống nhất, liền mạch.',
+        t3n: 'Tổ Chức PDF', t3d: 'Sắp xếp lại, xoay và quản lý các trang PDF của bạn một cách dễ dàng.',
+        t4n: 'PDF sang Ảnh', t4d: 'Trích xuất những hình ảnh sắc nét, độ phân giải cao từ bất kỳ PDF nào.',
+        t5n: 'PDF sang Văn Bản', t5d: 'Chuyển đổi nội dung PDF thành các tệp văn bản thuần túy có thể chỉnh sửa hoàn toàn.',
+        t6n: 'Nén PDF', t6d: 'Giảm đáng kể kích thước PDF trong khi vẫn giữ được chất lượng đầy đủ.',
+        t7n: 'Chia PDF', t7d: 'Chia các tệp PDF lớn thành nhiều tài liệu tập trung.',
+        t8n: 'Excel, Word & PPT sang PDF', t8d: 'Chuyển đổi các tệp Word, Excel hoặc PowerPoint thành tài liệu PDF chuyên nghiệp.',
+        t9n: 'PDF sang Excel, Word & PPT', t9d: 'Biến đổi các tệp PDF trở lại định dạng Word, Excel hoặc PowerPoint có thể chỉnh sửa.'
+      },
+      th: {
+        brand: 'ทุกอย่างในที่เดียว', menuTitle: 'การนำทาง',
+        navPricing: 'ราคา', navLang: 'ภาษา', navPrivacy: 'นโยบายความเป็นส่วนตัว',
+        navTerms: 'ข้อตกลงและเงื่อนไข', navAbout: 'เกี่ยวกับเรา', navContact: 'ติดต่อเรา',
+        heroBadge: 'ฟรี · รวดเร็ว · ไม่จำกัด',
+        heroLine1: 'ยินดีต้อนรับสู่', heroLine2: 'ทุกอย่างในที่เดียว',
+        heroSub: 'ทุกอย่างในที่เดียว เป็นแพลตฟอร์มที่คุณสามารถรับเครื่องมือทั้งหมดฟรี!!!',
+        ctaExplore: 'สำรวจเครื่องมือ', ctaLearn: 'เรียนรู้เพิ่มเติม',
+        scrollHint: 'เลื่อน',
+        toolsEye: 'ชุดเครื่องมือของเรา', toolsTitleA: '10 เครื่องมือที่ทรงพลัง,', toolsTitleB: 'ไม่มีค่าใช้จ่าย',
+        pricingTitle: 'เร็วๆ นี้!',
+        pricingMsg: 'ฟีเจอร์นี้จะพร้อมใช้งานเร็วๆ นี้<br>เรากำลังสร้างสิ่งพิเศษสำหรับคุณ',
+        modalClose: 'ยอดเยี่ยม เข้าใจแล้ว!',
+        modeLabel: 'โหมดมืด', modeLabelLight: 'โหมดสว่าง',
+        footerTagline: 'จุดหมายปลายทางออลอินวันของคุณสำหรับเครื่องมือที่ทรงพลังและฟรี ไม่มีค่าใช้จ่าย ไม่มีขีดจำกัด',
+        footerLegal: 'กฎหมาย', footerCompany: 'บริษัท', footerTools: 'เครื่องมือ',
+        footerCopy: '© 2025 ทุกอย่างในที่เดียว สงวนลิขสิทธิ์.',
+        pill1: 'ฟรีตลอดไป', pill2: 'ไม่ต้องสมัครสมาชิก', pill3: '100% เป็นส่วนตัว',
+        toolAction: 'เปิดเครื่องมือ →',
+        t0n: 'บีบอัดรูปภาพ', t0d: 'ลดขนาดไฟล์รูปภาพโดยไม่เสียคุณภาพ.',
+        t1n: 'รูปภาพเป็น PDF', t1d: 'แปลงรูปภาพใดๆ เป็นเอกสาร PDF ที่สมบูรณ์ทันที.',
+        t2n: 'รวม PDF', t2d: 'รวม PDF หลายไฟล์เป็นไฟล์เดียวที่ราบรื่นและเป็นหนึ่งเดียว.',
+        t3n: 'จัดระเบียบ PDF', t3d: 'จัดเรียงใหม่ หมุน และจัดการหน้า PDF ของคุณอย่างง่ายดาย.',
+        t4n: 'PDF เป็นรูปภาพ', t4d: 'สกัดรูปภาพที่ชัดเจนและความละเอียดสูงจาก PDF ใดๆ.',
+        t5n: 'PDF เป็นข้อความ', t5d: 'แปลงเนื้อหา PDF เป็นไฟล์ข้อความธรรมดาที่สามารถแก้ไขได้อย่างสมบูรณ์.',
+        t6n: 'บีบอัด PDF', t6d: 'ลดขนาด PDF อย่างมากในขณะที่รักษาคุณภาพเต็มรูปแบบ.',
+        t7n: 'แยก PDF', t7d: 'แยก PDF ขนาดใหญ่ออกเป็นเอกสารหลายๆ อันที่โฟกัส.',
+        t8n: 'Excel, Word & PPT เป็น PDF', t8d: 'แปลงไฟล์ Word, Excel หรือ PowerPoint เป็นเอกสาร PDF มืออาชีพ.',
+        t9n: 'PDF เป็น Excel, Word & PPT', t9d: 'แปลงไฟล์ PDF กลับเป็นรูปแบบ Word, Excel หรือ PowerPoint ที่สามารถแก้ไขได้.'
+      },
+      el: {
+        brand: 'ΟΛΑ-ΣΕ-ΕΝΑ', menuTitle: 'Πλοήγηση',
+        navPricing: 'Τιμές', navLang: 'Γλώσσα', navPrivacy: 'Πολιτική Απορρήτου',
+        navTerms: 'Όροι & Προϋποθέσεις', navAbout: 'Σχετικά Με Εμάς', navContact: 'Επικοινωνήστε Μαζί Μας',
+        heroBadge: 'Δωρεάν · Γρήγορο · Απεριόριστο',
+        heroLine1: 'Καλώς Ορίσατε στο ΟΛΑ-ΣΕ-ΕΝΑ', heroLine2: 'Εργαλεία',
+        heroSub: 'Το ΟΛΑ-ΣΕ-ΕΝΑ είναι μια πλατφόρμα όπου μπορείτε να αποκτήσετε όλα τα εργαλεία δωρεάν!!!',
+        ctaExplore: 'Εξερεύνηση Εργαλείων', ctaLearn: 'Μάθετε Περισσότερα',
+        scrollHint: 'Κύλιση',
+        toolsEye: 'Το Σετ Εργαλείων Μας', toolsTitleA: '10 Ισχυρά Εργαλεία,', toolsTitleB: 'Μηδενικό Κόστος',
+        pricingTitle: 'Σύντομα!',
+        pricingMsg: 'Αυτή η λειτουργία θα είναι σύντομα διαθέσιμη.<br>Δημιουργούμε κάτι εξαιρετικό για εσάς.',
+        modalClose: 'Υπέροχα, το κατάλαβα!',
+        modeLabel: 'Σκοτεινή Λειτουργία', modeLabelLight: 'Φωτεινή Λειτουργία',
+        footerTagline: 'Ο προορισμός σας για όλα-σε-ένα για ισχυρά, δωρεάν εργαλεία. Χωρίς κόστος, χωρίς περιορισμούς.',
+        footerLegal: 'Νομικά', footerCompany: 'Εταιρεία', footerTools: 'Εργαλεία',
+        footerCopy: '© 2025 ΟΛΑ-ΣΕ-ΕΝΑ. Όλα τα δικαιώματα διατηρούνται.',
+        pill1: 'Δωρεάν για Πάντα', pill2: 'Χωρίς Εγγραφή', pill3: '100% Ιδιωτικό',
+        toolAction: 'Άνοιγμα Εργαλείου →',
+        t0n: 'Συμπίεση Εικόνας', t0d: 'Μειώστε το μέγεθος των αρχείων εικόνας χωρίς απώλεια ποιότητας.',
+        t1n: 'Εικόνα σε PDF', t1d: 'Μετατρέψτε οποιαδήποτε εικόνα σε ένα επαγγελματικό έγγραφο PDF αμέσως.',
+        t2n: 'Συγχώνευση PDF', t2d: 'Συνδυάστε πολλά PDF σε ένα ενιαίο, ομαλό αρχείο.',
+        t3n: 'Οργάνωση PDF', t3d: 'Αναδιατάξτε, περιστρέψτε και διαχειριστείτε τις σελίδες των PDF σας με ευκολία.',
+        t4n: 'PDF σε Εικόνα', t4d: 'Εξαγάγετε καθαρές, υψηλής ανάλυσης εικόνες από οποιοδήποτε PDF.',
+        t5n: 'PDF σε Κείμενο', t5d: 'Μετατρέψτε το περιεχόμενο PDF σε πλήρως επεξεργάσιμα αρχεία απλού κειμένου.',
+        t6n: 'Συμπίεση PDF', t6d: 'Μειώστε δραστικά το μέγεθος των PDF διατηρώντας την πλήρη ποιότητα.',
+        t7n: 'Διαχωρισμός PDF', t7d: 'Διαχωρίστε μεγάλα PDF σε πολλά εστιασμένα έγγραφα.',
+        t8n: 'Excel, Word & PPT σε PDF', t8d: 'Μετατρέψτε αρχεία Word, Excel ή PowerPoint σε επαγγελματικά έγγραφα PDF.',
+        t9n: 'PDF σε Excel, Word & PPT', t9d: 'Μετατρέψτε αρχεία PDF πίσω σε επεξεργάσιμες μορφές Word, Excel ή PowerPoint.'
+      },
+      cs: {
+        brand: 'VŠE-V-JEDNOM', menuTitle: 'Navigace',
+        navPricing: 'Ceny', navLang: 'Jazyk', navPrivacy: 'Zásady Ochrany Osobních Údajů',
+        navTerms: 'Obchodní Podmínky', navAbout: 'O Nás', navContact: 'Kontaktujte Nás',
+        heroBadge: 'Zdarma · Rychlé · Neomezené',
+        heroLine1: 'Vítejte ve VŠE-V-JEDNOM', heroLine2: 'Nástroje',
+        heroSub: 'VŠE-V-JEDNOM je platforma, kde můžete získat všechny nástroje zdarma!!!',
+        ctaExplore: 'Prozkoumat Nástroje', ctaLearn: 'Zjistit Více',
+        scrollHint: 'Posunout',
+        toolsEye: 'Naše Sada Nástrojů', toolsTitleA: '10 Výkonných Nástrojů,', toolsTitleB: 'Nulové Náklady',
+        pricingTitle: 'Brzy!',
+        pricingMsg: 'Tato funkce bude brzy k dispozici.<br>Připravujeme pro vás něco mimořádného.',
+        modalClose: 'Skvělé, rozumím!',
+        modeLabel: 'Tmavý Režim', modeLabelLight: 'Světlý Režim',
+        footerTagline: 'Vaše komplexní destinace pro výkonné, zdarma nástroje. Žádné náklady, žádná omezení.',
+        footerLegal: 'Právní', footerCompany: 'Společnost', footerTools: 'Nástroje',
+        footerCopy: '© 2025 VŠE-V-JEDNOM. Všechna práva vyhrazena.',
+        pill1: 'Zdarma Navždy', pill2: 'Bez Registrace', pill3: '100% Soukromé',
+        toolAction: 'Otevřít Nástroj →',
+        t0n: 'Komprimovat Obrázek', t0d: 'Zmenšete velikost souborů obrázků bez ztráty kvality.',
+        t1n: 'Obrázek na PDF', t1d: 'Okamžitě přeměňte jakýkoli obrázek na vyleštěný dokument PDF.',
+        t2n: 'Sloučit PDF', t2d: 'Kombinujte více PDF do jednoho plynulého, sjednoceného souboru.',
+        t3n: 'Organizovat PDF', t3d: 'Přeuspořádejte, otočte a spravujte stránky svých PDF snadno.',
+        t4n: 'PDF na Obrázek', t4d: 'Extrahujte ostré, vysokorozlišující obrázky z jakéhokoli PDF.',
+        t5n: 'PDF na Text', t5d: 'Přeměňte obsah PDF na plně editovatelné textové soubory.',
+        t6n: 'Komprimovat PDF', t6d: 'Zmenšete velikost PDF výrazně při zachování plné kvality.',
+        t7n: 'Rozdělit PDF', t7d: 'Rozdělte velké PDF na více zaměřených dokumentů.',
+        t8n: 'Excel, Word & PPT na PDF', t8d: 'Přeměňte soubory Word, Excel nebo PowerPoint na profesionální dokumenty PDF.',
+        t9n: 'PDF na Excel, Word & PPT', t9d: 'Přeměňte soubory PDF zpět na editovatelné formáty Word, Excel nebo PowerPoint.'
+      },
+      ro: {
+        brand: 'TOATE-ÎN-UNUL', menuTitle: 'Navigare',
+        navPricing: 'Prețuri', navLang: 'Limba', navPrivacy: 'Politica de Confidențialitate',
+        navTerms: 'Termeni și Condiții', navAbout: 'Despre Noi', navContact: 'Contactează-ne',
+        heroBadge: 'Gratuit · Rapid · Nelimitat',
+        heroLine1: 'Bun venit la TOATE-ÎN-UNUL', heroLine2: 'Instrumente',
+        heroSub: 'TOATE-ÎN-UNUL este o platformă unde poți obține toate instrumentele gratuit!!!',
+        ctaExplore: 'Explorează Instrumentele', ctaLearn: 'Află Mai Multe',
+        scrollHint: 'Derulează',
+        toolsEye: 'Setul Nostru de Instrumente', toolsTitleA: '10 Instrumente Puternice,', toolsTitleB: 'Cost Zero',
+        pricingTitle: 'În Curând!',
+        pricingMsg: 'Această funcție va fi curând disponibilă.<br>Pregătim ceva extraordinar pentru tine.',
+        modalClose: 'Minunat, am înțeles!',
+        modeLabel: 'Mod Întunecat', modeLabelLight: 'Mod Luminos',
+        footerTagline: 'Destinația ta all-in-one pentru instrumente puternice și gratuite. Fără costuri, fără limite.',
+        footerLegal: 'Juridic', footerCompany: 'Companie', footerTools: 'Instrumente',
+        footerCopy: '© 2025 TOATE-ÎN-UNUL. Toate drepturile rezervate.',
+        pill1: 'Gratuit Pentru Totdeauna', pill2: 'Fără Înregistrare', pill3: '100% Privat',
+        toolAction: 'Deschide Instrumentul →',
+        t0n: 'Comprimare Imagine', t0d: 'Reduce dimensiunea fișierelor de imagine fără a pierde calitatea.',
+        t1n: 'Imagine la PDF', t1d: 'Transformă orice imagine într-un document PDF rafinat instantaneu.',
+        t2n: 'Îmbinare PDF', t2d: 'Combină mai multe PDF-uri într-un singur fișier unificat.',
+        t3n: 'Organizare PDF', t3d: 'Reorganizează, rotește și gestionează paginile PDF-urilor tale cu ușurință.',
+        t4n: 'PDF la Imagine', t4d: 'Extrage imagini clare și de înaltă rezoluție din orice PDF.',
+        t5n: 'PDF la Text', t5d: 'Transformă conținutul PDF în fișiere text simple complet editabile.',
+        t6n: 'Comprimare PDF', t6d: 'Micșorează dimensiunile PDF-urilor dramatic păstrând calitatea completă.',
+        t7n: 'Împărțire PDF', t7d: 'Împarte PDF-urile mari în mai multe documente focalizate.',
+        t8n: 'Excel, Word & PPT la PDF', t8d: 'Transformă fișierele Word, Excel sau PowerPoint în documente PDF profesionale.',
+        t9n: 'PDF la Excel, Word & PPT', t9d: 'Transformă fișierele PDF înapoi în formate Word, Excel sau PowerPoint editabile.'
+      },
+      hu: {
+        brand: 'MINDEN-EGYBEN', menuTitle: 'Navigáció',
+        navPricing: 'Árak', navLang: 'Nyelv', navPrivacy: 'Adatvédelmi Szabályzat',
+        navTerms: 'Felhasználási Feltételek', navAbout: 'Rólunk', navContact: 'Kapcsolat',
+        heroBadge: 'Ingyenes · Gyors · Korlátlan',
+        heroLine1: 'Üdvözöljük a MINDEN-EGYBEN-ben', heroLine2: 'Eszközök',
+        heroSub: 'A MINDEN-EGYBEN egy platform, ahol ingyenesen megkaphatja az összes eszközt!!!',
+        ctaExplore: 'Eszközök Felfedezése', ctaLearn: 'További Információk',
+        scrollHint: 'Görgetés',
+        toolsEye: 'Eszközkészletünk', toolsTitleA: '10 Erős Eszköz,', toolsTitleB: 'Nulla Költség',
+        pricingTitle: 'Hamarosan!',
+        pricingMsg: 'Ez a funkció hamarosan elérhető lesz.<br>Valami rendkívülit készítünk Önnek.',
+        modalClose: 'Nagyon jó, értem!',
+        modeLabel: 'Sötét Mód', modeLabelLight: 'Világos Mód',
+        footerTagline: 'Az Ön minden-egyben célpontja az erős, ingyenes eszközökhöz. Nincs költség, nincs korlát.',
+        footerLegal: 'Jogi', footerCompany: 'Cég', footerTools: 'Eszközök',
+        footerCopy: '© 2025 MINDEN-EGYBEN. Minden jog fenntartva.',
+        pill1: 'Örökké Ingyenes', pill2: 'Nincs Regisztráció', pill3: '100% Magán',
+        toolAction: 'Eszköz Megnyitása →',
+        t0n: 'Kép Tömörítése', t0d: 'Csökkentse a képfájlok méretét minőségvesztés nélkül.',
+        t1n: 'Kép PDF-be', t1d: 'Alakítsa át bármely képet azonnal egy csiszolt PDF-dokumentummá.',
+        t2n: 'PDF Összefűzése', t2d: 'Fűzzön össze több PDF-t egy zökkenőmentes, egységes fájllá.',
+        t3n: 'PDF Szervezése', t3d: 'Rendezze újra, forgassa el és kezelje a PDF-oldalait könnyedén.',
+        t4n: 'PDF Képbe', t4d: 'Vonjon ki éles, nagy felbontású képeket bármely PDF-ből.',
+        t5n: 'PDF Szövegbe', t5d: 'Alakítsa át a PDF-tartalmat teljesen szerkeszthető szövegfájlokká.',
+        t6n: 'PDF Tömörítése', t6d: 'Csökkentse jelentősen a PDF-ek méretét teljes minőség megtartásával.',
+        t7n: 'PDF Felosztása', t7d: 'Oszlja fel a nagy PDF-eket több céltudatos dokumentumra.',
+        t8n: 'Excel, Word & PPT PDF-be', t8d: 'Alakítsa át a Word-, Excel- vagy PowerPoint-fájlokat professzionális PDF-dokumentumokká.',
+        t9n: 'PDF Excelbe, Wordbe & PPT-be', t9d: 'Alakítsa vissza a PDF-fájlokat szerkeszthető Word-, Excel- vagy PowerPoint-formátumokká.'
+      },
+      fi: {
+        brand: 'KAIKKI-YHDESSÄ', menuTitle: 'Navigaatio',
+        navPricing: 'Hinnat', navLang: 'Kieli', navPrivacy: 'Tietosuojakäytäntö',
+        navTerms: 'Käyttöehdot', navAbout: 'Tietoa Meistä', navContact: 'Ota Yhteyttä',
+        heroBadge: 'Ilmainen · Nopea · Rajaton',
+        heroLine1: 'Tervetuloa KAIKKI-YHDESSÄ:än', heroLine2: 'Työkalut',
+        heroSub: 'KAIKKI-YHDESSÄ on alusta, josta saat kaikki työkalut ilmaiseksi!!!',
+        ctaExplore: 'Tutustu Työkaluihin', ctaLearn: 'Lue Lisää',
+        scrollHint: 'Vieritä',
+        toolsEye: 'Työkalupakkauksemme', toolsTitleA: '10 Tehokasta Työkalua,', toolsTitleB: 'Nollakustannus',
+        pricingTitle: 'Tulossa Pian!',
+        pricingMsg: 'Tämä ominaisuus tulee pian saataville.<br>Luomme sinulle jotain poikkeuksellista.',
+        modalClose: 'Hienoa, ymmärsin!',
+        modeLabel: 'Tumma Tila', modeLabelLight: 'Vaalea Tila',
+        footerTagline: 'Kokonaisvaltainen kohteesi tehokkaille ja ilmaisille työkaluille. Ei kustannuksia, ei rajoituksia.',
+        footerLegal: 'Oikeudellinen', footerCompany: 'Yritys', footerTools: 'Työkalut',
+        footerCopy: '© 2025 KAIKKI-YHDESSÄ. Kaikki oikeudet pidätetään.',
+        pill1: 'Ilmainen Ikuisesti', pill2: 'Ei Rekisteröitymistä', pill3: '100% Yksityinen',
+        toolAction: 'Avaa Työkalu →',
+        t0n: 'Kuvan Pakkaaminen', t0d: 'Vähennä kuvatiedostojen kokoa ilman laadun menettämistä.',
+        t1n: 'Kuva PDF:ksi', t1d: 'Muunna mikä tahansa kuva heti siistiin PDF-dokumenttiin.',
+        t2n: 'PDF:n Yhdistäminen', t2d: 'Yhdistä useita PDF-tiedostoja yhdeksi saumattomaksi, yhtenäiseksi tiedostoksi.',
+        t3n: 'PDF:n Järjestäminen', t3d: 'Järjestä uudelleen, käännä ja hallitse PDF-sivujasi helposti.',
+        t4n: 'PDF Kuvaan', t4d: 'Ota teräviä, korkearesoluutioisia kuvia mistä tahansa PDF:stä.',
+        t5n: 'PDF Tekstiksi', t5d: 'Muunna PDF-sisältö täysin muokattaviksi tekstitiedostoiksi.',
+        t6n: 'PDF:n Pakkaaminen', t6d: 'Pienennä PDF-tiedostojen kokoa merkittävästi säilyttäen täysi laatu.',
+        t7n: 'PDF:n Jakaminen', t7d: 'Jaa suuret PDF-tiedostot useiksi kohdennettuihin asiakirjoihin.',
+        t8n: 'Excel, Word & PPT PDF:ksi', t8d: 'Muunna Word-, Excel- tai PowerPoint-tiedostot ammattimaisiksi PDF-asiakirjoiksi.',
+        t9n: 'PDF Exceliin, Wordiin & PPT:hen', t9d: 'Muunna PDF-tiedostot takaisin muokattaviksi Word-, Excel- tai PowerPoint-muotoiksi.'
+      },
+      da: {
+        brand: 'ALT-I-ET', menuTitle: 'Navigation',
+        navPricing: 'Priser', navLang: 'Sprog', navPrivacy: 'Privacy Politik',
+        navTerms: 'Betingelser', navAbout: 'Om Os', navContact: 'Kontakt Os',
+        heroBadge: 'Gratis · Hurtig · Ubegrænset',
+        heroLine1: 'Velkommen til ALT-I-ET', heroLine2: 'Værktøjer',
+        heroSub: 'ALT-I-ET er en platform, hvor du kan få alle værktøjer gratis!!!',
+        ctaExplore: 'Udforsk Værktøjer', ctaLearn: 'Lær Mere',
+        scrollHint: 'Scroll',
+        toolsEye: 'Vores Værktøjskasse', toolsTitleA: '10 Kraftfulde Værktøjer,', toolsTitleB: 'Nul Omkostning',
+        pricingTitle: 'Kommer Snart!',
+        pricingMsg: 'Denne funktion vil snart være tilgængelig.<br>Vi skaber noget ekstraordinært til dig.',
+        modalClose: 'Fantastisk, forstået!',
+        modeLabel: 'Mørk Tilstand', modeLabelLight: 'Lys Tilstand',
+        footerTagline: 'Din alt-i-et destination for kraftfulde, gratis værktøjer. Ingen omkostning, ingen begrænsning.',
+        footerLegal: 'Juridisk', footerCompany: 'Virksomhed', footerTools: 'Værktøjer',
+        footerCopy: '© 2025 ALT-I-ET. Alle rettigheder forbeholdt.',
+        pill1: 'Gratis For Evigt', pill2: 'Ingen Registrering', pill3: '100% Privat',
+        toolAction: 'Åbn Værktøj →',
+        t0n: 'Komprimer Billede', t0d: 'Reducer billedfilstørrelser uden at miste kvalitet.',
+        t1n: 'Billede til PDF', t1d: 'Omform ethvert billede til et poleret PDF-dokument øjeblikkeligt.',
+        t2n: 'Flet PDF', t2d: 'Kombiner flere PDF\'er til én problemfri, forenet fil.',
+        t3n: 'Organiser PDF', t3d: 'Omarranger, roter og administrer dine PDF-sider med lethed.',
+        t4n: 'PDF til Billede', t4d: 'Udtræk skarpe, højopløselige billeder fra enhver PDF.',
+        t5n: 'PDF til Tekst', t5d: 'Konverter PDF-indhold til fuldt redigerbare tekstfiler.',
+        t6n: 'Komprimer PDF', t6d: 'Formindsk PDF-størrelser markant, mens fuld kvalitet bevares.',
+        t7n: 'Del PDF', t7d: 'Del store PDF\'er op i flere fokuserede dokumenter.',
+        t8n: 'Excel, Word & PPT til PDF', t8d: 'Konverter Word-, Excel- eller PowerPoint-filer til professionelle PDF-dokumenter.',
+        t9n: 'PDF til Excel, Word & PPT', t9d: 'Omform PDF-filer tilbage til redigerbare Word-, Excel- eller PowerPoint-formater.'
+      },
+      no: {
+        brand: 'ALT-I-EN', menuTitle: 'Navigasjon',
+        navPricing: 'Priser', navLang: 'Språk', navPrivacy: 'Personvernpolicy',
+        navTerms: 'Vilkår og Betingelser', navAbout: 'Om Oss', navContact: 'Kontakt Oss',
+        heroBadge: 'Gratis · Raskt · Ubegrenset',
+        heroLine1: 'Velkommen til ALT-I-EN', heroLine2: 'Verktøy',
+        heroSub: 'ALT-I-EN er en plattform hvor du kan få alle verktøy gratis!!!',
+        ctaExplore: 'Utforsk Verktøy', ctaLearn: 'Lær Mer',
+        scrollHint: 'Scroll',
+        toolsEye: 'Vårt Verktøysett', toolsTitleA: '10 Kraftfulle Verktøy,', toolsTitleB: 'Null Kostnad',
+        pricingTitle: 'Kommer Snart!',
+        pricingMsg: 'Denne funksjonen vil snart være tilgjengelig.<br>Vi lager noe ekstraordinært for deg.',
+        modalClose: 'Flott, forstått!',
+        modeLabel: 'Mørk Modus', modeLabelLight: 'Lys Modus',
+        footerTagline: 'Din alt-i-en-destinasjon for kraftfulle, gratis verktøy. Ingen kostnad, ingen begrensning.',
+        footerLegal: 'Juridisk', footerCompany: 'Bedrift', footerTools: 'Verktøy',
+        footerCopy: '© 2025 ALT-I-EN. Alle rettigheter reservert.',
+        pill1: 'Gratis For Alltid', pill2: 'Ingen Registrering', pill3: '100% Privat',
+        toolAction: 'Åpne Verktøy →',
+        t0n: 'Komprimer Bilde', t0d: 'Reduser bildefilstørrelser uten å miste kvalitet.',
+        t1n: 'Bilde til PDF', t1d: 'Konverter ethvert bilde til et polert PDF-dokument øyeblikkelig.',
+        t2n: 'Slå Sammem PDF', t2d: 'Kombiner flere PDF-er til én sømløs, forent fil.',
+        t3n: 'Organiser PDF', t3d: 'Omorganiser, roter og administrer PDF-sidene dine med letthet.',
+        t4n: 'PDF til Bilde', t4d: 'Ekstraher skarpe, høyoppløselige bilder fra enhver PDF.',
+        t5n: 'PDF til Tekst', t5d: 'Konverter PDF-innhold til fullstendig redigerbare tekstfiler.',
+        t6n: 'Komprimer PDF', t6d: 'Reduser PDF-størrelser betydelig mens full kvalitet bevares.',
+        t7n: 'Del PDF', t7d: 'Del store PDF-er opp i flere fokuserte dokumenter.',
+        t8n: 'Excel, Word & PPT til PDF', t8d: 'Konverter Word-, Excel- eller PowerPoint-filer til profesjonelle PDF-dokumenter.',
+        t9n: 'PDF til Excel, Word & PPT', t9d: 'Konverter PDF-filer tilbake til redigerbare Word-, Excel- eller PowerPoint-formater.'
+      }
+    };
 
-/* ─── PARTICLES ─────────────────────────────────── */
-(function() {
-  const canvas = document.getElementById('px');
-  const ctx = canvas.getContext('2d');
-  let W, H, pts = [];
+    /* ─── STATE ─────────────────────────────────────── */
+    let isDark = true;
+    let currentLang = 'en';
+    let selectedTool = -1;
+    let drawerOpen = false;
+    let langPanelOpen = false;
 
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
+    /* ─── PARTICLES ─────────────────────────────────── */
+    (function () {
+      const canvas = document.getElementById('px');
+      const ctx = canvas.getContext('2d');
+      let W, H, pts = [];
 
-  for (let i = 0; i < 75; i++) pts.push({
-    x: Math.random() * innerWidth,
-    y: Math.random() * innerHeight,
-    vx: (Math.random()-.5)*.3,
-    vy: (Math.random()-.5)*.3,
-    r: Math.random()*2+.5,
-    a: Math.random()*.3+.05,
-    hue: Math.random() > .5 ? 0 : 60,
-  });
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
 
-  function draw() {
-    ctx.clearRect(0,0,W,H);
-    const col = isDark ? '139,114,255' : '108,79,255';
-    pts.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x<0) p.x=W; if (p.x>W) p.x=0;
-      if (p.y<0) p.y=H; if (p.y>H) p.y=0;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(${p.hue===0?col:'45,212,240'},${p.a})`;
-      ctx.fill();
+      for (let i = 0; i < 75; i++) pts.push({
+        x: Math.random() * innerWidth,
+        y: Math.random() * innerHeight,
+        vx: (Math.random() - .5) * .3,
+        vy: (Math.random() - .5) * .3,
+        r: Math.random() * 2 + .5,
+        a: Math.random() * .3 + .05,
+        hue: Math.random() > .5 ? 0 : 60,
+      });
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        const col = isDark ? '139,114,255' : '108,79,255';
+        pts.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+          if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.hue === 0 ? col : '45,212,240'},${p.a})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    /* ─── BUILD LANGUAGE PANEL ──────────────────────── */
+    const langPanel = document.getElementById('langPanel');
+    LANGUAGES.forEach(l => {
+      const btn = document.createElement('button');
+      btn.className = 'lang-item' + (l === 'English' ? ' active' : '');
+      btn.textContent = l;
+      btn.onclick = () => {
+        document.querySelectorAll('.lang-item').forEach(x => x.classList.remove('active'));
+        btn.classList.add('active');
+        const code = LANG_CODE[l] || 'en';
+        applyLang(code);
+        toggleLangPanel(false);
+        closeDrawer();
+      };
+      langPanel.appendChild(btn);
     });
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
 
-/* ─── BUILD LANGUAGE PANEL ──────────────────────── */
-const langPanel = document.getElementById('langPanel');
-LANGUAGES.forEach(l => {
-  const btn = document.createElement('button');
-  btn.className = 'lang-item' + (l === 'English' ? ' active' : '');
-  btn.textContent = l;
-  btn.onclick = () => {
-    document.querySelectorAll('.lang-item').forEach(x => x.classList.remove('active'));
-    btn.classList.add('active');
-    const code = LANG_CODE[l] || 'en';
-    applyLang(code);
-    toggleLangPanel(false);
-    closeDrawer();
-  };
-  langPanel.appendChild(btn);
-});
-
-/* ─── BUILD TOOLS GRID ──────────────────────────── */
-function buildGrid() {
-  const grid = document.getElementById('toolsGrid');
-  grid.innerHTML = '';
-  const tl = T[currentLang] || T.en;
-  TOOLS.forEach((t, i) => {
-    const outer = document.createElement('div');
-    outer.className = 'tool-card';
-    outer.innerHTML = `
+    /* ─── BUILD TOOLS GRID ──────────────────────────── */
+    function buildGrid() {
+      const grid = document.getElementById('toolsGrid');
+      grid.innerHTML = '';
+      const tl = T[currentLang] || T.en;
+      TOOLS.forEach((t, i) => {
+        const outer = document.createElement('div');
+        outer.className = 'tool-card';
+        outer.innerHTML = `
       <div class="tool-inner" id="ti-${i}">
         <div class="tool-badge">✓</div>
         <div class="tool-icon-wrap ${t.pal}">${t.ico}</div>
         <div class="tool-name" data-i18n="${t.nk}">${tl[t.nk]}</div>
         <div class="tool-desc" data-i18n="${t.dk}">${tl[t.dk]}</div>
-        <div class="tool-action" data-i18n="toolAction">${tl.toolAction||'Open Tool →'}</div>
+        <div class="tool-action" data-i18n="toolAction">${tl.toolAction || 'Open Tool →'}</div>
       </div>`;
-    outer.querySelector('.tool-inner').addEventListener('click', () => selectTool(i));
-    grid.appendChild(outer);
-  });
-}
-buildGrid();
-
-/* ─── TOOL SELECT ───────────────────────────────── */
-function selectTool(i) {
-  // If the tool has a specific URL, redirect to it
-  if (TOOLS[i].url) {
-    window.location.href = TOOLS[i].url;
-    return;
-  }
-
-  // Existing selection logic for tools without URLs yet
-  if (selectedTool === i) {
-    document.getElementById(`ti-${i}`)?.classList.remove('active');
-    selectedTool = -1;
-    return;
-  }
-  if (selectedTool >= 0) document.getElementById(`ti-${selectedTool}`)?.classList.remove('active');
-  selectedTool = i;
-  document.getElementById(`ti-${i}`)?.classList.add('active');
-}
-/* ─── TRANSLATION ───────────────────────────────── */
-function applyLang(code) {
-  currentLang = code;
-  const tl = T[code] || T.en;
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const k = el.getAttribute('data-i18n');
-    if (tl[k] !== undefined) el.innerHTML = tl[k];
-  });
-  // Update mode labels
-  updateModeLabels();
-}
-
-/* ─── DRAWER ────────────────────────────────────── */
-function openDrawer() {
-  drawerOpen = true;
-  document.getElementById('drawer').classList.add('open');
-  document.getElementById('overlay').classList.add('open');
-  document.getElementById('hamburger').classList.add('open');
-}
-function closeDrawer() {
-  drawerOpen = false;
-  document.getElementById('drawer').classList.remove('open');
-  document.getElementById('overlay').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
-  toggleLangPanel(false);
-}
-document.getElementById('hamburger').addEventListener('click', () => drawerOpen ? closeDrawer() : openDrawer());
-document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
-document.getElementById('overlay').addEventListener('click', closeDrawer);
-
-/* ─── LANG PANEL ────────────────────────────────── */
-function toggleLangPanel(force) {
-  langPanelOpen = force !== undefined ? force : !langPanelOpen;
-  langPanel.classList.toggle('open', langPanelOpen);
-  document.getElementById('langChevron').textContent = langPanelOpen ? '▴' : '▾';
-}
-document.getElementById('menuLang').addEventListener('click', e => {
-  e.stopPropagation();
-  toggleLangPanel();
-});
-
-/* ─── PRICING ───────────────────────────────────── */
-function openPricing() {
-  document.getElementById('pricingModal').classList.add('open');
-}
-function closeModal() {
-  document.getElementById('pricingModal').classList.remove('open');
-}
-document.getElementById('menuPricing').addEventListener('click', () => {
-  closeDrawer();
-  openPricing();
-});
-document.getElementById('pricingModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-
-/* ─── DAY/NIGHT MODE ────────────────────────────── */
-function toggleMode() {
-  isDark = !isDark;
-  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-  updateModeLabels();
-}
-
-function updateModeLabels() {
-  const tl = T[currentLang] || T.en;
-  const label = isDark ? (tl.modeLabel||'Dark Mode') : (tl.modeLabelLight||'Light Mode');
-  const icon = isDark ? '🌙' : '☀️';
-
-  // floating btn
-  document.getElementById('floatIcon').textContent = icon;
-  // drawer toggle
-  document.getElementById('drawerModeIcon').textContent = icon;
-  const dml = document.getElementById('drawerModeLabel');
-  if (dml) dml.textContent = label;
-  // footer
-  document.getElementById('footerModeIcon').textContent = icon;
-
-  // toggle switch states
-  ['drawerToggle','footerToggle'].forEach(id => {
-    document.getElementById(id)?.classList.toggle('on', isDark);
-  });
-  // update any modeLabel i18n elements
-  document.querySelectorAll('[data-i18n="modeLabel"]').forEach(el => el.textContent = label);
-}
-
-/* ─── SMOOTH SCROLL ─────────────────────────────── */
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) { e.preventDefault(); target.scrollIntoView({ behavior:'smooth' }); }
-  });
-});
-
-/* ─── INTERSECTION OBSERVER (card entrance) ──── */
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.style.animationPlayState = 'running';
-      io.unobserve(e.target);
+        outer.querySelector('.tool-inner').addEventListener('click', () => selectTool(i));
+        grid.appendChild(outer);
+      });
     }
-  });
-}, { threshold: 0.1 });
+    buildGrid();
 
-document.querySelectorAll('.tool-card').forEach(c => {
-  c.style.animationPlayState = 'paused';
-  io.observe(c);
-});
-</script>
+    /* ─── TOOL SELECT ───────────────────────────────── */
+    function selectTool(i) {
+      // If the tool has a specific URL, redirect to it
+      if (TOOLS[i].url) {
+        window.location.href = TOOLS[i].url;
+        return;
+      }
+
+      // Existing selection logic for tools without URLs yet
+      if (selectedTool === i) {
+        document.getElementById(`ti-${i}`)?.classList.remove('active');
+        selectedTool = -1;
+        return;
+      }
+      if (selectedTool >= 0) document.getElementById(`ti-${selectedTool}`)?.classList.remove('active');
+      selectedTool = i;
+      document.getElementById(`ti-${i}`)?.classList.add('active');
+    }
+    /* ─── TRANSLATION ───────────────────────────────── */
+    function applyLang(code) {
+      currentLang = code;
+      const tl = T[code] || T.en;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (tl[k] !== undefined) el.innerHTML = tl[k];
+      });
+      // Update mode labels
+      updateModeLabels();
+    }
+
+    /* ─── DRAWER ────────────────────────────────────── */
+    function openDrawer() {
+      drawerOpen = true;
+      document.getElementById('drawer').classList.add('open');
+      document.getElementById('overlay').classList.add('open');
+      document.getElementById('hamburger').classList.add('open');
+    }
+    function closeDrawer() {
+      drawerOpen = false;
+      document.getElementById('drawer').classList.remove('open');
+      document.getElementById('overlay').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+      toggleLangPanel(false);
+    }
+    document.getElementById('hamburger').addEventListener('click', () => drawerOpen ? closeDrawer() : openDrawer());
+    document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
+    document.getElementById('overlay').addEventListener('click', closeDrawer);
+
+    /* ─── LANG PANEL ────────────────────────────────── */
+    function toggleLangPanel(force) {
+      langPanelOpen = force !== undefined ? force : !langPanelOpen;
+      langPanel.classList.toggle('open', langPanelOpen);
+      document.getElementById('langChevron').textContent = langPanelOpen ? '▴' : '▾';
+    }
+    document.getElementById('menuLang').addEventListener('click', e => {
+      e.stopPropagation();
+      toggleLangPanel();
+    });
+
+    /* ─── PRICING ───────────────────────────────────── */
+    function openPricing() {
+      document.getElementById('pricingModal').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('pricingModal').classList.remove('open');
+    }
+    document.getElementById('menuPricing').addEventListener('click', () => {
+      closeDrawer();
+      openPricing();
+    });
+    document.getElementById('pricingModal').addEventListener('click', function (e) {
+      if (e.target === this) closeModal();
+    });
+
+    /* ─── DAY/NIGHT MODE ────────────────────────────── */
+    function toggleMode() {
+      isDark = !isDark;
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      updateModeLabels();
+    }
+
+    function updateModeLabels() {
+      const tl = T[currentLang] || T.en;
+      const label = isDark ? (tl.modeLabel || 'Dark Mode') : (tl.modeLabelLight || 'Light Mode');
+      const icon = isDark ? '🌙' : '☀️';
+
+      // floating btn
+      document.getElementById('floatIcon').textContent = icon;
+      // drawer toggle
+      document.getElementById('drawerModeIcon').textContent = icon;
+      const dml = document.getElementById('drawerModeLabel');
+      if (dml) dml.textContent = label;
+      // footer
+      document.getElementById('footerModeIcon').textContent = icon;
+
+      // toggle switch states
+      ['drawerToggle', 'footerToggle'].forEach(id => {
+        document.getElementById(id)?.classList.toggle('on', isDark);
+      });
+      // update any modeLabel i18n elements
+      document.querySelectorAll('[data-i18n="modeLabel"]').forEach(el => el.textContent = label);
+    }
+
+    /* ─── SMOOTH SCROLL ─────────────────────────────── */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+
+    /* ─── INTERSECTION OBSERVER (card entrance) ──── */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.animationPlayState = 'running';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.tool-card').forEach(c => {
+      c.style.animationPlayState = 'paused';
+      io.observe(c);
+    });
+  </script>
 </body>
+
 </html>
