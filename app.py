@@ -11,6 +11,7 @@ import tabula
 from pdf2docx import Converter
 from pdf2image import convert_from_path
 from pptx import Presentation
+from pptx.util import Inches
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from PIL import Image, ImageOps
@@ -85,7 +86,7 @@ def create_app():
         os.makedirs(image_folder, exist_ok=True)
 
         # IMPORTANT: Change this if your Poppler path is different
-        poppler_path = r"C:\poppler\Library\bin"
+        poppler_path = r"C:\poppler-25.12.0\Library\bin"
 
         pages = convert_from_path(pdf_path, dpi=200, poppler_path=poppler_path)
 
@@ -172,7 +173,7 @@ def create_app():
             writer = PdfWriter()
 
             for page in reader.pages:
-                page.rotate(angle)
+                page.rotate_clockwise(angle)
                 writer.add_page(page)
 
             output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], 'rotated.pdf')
