@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, current_app
+from flask import Flask, render_template, request, send_file, current_app, redirect, url_for
 from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 import img2pdf
 import pdfplumber
@@ -8,6 +8,13 @@ import pymupdf as fitz  # PyMuPDF
 import uuid
 import pandas as pd
 import tabula
+import comtypes.client
+import tempfile
+import platform
+import pythoncom
+import win32com.client
+import qecode
+from flask import jsonify
 from pdf2docx import Converter
 from pdf2image import convert_from_path
 from pptx import Presentation
@@ -15,7 +22,9 @@ from pptx.util import Inches
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from PIL import Image, ImageOps
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename, send_from_directory
+from docx import Document
+from openpyxl import load_workbook
 
 
 # ===================== APP SETUP =====================
@@ -29,6 +38,8 @@ def create_app():
 
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     os.makedirs(app.config['OUTPUT_FOLDER'], exist_ok=True)
+
+    
 
     # ===================== HELPER FUNCTION =====================
     def save_uploaded_file(file, file_type='pdf'):
@@ -49,6 +60,11 @@ def create_app():
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
         return filename, filepath
+    
+    ALLOWED_OFFICE_EXTENSIONS = {'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'}
+
+    def allowed_office_file(filename):
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_OFFICE_EXTENSIONS
     
         # ===================== PDF CONVERTER HELPERS =====================
     def convert_pdf_to_word(pdf_path):
@@ -114,11 +130,59 @@ def create_app():
         prs.save(output_path)
 
         return output_filename, output_path
+    
+    def convert_office_to_pdf(input_path):
+        pythoncom.CoInitialize()
 
-    # ===================== HOME =====================
+        ext = input_path.rsplit('.', 1)[1].lower()
+        output_filename = f"converted_{uuid.uuid4().hex}.pdf"
+        output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
+
+        try:
+            if ext in ['doc', 'docx']:
+                word = win32com.client.Dispatch("Word.Application")
+                word.Visible = False
+                doc = word.Documents.Open(os.path.abspath(input_path))
+                doc.SaveAs(os.path.abspath(output_path), FileFormat=17)  # PDF
+                doc.Close()
+                word.Quit()
+
+            elif ext in ['xls', 'xlsx']:
+                excel = win32com.client.Dispatch("Excel.Application")
+                excel.Visible = False
+                workbook = excel.Workbooks.Open(os.path.abspath(input_path))
+                workbook.ExportAsFixedFormat(0, os.path.abspath(output_path))  # 0 = PDF
+                workbook.Close(False)
+                excel.Quit()
+
+            elif ext in ['ppt', 'pptx']:
+                powerpoint = win32com.client.Dispatch("PowerPoint.Application")
+                presentation = powerpoint.Presentations.Open(os.path.abspath(input_path), WithWindow=False)
+                presentation.SaveAs(os.path.abspath(output_path), 32)  # 32 = PDF
+                presentation.Close()
+                powerpoint.Quit()
+
+            else:
+                raise Exception("Unsupported office file type.")
+
+        except Exception as e:
+            raise Exception(f"Office to PDF conversion failed: {str(e)}")
+
+        finally:
+            pythoncom.CoUninitialize()
+
+        return output_filename, output_path
+
+    # ===================== HOME =========================
     @app.route('/')
     def home():
         return render_template('index.html')
+    
+    # ===================== MERGE PDF =====================
+    @app.route('/output/<filename>')
+    def output_file(filename):
+        return send_from_directory(app.config['OUTPUT_FOLDER'], filename0)
+    
 
     # ===================== MERGE PDF =====================
     @app.route('/merge', methods=['GET', 'POST'])
@@ -139,6 +203,54 @@ def create_app():
             return send_file(output_path, as_attachment=True)
 
         return render_template('merge.html')
+    
+
+
+    # ===================== QR GENERATOR =====================
+    @app.route('/qr_generator')
+    def qr_generator():
+        return render_template('qr_generator.html')
+    
+
+    # ===================== MERGE PD =====================
+    @app.route('/generate_qr', methods=['post'])
+    def generate_qr():
+        data = request.get_json()
+        url = data.get('url', '').strip()
+        theme = data.get('theme', 'classic')
+
+        if not url:
+            return jsonify({'success': False, 'error': 'No URL Provided'})
+        theme_map = {
+            "classic":  {"fill": "black",   "back": "white"},
+            "neon":     {"fill": "#8b5cf6", "back": "#0f172a"},
+            "ocean":    {"fill": "#0891b2", "back": "#ecfeff"},
+            "sunset":   {"fill": "#ea580c", "back": "#fff7ed"},
+            "minimal":  {"fill": "#111827", "back": "#f9fafb"},
+            "midnight": {"fill": "#22d3ee", "back": "#020617"},
+        }
+
+        colors = theme_map.get(theme, theme_map["classic"])
+
+        filename = f"qr_{vvid.vvid().hex}.png"
+        output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], filename)
+
+        qr = qecode.QRCode(
+            version=1,
+            error_correction=qecode.constants.ERROR_CORRECT_L,
+            box_size=12,
+            border=4
+        )
+        qr.add_data(url)
+        qr.make(fit=True)
+
+        img = qr.make_image(fill_color=colors["fill"], back_color=colors["back"])
+        img.save(output_path)
+
+        return jsonify({
+            'success': True, 
+            'qr_url': f"/output/{filename}"
+        })
 
     # ===================== SPLIT PDF =====================
     @app.route('/split', methods=['GET', 'POST'])
@@ -375,7 +487,7 @@ def create_app():
         return render_template('pdf_to_text.html')
 
     # ===================== HTML TO PDF =====================
-    @app.route('/html-to-pdf', methods=['GET', 'POST'])
+    @app.route('/html_to_pdf', methods=['GET', 'POST'])
     def html_to_pdf():
         if request.method == 'POST':
             html_content = request.form['html_content']
@@ -437,6 +549,32 @@ def create_app():
                 return f"<h2>Conversion failed: {str(e)}</h2>"
 
         return render_template('pdf_converter.html')
+    
+    # ===================== OFFICE TO PDF =====================
+
+    @app.route('/office_to_pdf', methods=['GET', 'POST'])
+    def office_to_pdf():
+        if request.method == 'POST':
+            file = request.files.get('file')
+
+            if not file or file.filename == '':
+                return "<h2>No file uploaded.</h2>"
+
+            if not allowed_office_file(file.filename):
+                return "<h2>Invalid file type. Please upload Word, Excel, or PowerPoint file.</h2>"
+
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+
+            try:
+                output_filename, output_path = convert_office_to_pdf(filepath)
+                return send_file(output_path, as_attachment=True)
+
+            except Exception as e:
+                return f"<h2>Conversion failed: {str(e)}</h2>"
+
+        return render_template('office_to_pdf.html')
     
     # ===================== DOWNLOAD =====================
     @app.route('/download/<filename>')

@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Code Generator — ALL-IN-ONE Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --tr: .45s cubic-bezier(.4,0,.2,1);
+      --tr-fast: .25s cubic-bezier(.4,0,.2,1);
+      --tr-spring: .55s cubic-bezier(.22,1,.36,1);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Instrument Sans', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --bg: #060610;
+      --bg2: #0b0b1e;
+      --bg3: #0f0f28;
+      --surface: rgba(255,255,255,.042);
+      --surface2: rgba(255,255,255,.07);
+      --border: rgba(255,255,255,.08);
+      --border2: rgba(255,255,255,.14);
+      --text: #eeeef8;
+      --text2: rgba(238,238,248,.55);
+      --text3: rgba(238,238,248,.28);
+      --accent: #8b72ff;
+      --accent2: #2dd4f0;
+      --accent3: #ff6bd6;
+      --glow-a: rgba(139,114,255,.32);
+      --glow-b: rgba(45,212,240,.22);
+      --header-bg: rgba(6,6,16,.65);
+      --orb1: rgba(139,114,255,.10);
+      --orb2: rgba(45,212,240,.08);
+      --orb3: rgba(255,107,214,.07);
+      --shadow: 0 8px 40px rgba(0,0,0,.6);
+      --shadow-card: 0 4px 30px rgba(0,0,0,.5);
+      --card-bg: rgba(255,255,255,.038);
+    }
+
+    [data-theme="light"] {
+      --bg: #f2f0ff;
+      --bg2: #ebe7ff;
+      --bg3: #e2dcff;
+      --surface: rgba(255,255,255,.75);
+      --surface2: rgba(255,255,255,.92);
+      --border: rgba(100,80,200,.11);
+      --border2: rgba(100,80,200,.20);
+      --text: #1a1540;
+      --text2: rgba(26,21,64,.58);
+      --text3: rgba(26,21,64,.32);
+      --accent: #6c4fff;
+      --accent2: #0ea5c9;
+      --accent3: #d946ab;
+      --glow-a: rgba(108,79,255,.20);
+      --glow-b: rgba(14,165,201,.15);
+      --header-bg: rgba(242,240,255,.72);
+      --orb1: rgba(108,79,255,.12);
+      --orb2: rgba(14,165,201,.09);
+      --orb3: rgba(217,70,171,.08);
+      --shadow: 0 8px 40px rgba(100,80,200,.14);
+      --shadow-card: 0 4px 30px rgba(100,80,200,.11);
+      --card-bg: rgba(255,255,255,.70);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background var(--tr), color var(--tr);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select {
+      font: inherit;
+      outline: none;
+      border: none;
+    }
+
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bg-gradient {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 60% at 18% 0%, var(--orb1) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 88% 72%, var(--orb2) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 45% at 52% 42%, var(--orb3) 0%, transparent 60%);
+      animation: bgBreath 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgBreath {
+      from { opacity: .75; transform: scale(1); }
+      to { opacity: 1; transform: scale(1.04); }
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: var(--header-bg);
+      backdrop-filter: blur(22px) saturate(160%);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 0 var(--border), 0 8px 40px rgba(0,0,0,.15);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--glow-a);
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.18rem;
+      letter-spacing: .08em;
+      background: linear-gradient(110deg, var(--text) 30%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 150px 24px 50px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 100px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 26px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2.4rem, 6.5vw, 5rem);
+      line-height: 1.06;
+      letter-spacing: -.025em;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 45%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: clamp(.95rem, 2.5vw, 1.15rem);
+      color: var(--text2);
+      max-width: 600px;
+      line-height: 1.75;
+    }
+
+    .tool-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1050px;
+      margin: 0 auto 30px;
+      padding: 0 20px;
+    }
+
+    .tool-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 30px;
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 28px;
+    }
+
+    .left-panel, .right-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-label {
+      display: block;
+      font-size: .9rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text2);
+    }
+
+    .url-input, .theme-select {
+      width: 100%;
+      padding: 15px 16px;
+      border-radius: 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      font-size: .95rem;
+      transition: border-color var(--tr-fast), box-shadow var(--tr-fast);
+    }
+
+    .url-input:focus, .theme-select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(139,114,255,.12);
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .theme-option {
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border2);
+      background: var(--surface2);
+      cursor: pointer;
+      transition: transform var(--tr-fast), border-color var(--tr-fast), box-shadow var(--tr-fast);
+      text-align: center;
+      font-weight: 700;
+      font-family: var(--font-display);
+    }
+
+    .theme-option:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 24px var(--glow-a);
+    }
+
+    .theme-option.active {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 2px rgba(45,212,240,.2);
+      background: linear-gradient(135deg, rgba(139,114,255,.12), rgba(45,212,240,.08));
+    }
+
+    .generate-btn, .download-btn {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1rem;
+      box-shadow: 0 5px 28px var(--glow-a);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast);
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .generate-btn:hover, .download-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 48px var(--glow-a);
+    }
+
+    .qr-preview-box {
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .qr-placeholder {
+      color: var(--text3);
+      font-size: .95rem;
+      line-height: 1.7;
+      max-width: 280px;
+    }
+
+    .qr-frame {
+      padding: 20px;
+      border-radius: 24px;
+      background: white;
+      box-shadow: 0 16px 50px rgba(0,0,0,.15);
+      display: inline-block;
+      transition: transform var(--tr), box-shadow var(--tr);
+    }
+
+    .qr-frame:hover {
+      transform: scale(1.02);
+    }
+
+    .qr-frame img {
+      width: 260px;
+      height: 260px;
+      display: block;
+      border-radius: 12px;
+    }
+
+    .theme-tag {
+      padding: 8px 14px;
+      border-radius: 100px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      font-size: .8rem;
+      color: var(--text2);
+      font-weight: 600;
+    }
+
+    .back-wrap {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 90px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border-radius: 14px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      backdrop-filter: blur(10px);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--text2);
+      transition: all .25s ease;
+    }
+
+    .back-link:hover {
+      color: var(--text);
+      border-color: var(--accent);
+      transform: translateX(-5px);
+      box-shadow: 0 4px 20px var(--glow-a);
+    }
+
+    .float-mode {
+      position: fixed;
+      bottom: 30px;
+      right: 28px;
+      z-index: 300;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 28px var(--glow-a);
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .error-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(239,68,68,.08);
+      border: 1px solid rgba(239,68,68,.22);
+      color: #ef4444;
+      font-size: .88rem;
+      display: none;
+    }
+
+    @media(max-width: 900px) {
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+      .qr-preview-box {
+        min-height: auto;
+      }
+    }
+
+    @media(max-width: 600px) {
+      header { padding: 0 18px; }
+      .hero { padding: 136px 16px 44px; }
+      .tool-wrap { padding: 0 14px; }
+      .tool-card { padding: 22px 18px; }
+      .theme-grid { grid-template-columns: 1fr; }
+      .qr-frame img {
+        width: 220px;
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-layer">
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+  </div>
+
+  <header>
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 6h16M4 12h10M4 18h13" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="19" cy="12" r="3" stroke="#fff" stroke-width="2"/>
+        </svg>
+      </div>
+      <span class="brand-name">ALL-IN-ONE</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div class="hero-badge">🔗 QR Tool · Free · Instant</div>
+      <h1>URL to QR Code</h1>
+      <p>Turn any website link into a clean, stylish, professional QR code — instantly and beautifully.</p>
+    </div>
+
+    <div class="tool-wrap">
+      <div class="tool-card">
+        <div class="tool-grid">
+
+          <!-- LEFT -->
+          <div class="left-panel">
+            <div class="section-title">Generate Your QR</div>
+
+            <div class="input-group">
+              <label class="input-label">Paste your URL</label>
+              <input type="text" id="urlInput" class="url-input" placeholder="https://example.com">
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Choose QR Theme</label>
+              <div class="theme-grid">
+                <div class="theme-option active" data-theme-style="classic">⚫ Classic</div>
+                <div class="theme-option" data-theme-style="neon">💜 Neon</div>
+                <div class="theme-option" data-theme-style="ocean">🌊 Ocean</div>
+                <div class="theme-option" data-theme-style="sunset">🌅 Sunset</div>
+                <div class="theme-option" data-theme-style="minimal">🤍 Minimal</div>
+                <div class="theme-option" data-theme-style="midnight">🌌 Midnight</div>
+              </div>
+            </div>
+
+            <button class="generate-btn" id="generateBtn">⚡ Generate QR Code</button>
+            <div class="error-box" id="errorBox"></div>
+          </div>
+
+          <!-- RIGHT -->
+          <div class="right-panel">
+            <div class="section-title">Preview</div>
+
+            <div class="qr-preview-box" id="qrPreviewBox">
+              <div class="qr-placeholder" id="qrPlaceholder">
+                Your generated QR code will appear here.<br><br>
+                Choose a theme, paste a valid URL, and click Generate.
+              </div>
+
+              <div id="qrResult" style="display:none;">
+                <div class="qr-frame" id="qrFrame">
+                  <img id="qrImage" src="" alt="Generated QR Code">
+                </div>
+                <div class="theme-tag" id="themeTag">Theme: Classic</div>
+                <a id="downloadLink" class="download-btn" style="display:inline-flex; justify-content:center; margin-top:18px;" download="qr_code.png">⬇ Download QR Code</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="back-wrap">
+      <a href="/" class="back-link">⬅ Back to All Tools</a>
+    </div>
+  </main>
+
+  <button class="float-mode" onclick="toggleMode()" title="Toggle theme">
+    <span id="floatIcon">🌙</span>
+  </button>
+
+  <script>
+    let isDark = true;
+    let selectedTheme = "classic";
+
+    const themeStyles = {
+      classic:  { fill: "000000", back: "ffffff", frameBg: "#ffffff", label: "Classic" },
+      neon:     { fill: "8b5cf6", back: "0f172a", frameBg: "#111827", label: "Neon" },
+      ocean:    { fill: "0891b2", back: "ecfeff", frameBg: "#ecfeff", label: "Ocean" },
+      sunset:   { fill: "ea580c", back: "fff7ed", frameBg: "#fff7ed", label: "Sunset" },
+      minimal:  { fill: "111827", back: "f9fafb", frameBg: "#f9fafb", label: "Minimal" },
+      midnight: { fill: "22d3ee", back: "020617", frameBg: "#020617", label: "Midnight" }
+    };
+
+    function toggleMode() {
+      isDark = !isDark;
+      document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+      document.getElementById("floatIcon").textContent = isDark ? "🌙" : "☀️";
+    }
+
+    document.querySelectorAll(".theme-option").forEach(option => {
+      option.addEventListener("click", () => {
+        document.querySelectorAll(".theme-option").forEach(o => o.classList.remove("active"));
+        option.classList.add("active");
+        selectedTheme = option.dataset.themeStyle;
+      });
+    });
+
+    function isValidURL(str) {
+      try {
+        new URL(str);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", async () => {
+      const url = document.getElementById("urlInput").value.trim();
+      const errorBox = document.getElementById("errorBox");
+
+      errorBox.style.display = "none";
+      errorBox.textContent = "";
+
+      if (!url) {
+        errorBox.style.display = "block";
+        errorBox.textContent = "Please paste a URL first.";
+        return;
+      }
+
+      if (!isValidURL(url)) {
+        errorBox.style.display = "block";
+        errorBox.textContent = "Please enter a valid URL (example: https://example.com)";
+        return;
+      }
+
+      try {
+        const res = await fetch("/generate_qr", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            url: url,
+            theme: selectedTheme
+          })
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+          errorBox.style.display = "block";
+          errorBox.textContent = data.error || "Something went wrong while generating QR.";
+          return;
+        }
+
+        document.getElementById("qrPlaceholder").style.display = "none";
+        document.getElementById("qrResult").style.display = "block";
+        document.getElementById("qrImage").src = data.qr_url;
+        document.getElementById("downloadLink").href = data.qr_url + "?t=" + Date.now();
+
+        const themeObj = themeStyles[selectedTheme];
+        document.getElementById("qrFrame").style.background = themeObj.frameBg;
+        document.getElementById("themeTag").textContent = "Theme: " + themeObj.label;
+
+      } catch (err) {
+        errorBox.style.display = "block";
+        errorBox.textContent = "Server error. Please try again.";
+      }
+    });
+  </script>
+</body>
+</html>

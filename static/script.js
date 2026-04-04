@@ -7,6 +7,35 @@ const progressFill = document.getElementById("progressFill");
 
 let droppedFiles = null;
 
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const body = document.body;
+    const themeToggle = document.getElementById("themeToggle");
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "light") {
+      body.classList.add("light-mode");
+    } else {
+      body.classList.remove("light-mode");
+    }
+
+    // Theme toggle click
+    if (themeToggle) {
+      themeToggle.addEventListener("click", () => {
+        body.classList.toggle("light-mode");
+
+        if (body.classList.contains("light-mode")) {
+          localStorage.setItem("theme", "light");
+        } else {
+          localStorage.setItem("theme", "dark");
+        }
+    });
+    }
+});
+
 // =======================
 // Drag & Drop Handling
 // =======================
