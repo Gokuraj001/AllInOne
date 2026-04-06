@@ -516,7 +516,7 @@ def create_app():
 
         return render_template('html_to_pdf.html')
     
-        # ===================== PDF CONVERTER =====================
+    # ===================== PDF CONVERTER =====================
     @app.route('/pdf_converter', methods=['GET', 'POST'])
     def pdf_converter():
         if request.method == 'POST':
@@ -549,6 +549,45 @@ def create_app():
                 return f"<h2>Conversion failed: {str(e)}</h2>"
 
         return render_template('pdf_converter.html')
+
+    # ===================== OFFICE TO PDF =====================
+    @app.route('/Officetopdf.html', methods=['GET', 'POST'])
+    def office_to_pdf():
+        if request.method == 'POST':
+            return "<h2>Conversion logic coming soon!</h2>"
+        return render_template('Officetopdf.html')
+
+    # ===================== PDF TO ANY FORMAT =====================
+    @app.route('/Pdftoanyformat.html', methods=['GET', 'POST'])
+    def pdf_to_anyformat():
+        if request.method == 'POST':
+            file = request.files.get('file')
+            convert_to = request.form.get('convert_to')
+
+            filename, filepath = save_uploaded_file(file, 'pdf')
+            if not filename:
+                return "<h2>No file uploaded or invalid PDF.</h2>"
+
+            if not convert_to:
+                return "<h2>Please select a conversion format.</h2>"
+
+            try:
+                if convert_to == 'word':
+                    output_filename, output_path = convert_pdf_to_word(filepath)
+                elif convert_to == 'excel':
+                    output_filename, output_path = convert_pdf_to_excel(filepath)
+                elif convert_to == 'ppt':
+                    output_filename, output_path = convert_pdf_to_ppt(filepath)
+                else:
+                    return "<h2>Invalid conversion format selected.</h2>"
+
+                return send_file(output_path, as_attachment=True)
+
+            except Exception as e:
+                return f"<h2>Conversion failed: {str(e)}</h2>"
+
+        return render_template('Pdftoanyformat.html')
+
     
     # ===================== OFFICE TO PDF =====================
 

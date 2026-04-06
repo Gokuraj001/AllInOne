@@ -1,0 +1,1518 @@
+```html
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms & Conditions - ALL-IN-ONE Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ══════════════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════════════ */
+    :root {
+      --tr: 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      --tr-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Instrument Sans', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --bg: #060610;
+      --bg2: #0b0b1e;
+      --bg3: #0f0f28;
+      --surface: rgba(255, 255, 255, 0.042);
+      --surface2: rgba(255, 255, 255, 0.07);
+      --border: rgba(255, 255, 255, 0.08);
+      --border2: rgba(255, 255, 255, 0.14);
+      --text: #eeeef8;
+      --text2: rgba(238, 238, 248, 0.55);
+      --text3: rgba(238, 238, 248, 0.28);
+      --accent: #8b72ff;
+      --accent2: #2dd4f0;
+      --accent3: #ff6bd6;
+      --glow-a: rgba(139, 114, 255, 0.32);
+      --glow-b: rgba(45, 212, 240, 0.22);
+      --card-sel: rgba(139, 114, 255, 0.12);
+      --footer-bg: #000000;
+      --header-bg: rgba(6, 6, 16, 0.6);
+      --shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+      --shadow-card: 0 4px 30px rgba(0, 0, 0, 0.5);
+      --orb1: rgba(139, 114, 255, 0.1);
+      --orb2: rgba(45, 212, 240, 0.08);
+      --orb3: rgba(255, 107, 214, 0.07);
+      --particle-color: 139, 114, 255;
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f3ff;
+      --bg2: #ede9ff;
+      --bg3: #e6e0ff;
+      --surface: rgba(255, 255, 255, 0.72);
+      --surface2: rgba(255, 255, 255, 0.9);
+      --border: rgba(100, 80, 200, 0.12);
+      --border2: rgba(100, 80, 200, 0.22);
+      --text: #1a1540;
+      --text2: rgba(26, 21, 64, 0.58);
+      --text3: rgba(26, 21, 64, 0.32);
+      --accent: #6c4fff;
+      --accent2: #0ea5c9;
+      --accent3: #d946ab;
+      --glow-a: rgba(108, 79, 255, 0.2);
+      --glow-b: rgba(14, 165, 201, 0.15);
+      --card-sel: rgba(108, 79, 255, 0.1);
+      --footer-bg: #0f0e1a;
+      --header-bg: rgba(244, 243, 255, 0.65);
+      --shadow: 0 8px 40px rgba(100, 80, 200, 0.15);
+      --shadow-card: 0 4px 30px rgba(100, 80, 200, 0.12);
+      --orb1: rgba(108, 79, 255, 0.12);
+      --orb2: rgba(14, 165, 201, 0.1);
+      --orb3: rgba(217, 70, 171, 0.09);
+      --particle-color: 108, 79, 255;
+    }
+
+    /* ══════════════════════════════════════════════
+   RESET & BASE
+══════════════════════════════════════════════ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background var(--tr), color var(--tr);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font: inherit;
+      color: inherit;
+    }
+
+    /* ══════════════════════════════════════════════
+   BACKGROUND SYSTEM
+══════════════════════════════════════════════ */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bg-gradient {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 60% at 20% 0%, var(--orb1) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 90% 70%, var(--orb2) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 45% at 55% 40%, var(--orb3) 0%, transparent 60%);
+      animation: bgBreath 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgBreath {
+      from {
+        opacity: .75;
+        transform: scale(1);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1.04);
+      }
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
+      transition: opacity var(--tr);
+    }
+
+    [data-theme="light"] .bg-grid {
+      opacity: 0.55;
+    }
+
+    canvas#px {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ══════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════ */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: var(--header-bg);
+      backdrop-filter: blur(22px) saturate(160%);
+      -webkit-backdrop-filter: blur(22px) saturate(160%);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 0 var(--border), 0 8px 40px rgba(0, 0, 0, 0.15);
+      transition: background var(--tr), border-color var(--tr);
+      animation: hdrIn 0.8s cubic-bezier(0.22, 1, .36, 1) both;
+    }
+
+    @keyframes hdrIn {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Brand — LEFT */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      z-index: 2;
+      animation: fadeUp 0.8s 0.2s cubic-bezier(0.22, 1, .36, 1) both;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--glow-a);
+      animation: iconPulse 4s ease-in-out infinite;
+      transition: box-shadow var(--tr);
+    }
+
+    @keyframes iconPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 16px var(--glow-a);
+      }
+
+      50% {
+        box-shadow: 0 0 32px var(--glow-a), 0 0 50px var(--glow-b);
+      }
+    }
+
+    .brand-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.18rem;
+      letter-spacing: 0.08em;
+      background: linear-gradient(110deg, var(--text) 30%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: background var(--tr);
+    }
+
+    /* Hamburger — RIGHT */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5.5px;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      border-radius: 12px;
+      transition: background var(--tr-fast);
+      position: relative;
+      z-index: 310;
+    }
+
+    .hamburger:hover {
+      background: var(--surface2);
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.4s cubic-bezier(0.4, 0, .2, 1), opacity 0.25s, width 0.3s;
+      transform-origin: center;
+    }
+
+    .hamburger span:nth-child(3) {
+      width: 65%;
+      margin-left: auto;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7.5px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7.5px) rotate(-45deg);
+      width: 100%;
+    }
+
+    /* ══════════════════════════════════════════════
+   DRAWER MENU
+══════════════════════════════════════════════ */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 260;
+      width: min(340px, 88vw);
+      height: 100vh;
+      background: var(--bg2);
+      border-left: 1px solid var(--border2);
+      box-shadow: -12px 0 60px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.48s cubic-bezier(0.22, 1, .36, 1), background var(--tr);
+      overflow: hidden;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    /* Drawer top bar */
+    .drawer-header {
+      height: 70px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .drawer-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
+
+    .drawer-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text2);
+      transition: background var(--tr-fast), color var(--tr-fast);
+    }
+
+    .drawer-close:hover {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    /* Shimmering top stripe */
+    .drawer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      from {
+        background-position: 0 0;
+      }
+
+      to {
+        background-position: 200% 0;
+      }
+    }
+
+    /* Menu items */
+    .drawer-nav {
+      flex: 1;
+      padding: 12px 0;
+      overflow-y: auto;
+    }
+
+    .drawer-nav::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .drawer-nav::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 2px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      padding: 15px 24px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.97rem;
+      color: var(--text2);
+      transition: color var(--tr-fast), background var(--tr-fast), padding-left var(--tr-fast);
+      position: relative;
+      border: none;
+      text-align: left;
+    }
+
+    .menu-item::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10%;
+      bottom: 10%;
+      width: 3px;
+      border-radius: 2px;
+      background: linear-gradient(var(--accent), var(--accent2));
+      transform: scaleY(0);
+      transition: transform var(--tr-fast);
+    }
+
+    .menu-item:hover {
+      color: var(--text);
+      padding-left: 32px;
+      background: var(--surface2);
+    }
+
+    .menu-item:hover::after {
+      transform: scaleY(1);
+    }
+
+    .menu-item-ico {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: background var(--tr-fast), border-color var(--tr-fast);
+    }
+
+    .menu-item:hover .menu-item-ico {
+      background: var(--surface2);
+      border-color: var(--border2);
+    }
+
+    .menu-item-chevron {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: var(--text3);
+    }
+
+    /* Drawer footer */
+    .drawer-footer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .mode-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .mode-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--text2);
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 28px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toggle-switch.on {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent;
+    }
+
+    .toggle-knob {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.35s cubic-bezier(0.22, 1, .36, 1);
+    }
+
+    .toggle-switch.on .toggle-knob {
+      transform: translateX(22px);
+    }
+
+    /* ══════════════════════════════════════════════
+   TERMS & CONDITIONS CONTENT
+══════════════════════════════════════════════ */
+    .terms-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 100px 28px 80px;
+    }
+
+    .terms-header {
+      margin-bottom: 60px;
+      animation: fadeUp 0.9s 0.3s cubic-bezier(0.22, 1, .36, 1) both;
+    }
+
+    .terms-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 50%, var(--accent2) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .terms-updated {
+      font-size: 0.88rem;
+      color: var(--text2);
+      font-style: italic;
+    }
+
+    .terms-content {
+      animation: fadeUp 0.9s 0.4s cubic-bezier(0.22, 1, .36, 1) both;
+    }
+
+    .terms-section {
+      margin-bottom: 48px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .terms-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section-number {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--text);
+      margin-bottom: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .subsection-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-top: 18px;
+      margin-bottom: 10px;
+      letter-spacing: -0.005em;
+    }
+
+    .terms-h4 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.94rem;
+      color: var(--text);
+      line-height: 1.8;
+      margin-bottom: 14px;
+      letter-spacing: -0.003em;
+    }
+
+    .terms-highlight {
+      display: inline-block;
+      background: rgba(139, 114, 255, 0.12);
+      border-left: 3px solid var(--accent);
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 18px 0;
+      font-size: 0.93rem;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .terms-highlight h4 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.94rem;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .terms-link {
+      color: var(--accent2);
+      text-decoration: none;
+      transition: color var(--tr-fast), text-decoration var(--tr-fast);
+    }
+
+    .terms-link:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    /* ══════════════════════════════════════════════
+   FLOATING MODE BUTTON
+══════════════════════════════════════════════ */
+    .float-mode {
+      position: fixed;
+      bottom: 30px;
+      right: 28px;
+      z-index: 300;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 28px var(--glow-a), 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast);
+      animation: fadeUp 1s 1.4s cubic-bezier(0.22, 1, .36, 1) both;
+      font-size: 1.3rem;
+    }
+
+    .float-mode:hover {
+      transform: scale(1.12) rotate(12deg);
+      box-shadow: 0 8px 40px var(--glow-a);
+    }
+
+    .float-mode:active {
+      transform: scale(0.95);
+    }
+
+    /* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
+    footer {
+      background: #000;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 70px 28px 40px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 56px;
+    }
+
+    @media (max-width: 900px) {
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .footer-top {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: 0.06em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, .32);
+      line-height: 1.7;
+      max-width: 240px;
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .22);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .footer-col a {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, .4);
+      transition: color var(--tr-fast), padding-left var(--tr-fast);
+      display: inline-block;
+    }
+
+    .footer-col a:hover {
+      color: #fff;
+      padding-left: 5px;
+    }
+
+    /* Footer mode toggle */
+    .footer-mode-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .08);
+      margin-top: 24px;
+    }
+
+    .footer-mode-label {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, .45);
+      font-family: var(--font-display);
+      font-weight: 600;
+    }
+
+    .footer-mode-label span {
+      margin-right: 8px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, .06);
+      padding-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, .18);
+    }
+
+    .footer-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .pill {
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: 0.73rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, .08);
+      color: rgba(255, 255, 255, .22);
+    }
+
+    /* ══════════════════════════════════════════════
+   UTILITY ANIMATIONS
+══════════════════════════════════════════════ */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .terms-title {
+        font-size: 1.8rem;
+      }
+
+      .section-title {
+        font-size: 1.1rem;
+      }
+
+      .subsection-title {
+        font-size: 0.9rem;
+      }
+
+      .terms-h4 {
+        font-size: 0.88rem;
+      }
+
+      .terms-wrapper {
+        padding: 90px 20px 60px;
+      }
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(139, 114, 255, .3);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── BACKGROUND ── -->
+  <div class="bg-layer">
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+  </div>
+  <canvas id="px"></canvas>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <a href="/" class="brand" style="text-decoration: none;">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6h16M4 12h10M4 18h13" stroke="#fff" stroke-width="2.2" stroke-linecap="round" />
+          <circle cx="19" cy="12" r="3" stroke="#fff" stroke-width="2" />
+        </svg>
+      </div>
+      <span class="brand-name">ALL-IN-ONE</span>
+    </a>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ── DRAWER ── -->
+  <div class="drawer-overlay" id="overlay"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <span class="drawer-title">Navigation</span>
+      <button class="drawer-close" id="closeDrawer" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+
+    <nav class="drawer-nav">
+      <a href="/" class="menu-item">
+        <span class="menu-item-ico">🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="#" class="menu-item">
+        <span class="menu-item-ico">🔒</span>
+        <span>Privacy Policy</span>
+      </a>
+      <a href="#" class="menu-item">
+        <span class="menu-item-ico">📜</span>
+        <span>Terms & Conditions</span>
+      </a>
+      <a href="#" class="menu-item">
+        <span class="menu-item-ico">❓</span>
+        <span>FAQ</span>
+      </a>
+      <a href="#" class="menu-item">
+        <span class="menu-item-ico">📧</span>
+        <span>Contact</span>
+      </a>
+    </nav>
+
+    <div class="drawer-footer">
+      <div class="mode-toggle-row">
+        <span class="mode-label">
+          <span>🌙</span> Dark Mode
+        </span>
+        <button class="toggle-switch on" id="themeToggle">
+          <div class="toggle-knob"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TERMS & CONDITIONS CONTENT ── -->
+  <div class="terms-wrapper">
+    <div class="terms-header">
+      <h1 class="terms-title">Terms & Conditions</h1>
+      <p class="terms-updated">Last Updated: January 2024</p>
+    </div>
+
+    <div class="terms-content">
+      <!-- Section 1 -->
+      <section class="terms-section">
+        <div class="section-number">1. ACCEPTANCE OF TERMS</div>
+        <h2 class="section-title">Acceptance of Terms</h2>
+        <h4 class="terms-h4">
+          Welcome to <strong>ALL-IN-ONE</strong> ("Website," "Service," "we," "us," or "our"). These Terms & Conditions ("T&C") govern your use of our website and services. By accessing, browsing, or using ALL-IN-ONE, you agree to be bound by these terms. If you do not agree with any part of these T&C, please do not use our services.
+        </h4>
+        <h4 class="terms-h4">
+          We reserve the right to modify these Terms & Conditions at any time. Changes will be effective immediately upon posting to the Website. Your continued use of the Website following any changes constitutes your acceptance of the new T&C.
+        </h4>
+      </section>
+
+      <!-- Section 2 -->
+      <section class="terms-section">
+        <div class="section-number">2. ABOUT OUR SERVICES</div>
+        <h2 class="section-title">About Our Services</h2>
+        <h4 class="terms-h4">
+          ALL-IN-ONE provides free online conversion and document management tools, including but not limited to:
+        </h4>
+        <h4 class="terms-h4">Image to PDF conversion</h4>
+        <h4 class="terms-h4">PDF to Office file conversion</h4>
+        <h4 class="terms-h4">Merge PDF files</h4>
+        <h4 class="terms-h4">Split PDF files</h4>
+        <h4 class="terms-h4">Compress PDF files</h4>
+        <h4 class="terms-h4">Link to QR code generation</h4>
+        <h4 class="terms-h4">Organize PDF documents</h4>
+        <h4 class="terms-h4">PDF to Office file conversion</h4>
+        <h4 class="terms-h4">
+          <strong>Note:</strong> Some advanced features may require a premium subscription in the future. We will notify users of any changes to our service offerings.
+        </h4>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="terms-section">
+        <div class="section-number">3. USE LICENSE</div>
+        <h2 class="section-title">Use License</h2>
+        <h4 class="terms-h4">
+          We grant you a limited, non-exclusive, non-transferable, and revocable license to use our Website and Services for personal and non-commercial purposes only. You agree not to:
+        </h4>
+        <h4 class="terms-h4">Reproduce, duplicate, copy, or sell any part of our services</h4>
+        <h4 class="terms-h4">Use automated tools, bots, scrapers, or scripts to access our Website</h4>
+        <h4 class="terms-h4">Attempt to reverse engineer, disassemble, or hack our services</h4>
+        <h4 class="terms-h4">Use our services for illegal activities or to violate any applicable laws</h4>
+        <h4 class="terms-h4">Transmit viruses, malware, or any code of destructive nature</h4>
+        <h4 class="terms-h4">Interfere with or disrupt the Website's normal functioning</h4>
+        <h4 class="terms-h4">Attempt to gain unauthorized access to our systems</h4>
+        <h4 class="terms-h4">Harass, abuse, or threaten our staff or other users</h4>
+      </section>
+
+      <!-- Section 4 -->
+      <section class="terms-section">
+        <div class="section-number">4. USER RESPONSIBILITIES</div>
+        <h2 class="section-title">User Responsibilities</h2>
+        <h4 class="terms-h4">
+          You are responsible for:
+        </h4>
+        <h4 class="terms-h4">Maintaining the confidentiality of any account information (if applicable in the future)</h4>
+        <h4 class="terms-h4">All activities that occur under your access to the Website</h4>
+        <h4 class="terms-h4">Ensuring that the content you upload is legal and does not infringe on anyone's rights</h4>
+        <h4 class="terms-h4">Not uploading files containing illegal content, malware, or copyrighted material without authorization</h4>
+        <h4 class="terms-h4">
+          You warrant that you have the legal right to upload and convert any files you submit to our services.
+        </h4>
+      </section>
+
+      <!-- Section 5 -->
+      <section class="terms-section">
+        <div class="section-number">5. DATA HANDLING & FILE SECURITY</div>
+        <h2 class="section-title">Data Handling & File Security</h2>
+        <h4 class="terms-h4"><strong>Instant Deletion:</strong> All uploaded files are deleted immediately after processing. We do not retain copies of your files on our servers.</h4>
+        <h4 class="terms-h4"><strong>No Server Processing:</strong> Files are processed client-side whenever possible to ensure maximum privacy.</h4>
+        <h4 class="terms-h4"><strong>Google Analytics:</strong> We collect anonymous usage data through Google Analytics to improve our services. This data does not include personal information about your files.</h4>
+        <h4 class="terms-h4"><strong>No Data Sharing:</strong> We do not sell, share, or use your data for any commercial purpose.</h4>
+        <h4 class="terms-h4"><strong>Privacy Policy:</strong> For detailed information about data collection and privacy practices, please refer to our separate Privacy Policy.</h4>
+      </section>
+
+      <!-- Section 6 -->
+      <section class="terms-section">
+        <div class="section-number">6. CONVERSION ACCURACY & LIMITATIONS</div>
+        <h2 class="section-title">Conversion Accuracy & Limitations</h2>
+        <h4 class="terms-h4"><strong>Accuracy Guarantee:</strong> We guarantee approximately 88% accuracy for all file conversions. This means that while we strive for high-quality conversions, some formatting, images, or complex elements may not convert perfectly.</h4>
+        <h4 class="terms-h4"><strong>No Liability for Conversion Errors:</strong> We are not responsible for any loss of data, formatting issues, or errors that may occur during the conversion process.</h4>
+        <h4 class="terms-h4"><strong>File Format Limitations:</strong> Not all file formats or complex documents may be fully compatible with our conversion tools.</h4>
+        <h4 class="terms-h4"><strong>User Responsibility:</strong> We recommend that you review converted files before relying on them for critical purposes.</h4>
+      </section>
+
+      <!-- Section 7 -->
+      <section class="terms-section">
+        <div class="section-number">7. LIMITATION OF LIABILITY</div>
+        <h2 class="section-title">Limitation of Liability</h2>
+        <h4 class="terms-h4">
+          <strong>TO THE FULLEST EXTENT PERMITTED BY LAW, ALL-IN-ONE SHALL NOT BE LIABLE FOR:</strong>
+        </h4>
+        <h4 class="terms-h4">Any indirect, incidental, special, consequential, or punitive damages</h4>
+        <h4 class="terms-h4">Loss of data, revenue, profits, or business opportunities</h4>
+        <h4 class="terms-h4">Errors, omissions, or inaccuracies in converted files</h4>
+        <h4 class="terms-h4">Interruptions, delays, or unavailability of services</h4>
+        <h4 class="terms-h4">Unauthorized access to or use of your files</h4>
+        <h4 class="terms-h4">Third-party actions or claims arising from your use of our services</h4>
+        <h4 class="terms-h4">
+          Your sole remedy for dissatisfaction with our services is to discontinue using them.
+        </h4>
+      </section>
+
+      <!-- Section 8 -->
+      <section class="terms-section">
+        <div class="section-number">8. DISCLAIMER OF WARRANTIES</div>
+        <h2 class="section-title">Disclaimer of Warranties</h2>
+        <h4 class="terms-h4">
+          <strong>OUR SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED.</strong>
+        </h4>
+        <h4 class="terms-h4">
+          We make no warranty that:
+        </h4>
+        <h4 class="terms-h4">The Website will be uninterrupted, error-free, or secure</h4>
+        <h4 class="terms-h4">The quality of our services will meet your expectations</h4>
+        <h4 class="terms-h4">Any defects in our services will be corrected</h4>
+        <h4 class="terms-h4">The Website is free from viruses or harmful components</h4>
+        <h4 class="terms-h4">
+          To the fullest extent permitted by law, we disclaim all warranties, including implied warranties of merchantability, fitness for a particular purpose, and non-infringement.
+        </h4>
+      </section>
+
+      <!-- Section 9 -->
+      <section class="terms-section">
+        <div class="section-number">9. INTELLECTUAL PROPERTY RIGHTS</div>
+        <h2 class="section-title">Intellectual Property Rights</h2>
+        <h4 class="terms-h4"><strong>Our Content:</strong> All content on the ALL-IN-ONE Website, including logos, design, text, and graphics, is owned by ALL-IN-ONE or licensed to us. You may not reproduce, distribute, or use this content without our explicit permission.</h4>
+        <h4 class="terms-h4"><strong>Your Content:</strong> By uploading files to our Website, you grant us a limited license to process those files for the purpose of providing our services. We do not claim ownership of your original content.</h4>
+        <h4 class="terms-h4"><strong>Copyrighted Material:</strong> You agree not to upload files containing copyrighted material without the owner's permission. Users who violate this may have their access terminated.</h4>
+      </section>
+
+      <!-- Section 10 -->
+      <section class="terms-section">
+        <div class="section-number">10. PROHIBITED CONTENT</div>
+        <h2 class="section-title">Prohibited Content</h2>
+        <h4 class="terms-h4">
+          You agree not to upload or process files containing:
+        </h4>
+        <h4 class="terms-h4">Illegal content or content that violates any law</h4>
+        <h4 class="terms-h4">Malware, viruses, or malicious code</h4>
+        <h4 class="terms-h4">Pornographic or adult content</h4>
+        <h4 class="terms-h4">Content that infringes on intellectual property rights</h4>
+        <h4 class="terms-h4">Hateful, abusive, or discriminatory content</h4>
+        <h4 class="terms-h4">Personal data of others without consent</h4>
+      </section>
+
+      <!-- Section 11 -->
+      <section class="terms-section">
+        <div class="section-number">11. CUSTOMER SUPPORT</div>
+        <h2 class="section-title">Customer Support</h2>
+        <h4 class="terms-h4">
+          We provide customer support to assist with any issues or questions regarding our services. You can contact us through:
+        </h4>
+        <h4 class="terms-h4">Email: <a href="mailto:support@allinone.com" class="terms-link">support@allinone.com</a></h4>
+        <h4 class="terms-h4">Support Form: <a href="#" class="terms-link">Support Page</a></h4>
+        <h4 class="terms-h4">Response Time: We aim to respond to all inquiries within 24-48 hours</h4>
+        <h4 class="terms-h4">
+          Support is provided on a best-effort basis and may be limited depending on the nature of your request.
+        </h4>
+      </section>
+
+      <!-- Section 12 -->
+      <section class="terms-section">
+        <div class="section-number">12. SERVICE INTERRUPTIONS & MAINTENANCE</div>
+        <h2 class="section-title">Service Interruptions & Maintenance</h2>
+        <h4 class="terms-h4">
+          ALL-IN-ONE may temporarily suspend or discontinue services for:
+        </h4>
+        <h4 class="terms-h4">Scheduled maintenance and updates</h4>
+        <h4 class="terms-h4">Emergency repairs</h4>
+        <h4 class="terms-h4">Technical issues or server problems</h4>
+        <h4 class="terms-h4">Compliance with legal requirements</h4>
+        <h4 class="terms-h4">
+          We will make reasonable efforts to provide advance notice of planned maintenance, but we do not guarantee uninterrupted service access.
+        </h4>
+      </section>
+
+      <!-- Section 13 -->
+      <section class="terms-section">
+        <div class="section-number">13. THIRD-PARTY LINKS & CONTENT</div>
+        <h2 class="section-title">Third-Party Links & Content</h2>
+        <h4 class="terms-h4">
+          Our Website may contain links to third-party websites. We are not responsible for:
+        </h4>
+        <h4 class="terms-h4">The content of external websites</h4>
+        <h4 class="terms-h4">The accuracy or legality of third-party services</h4>
+        <h4 class="terms-h4">Any damages arising from your use of third-party services</h4>
+        <h4 class="terms-h4">Privacy practices of third-party websites</h4>
+        <h4 class="terms-h4">
+          Your use of third-party websites is governed by their own terms and conditions.
+        </h4>
+      </section>
+
+      <!-- Section 14 -->
+      <section class="terms-section">
+        <div class="section-number">14. ADVERTISEMENTS</div>
+        <h2 class="section-title">Advertisements</h2>
+        <h4 class="terms-h4">
+          ALL-IN-ONE displays advertisements on the Website to support our free services. By using our Website, you acknowledge and accept the presence of advertisements. We are not responsible for:
+        </h4>
+        <h4 class="terms-h4">The accuracy or claims made in advertisements</h4>
+        <h4 class="terms-h4">Any damages resulting from clicking on or interacting with ads</h4>
+        <h4 class="terms-h4">Products or services offered by advertisers</h4>
+      </section>
+
+      <!-- Section 15 -->
+      <section class="terms-section">
+        <div class="section-number">15. INDEMNIFICATION</div>
+        <h2 class="section-title">Indemnification</h2>
+        <h4 class="terms-h4">
+          You agree to indemnify, defend, and hold harmless ALL-IN-ONE, its owners, employees, and agents from any claims, damages, losses, or expenses (including legal fees) arising from:
+        </h4>
+        <h4 class="terms-h4">Your violation of these T&C</h4>
+        <h4 class="terms-h4">Your use or misuse of our services</h4>
+        <h4 class="terms-h4">Your violation of any applicable law or regulation</h4>
+        <h4 class="terms-h4">Your infringement of anyone's rights</h4>
+        <h4 class="terms-h4">Your upload of illegal or unauthorized content</h4>
+      </section>
+
+      <!-- Section 16 -->
+      <section class="terms-section">
+        <div class="section-number">16. TERMINATION OF ACCESS</div>
+        <h2 class="section-title">Termination of Access</h2>
+        <h4 class="terms-h4">
+          We reserve the right to suspend or terminate your access to our Website at any time, without notice, for:
+        </h4>
+        <h4 class="terms-h4">Violation of these Terms & Conditions</h4>
+        <h4 class="terms-h4">Uploading illegal or harmful content</h4>
+        <h4 class="terms-h4">Attempting to hack, disrupt, or damage the Website</h4>
+        <h4 class="terms-h4">Abuse of our services or staff</h4>
+        <h4 class="terms-h4">Any other reason we deem necessary</h4>
+        <h4 class="terms-h4">
+          Upon termination, any rights granted to you will cease immediately.
+        </h4>
+      </section>
+
+      <!-- Section 17 -->
+      <section class="terms-section">
+        <div class="section-number">17. GOVERNING LAW & JURISDICTION</div>
+        <h2 class="section-title">Governing Law & Jurisdiction</h2>
+        <h4 class="terms-h4">
+          These Terms & Conditions are governed by and construed in accordance with the laws of <strong>India</strong>, without regard to its conflict of law principles.
+        </h4>
+        <h4 class="terms-h4">
+          You agree that any legal action or dispute arising out of or relating to these T&C or your use of our services shall be subject to the exclusive jurisdiction of the courts located in <strong>India</strong>.
+        </h4>
+      </section>
+
+      <!-- Section 18 -->
+      <section class="terms-section">
+        <div class="section-number">18. DISPUTE RESOLUTION</div>
+        <h2 class="section-title">Dispute Resolution</h2>
+        <h4 class="terms-h4">
+          Before taking legal action, we encourage you to contact us to resolve any disputes amicably through our customer support team. If a dispute cannot be resolved through discussion, it shall be governed by the laws of <strong>India</strong>.
+        </h4>
+      </section>
+
+      <!-- Section 19 -->
+      <section class="terms-section">
+        <div class="section-number">19. SEVERABILITY</div>
+        <h2 class="section-title">Severability</h2>
+        <h4 class="terms-h4">
+          If any provision of these Terms & Conditions is found to be invalid, unenforceable, or illegal, the remaining provisions shall continue in full force and effect. We will modify the invalid provision to the minimum extent necessary to make it valid.
+        </h4>
+      </section>
+
+      <!-- Section 20 -->
+      <section class="terms-section">
+        <div class="section-number">20. ENTIRE AGREEMENT</div>
+        <h2 class="section-title">Entire Agreement</h2>
+        <h4 class="terms-h4">
+          These Terms & Conditions, together with our Privacy Policy, constitute the entire agreement between you and ALL-IN-ONE regarding your use of our services. They supersede all prior agreements, understandings, and communications.
+        </h4>
+        <h4 class="terms-h4">
+          If you have entered into any prior agreements with us, those agreements are now void and replaced by these T&C.
+        </h4>
+      </section>
+
+      <!-- Section 21 -->
+      <section class="terms-section">
+        <div class="section-number">21. CONTACT INFORMATION</div>
+        <h2 class="section-title">Contact Information</h2>
+        <h4 class="terms-h4">
+          For questions, concerns, or clarifications regarding these Terms & Conditions, please contact us at:
+        </h4>
+        <div class="terms-highlight">
+          <h4><strong>ALL-IN-ONE</strong></h4>
+          <h4>📧 Email: <a href="mailto:support@allinone.com" class="terms-link">support@allinone.com</a></h4>
+          <h4>🌐 Website: <a href="https://www.allinone.com" class="terms-link">www.allinone.com</a></h4>
+          <h4>📍 Location: India</h4>
+          <h4><strong>Support Hours:</strong> Available 24/7</h4>
+        </div>
+      </section>
+
+      <!-- Section 22 -->
+      <section class="terms-section">
+        <div class="section-number">22. CHANGES TO TERMS & CONDITIONS</div>
+        <h2 class="section-title">Changes to Terms & Conditions</h2>
+        <h4 class="terms-h4">
+          We may update these Terms & Conditions at any time without prior notice. The updated version will be effective immediately upon posting. Your continued use of the Website after any modifications constitutes your acceptance of the new T&C.
+        </h4>
+        <h4 class="terms-h4">
+          We recommend reviewing this page periodically to stay informed of any changes.
+        </h4>
+        <div class="terms-highlight">
+          <h4><strong>© 2024 ALL-IN-ONE. All rights reserved.</strong></h4>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ── FLOATING MODE BUTTON ── -->
+  <button class="float-mode" id="modeBtn" aria-label="Toggle dark mode">
+    🌙
+  </button>
+
+  <!-- ── FOOTER ── -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <!-- Column 1: Brand -->
+        <div>
+          <h3 class="footer-brand-name">ALL-IN-ONE</h3>
+          <p class="footer-tagline">
+            Free online tools for document conversion, PDF management, and more. No registration required. 100% private and secure.
+          </p>
+        </div>
+
+        <!-- Column 2: Product -->
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/#tools">All Tools</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#features">Features</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Company -->
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#careers">Careers</a></li>
+            <li><a href="#press">Press</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Legal -->
+        <div class="footer-col">
+          <h4>Legal & Support</h4>
+          <ul>
+            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="#terms">Terms & Conditions</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#support">Support</a></li>
+          </ul>
+          <div class="footer-mode-row">
+            <span class="footer-mode-label"><span>🌙</span> Dark</span>
+            <button class="toggle-switch on" id="footerThemeToggle">
+              <div class="toggle-knob"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          © 2024 ALL-IN-ONE. All rights reserved. Made with ❤️ in India.
+        </p>
+        <div class="footer-pills">
+          <span class="pill">Privacy First</span>
+          <span class="pill">No Ads Tracking</span>
+          <span class="pill">100% Secure</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── HAMBURGER & DRAWER ──
+    const hamburger = document.getElementById('hamburger');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const closeDrawer = document.getElementById('closeDrawer');
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      hamburger.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function toggleDrawer() {
+      drawer.classList.toggle('open');
+      overlay.classList.toggle('open');
+      hamburger.classList.toggle('open');
+      document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+    }
+
+    hamburger.addEventListener('click', toggleDrawer);
+    closeDrawer.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+
+    overlay.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+
+    // Close drawer when clicking on a link
+    document.querySelectorAll('.drawer a').forEach(link => {
+      link.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        overlay.classList.remove('open');
+        hamburger.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // ── THEME TOGGLE ──
+    const html = document.documentElement;
+    const modeBtn = document.getElementById('modeBtn');
+    const themeToggle = document.getElementById('themeToggle');
+    const footerThemeToggle = document.getElementById('footerThemeToggle');
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', savedTheme);
+    updateThemeButtons(savedTheme);
+
+    function updateThemeButtons(theme) {
+      if (theme === 'light') {
+        themeToggle?.classList.remove('on');
+        footerThemeToggle?.classList.remove('on');
+        modeBtn.textContent = '☀️';
+      } else {
+        themeToggle?.classList.add('on');
+        footerThemeToggle?.classList.add('on');
+        modeBtn.textContent = '🌙';
+      }
+    }
+
+    function toggleTheme() {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeButtons(newTheme);
+    }
+
+    modeBtn?.addEventListener('click', toggleTheme);
+    themeToggle?.addEventListener('click', toggleTheme);
+    footerThemeToggle?.addEventListener('click', toggleTheme);
+
+    // ── PARTICLE ANIMATION (Canvas) ──
+    const canvas = document.getElementById('px');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let particles = [];
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 1.5;
+          this.speedX = (Math.random() - 0.5) * 0.5;
+          this.speedY = (Math.random() - 0.5) * 0.5;
+          this.opacity = Math.random() * 0.5 + 0.3;
+        }
+
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.opacity > 0) this.opacity -= 0.002;
+          if (this.x > canvas.width) this.x = 0;
+          if (this.x < 0) this.x = canvas.width;
+          if (this.y > canvas.height) this.y = 0;
+          if (this.y < 0) this.y = canvas.height;
+        }
+
+        draw() {
+          ctx.fillStyle = `rgba(139, 114, 255, ${this.opacity})`;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function initParticles() {
+        particles = [];
+        for (let i = 0; i < 60; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let p of particles) {
+          p.update();
+          p.draw();
+        }
+        if (Math.random() < 0.1 && particles.length < 100) {
+          particles.push(new Particle());
+        }
+        requestAnimationFrame(animateParticles);
+      }
+
+      initParticles();
+      animateParticles();
+
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    }
+
+    // ── SMOOTH SCROLL ──
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && document.querySelector(href)) {
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>
