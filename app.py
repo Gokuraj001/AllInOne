@@ -576,6 +576,27 @@ def create_app():
 
         return render_template('office_to_pdf.html')
     
+
+# ===================== PAGES =====================
+    @app.route('/Privacypolicy')
+    def privacy_policy():
+        return render_template('Privacypolicy.html')
+
+
+    @app.route('/Terms&Condition')
+    def terms_condition():
+        return render_template('Terms&Condition.html')
+
+
+    @app.route('/about')
+    def about():
+        return render_template('about.html')
+
+
+    @app.route('/contact')
+    def contact():
+        return render_template('contact.html')
+    
     # ===================== DOWNLOAD =====================
     @app.route('/download/<filename>')
     def download_file(filename):
