@@ -13,7 +13,7 @@ import tempfile
 import platform
 import pythoncom
 import win32com.client
-import qecode
+import qrcode
 from flask import jsonify
 from pdf2docx import Converter
 from pdf2image import convert_from_path
@@ -181,7 +181,7 @@ def create_app():
     # ===================== MERGE PDF =====================
     @app.route('/output/<filename>')
     def output_file(filename):
-        return send_from_directory(app.config['OUTPUT_FOLDER'], filename0)
+        return send_from_directory(app.config['OUTPUT_FOLDER'], filename, as_attachment=True)
     
 
     # ===================== MERGE PDF =====================
@@ -232,12 +232,12 @@ def create_app():
 
         colors = theme_map.get(theme, theme_map["classic"])
 
-        filename = f"qr_{vvid.vvid().hex}.png"
+        filename = f"qr_{uuid.uuid4().hex}.png"
         output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], filename)
 
-        qr = qecode.QRCode(
+        qr = qrcode.QRCode(
             version=1,
-            error_correction=qecode.constants.ERROR_CORRECT_L,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
             box_size=12,
             border=4
         )
