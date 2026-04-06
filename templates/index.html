@@ -9,6 +9,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap"
     rel="stylesheet" />
+    <link rel="stylesheet" href="shared.css">
+    <script src="theme-toggle.js" defer></script>>
   <style>
     /* ══════════════════════════════════════════════
    DESIGN TOKENS
@@ -1465,7 +1467,7 @@
     <section class="tools-section" id="tools">
       <div class="section-header">
         <p class="section-eyebrow" data-i18n="toolsEye">Our Toolkit</p>
-        <h2 class="section-title"><span data-i18n="toolsTitleA">10 Powerful Tools,</span> <span
+        <h2 class="section-title"><span data-i18n="toolsTitleA">11 Powerful Tools,</span> <span
             data-i18n="toolsTitleB">Zero Cost</span></h2>
       </div>
       <div class="tools-grid" id="toolsGrid"></div>
@@ -1549,7 +1551,8 @@
       { ico: '⬇️', pal: 'ico-r', nk: 't6n', dk: 't6d', url: '/compress' },
       { ico: '✂️', pal: 'ico-o', nk: 't7n', dk: 't7d', url: '/split' },
       { ico: '📊', pal: 'ico-a', nk: 't8n', dk: 't8d', url: '/office_to_pdf' }, // NEW: Office to PDF
-      { ico: '📑', pal: 'ico-c', nk: 't9n', dk: 't9d', url: '/pdf_converter' }
+      { ico: '📑', pal: 'ico-c', nk: 't9n', dk: 't9d', url: '/pdf_converter' },
+      { ico: '🔗', pal: 'ico-c', nk: 't10n', dk: 't10d', url: '/qr_generator' }
     ];
 
     const LANGUAGES = [
@@ -1579,7 +1582,7 @@
         heroSub: 'ALL-IN-ONE is a platform where you can get all the tools for free!!!',
         ctaExplore: 'Explore Tools', ctaLearn: 'Learn More',
         scrollHint: 'Scroll',
-        toolsEye: 'Our Toolkit', toolsTitleA: '10 Powerful Tools,', toolsTitleB: 'Zero Cost',
+        toolsEye: 'Our Toolkit', toolsTitleA: '11 Powerful Tools,', toolsTitleB: 'Zero Cost',
         pricingTitle: 'Coming Soon!',
         pricingMsg: 'This feature will be available soon.<br>We\'re crafting something extraordinary for you.',
         modalClose: 'Awesome, got it!',
@@ -1598,7 +1601,8 @@
         t6n: 'Compress PDF', t6d: 'Shrink PDF sizes dramatically while keeping full quality.',
         t7n: 'Split PDF', t7d: 'Divide large PDFs into multiple focused documents.',
         t8n: 'Excel, Word & PPT to PDF', t8d: 'Convert Word, Excel, or PowerPoint files to professional PDF documents.',
-        t9n: 'PDF to Excel, Word & PPT', t9d: 'Transform PDF files back into editable Word, Excel, or PowerPoint formats.'
+        t9n: 'PDF to Excel, Word & PPT', t9d: 'Transform PDF files back into editable Word, Excel, or PowerPoint formats.',
+        t10n: 'QR Generator', t10d: 'Create differnet types of QR codes from any URL instantly.',
       },
       es: {
         brand: 'TODO-EN-UNO', menuTitle: 'Navegación',
@@ -1628,7 +1632,8 @@
         t6n: 'Comprimir PDF', t6d: 'Reduce drásticamente el tamaño de los PDF manteniendo la calidad completa.',
         t7n: 'Dividir PDF', t7d: 'Divide PDF grandes en múltiples documentos enfocados.',
         t8n: 'Excel, Word y PPT a PDF', t8d: 'Convierte archivos de Word, Excel o PowerPoint en documentos PDF profesionales.',
-        t9n: 'PDF a Excel, Word y PPT', t9d: 'Transforma archivos PDF de nuevo en formatos editables de Word, Excel o PowerPoint.'
+        t9n: 'PDF a Excel, Word y PPT', t9d: 'Transforma archivos PDF de nuevo en formatos editables de Word, Excel o PowerPoint.',
+        t10n: 'Generador de QR', t10d: 'Crea códigos QR a partir de cualquier URL al instante.',
       },
       fr: {
         brand: 'TOUT-EN-UN', menuTitle: 'Navigation',
