@@ -593,9 +593,9 @@ def create_app():
         return render_template('about.html')
 
 
-    @app.route('/contact')
+    @app.route('/Contactus')
     def contact():
-        return render_template('contact.html')
+        return render_template('Contactus.html')
     
     # ===================== DOWNLOAD =====================
     @app.route('/download/<filename>')
