@@ -13,7 +13,7 @@ import tempfile
 import platform
 import pythoncom
 import win32com.client
-import qecode
+import qrcode
 from flask import jsonify
 from pdf2docx import Converter
 from pdf2image import convert_from_path
@@ -181,7 +181,7 @@ def create_app():
     # ===================== MERGE PDF =====================
     @app.route('/output/<filename>')
     def output_file(filename):
-        return send_from_directory(app.config['OUTPUT_FOLDER'], filename0)
+        return send_from_directory(app.config['OUTPUT_FOLDER'], filename, as_attachment=True)
     
 
     # ===================== MERGE PDF =====================
@@ -232,12 +232,12 @@ def create_app():
 
         colors = theme_map.get(theme, theme_map["classic"])
 
-        filename = f"qr_{vvid.vvid().hex}.png"
+        filename = f"qr_{uuid.uuid4().hex}.png"
         output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], filename)
 
-        qr = qecode.QRCode(
+        qr = qrcode.QRCode(
             version=1,
-            error_correction=qecode.constants.ERROR_CORRECT_L,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
             box_size=12,
             border=4
         )
@@ -516,7 +516,7 @@ def create_app():
 
         return render_template('html_to_pdf.html')
     
-    # ===================== PDF CONVERTER =====================
+        # ===================== PDF CONVERTER =====================
     @app.route('/pdf_converter', methods=['GET', 'POST'])
     def pdf_converter():
         if request.method == 'POST':
@@ -549,45 +549,6 @@ def create_app():
                 return f"<h2>Conversion failed: {str(e)}</h2>"
 
         return render_template('pdf_converter.html')
-
-    # ===================== OFFICE TO PDF =====================
-    @app.route('/Officetopdf.html', methods=['GET', 'POST'])
-    def office_to_pdf():
-        if request.method == 'POST':
-            return "<h2>Conversion logic coming soon!</h2>"
-        return render_template('Officetopdf.html')
-
-    # ===================== PDF TO ANY FORMAT =====================
-    @app.route('/Pdftoanyformat.html', methods=['GET', 'POST'])
-    def pdf_to_anyformat():
-        if request.method == 'POST':
-            file = request.files.get('file')
-            convert_to = request.form.get('convert_to')
-
-            filename, filepath = save_uploaded_file(file, 'pdf')
-            if not filename:
-                return "<h2>No file uploaded or invalid PDF.</h2>"
-
-            if not convert_to:
-                return "<h2>Please select a conversion format.</h2>"
-
-            try:
-                if convert_to == 'word':
-                    output_filename, output_path = convert_pdf_to_word(filepath)
-                elif convert_to == 'excel':
-                    output_filename, output_path = convert_pdf_to_excel(filepath)
-                elif convert_to == 'ppt':
-                    output_filename, output_path = convert_pdf_to_ppt(filepath)
-                else:
-                    return "<h2>Invalid conversion format selected.</h2>"
-
-                return send_file(output_path, as_attachment=True)
-
-            except Exception as e:
-                return f"<h2>Conversion failed: {str(e)}</h2>"
-
-        return render_template('Pdftoanyformat.html')
-
     
     # ===================== OFFICE TO PDF =====================
 
@@ -614,6 +575,27 @@ def create_app():
                 return f"<h2>Conversion failed: {str(e)}</h2>"
 
         return render_template('office_to_pdf.html')
+    
+
+# ===================== PAGES =====================
+    @app.route('/Privacypolicy')
+    def privacy_policy():
+        return render_template('Privacypolicy.html')
+
+
+    @app.route('/Terms&Condition')
+    def terms_condition():
+        return render_template('Terms&Condition.html')
+
+
+    @app.route('/about')
+    def about():
+        return render_template('about.html')
+
+
+    @app.route('/Contactus')
+    def contact():
+        return render_template('Contactus.html')
     
     # ===================== DOWNLOAD =====================
     @app.route('/download/<filename>')
