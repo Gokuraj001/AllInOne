@@ -1289,6 +1289,107 @@
                 font-size: 2.2rem
             }
         }
+
+        /* MODAL */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, .5);
+            backdrop-filter: blur(4px);
+            animation: fadeIn .3s ease-out
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .modal-content {
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+            animation: slideUp .4s var(--tr-spring)
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1
+            }
+        }
+
+        .modal-success-icon {
+            font-size: 3.5rem;
+            color: #10b981;
+            margin-bottom: 20px;
+            animation: scaleIn .5s var(--tr-spring)
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        .modal-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            color: var(--text)
+        }
+
+        .modal-content p {
+            color: var(--text2);
+            margin-bottom: 24px;
+            font-size: .95rem;
+            line-height: 1.5
+        }
+
+        .modal-btn {
+            width: 100%;
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: white;
+            font-weight: 600;
+            font-size: .95rem;
+            transition: transform var(--tr-fast), box-shadow var(--tr-fast);
+            border: none;
+            cursor: pointer
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--glow-a)
+        }
+
+        .modal-btn:active {
+            transform: translateY(0)
+        }
     </style>
 </head>
 
@@ -1391,7 +1492,7 @@
             <div class="upload-card">
 
 
-                <form method="post" enctype="multipart/form-data" id="uploadForm">
+                <form method="post" enctype="multipart/form-data" id="uploadForm" onsubmit="handleFormSubmit(event)">
                     <div class="form-group">
 
                         <!-- Drop zone wraps the original file input — name, id, accept all preserved -->
@@ -1438,6 +1539,16 @@
             <a href="/" class="back-link" data-i18n="backBtn">⬅ Back to All Tools</a>
         </div>
     </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-success-icon">✓</div>
+            <h2 data-i18n="successTitle">Conversion Successful!</h2>
+            <p id="successMessage" data-i18n="successMessage">Your file has been converted to PDF successfully.</p>
+            <button class="modal-btn" onclick="closeSuccessModal()" data-i18n="downloadBtn">Download PDF</button>
+        </div>
+    </div>
 
     <button class="float-mode" onclick="toggleMode()" title="Toggle theme">
         <span id="floatIcon">🌙</span>
@@ -2593,6 +2704,62 @@
 
         /* Smooth scroll */
         document.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } }); });
+
+        // Handle form submission with fetch
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('uploadForm');
+            const formData = new FormData(form);
+
+            fetch('/office_to_pdf', {
+                method: 'POST',
+                body: formData
+            })
+            .then(async response => {
+                const contentType = response.headers.get('content-type');
+                
+                if (!response.ok) {
+                    // Try to parse error JSON
+                    let errorMsg = 'Conversion failed';
+                    try {
+                        if (contentType && contentType.includes('application/json')) {
+                            const errorData = await response.json();
+                            errorMsg = errorData.error || errorMsg;
+                        }
+                    } catch (e) {
+                        // If not JSON, just use default message
+                    }
+                    throw new Error(errorMsg);
+                }
+                
+                // Return blob for successful conversion
+                return response.blob();
+            })
+            .then(blob => {
+                // Show success modal
+                document.getElementById('successModal').style.display = 'flex';
+                // Store blob for download
+                window.pdfBlob = blob;
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+            });
+        }
+
+        // Close modal and download PDF
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+            if (window.pdfBlob) {
+                const url = window.URL.createObjectURL(window.pdfBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'converted.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }
+        }
     </script>
 </body>
 

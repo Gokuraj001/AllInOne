@@ -22,6 +22,7 @@
     <script src="https://unpkg.com/tesseract.js@v5.0.1/dist/tesseract.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
 
     <style>
@@ -57,6 +58,8 @@
             --orb1: rgba(139, 114, 255, 0.10);
             --orb2: rgba(45, 212, 240, 0.08);
             --orb3: rgba(255, 107, 214, 0.07);
+            --border2: rgba(255, 255, 255, 0.15);
+            --input-bg: rgba(0, 0, 0, 0.2);
         }
 
         [data-theme="light"] {
@@ -504,6 +507,57 @@
             font-weight: 600;
             font-size: .88rem;
             color: var(--text2);
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════════════════ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, .72);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all
+        }
+
+        .modal-box {
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: 28px;
+            padding: 52px 48px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 80px var(--glow-a), var(--shadow);
+            transform: scale(.85) translateY(24px);
+            opacity: 0;
+            transition: transform .42s cubic-bezier(.22, 1, .36, 1), opacity .3s;
+            position: relative;
+            overflow: hidden
+        }
+
+        .modal-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--glow-a), transparent 60%);
+            pointer-events: none
+        }
+
+        .modal-overlay.open .modal-box {
+            transform: scale(1) translateY(0);
+            opacity: 1
         }
 
         /* ═══════════════════════════════════════════════════════════
@@ -1244,6 +1298,40 @@ BACK LINK
         </div>
     </main>
 
+    <!-- RESULT MODAL -->
+    <div class="modal-overlay" id="resultModal">
+      <div class="modal-box" style="padding: 40px; text-align: center;">
+        <span class="modal-emoji">✅</span>
+        <div class="modal-title">Success!</div>
+        <div class="modal-sub">Your File is Organised</div>
+        
+        <div style="margin-bottom: 24px; text-align: left;">
+          <label style="display: block; margin-bottom: 8px; color: var(--text2); font-size: 0.9rem;">File Size</label>
+          <div id="fileSizeDisplay" style="font-weight: 600; font-size: 1.1rem; color: var(--accent2); padding: 12px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 12px; text-align: center;">-- KB</div>
+        </div>
+
+        <div style="margin-bottom: 32px; text-align: left;">
+          <label for="renameInput" style="display: block; margin-bottom: 8px; color: var(--text2); font-size: 0.9rem;">Rename File (Optional)</label>
+          <input type="text" id="renameInput" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border2); background: var(--input-bg); color: var(--text); font-family: inherit; transition: all 0.2s; outline: none;" placeholder="e.g. organized_document.pdf">
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: center;">
+          <button class="modal-close-btn" style="background: var(--surface2); color: var(--text); box-shadow: none;" onclick="closeResultModal()">Cancel</button>
+          <button class="modal-close-btn" onclick="downloadConvertedFile()">Download PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONVERT MORE OVERLAY -->
+    <div class="modal-overlay" id="convertMoreOverlay">
+      <div class="modal-box" style="padding: 40px; text-align: center;">
+        <span class="modal-emoji">🎉</span>
+        <div class="modal-title">All Done!</div>
+        <div class="modal-sub">Your PDF has been downloaded successfully.</div>
+        <button class="modal-close-btn" style="width: 100%;" onclick="convertMore()">Organise more Images</button>
+      </div>
+    </div>
+
     <div class="modal-overlay" id="toolModal">
         <div class="modal-box">
             <h3 style="margin-bottom:20px; font-family:var(--font-display);">Page Editor</h3>
@@ -1749,56 +1837,137 @@ BACK LINK
         }
 
         async function exportFinal() {
-            if (!pageState.length) {
-                alert("No pages to export.");
-                return;
-            }
-
-            const { jsPDF } = window.jspdf;
-            let pdf = null;
-
-            for (let i = 0; i < pageState.length; i++) {
-                const page = pageState[i];
-
-                const rotatedCanvas = document.createElement('canvas');
-                const ctx = rotatedCanvas.getContext('2d');
-
-                const angle = page.rotation || 0;
-                const radians = angle * Math.PI / 180;
-
-                const originalWidth = page.canvas.width;
-                const originalHeight = page.canvas.height;
-
-                if (angle === 90 || angle === 270) {
-                    rotatedCanvas.width = originalHeight;
-                    rotatedCanvas.height = originalWidth;
-                } else {
-                    rotatedCanvas.width = originalWidth;
-                    rotatedCanvas.height = originalHeight;
+            try {
+                if (!pageState.length) {
+                    alert("No pages to export.");
+                    return;
                 }
 
-                ctx.translate(rotatedCanvas.width / 2, rotatedCanvas.height / 2);
-                ctx.rotate(radians);
-                ctx.drawImage(page.canvas, -originalWidth / 2, -originalHeight / 2);
+                const jsPDFConstructor = window.jspdf ? window.jspdf.jsPDF : window.jsPDF;
+                if (!jsPDFConstructor) {
+                    alert("PDF library is not loaded. Please hard refresh the page.");
+                    return;
+                }
+                let pdf = null;
 
-                const imgData = rotatedCanvas.toDataURL('image/jpeg', 1.0);
-                const pdfWidth = rotatedCanvas.width * 0.264583;   // px → mm
-                const pdfHeight = rotatedCanvas.height * 0.264583;
+                for (let i = 0; i < pageState.length; i++) {
+                    const page = pageState[i];
 
-                if (i === 0) {
-                    pdf = new jsPDF({
-                        orientation: pdfWidth > pdfHeight ? 'landscape' : 'portrait',
-                        unit: 'mm',
-                        format: [pdfWidth, pdfHeight]
-                    });
-                } else {
-                    pdf.addPage([pdfWidth, pdfHeight], pdfWidth > pdfHeight ? 'landscape' : 'portrait');
+                    const rotatedCanvas = document.createElement('canvas');
+                    const ctx = rotatedCanvas.getContext('2d');
+
+                    const angle = page.rotation || 0;
+                    const radians = angle * Math.PI / 180;
+
+                    const originalWidth = page.canvas.width;
+                    const originalHeight = page.canvas.height;
+
+                    if (angle === 90 || angle === 270) {
+                        rotatedCanvas.width = originalHeight;
+                        rotatedCanvas.height = originalWidth;
+                    } else {
+                        rotatedCanvas.width = originalWidth;
+                        rotatedCanvas.height = originalHeight;
+                    }
+
+                    ctx.translate(rotatedCanvas.width / 2, rotatedCanvas.height / 2);
+                    ctx.rotate(radians);
+                    ctx.drawImage(page.canvas, -originalWidth / 2, -originalHeight / 2);
+
+                    const imgData = rotatedCanvas.toDataURL('image/jpeg', 1.0);
+                    const pdfWidth = rotatedCanvas.width * 0.264583;   // px → mm
+                    const pdfHeight = rotatedCanvas.height * 0.264583;
+
+                    if (i === 0) {
+                        pdf = new jsPDFConstructor({
+                            orientation: pdfWidth > pdfHeight ? 'landscape' : 'portrait',
+                            unit: 'mm',
+                            format: [pdfWidth, pdfHeight]
+                        });
+                    } else {
+                        pdf.addPage([pdfWidth, pdfHeight], pdfWidth > pdfHeight ? 'landscape' : 'portrait');
+                    }
+
+                    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
                 }
 
-                pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                const blob = pdf.output('blob');
+                const fileSize = blob.size;
+                const fileSizeKb = (fileSize / 1024).toFixed(2);
+                
+                currentConversionResult = {
+                  blob: blob,
+                  original_name: 'organized_final.pdf',
+                  file_size_kb: fileSizeKb
+                };
+                
+                showResultModal(currentConversionResult);
+            } catch (error) {
+                alert("exportFinal ERROR: " + error.message + "\n\n" + error.stack);
             }
+        }
 
-            pdf.save('organized_final.pdf');
+        let currentConversionResult = null;
+
+        function showResultModal(data) {
+          const modal = document.getElementById('resultModal');
+          document.getElementById('fileSizeDisplay').textContent = `${data.file_size_kb} KB`;
+          document.getElementById('renameInput').value = data.original_name;
+          modal.classList.add('open');
+        }
+
+        function closeResultModal() {
+          const modal = document.getElementById('resultModal');
+          modal.classList.remove('open');
+          currentConversionResult = null;
+        }
+
+        async function downloadConvertedFile() {
+          if (!currentConversionResult) {
+            alert('No file to download');
+            return;
+          }
+
+          const renameInput = document.getElementById('renameInput');
+          const customName = renameInput.value.trim() || currentConversionResult.original_name;
+          const finalName = customName.endsWith('.pdf') ? customName : customName + '.pdf';
+
+          try {
+            const blobUrl = URL.createObjectURL(currentConversionResult.blob);
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = finalName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            setTimeout(() => {
+              URL.revokeObjectURL(blobUrl);
+              closeResultModal();
+              showConvertMoreOverlay();
+            }, 500);
+          } catch (error) {
+            alert('Error downloading file: ' + error.message);
+          }
+        }
+
+        function showConvertMoreOverlay() {
+          const overlay = document.getElementById('convertMoreOverlay');
+          overlay.classList.add('open');
+        }
+
+        function closeConvertMoreOverlay() {
+          const overlay = document.getElementById('convertMoreOverlay');
+          overlay.classList.remove('open');
+        }
+
+        function convertMore() {
+          closeConvertMoreOverlay();
+          pageState = [];
+          document.getElementById('pageGrid').innerHTML = '';
+          document.getElementById('organizeView').style.display = 'none';
+          document.getElementById('dropZone').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 

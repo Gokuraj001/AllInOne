@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    })();
+  </script>
+  <script src="{{ url_for('static', filename='theme.js') }}"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extract PDF Pages — ALL-IN-ONE Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --tr: .45s cubic-bezier(.4, 0, .2, 1);
+      --tr-fast: .25s cubic-bezier(.4, 0, .2, 1);
+      --tr-spring: .55s cubic-bezier(.22, 1, .36, 1);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --radius-xs: 8px;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Instrument Sans', sans-serif
+    }
+
+    [data-theme="dark"] {
+      --bg: #060610;
+      --bg2: #0b0b1e;
+      --bg3: #0f0f28;
+      --surface: rgba(255, 255, 255, .042);
+      --surface2: rgba(255, 255, 255, .07);
+      --border: rgba(255, 255, 255, .08);
+      --border2: rgba(255, 255, 255, .14);
+      --text: #eeeef8;
+      --text2: rgba(238, 238, 248, .55);
+      --text3: rgba(238, 238, 248, .28);
+      --accent: #8b72ff;
+      --accent2: #2dd4f0;
+      --accent3: #ff6bd6;
+      --glow-a: rgba(139, 114, 255, .32);
+      --glow-b: rgba(45, 212, 240, .22);
+      --header-bg: rgba(6, 6, 16, .65);
+      --orb1: rgba(139, 114, 255, .10);
+      --orb2: rgba(45, 212, 240, .08);
+      --orb3: rgba(255, 107, 214, .07);
+      --shadow: 0 8px 40px rgba(0, 0, 0, .6);
+      --shadow-card: 0 4px 30px rgba(0, 0, 0, .5);
+      --drop-border: rgba(139, 114, 255, .30);
+      --drop-bg: rgba(139, 114, 255, .04);
+      --drop-hover: rgba(139, 114, 255, .09);
+      --drop-drag-bg: rgba(45, 212, 240, .07);
+      --drop-drag-bdr: rgba(45, 212, 240, .55);
+      --progress-track: rgba(255, 255, 255, .07);
+      --card-bg: rgba(255, 255, 255, .038);
+      --hint: rgba(238, 238, 248, .32)
+    }
+
+    [data-theme="light"] {
+      --bg: #f2f0ff;
+      --bg2: #ebe7ff;
+      --bg3: #e2dcff;
+      --surface: rgba(255, 255, 255, .75);
+      --surface2: rgba(255, 255, 255, .92);
+      --border: rgba(100, 80, 200, .11);
+      --border2: rgba(100, 80, 200, .20);
+      --text: #1a1540;
+      --text2: rgba(26, 21, 64, .58);
+      --text3: rgba(26, 21, 64, .32);
+      --accent: #6c4fff;
+      --accent2: #0ea5c9;
+      --accent3: #d946ab;
+      --glow-a: rgba(108, 79, 255, .20);
+      --glow-b: rgba(14, 165, 201, .15);
+      --header-bg: rgba(242, 240, 255, .72);
+      --orb1: rgba(108, 79, 255, .12);
+      --orb2: rgba(14, 165, 201, .09);
+      --orb3: rgba(217, 70, 171, .08);
+      --shadow: 0 8px 40px rgba(100, 80, 200, .14);
+      --shadow-card: 0 4px 30px rgba(100, 80, 200, .11);
+      --drop-border: rgba(108, 79, 255, .28);
+      --drop-bg: rgba(108, 79, 255, .04);
+      --drop-hover: rgba(108, 79, 255, .08);
+      --drop-drag-bg: rgba(14, 165, 201, .06);
+      --drop-drag-bdr: rgba(14, 165, 201, .50);
+      --progress-track: rgba(0, 0, 0, .07);
+      --card-bg: rgba(255, 255, 255, .70);
+      --hint: rgba(26, 21, 64, .38)
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background var(--tr), color var(--tr)
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font: inherit;
+      color: inherit
+    }
+
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden
+    }
+
+    .bg-gradient {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 90% 60% at 18% 0%, var(--orb1) 0%, transparent 55%), radial-gradient(ellipse 70% 50% at 88% 72%, var(--orb2) 0%, transparent 55%), radial-gradient(ellipse 55% 45% at 52% 42%, var(--orb3) 0%, transparent 60%);
+      animation: bgBreath 14s ease-in-out infinite alternate
+    }
+
+    @keyframes bgBreath {
+      from {
+        opacity: .75;
+        transform: scale(1)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1.04)
+      }
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
+      transition: opacity var(--tr)
+    }
+
+    [data-theme="light"] .bg-grid {
+      opacity: .5
+    }
+
+    #px {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: var(--header-bg);
+      backdrop-filter: blur(22px) saturate(160%);
+      -webkit-backdrop-filter: blur(22px) saturate(160%);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 0 var(--border), 0 8px 40px rgba(0, 0, 0, .15);
+      transition: background var(--tr), border-color var(--tr)
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--glow-a)
+    }
+
+    .brand-icon svg {
+      width: 22px;
+      height: 22px
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.18rem;
+      letter-spacing: .08em;
+      background: linear-gradient(110deg, var(--text) 30%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5.5px;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      border-radius: 12px;
+      transition: background var(--tr-fast);
+      position: relative;
+      z-index: 310
+    }
+
+    .hamburger:hover {
+      background: var(--surface2)
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform .4s cubic-bezier(.4, 0, .2, 1), opacity .25s, width .3s
+    }
+
+    /* MAIN CONTENT */
+    main {
+      position: relative;
+      z-index: 1
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 152px 24px 52px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 3.2rem;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--text2);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 46px
+    }
+
+    .upload-box {
+      position: relative;
+      z-index: 1;
+      margin: 0 auto 0;
+      max-width: 520px;
+      margin-bottom: 60px;
+      animation: fadeUp .8s .35s var(--tr-spring) both
+    }
+
+    .upload-card {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 28px;
+      padding: 52px 48px;
+      box-shadow: 0 0 80px var(--glow-a)
+    }
+
+    .drop-area {
+      display: block;
+      padding: 38px;
+      border: 2px dashed var(--drop-border);
+      border-radius: 20px;
+      background: var(--drop-bg);
+      cursor: pointer;
+      transition: all var(--tr-fast);
+      text-align: center
+    }
+
+    .drop-area:hover {
+      border-color: var(--accent2);
+      background: var(--drop-hover)
+    }
+
+    .drop-area.drag-over {
+      border-color: var(--drop-drag-bdr);
+      background: var(--drop-drag-bg)
+    }
+
+    .drop-icon {
+      font-size: 3.2rem;
+      margin-bottom: 12px;
+      display: block;
+      transition: transform var(--tr-fast)
+    }
+
+    .drop-area p {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+      font-size: 1.08rem
+    }
+
+    .drop-area p.drop-sub {
+      font-family: var(--font-body);
+      font-size: .92rem;
+      color: var(--text2);
+      font-weight: 400
+    }
+
+    .file-preview {
+      margin-top: 14px;
+      padding: 14px;
+      background: var(--surface);
+      border-radius: 14px;
+      border: 1px solid var(--border2)
+    }
+
+    .file-card {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .file-card-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0
+    }
+
+    .file-card-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .file-card-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .88rem;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .file-card-meta {
+      font-size: .75rem;
+      color: var(--text3);
+      margin-top: 3px
+    }
+
+    .upload-hint {
+      display: block;
+      margin-top: 10px;
+      font-size: .8rem;
+      color: var(--hint);
+      font-family: var(--font-display);
+      font-weight: 500;
+      text-align: center
+    }
+
+    .page-input-group {
+      margin: 22px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .page-label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--text2);
+      text-align: left
+    }
+
+    .page-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: .95rem;
+      transition: border-color var(--tr-fast), background var(--tr-fast);
+    }
+
+    .page-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: var(--surface2)
+    }
+
+    .page-hint {
+      font-size: .75rem;
+      color: var(--text3);
+      margin-top: 6px
+    }
+
+    /* PROGRESS */
+    #progressContainer {
+      margin-top: 22px
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px
+    }
+
+    .progress-header span {
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text2)
+    }
+
+    #progressPct {
+      color: var(--accent2)
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--progress-track);
+      border-radius: 100px;
+      overflow: hidden
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 12px var(--glow-a);
+      transition: width .35s ease
+    }
+
+    /* BUTTON */
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      width: 100%;
+      margin-top: 24px;
+      padding: 17px 32px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .02em;
+      box-shadow: 0 5px 28px var(--glow-a);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast), opacity var(--tr-fast)
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 48px var(--glow-a)
+    }
+
+    .nav-btn:disabled {
+      opacity: .48;
+      cursor: not-allowed;
+      transform: none !important
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all
+    }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 28px;
+      padding: 52px 48px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 80px var(--glow-a), var(--shadow);
+      transform: scale(.85) translateY(24px);
+      opacity: 0;
+      transition: transform .42s cubic-bezier(.22, 1, .36, 1), opacity .3s
+    }
+
+    .modal-overlay.open .modal-box {
+      transform: scale(1) translateY(0);
+      opacity: 1
+    }
+
+    .modal-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 18px
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.4rem;
+      margin-bottom: 10px
+    }
+
+    .modal-sub {
+      font-size: .9rem;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 32px
+    }
+
+    .modal-close-btn {
+      padding: 13px 36px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .95rem;
+      box-shadow: 0 4px 24px var(--glow-a);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast)
+    }
+
+    .modal-close-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px var(--glow-a)
+    }
+
+    /* BACK */
+    .back-wrap {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      margin: 8px 0 90px
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      backdrop-filter: blur(10px);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--text2);
+      transition: color var(--tr-fast), border-color var(--tr-fast), background var(--tr-fast), transform var(--tr-fast), box-shadow var(--tr-fast)
+    }
+
+    .back-link:hover {
+      color: var(--text);
+      border-color: var(--accent);
+      background: var(--surface2);
+      transform: translateX(-5px);
+      box-shadow: 0 4px 20px var(--glow-a)
+    }
+
+    /* FLOAT */
+    .float-mode {
+      position: fixed;
+      bottom: 30px;
+      right: 28px;
+      z-index: 300;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 28px var(--glow-a), 0 2px 8px rgba(0, 0, 0, .3);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast);
+      font-size: 1.3rem
+    }
+
+    .float-mode:hover {
+      transform: scale(1.13) rotate(14deg);
+      box-shadow: 0 10px 42px var(--glow-a)
+    }
+
+    /* FOOTER */
+    footer {
+      background: #000;
+      border-top: 1px solid rgba(255, 255, 255, .06);
+      position: relative;
+      z-index: 1
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 70px 28px 40px
+    }
+
+    .footer-copy {
+      text-align: center;
+      font-size: .88rem;
+      color: rgba(255, 255, 255, .25);
+      margin-bottom: 24px
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @media(max-width:600px) {
+      header {
+        padding: 0 18px
+      }
+
+      .hero {
+        padding: 136px 16px 44px
+      }
+
+      .hero h1 {
+        font-size: 2.1rem
+      }
+
+      .upload-card {
+        padding: 22px 18px 20px
+      }
+
+      .drop-area {
+        padding: 38px 18px
+      }
+
+      .modal-box {
+        padding: 38px 28px
+      }
+
+      .footer-inner {
+        padding: 50px 18px 30px
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-layer">
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+  </div>
+  <canvas id="px"></canvas>
+
+  <!-- HEADER -->
+  <header>
+    <a href="/" class="brand" style="text-decoration: none;">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 6h16M4 12h10M4 18h13" stroke="#fff" stroke-width="2.2" stroke-linecap="round" />
+          <circle cx="19" cy="12" r="3" stroke="#fff" stroke-width="2" />
+        </svg>
+      </div>
+      <span class="brand-name">ALL-IN-ONE</span>
+    </a>
+    <button class="hamburger" onclick="toggleMode()" title="Toggle theme">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <div class="hero">
+      <h1>Extract PDF Pages</h1>
+      <p>Extract specific pages from your PDF — easily and instantly</p>
+    </div>
+
+    <div class="upload-box">
+      <div class="upload-card">
+        <form method="POST" enctype="multipart/form-data" id="uploadForm" onsubmit="handleFormSubmit(event)">
+
+          <label for="pdf" class="drop-area" id="dropArea">
+            <span class="drop-icon">📄</span>
+            <p>Drag & Drop PDF here</p>
+            <p class="drop-sub">or click to browse</p>
+            <input type="file" name="pdf" id="pdf" accept=".pdf,application/pdf" required hidden />
+          </label>
+
+          <div id="filePreview"></div>
+
+          <small class="upload-hint">
+            Upload your PDF and select which pages to extract
+          </small>
+
+          <div class="page-input-group">
+            <label class="page-label">Page Numbers:</label>
+            <input type="text" id="pageInput" class="page-input" placeholder="e.g., 1,3,5 or 1-5 or 2" required />
+            <small class="page-hint">Enter single page (1) or multiple pages (1,3,5) or ranges (1-5)</small>
+          </div>
+
+          <div id="progressContainer" style="display:none;margin-top:20px;">
+            <div class="progress-header">
+              <span>Extracting pages…</span>
+              <span id="progressPct">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <button type="submit" class="nav-btn" id="submitBtn">
+            <span>📄</span>
+            <span>Extract Pages</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="back-wrap">
+      <a href="/" class="back-link">⬅ Back to All Tools</a>
+    </div>
+
+    <!-- Extraction Success Modal -->
+    <div class="modal-overlay" id="successModal">
+      <div class="modal-box">
+        <div class="modal-emoji">✅</div>
+        <h2 class="modal-title">Your Entered Page Number is Extracted</h2>
+        <p class="modal-sub">Pages: <span id="pagesExtracted">-</span><br>File Size: <span id="fileSizeDisplay">0</span></p>
+        
+        <div style="margin: 24px 0; text-align: left;">
+          <label style="display: block; font-size: 0.85rem; color: var(--text2); margin-bottom: 8px;">Rename file (optional):</label>
+          <input type="text" id="renameInput" placeholder="extracted_pages" style="
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border2);
+            background: var(--surface);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            box-sizing: border-box;
+          " />
+        </div>
+
+        <div style="display: flex; gap: 12px; width: 100%;">
+          <button type="button" class="modal-close-btn" id="downloadBtn" style="flex: 1;">
+            📥 Download
+          </button>
+          <button type="button" class="modal-close-btn" id="extractMoreBtn" style="flex: 1; background: var(--surface2); color: var(--text);">
+            🔄 Extract More
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <button class="float-mode" onclick="toggleMode()" title="Toggle theme">
+    <span id="floatIcon">🌙</span>
+  </button>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <p class="footer-copy">© 2025 ALL-IN-ONE. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    let isDark = localStorage.getItem("theme") === "dark" || localStorage.getItem("theme") === null;
+
+    function toggleMode() {
+      isDark = !isDark;
+      document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      updateModeIcon();
+    }
+
+    function updateModeIcon() {
+      const icon = isDark ? "🌙" : "☀️";
+      document.getElementById("floatIcon").textContent = icon;
+    }
+
+    updateModeIcon();
+
+    const dropArea = document.getElementById("dropArea");
+    const pdfInput = document.getElementById("pdf");
+    const pageInput = document.getElementById("pageInput");
+
+    // Drag and drop functionality
+    ["dragenter", "dragover"].forEach(evt => {
+      dropArea.addEventListener(evt, e => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropArea.classList.add("drag-over");
+      });
+    });
+
+    ["dragleave", "dragend"].forEach(evt => {
+      dropArea.addEventListener(evt, e => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropArea.classList.remove("drag-over");
+      });
+    });
+
+    dropArea.addEventListener("drop", e => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropArea.classList.remove("drag-over");
+      const file = e.dataTransfer?.files?.[0];
+      if (file && (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"))) {
+        setFile(file);
+        try {
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          pdfInput.files = dt.files;
+        } catch (_) { }
+      }
+    });
+
+    pdfInput.addEventListener("change", () => {
+      if (pdfInput.files[0]) setFile(pdfInput.files[0]);
+    });
+
+    function setFile(file) {
+      const preview = document.getElementById("filePreview");
+      const size = file.size < 1048576 ? `${(file.size / 1024).toFixed(1)} KB` : `${(file.size / 1048576).toFixed(2)} MB`;
+      preview.innerHTML = `
+        <div class="file-preview">
+          <div class="file-card">
+            <div class="file-card-icon">📄</div>
+            <div class="file-card-info">
+              <div class="file-card-name" title="${file.name}">${file.name.length > 40 ? file.name.slice(0, 37) + "…" : file.name}</div>
+              <div class="file-card-meta">${size} · PDF</div>
+            </div>
+            <button type="button" onclick="clearFile()" title="Remove" style="background: none; border: none; color: var(--text2); font-size: 1.2rem; cursor: pointer;">✕</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function clearFile() {
+      pdfInput.value = "";
+      document.getElementById("filePreview").innerHTML = "";
+      document.getElementById("progressContainer").style.display = "none";
+      resetProgress();
+    }
+
+    // Handle form submission
+    async function handleFormSubmit(event) {
+      event.preventDefault();
+
+      if (!pdfInput.files[0]) {
+        alert("Please select a PDF file");
+        return;
+      }
+
+      if (!pageInput.value.trim()) {
+        alert("Please enter page numbers");
+        return;
+      }
+
+      document.getElementById("submitBtn").disabled = true;
+      document.getElementById("progressContainer").style.display = "block";
+      resetProgress();
+      animateProgress(0, 93, 3000, () => { });
+
+      try {
+        const formData = new FormData();
+        formData.append("pdf", pdfInput.files[0]);
+        formData.append("pages", pageInput.value.trim());
+
+        const response = await fetch("/pdf_extract_pages", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          animateProgress(93, 100, 300);
+          throw new Error(data.error || "Extraction failed");
+        }
+
+        animateProgress(93, 100, 300, () => {
+          showExtractionModal(data);
+        });
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error: " + error.message);
+        document.getElementById("submitBtn").disabled = false;
+        document.getElementById("progressContainer").style.display = "none";
+      }
+    }
+
+    function showExtractionModal(fileData) {
+      window.extractedFile = fileData;
+
+      document.getElementById("pagesExtracted").textContent = fileData.pages;
+      document.getElementById("fileSizeDisplay").textContent = fileData.filesize_formatted;
+      document.getElementById("renameInput").value = "extracted_pages";
+
+      document.getElementById("successModal").classList.add("open");
+
+      document.getElementById("submitBtn").disabled = false;
+      clearFile();
+    }
+
+    function closeExtractionModal() {
+      document.getElementById("successModal").classList.remove("open");
+    }
+
+    // Download button handler
+    document.getElementById("downloadBtn").addEventListener("click", async function() {
+      try {
+        const newFilename = document.getElementById("renameInput").value || "extracted_pages";
+
+        const response = await fetch(`/download_extracted_pdf/${window.extractedFile.filename}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ new_filename: newFilename })
+        });
+
+        if (!response.ok) {
+          throw new Error("Download failed");
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = newFilename.endsWith(".pdf") ? newFilename : newFilename + ".pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        closeExtractionModal();
+      } catch (error) {
+        console.error("Download error:", error);
+        alert("Error downloading file: " + error.message);
+      }
+    });
+
+    // Extract More button handler
+    document.getElementById("extractMoreBtn").addEventListener("click", function() {
+      closeExtractionModal();
+      document.getElementById("uploadForm").reset();
+      document.getElementById("filePreview").innerHTML = "";
+      document.getElementById("pageInput").value = "";
+      document.getElementById("progressContainer").style.display = "none";
+      resetProgress();
+      document.getElementById("dropArea").focus();
+    });
+
+    function animateProgress(from, to, dur, cb) {
+      const fill = document.getElementById("progressFill");
+      const pct = document.getElementById("progressPct");
+      const start = performance.now();
+
+      function step(now) {
+        const frac = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - frac, 3);
+        const val = Math.round(from + (to - from) * eased);
+        fill.style.width = val + "%";
+        pct.textContent = val + "%";
+        if (frac < 1) requestAnimationFrame(step);
+        else if (cb) cb();
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    function resetProgress() {
+      const f = document.getElementById("progressFill");
+      const p = document.getElementById("progressPct");
+      if (f) f.style.width = "0%";
+      if (p) p.textContent = "0%";
+    }
+  </script>
+
+</body>
+
+</html>

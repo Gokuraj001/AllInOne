@@ -1505,7 +1505,7 @@
 
     <div class="upload-box">
       <div class="upload-card">
-        <form method="POST" enctype="multipart/form-data" id="uploadForm">
+        <form method="POST" enctype="multipart/form-data" id="uploadForm" onsubmit="handleFormSubmit(event)">
 
           <!-- Drop zone -->
           <label for="pdf" class="drop-area" id="dropArea">
@@ -1557,6 +1557,39 @@
 
     <div class="back-wrap">
       <a href="/" class="back-link" data-i18n="backBtn">⬅ Back to All Tools</a>
+    </div>
+
+    <!-- Split Success Modal -->
+    <div class="modal-overlay" id="successModal">
+      <div class="modal-box">
+        <div class="modal-emoji">✅</div>
+        <h2 class="modal-title" data-i18n="splitSuccess">Your PDF is Split Successfully</h2>
+        <p class="modal-sub">Page: <span id="pageExtracted">-</span><br>File Size: <span id="fileSizeDisplay">0</span></p>
+        
+        <div style="margin: 24px 0; text-align: left;">
+          <label style="display: block; font-size: 0.85rem; color: var(--text2); margin-bottom: 8px;">Rename file (optional):</label>
+          <input type="text" id="renameInput" placeholder="split_page" style="
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border2);
+            background: var(--surface);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            box-sizing: border-box;
+          " />
+        </div>
+
+        <div style="display: flex; gap: 12px; width: 100%;">
+          <button type="button" class="modal-close-btn" id="downloadBtn" style="flex: 1;">
+            📥 Download
+          </button>
+          <button type="button" class="modal-close-btn" id="splitMoreBtn" style="flex: 1; background: var(--surface2); color: var(--text);">
+            🔄 Split More
+          </button>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -1647,6 +1680,7 @@
         loadingText: 'Dividing your document, please wait…',
         submitBtn: 'Split Now',
         backBtn: '⬅ Back to All Tools',
+        splitSuccess: 'Your PDF is Split Successfully',
         footerTagline: 'Your all-in-one destination for powerful, free tools. No cost, no limits.',
         footerLegal: 'Legal',
         footerCompany: 'Company',
@@ -1687,6 +1721,7 @@
         loadingText: 'Dividiendo tu documento, por favor espera…',
         submitBtn: 'Dividir Ahora',
         backBtn: '⬅ Volver a todas las herramientas',
+        splitSuccess: 'Tu PDF se Divide Exitosamente',
         footerTagline: 'Tu destino todo en uno para herramientas gratuitas y potentes.',
         footerLegal: 'Legal',
         footerCompany: 'Empresa',
@@ -1727,6 +1762,7 @@
         loadingText: 'Division de votre document en cours…',
         submitBtn: 'Diviser maintenant',
         backBtn: '⬅ Retour aux outils',
+        splitSuccess: 'Votre PDF est Divisé avec Succès',
         footerTagline: 'Votre destination tout-en-un pour des outils gratuits et puissants.',
         footerLegal: 'Légal',
         footerCompany: 'Entreprise',
@@ -2800,6 +2836,116 @@
       document.getElementById('submitBtn').disabled = true;
       document.getElementById('progressContainer').style.display = 'block';
       resetProgress(); animateProgress(0, 93, 3000, () => { });
+    });
+
+    // New: Handle form submission with fetch
+    async function handleFormSubmit(event) {
+      event.preventDefault();
+      
+      if (!pdfInput.files[0]) {
+        alert("Please select a PDF file");
+        return;
+      }
+
+      const pageNum = document.getElementById('pageNum').value;
+      if (!pageNum) {
+        alert("Please enter a page number");
+        return;
+      }
+      
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('progressContainer').style.display = 'block';
+      resetProgress();
+      animateProgress(0, 93, 3000, () => { });
+
+      try {
+        const formData = new FormData();
+        formData.append('pdf', pdfInput.files[0]);
+        formData.append('page_number', pageNum);
+
+        const response = await fetch('/split', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok || !data.success) {
+          animateProgress(93, 100, 300);
+          throw new Error(data.error || 'Split failed');
+        }
+
+        animateProgress(93, 100, 300, () => {
+          showSplitModal(data);
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error: ' + error.message);
+        document.getElementById('submitBtn').disabled = false;
+        document.getElementById('progressContainer').style.display = 'none';
+      }
+    }
+
+    function showSplitModal(fileData) {
+      window.splitFile = fileData;
+      
+      document.getElementById('pageExtracted').textContent = fileData.page_number;
+      document.getElementById('fileSizeDisplay').textContent = fileData.filesize_formatted;
+      document.getElementById('renameInput').value = 'split_page';
+
+      document.getElementById('successModal').classList.add('open');
+
+      document.getElementById('submitBtn').disabled = false;
+      clearFile();
+    }
+
+    function closeSplitModal() {
+      document.getElementById('successModal').classList.remove('open');
+    }
+
+    // Download button handler
+    document.getElementById('downloadBtn').addEventListener('click', async function() {
+      try {
+        const newFilename = document.getElementById('renameInput').value || 'split_page';
+        
+        const response = await fetch(`/download_split_pdf/${window.splitFile.filename}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ new_filename: newFilename })
+        });
+
+        if (!response.ok) {
+          throw new Error('Download failed');
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = newFilename.endsWith('.pdf') ? newFilename : newFilename + '.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        closeSplitModal();
+      } catch (error) {
+        console.error('Download error:', error);
+        alert('Error downloading file: ' + error.message);
+      }
+    });
+
+    // Split More button handler
+    document.getElementById('splitMoreBtn').addEventListener('click', function() {
+      closeSplitModal();
+      document.getElementById('uploadForm').reset();
+      document.getElementById('filePreview').innerHTML = '';
+      document.getElementById('pageNum').value = '';
+      document.getElementById('progressContainer').style.display = 'none';
+      resetProgress();
+      document.getElementById('dropArea').focus();
     });
     function animateProgress(from, to, dur, cb) {
       const fill = document.getElementById('progressFill'), pct = document.getElementById('progressPct');

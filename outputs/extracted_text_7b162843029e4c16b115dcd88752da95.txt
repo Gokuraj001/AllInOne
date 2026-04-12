@@ -1,0 +1,26 @@
+Assignment IV
+Last submission Date:10-04-2026
+Unit 4
+Subject: Database Management System
+Subject Code : UGCSE211
+Department of Computer Science & Engineering
+Dr. Tarun Kr. Agrawal
+Assistant Professor
+Department of Computer Science & Engineering
+
+Unit 4: Database Design Concepts
+1. Explain schema refinement in detail. Discuss how functional dependencies
+help in identifying redundancy and improving database design with proper
+justification.
+2. Describe different types of anomalies in database systems. Analyze how
+poor database design leads to insertion, deletion, and update anomalies with
+conceptual explanation.
+3. Explain normalization in depth. Compare 1NF, 2NF, 3NF, and BCNF,
+highlighting their differences, advantages, and limitations.
+4. Discuss lossless join decomposition and dependency preserving
+decomposition. Explain their importance and how they affect the quality of
+database design.
+5. Explain Multivalued Dependency (MVD) and Join Dependency (JD).
+Discuss their role in higher normal forms (4NF and 5NF) with proper
+theoretical explanation.
+

@@ -1,0 +1,22 @@
+Assignment II
+Last submission Date:17-02-2026
+Unit 2
+Subject: Database Management System
+Subject Code : UGCSE211
+Department of Computer Science & Engineering
+Dr. Tarun Kr. Agrawal
+Assistant Professor
+Department of Computer Science & Engineering
+
+Unit 1: E-R Modelling
+1. Explain the basic concepts of the E-R model and describe the role of entity
+sets and attributes with one example.
+2. What are design issues in E-R modelling? Explain any two common design
+problems faced while creating an E-R diagram.
+3. Define mapping constraints in E-R modelling. Explain 1:1, 1:N, and M:N
+relationships with suitable examples.
+4. What is a weak entity set? Explain its characteristics and relationship with
+the owner entity using an example.
+5. Explain extended E-R features. Describe specialization and generalization
+with a simple E-R diagram example.
+

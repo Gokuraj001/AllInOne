@@ -132,44 +132,75 @@ def create_app():
         return output_filename, output_path
     
     def convert_office_to_pdf(input_path):
-        pythoncom.CoInitialize()
-
+        import subprocess
+        
         ext = input_path.rsplit('.', 1)[1].lower()
         output_filename = f"converted_{uuid.uuid4().hex}.pdf"
         output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
-
+        
+        if ext not in ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']:
+            raise Exception("Unsupported office file type.")
+        
         try:
-            if ext in ['doc', 'docx']:
-                word = win32com.client.Dispatch("Word.Application")
-                word.Visible = False
-                doc = word.Documents.Open(os.path.abspath(input_path))
-                doc.SaveAs(os.path.abspath(output_path), FileFormat=17)  # PDF
-                doc.Close()
-                word.Quit()
-
-            elif ext in ['xls', 'xlsx']:
-                excel = win32com.client.Dispatch("Excel.Application")
-                excel.Visible = False
-                workbook = excel.Workbooks.Open(os.path.abspath(input_path))
-                workbook.ExportAsFixedFormat(0, os.path.abspath(output_path))  # 0 = PDF
-                workbook.Close(False)
-                excel.Quit()
-
-            elif ext in ['ppt', 'pptx']:
-                powerpoint = win32com.client.Dispatch("PowerPoint.Application")
-                presentation = powerpoint.Presentations.Open(os.path.abspath(input_path), WithWindow=False)
-                presentation.SaveAs(os.path.abspath(output_path), 32)  # 32 = PDF
-                presentation.Close()
-                powerpoint.Quit()
-
-            else:
-                raise Exception("Unsupported office file type.")
-
+            # Try using LibreOffice in headless mode (most reliable)
+            abs_input = os.path.abspath(input_path)
+            abs_output_dir = os.path.abspath(current_app.config['OUTPUT_FOLDER'])
+            
+            cmd = [
+                'soffice',
+                '--headless',
+                '--convert-to', 'pdf',
+                '--outdir', abs_output_dir,
+                abs_input
+            ]
+            
+            result = subprocess.run(cmd, capture_output=True, timeout=60, text=True)
+            
+            if result.returncode != 0:
+                raise Exception(f"LibreOffice conversion failed: {result.stderr}")
+            
+            # LibreOffice outputs with the same base filename, just .pdf extension
+            base_name = os.path.splitext(os.path.basename(input_path))[0]
+            converted_path = os.path.join(abs_output_dir, f"{base_name}.pdf")
+            
+            if not os.path.exists(converted_path):
+                raise Exception("PDF file was not created by LibreOffice")
+            
+            # Rename to our naming convention
+            os.rename(converted_path, output_path)
+            
         except Exception as e:
-            raise Exception(f"Office to PDF conversion failed: {str(e)}")
+            # Fallback: Try using WIN32COM
+            try:
+                pythoncom.CoInitialize()
+                
+                if ext in ['doc', 'docx']:
+                    word = win32com.client.Dispatch("Word.Application")
+                    word.Visible = False
+                    doc = word.Documents.Open(os.path.abspath(input_path))
+                    doc.SaveAs(os.path.abspath(output_path), FileFormat=17)  # PDF
+                    doc.Close()
+                    word.Quit()
 
-        finally:
-            pythoncom.CoUninitialize()
+                elif ext in ['xls', 'xlsx']:
+                    excel = win32com.client.Dispatch("Excel.Application")
+                    excel.Visible = False
+                    workbook = excel.Workbooks.Open(os.path.abspath(input_path))
+                    workbook.ExportAsFixedFormat(0, os.path.abspath(output_path))  # 0 = PDF
+                    workbook.Close(False)
+                    excel.Quit()
+
+                elif ext in ['ppt', 'pptx']:
+                    powerpoint = win32com.client.Dispatch("PowerPoint.Application")
+                    presentation = powerpoint.Presentations.Open(os.path.abspath(input_path), WithWindow=False)
+                    presentation.SaveAs(os.path.abspath(output_path), 32)  # 32 = PDF
+                    presentation.Close()
+                    powerpoint.Quit()
+                
+                pythoncom.CoUninitialize()
+                
+            except Exception as fallback_error:
+                raise Exception(f"All conversion methods failed - LibreOffice: {str(e)} | WIN32COM: {str(fallback_error)}")
 
         return output_filename, output_path
 
@@ -196,11 +227,22 @@ def create_app():
                 if filename:
                     merger.append(filepath)
 
-            output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], 'merged.pdf')
+            output_filename = f"merged_{uuid.uuid4().hex}.pdf"
+            output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
             merger.write(output_path)
             merger.close()
 
-            return send_file(output_path, as_attachment=True)
+            file_size = os.path.getsize(output_path)
+            file_size_kb = round(file_size / 1024, 2)
+
+            return jsonify({
+                "success": True,
+                "filename": output_filename,
+                "original_name": "merged.pdf",
+                "file_size": file_size,
+                "file_size_kb": file_size_kb,
+                "message": "Your Pdfs are Merged"
+            })
 
         return render_template('merge.html')
     
@@ -256,28 +298,68 @@ def create_app():
     @app.route('/split', methods=['GET', 'POST'])
     def split_pdf():
         if request.method == 'POST':
-            file = request.files['pdf']
-            page_number = int(request.form['page_number'])
+            file = request.files.get('pdf')
+            page_number_str = request.form.get('page_number', '')
+            
+            if not file or file.filename == '':
+                return jsonify({'error': 'No file uploaded'}), 400
+            
+            if not page_number_str:
+                return jsonify({'error': 'No page number specified'}), 400
 
             filename, filepath = save_uploaded_file(file, 'pdf')
             if not filename:
-                return "<h2>No file uploaded or invalid PDF.</h2>"
+                return jsonify({'error': 'Invalid PDF file'}), 400
 
-            reader = PdfReader(filepath)
+            try:
+                page_number = int(page_number_str)
+                reader = PdfReader(filepath)
 
-            if page_number < 1 or page_number > len(reader.pages):
-                return f"<h2>Invalid page number. This PDF has only {len(reader.pages)} pages.</h2>"
+                if page_number < 1 or page_number > len(reader.pages):
+                    return jsonify({'error': f'Invalid page number. This PDF has only {len(reader.pages)} pages.'}), 400
 
-            writer = PdfWriter()
-            writer.add_page(reader.pages[page_number - 1])
+                writer = PdfWriter()
+                writer.add_page(reader.pages[page_number - 1])
 
-            output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], 'split_page.pdf')
-            with open(output_path, 'wb') as output_file:
-                writer.write(output_file)
+                output_filename = f"split_page_{uuid.uuid4().hex}.pdf"
+                output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
+                with open(output_path, 'wb') as output_file:
+                    writer.write(output_file)
 
-            return send_file(output_path, as_attachment=True)
+                # Get file size
+                file_size = os.path.getsize(output_path)
+
+                return jsonify({
+                    'success': True,
+                    'filename': output_filename,
+                    'page_number': page_number,
+                    'filesize': file_size,
+                    'filesize_formatted': format_file_size(file_size)
+                })
+
+            except ValueError:
+                return jsonify({'error': 'Invalid page number'}), 400
+            except Exception as e:
+                return jsonify({'error': f'Error splitting PDF: {str(e)}'}), 500
 
         return render_template('split.html')
+    
+    @app.route('/download_split_pdf/<filename>', methods=['POST'])
+    def download_split_pdf(filename):
+        try:
+            new_filename = request.json.get('new_filename', filename)
+            new_filename = secure_filename(new_filename)
+            if not new_filename.endswith('.pdf'):
+                new_filename += '.pdf'
+            
+            filepath = os.path.join(current_app.config['OUTPUT_FOLDER'], filename)
+            
+            if not os.path.exists(filepath) or not os.path.isfile(filepath):
+                return jsonify({'error': 'File not found'}), 404
+            
+            return send_file(filepath, as_attachment=True, download_name=new_filename)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
 
     # ===================== ROTATE PDF =====================
     @app.route('/rotate', methods=['GET', 'POST'])
@@ -343,7 +425,7 @@ def create_app():
             file = request.files.get('image')
 
             if not file:
-                return "<h3>No image uploaded</h3>"
+                return jsonify({"success": False, "error": "No image uploaded"}), 400
 
             # Save input file
             filename = secure_filename(file.filename)
@@ -351,7 +433,8 @@ def create_app():
             file.save(input_path)
 
             # Output path
-            output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], 'compressed_image.jpg')
+            output_filename = f"compressed_{uuid.uuid4().hex}.jpg"
+            output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
 
             # Get form values
             mode = request.form.get('mode')
@@ -388,7 +471,17 @@ def create_app():
 
                 img.save(output_path, "JPEG", quality=quality, optimize=True)
 
-            return send_file(output_path, as_attachment=True)
+            file_size = os.path.getsize(output_path)
+            file_size_kb = round(file_size / 1024, 2)
+
+            return jsonify({
+                "success": True,
+                "filename": output_filename,
+                "original_name": "compressed_image.jpg",
+                "file_size": file_size,
+                "file_size_kb": file_size_kb,
+                "message": "Your fille is Image is Compressed"
+            })
 
         return render_template('compress_image.html')
 
@@ -456,27 +549,48 @@ def create_app():
     @app.route('/pdf_to_jpg', methods=['GET', 'POST'])
     def pdf_to_jpg():
         if request.method == 'POST':
-            file = request.files['pdf']
+            file = request.files.get('pdf')
             filename, filepath = save_uploaded_file(file, 'pdf')
             if not filename:
-                return "<h2>No file uploaded or invalid PDF.</h2>"
+                return jsonify({"success": False, "error": "No file uploaded or invalid PDF."})
 
+            import tempfile
+            import shutil
             try:
                 doc = fitz.open(filepath)
-                zip_path = os.path.join(current_app.config['OUTPUT_FOLDER'], 'pdf_images.zip')
+                # Generate unique ID for output
+                output_filename = f"converted_images_{uuid.uuid4().hex}.zip"
+                final_zip_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
 
-                with zipfile.ZipFile(zip_path, 'w') as zipf:
-                    for i, page in enumerate(doc):
-                        pix = page.get_pixmap()
-                        img_path = os.path.join(current_app.config['OUTPUT_FOLDER'], f'page_{i+1}.jpg')
-                        pix.save(img_path)
-                        zipf.write(img_path, os.path.basename(img_path))
+                with tempfile.TemporaryDirectory() as temp_dir:
+                    temp_zip_path = os.path.join(temp_dir, output_filename)
+                    
+                    with zipfile.ZipFile(temp_zip_path, 'w') as zipf:
+                        for i, page in enumerate(doc):
+                            pix = page.get_pixmap()
+                            img_path = os.path.join(temp_dir, f'page_{i+1}.jpg')
+                            pix.save(img_path)
+                            zipf.write(img_path, os.path.basename(img_path))
+                            
+                    # Atomically move the completed zip to the server output directory
+                    shutil.move(temp_zip_path, final_zip_path)
 
                 doc.close()
-                return send_file(zip_path, as_attachment=True)
+                
+                file_size = os.path.getsize(final_zip_path)
+                file_size_kb = round(file_size / 1024, 2)
+
+                return jsonify({
+                    "success": True,
+                    "filename": output_filename,
+                    "original_name": "converted_images.zip",
+                    "file_size": file_size,
+                    "file_size_kb": file_size_kb,
+                    "message": "Your Pdfs is Converted into the Image"
+                })
 
             except Exception as e:
-                return f"<h2>Error converting PDF to JPG: {str(e)}</h2>"
+                return jsonify({"success": False, "error": f"Error converting PDF to JPG: {str(e)}"})
 
         return render_template('pdf_to_jpg.html')
 
@@ -484,26 +598,202 @@ def create_app():
     @app.route('/pdf_to_text', methods=['GET', 'POST'])
     def pdf_to_text():
         if request.method == 'POST':
-            file = request.files['pdf']
+            file = request.files.get('pdf')
+            pages_input = request.form.get('pages', '').strip()
+            
             filename, filepath = save_uploaded_file(file, 'pdf')
             if not filename:
-                return "<h2>No file uploaded or invalid PDF.</h2>"
+                return jsonify({"success": False, "error": "No file uploaded or invalid PDF."})
 
-            text_output = ""
+            try:
+                text_output = ""
 
-            with pdfplumber.open(filepath) as pdf:
-                for page in pdf.pages:
-                    text = page.extract_text()
-                    if text:
-                        text_output += text + "\n\n"
+                with pdfplumber.open(filepath) as pdf:
+                    total_pages = len(pdf.pages)
+                    pages_to_extract = []
 
-            output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], 'extracted_text.txt')
-            with open(output_path, 'w', encoding='utf-8') as f:
-                f.write(text_output)
+                    if pages_input:
+                        try:
+                            # Parse page numbers like "1, 3, 5-7"
+                            for part in pages_input.split(','):
+                                part = part.strip()
+                                if '-' in part:
+                                    start, end = map(int, part.split('-'))
+                                    pages_to_extract.extend(range(start, end + 1))
+                                else:
+                                    pages_to_extract.append(int(part))
+                            
+                            # Filter and adjust to 0-indexed
+                            pages_to_extract = [p - 1 for p in pages_to_extract if 1 <= p <= total_pages]
+                        except ValueError:
+                            return jsonify({"success": False, "error": "Invalid page numbers format."})
+                    else:
+                        pages_to_extract = list(range(total_pages))
 
-            return send_file(output_path, as_attachment=True)
+                    if not pages_to_extract:
+                        return jsonify({"success": False, "error": "No valid pages selected for extraction. Check page limit."})
+
+                    for page_num in pages_to_extract:
+                        text = pdf.pages[page_num].extract_text()
+                        if text:
+                            if len(pages_to_extract) > 1:
+                                text_output += f"--- Page {page_num + 1} ---\n{text}\n\n"
+                            else:
+                                text_output += f"{text}\n\n"
+
+                output_filename = f"extracted_text_{uuid.uuid4().hex}.txt"
+                output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
+                with open(output_path, 'w', encoding='utf-8') as f:
+                    f.write(text_output)
+
+                file_size = os.path.getsize(output_path)
+                file_size_kb = round(file_size / 1024, 2)
+
+                return jsonify({
+                    "success": True,
+                    "filename": output_filename,
+                    "original_name": "extracted_text.txt",
+                    "file_size": file_size,
+                    "file_size_kb": file_size_kb,
+                    "message": "Your Text file is Converted"
+                })
+
+            except Exception as e:
+                return jsonify({"success": False, "error": f"Error converting PDF to Text: {str(e)}"})
 
         return render_template('pdf_to_text.html')
+    
+    @app.route('/download_text_file/<filename>', methods=['POST'])
+    def download_text_file(filename):
+        try:
+            # Get new filename if user renamed it
+            new_filename = request.json.get('new_filename', filename)
+            new_filename = secure_filename(new_filename)
+            if not new_filename.endswith('.txt'):
+                new_filename += '.txt'
+            
+            filepath = os.path.join(current_app.config['OUTPUT_FOLDER'], filename)
+            
+            # Security check: ensure file exists in output folder
+            if not os.path.exists(filepath) or not os.path.isfile(filepath):
+                return jsonify({'error': 'File not found'}), 404
+            
+            return send_file(filepath, as_attachment=True, download_name=new_filename)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+    def format_file_size(bytes):
+        for unit in ['B', 'KB', 'MB', 'GB']:
+            if bytes < 1024:
+                return f"{bytes:.2f} {unit}"
+            bytes /= 1024
+        return f"{bytes:.2f} TB"
+
+    # ===================== PDF EXTRACT PAGES =====================
+    @app.route('/pdf_extract_pages', methods=['GET', 'POST'])
+    def pdf_extract_pages():
+        if request.method == 'POST':
+            file = request.files.get('pdf')
+            page_numbers = request.form.get('pages', '').strip()
+            
+            if not file or file.filename == '':
+                return jsonify({'error': 'No file uploaded'}), 400
+            
+            if not page_numbers:
+                return jsonify({'error': 'No page numbers specified'}), 400
+            
+            filename, filepath = save_uploaded_file(file, 'pdf')
+            if not filename:
+                return jsonify({'error': 'Invalid PDF file'}), 400
+
+            try:
+                # Parse page numbers (supports "1,3,5" or "1-5" or "1")
+                pages_to_extract = parse_page_numbers(page_numbers, filepath)
+                
+                if not pages_to_extract:
+                    return jsonify({'error': 'No valid page numbers found'}), 400
+                
+                # Extract pages
+                output_filename = f"extracted_pages_{uuid.uuid4().hex}.pdf"
+                output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
+                
+                pdf_reader = PdfReader(filepath)
+                pdf_writer = PdfWriter()
+                
+                for page_num in pages_to_extract:
+                    if 0 <= page_num < len(pdf_reader.pages):
+                        pdf_writer.add_page(pdf_reader.pages[page_num])
+                
+                with open(output_path, 'wb') as output_file:
+                    pdf_writer.write(output_file)
+                
+                # Get file size
+                file_size = os.path.getsize(output_path)
+                
+                return jsonify({
+                    'success': True,
+                    'filename': output_filename,
+                    'pages': page_numbers,
+                    'filesize': file_size,
+                    'filesize_formatted': format_file_size(file_size)
+                })
+            
+            except Exception as e:
+                return jsonify({'error': f'Error extracting pages: {str(e)}'}), 500
+        
+        return render_template('pdf_extract_pages.html')
+    
+    def parse_page_numbers(page_string, filepath):
+        """Parse page numbers from string like '1,3,5' or '1-5' or '1'"""
+        pages = set()
+        
+        # Get total pages in PDF
+        try:
+            with pdfplumber.open(filepath) as pdf:
+                total_pages = len(pdf.pages)
+        except:
+            return []
+        
+        parts = page_string.split(',')
+        for part in parts:
+            part = part.strip()
+            if '-' in part:
+                # Range like "1-5"
+                try:
+                    start, end = part.split('-')
+                    start = int(start.strip()) - 1  # Convert to 0-based indexing
+                    end = int(end.strip())  # Keep as 1-based for range
+                    for i in range(start, min(end, total_pages)):
+                        pages.add(i)
+                except:
+                    pass
+            else:
+                # Single page
+                try:
+                    page_num = int(part) - 1  # Convert to 0-based indexing
+                    if 0 <= page_num < total_pages:
+                        pages.add(page_num)
+                except:
+                    pass
+        
+        return sorted(list(pages))
+    
+    @app.route('/download_extracted_pdf/<filename>', methods=['POST'])
+    def download_extracted_pdf(filename):
+        try:
+            new_filename = request.json.get('new_filename', filename)
+            new_filename = secure_filename(new_filename)
+            if not new_filename.endswith('.pdf'):
+                new_filename += '.pdf'
+            
+            filepath = os.path.join(current_app.config['OUTPUT_FOLDER'], filename)
+            
+            if not os.path.exists(filepath) or not os.path.isfile(filepath):
+                return jsonify({'error': 'File not found'}), 404
+            
+            return send_file(filepath, as_attachment=True, download_name=new_filename)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
 
     # ===================== HTML TO PDF =====================
     @app.route('/html_to_pdf', methods=['GET', 'POST'])
@@ -577,10 +867,10 @@ def create_app():
             file = request.files.get('file')
 
             if not file or file.filename == '':
-                return "<h2>No file uploaded.</h2>"
+                return jsonify({'error': 'No file uploaded'}), 400
 
             if not allowed_office_file(file.filename):
-                return "<h2>Invalid file type. Please upload Word, Excel, or PowerPoint file.</h2>"
+                return jsonify({'error': 'Invalid file type. Please upload Word, Excel, or PowerPoint file'}), 400
 
             filename = secure_filename(file.filename)
             filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
@@ -588,12 +878,36 @@ def create_app():
 
             try:
                 output_filename, output_path = convert_office_to_pdf(filepath)
-                return send_file(output_path, as_attachment=True)
+                
+                # Return the PDF file directly
+                return send_file(
+                    output_path,
+                    mimetype='application/pdf',
+                    as_attachment=True,
+                    download_name='converted.pdf'
+                )
 
             except Exception as e:
-                return f"<h2>Conversion failed: {str(e)}</h2>"
+                return jsonify({'error': f'Conversion failed: {str(e)}'}), 500
 
         return render_template('office_to_pdf.html')
+    
+    @app.route('/download_office_pdf/<filename>', methods=['POST'])
+    def download_office_pdf(filename):
+        try:
+            new_filename = request.json.get('new_filename', filename)
+            new_filename = secure_filename(new_filename)
+            if not new_filename.endswith('.pdf'):
+                new_filename += '.pdf'
+            
+            filepath = os.path.join(current_app.config['OUTPUT_FOLDER'], filename)
+            
+            if not os.path.exists(filepath) or not os.path.isfile(filepath):
+                return jsonify({'error': 'File not found'}), 404
+            
+            return send_file(filepath, as_attachment=True, download_name=new_filename)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
     
 
 # ===================== PAGES =====================

@@ -1625,6 +1625,40 @@
     </div>
   </main>
 
+  <!-- RESULT MODAL -->
+  <div class="modal-overlay" id="resultModal">
+    <div class="modal-box" style="padding: 40px; text-align: center;">
+      <span class="modal-emoji">✅</span>
+      <div class="modal-title">Success!</div>
+      <div class="modal-sub">Your fille is Image is Compressed</div>
+      
+      <div style="margin-bottom: 24px; text-align: left;">
+        <label style="display: block; margin-bottom: 8px; color: var(--text2); font-size: 0.9rem;">File Size</label>
+        <div id="fileSizeDisplay" style="font-weight: 600; font-size: 1.1rem; color: var(--accent2); padding: 12px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 12px; text-align: center;">-- KB</div>
+      </div>
+
+      <div style="margin-bottom: 32px; text-align: left;">
+        <label for="renameInput" style="display: block; margin-bottom: 8px; color: var(--text2); font-size: 0.9rem;">Rename File (Optional)</label>
+        <input type="text" id="renameInput" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border2); background: var(--input-bg); color: var(--text); font-family: inherit; transition: all 0.2s; outline: none;" placeholder="e.g. compressed_photo.jpg">
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <button class="modal-close-btn" style="background: var(--surface2); color: var(--text); box-shadow: none;" onclick="closeResultModal()">Cancel</button>
+        <button class="modal-close-btn" onclick="downloadConvertedFile()">Download Image</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONVERT MORE OVERLAY -->
+  <div class="modal-overlay" id="convertMoreOverlay">
+    <div class="modal-box" style="padding: 40px; text-align: center;">
+      <span class="modal-emoji">🎉</span>
+      <div class="modal-title">All Done!</div>
+      <div class="modal-sub">Your image has been downloaded successfully.</div>
+      <button class="modal-close-btn" style="width: 100%;" onclick="convertMore()">Compress more Image</button>
+    </div>
+  </div>
+
   <button class="float-mode" onclick="toggleMode()" title="Toggle theme">
     <span id="floatIcon">🌙</span>
   </button>
@@ -3008,12 +3042,100 @@
     function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') }
 
     /* SUBMIT */
-    document.getElementById('uploadForm').addEventListener('submit', function () {
+    let currentConversionResult = null;
+
+    document.getElementById('uploadForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
       if (!imgInput.files[0]) return;
       document.getElementById('submitBtn').disabled = true;
       document.getElementById('progressContainer').style.display = 'block';
       resetProgress(); animateProgress(0, 93, 3000, () => { });
+
+      try {
+        const formData = new FormData(this);
+        const response = await fetch('/compress_image', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          animateProgress(93, 100, 500, () => {
+            document.getElementById('progressContainer').style.display = 'none';
+            resetProgress();
+          });
+
+          currentConversionResult = data;
+          setTimeout(() => { showResultModal(data); }, 800);
+        } else {
+          throw new Error(data.error || 'Compression failed');
+        }
+      } catch (error) {
+        document.getElementById('progressContainer').style.display = 'none';
+        resetProgress();
+        alert('Error: ' + error.message);
+        document.getElementById('submitBtn').disabled = false;
+      }
     });
+
+    function showResultModal(data) {
+      const modal = document.getElementById('resultModal');
+      document.getElementById('fileSizeDisplay').textContent = `${data.file_size_kb} KB`;
+      document.getElementById('renameInput').value = data.original_name;
+      modal.classList.add('open');
+    }
+
+    function closeResultModal() {
+      const modal = document.getElementById('resultModal');
+      modal.classList.remove('open');
+      currentConversionResult = null;
+    }
+
+    async function downloadConvertedFile() {
+      if (!currentConversionResult) {
+        alert('No file to download');
+        return;
+      }
+
+      const renameInput = document.getElementById('renameInput');
+      const customName = renameInput.value.trim() || currentConversionResult.original_name;
+      const finalName = customName.endsWith('.jpg') ? customName : customName + '.jpg';
+
+      try {
+        const downloadUrl = `/download/${currentConversionResult.filename}?name=${encodeURIComponent(finalName)}`;
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = finalName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        setTimeout(() => {
+          closeResultModal();
+          showConvertMoreOverlay();
+        }, 500);
+      } catch (error) {
+        alert('Error downloading file: ' + error.message);
+      }
+    }
+
+    function showConvertMoreOverlay() {
+      const overlay = document.getElementById('convertMoreOverlay');
+      overlay.classList.add('open');
+    }
+
+    function closeConvertMoreOverlay() {
+      const overlay = document.getElementById('convertMoreOverlay');
+      overlay.classList.remove('open');
+    }
+
+    function convertMore() {
+      closeConvertMoreOverlay();
+      clearFile();
+      document.getElementById('submitBtn').disabled = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     function animateProgress(from, to, dur, cb) {
       const fill = document.getElementById('progressFill'), pct = document.getElementById('progressPct');
       const start = performance.now();
