@@ -1,7 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    })();
+  </script>
+  <script src="{{ url_for('static', filename='theme.js') }}"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy - ALL-IN-ONE Tools</title>
@@ -700,6 +707,94 @@
     }
 
     /* ══════════════════════════════════════════════
+   PRICING MODAL
+══════════════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, .72);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 28px;
+      padding: 52px 48px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 80px var(--glow-a), var(--shadow);
+      transform: scale(.85) translateY(24px);
+      opacity: 0;
+      transition: transform .42s cubic-bezier(.22, 1, .36, 1), opacity .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .modal-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--glow-a), transparent 60%);
+      pointer-events: none;
+    }
+
+    .modal-overlay.open .modal-box {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    .modal-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 18px;
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+
+    .modal-sub {
+      font-size: .9rem;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .modal-close-btn {
+      padding: 13px 36px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .95rem;
+      box-shadow: 0 4px 24px var(--glow-a);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast);
+    }
+
+    .modal-close-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px var(--glow-a);
+    }
+
+    /* ══════════════════════════════════════════════
    FLOATING MODE BUTTON
 ══════════════════════════════════════════════ */
     .float-mode {
@@ -966,7 +1061,6 @@
       <button class="menu-item" id="menuPricing">
         <span class="menu-item-ico">💎</span><span data-i18n="navPricing">Pricing</span>
       </button>
-      <div>
       <a href="/" class="menu-item">
         <span class="menu-item-ico">🏠</span>
         <span>Home</span>
@@ -993,7 +1087,7 @@
       <div class="mode-toggle-row">
         <div class="mode-label">
           <span id="drawerModeIcon">🌙</span>
-          <span id="drawerModeLable" data-i18n="modeLabel"> Dark Mode </span> 
+          <span id="drawerModeLable" data-i18n="modeLabel"> Dark Mode </span>
         </div>
         <div class="toggle-switch on" id="themeToggle">
           <div class="toggle-knob"></div>
@@ -1026,10 +1120,12 @@
         <div class="section-number">1. INTRODUCTION</div>
         <h2 class="section-title">Introduction</h2>
         <h4 class="policy-h4">
-          Welcome to <strong>ALL-IN-ONE</strong> ("Website," "Service," "we," "us," "our," or "Company"). We are committed to protecting your privacy and ensuring you have a positive experience on our Website.
+          Welcome to <strong>ALL-IN-ONE</strong> ("Website," "Service," "we," "us," "our," or "Company"). We are
+          committed to protecting your privacy and ensuring you have a positive experience on our Website.
         </h4>
         <h4 class="policy-h4">
-          This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our Website and use our services, including our free tools for:
+          This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our
+          Website and use our services, including our free tools for:
         </h4>
         <h4 class="policy-h4">Image to PDF conversion</h4>
         <h4 class="policy-h4">PDF to Office file conversion</h4>
@@ -1040,7 +1136,9 @@
         <h4 class="policy-h4">Organize PDF documents</h4>
         <h4 class="policy-h4">PDF to Office file conversion</h4>
         <h4 class="policy-h4">
-          Please read this Privacy Policy carefully. If you do not agree with our privacy practices, please do not use our Website or services. This Privacy Policy is designed to comply with applicable privacy laws in India and international privacy standards.
+          Please read this Privacy Policy carefully. If you do not agree with our privacy practices, please do not use
+          our Website or services. This Privacy Policy is designed to comply with applicable privacy laws in India and
+          international privacy standards.
         </h4>
       </section>
 
@@ -1068,14 +1166,19 @@
         <div>
           <h3 class="subsection-title">2.2 What We Collect Through Google Analytics</h3>
           <h4 class="policy-h4">
-            We use <strong>Google Analytics</strong> to understand how visitors interact with our Website. Google Analytics collects the following non-personal information:
+            We use <strong>Google Analytics</strong> to understand how visitors interact with our Website. Google
+            Analytics collects the following non-personal information:
           </h4>
-          <h4 class="policy-h4"><strong>Session Information:</strong> Duration of your visit, pages visited, referral source</h4>
+          <h4 class="policy-h4"><strong>Session Information:</strong> Duration of your visit, pages visited, referral
+            source</h4>
           <h4 class="policy-h4"><strong>Device Information:</strong> Browser type, operating system, device type</h4>
           <h4 class="policy-h4"><strong>Traffic Data:</strong> Which tools/features you use, general usage patterns</h4>
-          <h4 class="policy-h4"><strong>Analytics Features:</strong> We utilize all standard Google Analytics features including audience demographics, interests, user acquisition data, behavior flow analysis, and conversion tracking</h4>
+          <h4 class="policy-h4"><strong>Analytics Features:</strong> We utilize all standard Google Analytics features
+            including audience demographics, interests, user acquisition data, behavior flow analysis, and conversion
+            tracking</h4>
           <div class="policy-highlight">
-            <h4><strong>Important:</strong> Google Analytics data is aggregated and anonymous. It cannot be used to identify individual users.</h4>
+            <h4><strong>Important:</strong> Google Analytics data is aggregated and anonymous. It cannot be used to
+              identify individual users.</h4>
           </div>
         </div>
 
@@ -1090,7 +1193,8 @@
           <h4 class="policy-h4">Pages visited and time spent on each page</h4>
           <h4 class="policy-h4">General usage patterns</h4>
           <h4 class="policy-h4">
-            This information is collected automatically by Google Analytics and is not linked to any personal identification information.
+            This information is collected automatically by Google Analytics and is not linked to any personal
+            identification information.
           </h4>
         </div>
       </section>
@@ -1102,11 +1206,15 @@
         <h4 class="policy-h4">
           We use the information collected through Google Analytics for the following purposes:
         </h4>
-        <h4 class="policy-h4"><strong>Service Improvement:</strong> To understand how our tools are being used and identify areas for improvement</h4>
+        <h4 class="policy-h4"><strong>Service Improvement:</strong> To understand how our tools are being used and
+          identify areas for improvement</h4>
         <h4 class="policy-h4"><strong>User Experience:</strong> To optimize Website performance and user interface</h4>
-        <h4 class="policy-h4"><strong>Feature Development:</strong> To determine which features are most popular and develop new features accordingly</h4>
-        <h4 class="policy-h4"><strong>Website Maintenance:</strong> To ensure the Website functions properly and efficiently</h4>
-        <h4 class="policy-h4"><strong>Analytics:</strong> To generate reports and insights about Website usage patterns</h4>
+        <h4 class="policy-h4"><strong>Feature Development:</strong> To determine which features are most popular and
+          develop new features accordingly</h4>
+        <h4 class="policy-h4"><strong>Website Maintenance:</strong> To ensure the Website functions properly and
+          efficiently</h4>
+        <h4 class="policy-h4"><strong>Analytics:</strong> To generate reports and insights about Website usage patterns
+        </h4>
         <h4 class="policy-h4"><strong>Troubleshooting:</strong> To diagnose technical issues and problems</h4>
         <h4 class="policy-h4"><strong>We DO NOT use your information for:</strong></h4>
         <h4 class="policy-h4">Targeted advertising or marketing</h4>
@@ -1126,7 +1234,8 @@
           <h4 class="policy-h4">
             When you upload files to ALL-IN-ONE:
           </h4>
-          <h4 class="policy-h4">Your files are <strong>processed immediately</strong> for the requested conversion or operation</h4>
+          <h4 class="policy-h4">Your files are <strong>processed immediately</strong> for the requested conversion or
+            operation</h4>
           <h4 class="policy-h4">Your files are <strong>deleted instantly</strong> after processing is complete</h4>
           <h4 class="policy-h4"><strong>We do not retain, store, or backup</strong> any of your files</h4>
           <h4 class="policy-h4"><strong>We do not access, view, or analyze</strong> your file contents</h4>
@@ -1136,7 +1245,8 @@
         <div>
           <h3 class="subsection-title">4.2 Client-Side Processing</h3>
           <h4 class="policy-h4">
-            Whenever possible, file processing occurs on your device (client-side) rather than on our servers, ensuring maximum privacy and security.
+            Whenever possible, file processing occurs on your device (client-side) rather than on our servers, ensuring
+            maximum privacy and security.
           </h4>
         </div>
 
@@ -1160,7 +1270,8 @@
         <div>
           <h3 class="subsection-title">5.1 How Google Analytics Works</h3>
           <h4 class="policy-h4">
-            Google Analytics is a web analytics service provided by Google, Inc. ("Google"). Google Analytics uses cookies and similar technologies to collect and analyze information about Website usage.
+            Google Analytics is a web analytics service provided by Google, Inc. ("Google"). Google Analytics uses
+            cookies and similar technologies to collect and analyze information about Website usage.
           </h4>
         </div>
 
@@ -1175,15 +1286,19 @@
           <h4 class="policy-h4">Behavior flows and user journeys</h4>
           <h4 class="policy-h4">Device and browser information</h4>
           <h4 class="policy-h4">
-            <strong>Note:</strong> We DO NOT use Google Analytics to track individual user behavior or collect personal information.
+            <strong>Note:</strong> We DO NOT use Google Analytics to track individual user behavior or collect personal
+            information.
           </h4>
         </div>
 
         <div>
           <h3 class="subsection-title">5.3 Google's Data Practices</h3>
-          <h4 class="policy-h4">Google may use the data collected to contextualize and personalize ads in Google's own advertising network</h4>
-          <h4 class="policy-h4">Google Analytics data is subject to <a href="https://policies.google.com/privacy" class="policy-link">Google's Privacy Policy</a></h4>
-          <h4 class="policy-h4">Google may transfer data to third countries in accordance with Google's standard contractual clauses</h4>
+          <h4 class="policy-h4">Google may use the data collected to contextualize and personalize ads in Google's own
+            advertising network</h4>
+          <h4 class="policy-h4">Google Analytics data is subject to <a href="https://policies.google.com/privacy"
+              class="policy-link">Google's Privacy Policy</a></h4>
+          <h4 class="policy-h4">Google may transfer data to third countries in accordance with Google's standard
+            contractual clauses</h4>
         </div>
 
         <div>
@@ -1191,7 +1306,8 @@
           <h4 class="policy-h4">
             You can prevent Google Analytics from collecting your data by:
           </h4>
-          <h4 class="policy-h4">Installing the <a href="https://tools.google.com/dlpage/gaoptout" class="policy-link">Google Analytics Opt-Out Browser Add-on</a></h4>
+          <h4 class="policy-h4">Installing the <a href="https://tools.google.com/dlpage/gaoptout"
+              class="policy-link">Google Analytics Opt-Out Browser Add-on</a></h4>
           <h4 class="policy-h4">Disabling cookies in your browser settings</h4>
           <h4 class="policy-h4">Using privacy-focused browser extensions</h4>
         </div>
@@ -1216,7 +1332,9 @@
         <div>
           <h3 class="subsection-title">6.2 Third-Party Cookies</h3>
           <h4 class="policy-h4">
-            <strong>Note:</strong> While we do not use cookies ourselves, Google Analytics (a third-party service) may use cookies to collect data. You can disable this through your browser settings or by using the Google Analytics Opt-Out Browser Add-on.
+            <strong>Note:</strong> While we do not use cookies ourselves, Google Analytics (a third-party service) may
+            use cookies to collect data. You can disable this through your browser settings or by using the Google
+            Analytics Opt-Out Browser Add-on.
           </h4>
         </div>
       </section>
@@ -1229,25 +1347,30 @@
         <div>
           <h3 class="subsection-title">7.1 Google AdSense</h3>
           <h4 class="policy-h4">
-            We display advertisements on our Website through <strong>Google AdSense</strong> to support our free services.
+            We display advertisements on our Website through <strong>Google AdSense</strong> to support our free
+            services.
           </h4>
         </div>
 
         <div>
           <h3 class="subsection-title">7.2 Advertiser Data Collection</h3>
           <div class="policy-highlight">
-            <h4><strong>Important:</strong> While Google AdSense displays ads on our site, advertisers cannot collect personal data from our Website. This is because:</h4>
+            <h4><strong>Important:</strong> While Google AdSense displays ads on our site, advertisers cannot collect
+              personal data from our Website. This is because:</h4>
           </div>
           <h4 class="policy-h4">We do not share any user information with advertisers</h4>
           <h4 class="policy-h4">We do not enable data collection through ads</h4>
-          <h4 class="policy-h4">Advertisers cannot access any user data beyond what is visible in the ads themselves</h4>
+          <h4 class="policy-h4">Advertisers cannot access any user data beyond what is visible in the ads themselves
+          </h4>
         </div>
 
         <div>
           <h3 class="subsection-title">7.3 Google AdSense Privacy</h3>
-          <h4 class="policy-h4">Google AdSense is subject to <a href="https://policies.google.com/privacy" class="policy-link">Google's Privacy Policy</a></h4>
+          <h4 class="policy-h4">Google AdSense is subject to <a href="https://policies.google.com/privacy"
+              class="policy-link">Google's Privacy Policy</a></h4>
           <h4 class="policy-h4">Ads are contextual and not based on personal user data</h4>
-          <h4 class="policy-h4">You can control ad preferences through <a href="https://adssettings.google.com" class="policy-link">Google's Ad Settings</a></h4>
+          <h4 class="policy-h4">You can control ad preferences through <a href="https://adssettings.google.com"
+              class="policy-link">Google's Ad Settings</a></h4>
         </div>
 
         <div>
@@ -1272,10 +1395,14 @@
             <strong>We do not retain any user data.</strong> Specifically:
           </h4>
           <h4 class="policy-h4"><strong>Files:</strong> All uploaded files are deleted immediately after processing</h4>
-          <h4 class="policy-h4"><strong>Personal Information:</strong> We do not collect personal information, so there is nothing to retain</h4>
-          <h4 class="policy-h4"><strong>Usage Data:</strong> Google Analytics data is retained according to Google's standard retention policies (typically 14 months by default)</h4>
-          <h4 class="policy-h4"><strong>Support Data:</strong> We do not process support requests that would require data retention</h4>
-          <h4 class="policy-h4"><strong>Server Logs:</strong> We do not retain server logs for personal information purposes</h4>
+          <h4 class="policy-h4"><strong>Personal Information:</strong> We do not collect personal information, so there
+            is nothing to retain</h4>
+          <h4 class="policy-h4"><strong>Usage Data:</strong> Google Analytics data is retained according to Google's
+            standard retention policies (typically 14 months by default)</h4>
+          <h4 class="policy-h4"><strong>Support Data:</strong> We do not process support requests that would require
+            data retention</h4>
+          <h4 class="policy-h4"><strong>Server Logs:</strong> We do not retain server logs for personal information
+            purposes</h4>
         </div>
 
         <div>
@@ -1303,7 +1430,8 @@
           <h4 class="policy-h4">Improve Website loading speed</h4>
           <h4 class="policy-h4">Ensure better performance for users globally</h4>
           <div class="policy-highlight">
-            <h4><strong>Important:</strong> Our CDN provider does not collect or process personal user data beyond what is necessary to deliver Website content.</h4>
+            <h4><strong>Important:</strong> Our CDN provider does not collect or process personal user data beyond what
+              is necessary to deliver Website content.</h4>
           </div>
         </div>
 
@@ -1312,11 +1440,13 @@
           <h4 class="policy-h4">
             We use the following third-party services:
           </h4>
-          <h4 class="policy-h4"><strong>Google Analytics:</strong> For Website usage statistics (non-personal, aggregated data)</h4>
+          <h4 class="policy-h4"><strong>Google Analytics:</strong> For Website usage statistics (non-personal,
+            aggregated data)</h4>
           <h4 class="policy-h4"><strong>Google AdSense:</strong> For displaying advertisements</h4>
           <h4 class="policy-h4"><strong>CDN Provider:</strong> For content delivery optimization</h4>
           <h4 class="policy-h4">
-            All third-party services are bound by their own privacy policies and are contractually obligated to protect user data.
+            All third-party services are bound by their own privacy policies and are contractually obligated to protect
+            user data.
           </h4>
         </div>
 
@@ -1342,7 +1472,8 @@
         <div>
           <h3 class="subsection-title">10.1 SSL/HTTPS Encryption</h3>
           <h4 class="policy-h4">
-            Our Website uses <strong>SSL/HTTPS encryption</strong> to protect data transmitted between your device and our servers. This ensures:
+            Our Website uses <strong>SSL/HTTPS encryption</strong> to protect data transmitted between your device and
+            our servers. This ensures:
           </h4>
           <h4 class="policy-h4">All data sent to and from our Website is encrypted</h4>
           <h4 class="policy-h4">Your information is protected from unauthorized access during transmission</h4>
@@ -1355,15 +1486,19 @@
             We implement the following security measures:
           </h4>
           <h4 class="policy-h4"><strong>HTTPS Protocol:</strong> All pages use secure, encrypted connections</h4>
-          <h4 class="policy-h4"><strong>Server Security:</strong> Our servers are configured with security best practices</h4>
-          <h4 class="policy-h4"><strong>File Processing:</strong> Files are processed securely and deleted immediately</h4>
-          <h4 class="policy-h4"><strong>No Data Storage:</strong> Since we do not store user data, there is minimal risk of data breaches</h4>
+          <h4 class="policy-h4"><strong>Server Security:</strong> Our servers are configured with security best
+            practices</h4>
+          <h4 class="policy-h4"><strong>File Processing:</strong> Files are processed securely and deleted immediately
+          </h4>
+          <h4 class="policy-h4"><strong>No Data Storage:</strong> Since we do not store user data, there is minimal risk
+            of data breaches</h4>
         </div>
 
         <div>
           <h3 class="subsection-title">10.3 Limitations of Security</h3>
           <h4 class="policy-h4">
-            While we implement reasonable security measures, <strong>no security system is 100% secure.</strong> We cannot guarantee:
+            While we implement reasonable security measures, <strong>no security system is 100% secure.</strong> We
+            cannot guarantee:
           </h4>
           <h4 class="policy-h4">Absolute protection against all security threats</h4>
           <h4 class="policy-h4">Prevention of all unauthorized access attempts</h4>
@@ -1402,7 +1537,9 @@
         <div>
           <h3 class="subsection-title">11.3 Parental Guidance</h3>
           <h4 class="policy-h4">
-            Parents are encouraged to supervise children's internet activity. If you have concerns about your child's use of our Website, please contact us at <a href="mailto:support@allinone.com" class="policy-link">support@allinone.com</a>.
+            Parents are encouraged to supervise children's internet activity. If you have concerns about your child's
+            use of our Website, please contact us at <a href="mailto:support@allinone.com"
+              class="policy-link">support@allinone.com</a>.
           </h4>
         </div>
       </section>
@@ -1427,15 +1564,19 @@
           <h4 class="policy-h4">
             You have the right to:
           </h4>
-          <h4 class="policy-h4"><strong>Opt-Out:</strong> Disable Google Analytics data collection using the browser add-on</h4>
-          <h4 class="policy-h4"><strong>Access:</strong> View your Google Analytics data through your Google Account</h4>
-          <h4 class="policy-h4"><strong>Delete:</strong> Request deletion of Google Analytics data through Google Account settings</h4>
+          <h4 class="policy-h4"><strong>Opt-Out:</strong> Disable Google Analytics data collection using the browser
+            add-on</h4>
+          <h4 class="policy-h4"><strong>Access:</strong> View your Google Analytics data through your Google Account
+          </h4>
+          <h4 class="policy-h4"><strong>Delete:</strong> Request deletion of Google Analytics data through Google
+            Account settings</h4>
         </div>
 
         <div>
           <h3 class="subsection-title">12.3 Contact Us</h3>
           <h4 class="policy-h4">
-            If you have questions about your privacy or our data practices, you can contact us at <a href="mailto:support@allinone.com" class="policy-link">support@allinone.com</a>.
+            If you have questions about your privacy or our data practices, you can contact us at <a
+              href="mailto:support@allinone.com" class="policy-link">support@allinone.com</a>.
           </h4>
         </div>
       </section>
@@ -1450,8 +1591,10 @@
           <h4 class="policy-h4">
             This Privacy Policy complies with:
           </h4>
-          <h4 class="policy-h4"><strong>Information Technology Act, 2000:</strong> Including Section 43A (personal data protection)</h4>
-          <h4 class="policy-h4"><strong>Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011</strong></h4>
+          <h4 class="policy-h4"><strong>Information Technology Act, 2000:</strong> Including Section 43A (personal data
+            protection)</h4>
+          <h4 class="policy-h4"><strong>Information Technology (Reasonable Security Practices and Procedures and
+              Sensitive Personal Data or Information) Rules, 2011</strong></h4>
           <h4 class="policy-h4">Other applicable Indian privacy and data protection laws</h4>
         </div>
 
@@ -1484,7 +1627,8 @@
         <div>
           <h3 class="subsection-title">14.1 Respecting "Do Not Track"</h3>
           <h4 class="policy-h4">
-            Some browsers include a "Do Not Track" feature. Currently, there is no industry standard for recognizing Do Not Track signals. However:
+            Some browsers include a "Do Not Track" feature. Currently, there is no industry standard for recognizing Do
+            Not Track signals. However:
           </h4>
           <h4 class="policy-h4">We respect users who prefer privacy</h4>
           <h4 class="policy-h4">We do not use cookies or tracking technologies (except Google Analytics)</h4>
@@ -1505,7 +1649,8 @@
         <h4 class="policy-h4">Updates to third-party services</h4>
         <h4 class="policy-h4">Improvements to our privacy protections</h4>
         <h4 class="policy-h4">
-          <strong>Changes will be effective immediately upon posting to our Website.</strong> Your continued use of our Website following any changes constitutes your acceptance of the updated Privacy Policy.
+          <strong>Changes will be effective immediately upon posting to our Website.</strong> Your continued use of our
+          Website following any changes constitutes your acceptance of the updated Privacy Policy.
         </h4>
         <h4 class="policy-h4">
           We recommend reviewing this Privacy Policy periodically to stay informed of how we protect your privacy.
@@ -1518,7 +1663,8 @@
         <h2 class="section-title">Contact Us</h2>
 
         <h4 class="policy-h4">
-          If you have questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us:
+          If you have questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please
+          contact us:
         </h4>
         <div class="policy-highlight">
           <h4><strong>ALL-IN-ONE</strong></h4>
@@ -1536,7 +1682,8 @@
 
         <h4 class="policy-h4"><strong>Data Controller:</strong> ALL-IN-ONE (Sole Proprietorship)</h4>
         <h4 class="policy-h4"><strong>Location:</strong> India</h4>
-        <h4 class="policy-h4"><strong>Purpose:</strong> Providing free online document conversion and management tools</h4>
+        <h4 class="policy-h4"><strong>Purpose:</strong> Providing free online document conversion and management tools
+        </h4>
       </section>
 
       <!-- Section 18 -->
@@ -1545,10 +1692,12 @@
         <h2 class="section-title">Legal Basis for Processing</h2>
 
         <h4 class="policy-h4">
-          Since we do not collect personal data, there is no personal data processing. However, Google Analytics data is processed based on:
+          Since we do not collect personal data, there is no personal data processing. However, Google Analytics data is
+          processed based on:
         </h4>
         <h4 class="policy-h4"><strong>Legitimate Interests:</strong> To improve our Website and services</h4>
-        <h4 class="policy-h4"><strong>User Consent:</strong> Through implicit consent by using our Website (opt-out available)</h4>
+        <h4 class="policy-h4"><strong>User Consent:</strong> Through implicit consent by using our Website (opt-out
+          available)</h4>
       </section>
 
       <!-- Section 19 -->
@@ -1559,8 +1708,10 @@
         <h4 class="policy-h4">
           If you believe we have violated your privacy rights, you can:
         </h4>
-        <h4 class="policy-h4">Contact us first at <a href="mailto:support@allinone.com" class="policy-link">support@allinone.com</a> to resolve the issue amicably</h4>
-        <h4 class="policy-h4">File a complaint with your local data protection authority or regulatory body in India</h4>
+        <h4 class="policy-h4">Contact us first at <a href="mailto:support@allinone.com"
+            class="policy-link">support@allinone.com</a> to resolve the issue amicably</h4>
+        <h4 class="policy-h4">File a complaint with your local data protection authority or regulatory body in India
+        </h4>
         <h4 class="policy-h4">Pursue legal action if necessary in accordance with Indian law</h4>
       </section>
 
@@ -1570,7 +1721,8 @@
         <h2 class="section-title">Acknowledgment</h2>
 
         <h4 class="policy-h4">
-          By using ALL-IN-ONE, you acknowledge that you have read and understood this Privacy Policy and agree to its terms.
+          By using ALL-IN-ONE, you acknowledge that you have read and understood this Privacy Policy and agree to its
+          terms.
         </h4>
         <div class="policy-highlight">
           <h4><strong>© 2024 ALL-IN-ONE. All rights reserved.</strong></h4>
@@ -1608,7 +1760,8 @@
         <div>
           <h3 class="footer-brand-name">ALL-IN-ONE</h3>
           <p class="footer-tagline">
-            Free online tools for document conversion, PDF management, and more. No registration required. 100% private and secure.
+            Free online tools for document conversion, PDF management, and more. No registration required. 100% private
+            and secure.
           </p>
         </div>
 
@@ -1667,7 +1820,7 @@
   </footer>
 
 
-  
+
 
   <script>
     // ── HAMBURGER & DRAWER ──
@@ -1713,6 +1866,27 @@
         hamburger.classList.remove('open');
         document.body.style.overflow = '';
       });
+    });
+
+    // ── MODAL ──
+    function openPricingModal() {
+      document.getElementById('pricingModal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('pricingModal').classList.remove('open');
+    }
+
+    document.getElementById('menuPricing')?.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+      openPricingModal();
+    });
+
+    document.getElementById('pricingModal')?.addEventListener('click', function (e) {
+      if (e.target === this) closeModal();
     });
 
     // ── THEME TOGGLE ──

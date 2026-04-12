@@ -1,7 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    })();
+  </script>
+  <script src="{{ url_for('static', filename='theme.js') }}"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ALL-IN-ONE Tools</title>
@@ -9,8 +16,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap"
     rel="stylesheet" />
-    <link rel="stylesheet" href="shared.css">
-    <script src="theme-toggle.js" defer></script>
+  <link rel="stylesheet" href="shared.css">
+  <!-- <script src="theme-toggle.js" defer></script> -->
   <style>
     /* ══════════════════════════════════════════════
    DESIGN TOKENS
@@ -1518,14 +1525,14 @@
         </div>
         <!-- Tools -->
         <div class="footer-col">
-        <h4 data-i18n="footerTools">Tools</h4>
-        <ul>
-          <li><a href="/compress_image" data-i18n="t0n">Image Compress</a></li>
-          <li><a href="/merge" data-i18n="t2n">Merge PDF</a></li>
-          <li><a href="/compress" data-i18n="t6n">Compress PDF</a></li>
-          <li><a href="/split" data-i18n="t7n">Split PDF</a></li>
-        </ul>
-      </div>
+          <h4 data-i18n="footerTools">Tools</h4>
+          <ul>
+            <li><a href="/compress_image" data-i18n="t0n">Image Compress</a></li>
+            <li><a href="/merge" data-i18n="t2n">Merge PDF</a></li>
+            <li><a href="/compress" data-i18n="t6n">Compress PDF</a></li>
+            <li><a href="/split" data-i18n="t7n">Split PDF</a></li>
+          </ul>
+        </div>
       </div>
       <div class="footer-bottom">
         <p class="footer-copy" data-i18n="footerCopy">© 2025 ALL-IN-ONE. All rights reserved.</p>
@@ -2482,11 +2489,18 @@
       if (e.target === this) closeModal();
     });
 
-    /* ─── DAY/NIGHT MODE ────────────────────────────── */
     function toggleMode() {
-      isDark = !isDark;
-      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-      updateModeLabels();
+      let currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+
+      const icon = document.getElementById("floatIcon");
+      if (icon) {
+        icon.textContent = newTheme === "dark" ? "🌙" : "☀️";
+      }
     }
 
     function updateModeLabels() {

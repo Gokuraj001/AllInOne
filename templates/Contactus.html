@@ -1,7 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    })();
+  </script>
+
+  <script src="{{ url_for('static', filename='theme.js') }}"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact Us - ALL-IN-ONE Tools</title>
@@ -766,7 +774,9 @@
     }
 
     @keyframes bounceEmoji {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translateY(0);
       }
 
@@ -1121,7 +1131,7 @@
     <div class="contact-header">
       <h1 class="contact-title">Contact Us</h1>
       <p class="contact-subtitle">
-        We'd love to hear from you! Share your experience, suggestions, or any issues you're facing. 
+        We'd love to hear from you! Share your experience, suggestions, or any issues you're facing.
         Your feedback helps us improve our services.
       </p>
     </div>
@@ -1134,15 +1144,8 @@
             Your Name
             <span class="required">*</span>
           </label>
-          <input
-            type="text"
-            class="form-input"
-            id="userName"
-            name="userName"
-            placeholder="Enter your full name"
-            required
-            maxlength="100"
-          />
+          <input type="text" class="form-input" id="userName" name="userName" placeholder="Enter your full name"
+            required maxlength="100" />
         </div>
 
         <!-- Email Field -->
@@ -1151,15 +1154,8 @@
             Email Address
             <span class="required">*</span>
           </label>
-          <input
-            type="email"
-            class="form-input"
-            id="userEmail"
-            name="userEmail"
-            placeholder="your.email@example.com"
-            required
-            maxlength="100"
-          />
+          <input type="email" class="form-input" id="userEmail" name="userEmail" placeholder="your.email@example.com"
+            required maxlength="100" />
         </div>
 
         <!-- Comment Field -->
@@ -1168,14 +1164,9 @@
             Message
             <span class="required">*</span>
           </label>
-          <textarea
-            class="form-textarea"
-            id="userComment"
-            name="userComment"
-            placeholder="Share your experience, suggestions, or complaints (max 600 words)..."
-            required
-            maxlength="3500"
-          ></textarea>
+          <textarea class="form-textarea" id="userComment" name="userComment"
+            placeholder="Share your experience, suggestions, or complaints (max 600 words)..." required
+            maxlength="3500"></textarea>
           <div class="char-count">
             <span id="charCount">0</span> / 600 words
           </div>
@@ -1200,7 +1191,7 @@
       <span class="modal-emoji">✅</span>
       <h2 class="modal-title">Message Sent!</h2>
       <p class="modal-sub">
-        Thank you for reaching out. Your message has been sent successfully. 
+        Thank you for reaching out. Your message has been sent successfully.
         We'll review your feedback and get back to you soon.
       </p>
       <button class="modal-btn" onclick="closeModal()">
@@ -1221,7 +1212,7 @@
         <div>
           <h3 class="footer-brand-name">ALL-IN-ONE</h3>
           <p class="footer-tagline">
-            Free online tools for document conversion, PDF management, and more. 
+            Free online tools for document conversion, PDF management, and more.
             No registration required. 100% private and secure.
           </p>
         </div>
@@ -1339,6 +1330,23 @@
     themeToggle?.addEventListener('click', toggleTheme);
     footerThemeToggle?.addEventListener('click', toggleTheme);
 
+    /* ──────────────────────────────────────────────────
+       DARK / LIGHT MODE
+    ────────────────────────────────────────────────── */
+    function toggleMode() {
+      let currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+
+      const icon = document.getElementById("floatIcon");
+      if (icon) {
+        icon.textContent = newTheme === "dark" ? "🌙" : "☀️";
+      }
+    }
+
     // ── PARTICLE ANIMATION ──
     const canvas = document.getElementById('px');
     if (canvas) {
@@ -1412,7 +1420,7 @@
       const text = e.target.value;
       const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
       charCount.textContent = words;
-      
+
       if (words >= 550) {
         charCount.parentElement.classList.add('warning');
       } else {
@@ -1464,7 +1472,7 @@
         if (response.ok) {
           // Show success modal
           showModal();
-          
+
           // Reset form
           document.getElementById('contactForm').reset();
           charCount.textContent = '0';

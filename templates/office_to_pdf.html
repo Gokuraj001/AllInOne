@@ -1,7 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem("theme") || "dark";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+        })();
+    </script>
+    <script src="{{ url_for('static', filename='theme.js') }}"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Word\PPt\Excel to PDF Converter — ALL-IN-ONE Tools</title>
@@ -2545,7 +2552,20 @@
         document.getElementById('pricingModal').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
 
         /* Mode */
-        function toggleMode() { isDark = !isDark; document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light'); syncModeLabels() }
+        // function toggleMode() { isDark = !isDark; document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light'); syncModeLabels() }
+        function toggleMode() {
+            let currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+            document.documentElement.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+
+            const icon = document.getElementById("floatIcon");
+            if (icon) {
+                icon.textContent = newTheme === "dark" ? "🌙" : "☀️";
+            }
+        }
         function syncModeLabels() {
             const tl = T[currentLang] || T.en;
             const label = isDark ? (tl.modeLabel || 'Dark Mode') : (tl.modeLabelLight || 'Light Mode');

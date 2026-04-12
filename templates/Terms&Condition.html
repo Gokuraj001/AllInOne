@@ -1,8 +1,15 @@
 ```html
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    })();
+  </script>
+  <script src="{{ url_for('static', filename='theme.js') }}"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Terms & Conditions - ALL-IN-ONE Tools</title>
@@ -977,10 +984,14 @@
         <div class="section-number">1. ACCEPTANCE OF TERMS</div>
         <h2 class="section-title">Acceptance of Terms</h2>
         <h4 class="terms-h4">
-          Welcome to <strong>ALL-IN-ONE</strong> ("Website," "Service," "we," "us," or "our"). These Terms & Conditions ("T&C") govern your use of our website and services. By accessing, browsing, or using ALL-IN-ONE, you agree to be bound by these terms. If you do not agree with any part of these T&C, please do not use our services.
+          Welcome to <strong>ALL-IN-ONE</strong> ("Website," "Service," "we," "us," or "our"). These Terms & Conditions
+          ("T&C") govern your use of our website and services. By accessing, browsing, or using ALL-IN-ONE, you agree to
+          be bound by these terms. If you do not agree with any part of these T&C, please do not use our services.
         </h4>
         <h4 class="terms-h4">
-          We reserve the right to modify these Terms & Conditions at any time. Changes will be effective immediately upon posting to the Website. Your continued use of the Website following any changes constitutes your acceptance of the new T&C.
+          We reserve the right to modify these Terms & Conditions at any time. Changes will be effective immediately
+          upon posting to the Website. Your continued use of the Website following any changes constitutes your
+          acceptance of the new T&C.
         </h4>
       </section>
 
@@ -1000,7 +1011,8 @@
         <h4 class="terms-h4">Organize PDF documents</h4>
         <h4 class="terms-h4">PDF to Office file conversion</h4>
         <h4 class="terms-h4">
-          <strong>Note:</strong> Some advanced features may require a premium subscription in the future. We will notify users of any changes to our service offerings.
+          <strong>Note:</strong> Some advanced features may require a premium subscription in the future. We will notify
+          users of any changes to our service offerings.
         </h4>
       </section>
 
@@ -1009,7 +1021,8 @@
         <div class="section-number">3. USE LICENSE</div>
         <h2 class="section-title">Use License</h2>
         <h4 class="terms-h4">
-          We grant you a limited, non-exclusive, non-transferable, and revocable license to use our Website and Services for personal and non-commercial purposes only. You agree not to:
+          We grant you a limited, non-exclusive, non-transferable, and revocable license to use our Website and Services
+          for personal and non-commercial purposes only. You agree not to:
         </h4>
         <h4 class="terms-h4">Reproduce, duplicate, copy, or sell any part of our services</h4>
         <h4 class="terms-h4">Use automated tools, bots, scrapers, or scripts to access our Website</h4>
@@ -1028,10 +1041,12 @@
         <h4 class="terms-h4">
           You are responsible for:
         </h4>
-        <h4 class="terms-h4">Maintaining the confidentiality of any account information (if applicable in the future)</h4>
+        <h4 class="terms-h4">Maintaining the confidentiality of any account information (if applicable in the future)
+        </h4>
         <h4 class="terms-h4">All activities that occur under your access to the Website</h4>
         <h4 class="terms-h4">Ensuring that the content you upload is legal and does not infringe on anyone's rights</h4>
-        <h4 class="terms-h4">Not uploading files containing illegal content, malware, or copyrighted material without authorization</h4>
+        <h4 class="terms-h4">Not uploading files containing illegal content, malware, or copyrighted material without
+          authorization</h4>
         <h4 class="terms-h4">
           You warrant that you have the legal right to upload and convert any files you submit to our services.
         </h4>
@@ -1041,21 +1056,31 @@
       <section class="terms-section">
         <div class="section-number">5. DATA HANDLING & FILE SECURITY</div>
         <h2 class="section-title">Data Handling & File Security</h2>
-        <h4 class="terms-h4"><strong>Instant Deletion:</strong> All uploaded files are deleted immediately after processing. We do not retain copies of your files on our servers.</h4>
-        <h4 class="terms-h4"><strong>No Server Processing:</strong> Files are processed client-side whenever possible to ensure maximum privacy.</h4>
-        <h4 class="terms-h4"><strong>Google Analytics:</strong> We collect anonymous usage data through Google Analytics to improve our services. This data does not include personal information about your files.</h4>
-        <h4 class="terms-h4"><strong>No Data Sharing:</strong> We do not sell, share, or use your data for any commercial purpose.</h4>
-        <h4 class="terms-h4"><strong>Privacy Policy:</strong> For detailed information about data collection and privacy practices, please refer to our separate Privacy Policy.</h4>
+        <h4 class="terms-h4"><strong>Instant Deletion:</strong> All uploaded files are deleted immediately after
+          processing. We do not retain copies of your files on our servers.</h4>
+        <h4 class="terms-h4"><strong>No Server Processing:</strong> Files are processed client-side whenever possible to
+          ensure maximum privacy.</h4>
+        <h4 class="terms-h4"><strong>Google Analytics:</strong> We collect anonymous usage data through Google Analytics
+          to improve our services. This data does not include personal information about your files.</h4>
+        <h4 class="terms-h4"><strong>No Data Sharing:</strong> We do not sell, share, or use your data for any
+          commercial purpose.</h4>
+        <h4 class="terms-h4"><strong>Privacy Policy:</strong> For detailed information about data collection and privacy
+          practices, please refer to our separate Privacy Policy.</h4>
       </section>
 
       <!-- Section 6 -->
       <section class="terms-section">
         <div class="section-number">6. CONVERSION ACCURACY & LIMITATIONS</div>
         <h2 class="section-title">Conversion Accuracy & Limitations</h2>
-        <h4 class="terms-h4"><strong>Accuracy Guarantee:</strong> We guarantee approximately 88% accuracy for all file conversions. This means that while we strive for high-quality conversions, some formatting, images, or complex elements may not convert perfectly.</h4>
-        <h4 class="terms-h4"><strong>No Liability for Conversion Errors:</strong> We are not responsible for any loss of data, formatting issues, or errors that may occur during the conversion process.</h4>
-        <h4 class="terms-h4"><strong>File Format Limitations:</strong> Not all file formats or complex documents may be fully compatible with our conversion tools.</h4>
-        <h4 class="terms-h4"><strong>User Responsibility:</strong> We recommend that you review converted files before relying on them for critical purposes.</h4>
+        <h4 class="terms-h4"><strong>Accuracy Guarantee:</strong> We guarantee approximately 88% accuracy for all file
+          conversions. This means that while we strive for high-quality conversions, some formatting, images, or complex
+          elements may not convert perfectly.</h4>
+        <h4 class="terms-h4"><strong>No Liability for Conversion Errors:</strong> We are not responsible for any loss of
+          data, formatting issues, or errors that may occur during the conversion process.</h4>
+        <h4 class="terms-h4"><strong>File Format Limitations:</strong> Not all file formats or complex documents may be
+          fully compatible with our conversion tools.</h4>
+        <h4 class="terms-h4"><strong>User Responsibility:</strong> We recommend that you review converted files before
+          relying on them for critical purposes.</h4>
       </section>
 
       <!-- Section 7 -->
@@ -1081,7 +1106,8 @@
         <div class="section-number">8. DISCLAIMER OF WARRANTIES</div>
         <h2 class="section-title">Disclaimer of Warranties</h2>
         <h4 class="terms-h4">
-          <strong>OUR SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED.</strong>
+          <strong>OUR SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES OF ANY KIND, EXPRESS OR
+            IMPLIED.</strong>
         </h4>
         <h4 class="terms-h4">
           We make no warranty that:
@@ -1091,7 +1117,8 @@
         <h4 class="terms-h4">Any defects in our services will be corrected</h4>
         <h4 class="terms-h4">The Website is free from viruses or harmful components</h4>
         <h4 class="terms-h4">
-          To the fullest extent permitted by law, we disclaim all warranties, including implied warranties of merchantability, fitness for a particular purpose, and non-infringement.
+          To the fullest extent permitted by law, we disclaim all warranties, including implied warranties of
+          merchantability, fitness for a particular purpose, and non-infringement.
         </h4>
       </section>
 
@@ -1099,9 +1126,14 @@
       <section class="terms-section">
         <div class="section-number">9. INTELLECTUAL PROPERTY RIGHTS</div>
         <h2 class="section-title">Intellectual Property Rights</h2>
-        <h4 class="terms-h4"><strong>Our Content:</strong> All content on the ALL-IN-ONE Website, including logos, design, text, and graphics, is owned by ALL-IN-ONE or licensed to us. You may not reproduce, distribute, or use this content without our explicit permission.</h4>
-        <h4 class="terms-h4"><strong>Your Content:</strong> By uploading files to our Website, you grant us a limited license to process those files for the purpose of providing our services. We do not claim ownership of your original content.</h4>
-        <h4 class="terms-h4"><strong>Copyrighted Material:</strong> You agree not to upload files containing copyrighted material without the owner's permission. Users who violate this may have their access terminated.</h4>
+        <h4 class="terms-h4"><strong>Our Content:</strong> All content on the ALL-IN-ONE Website, including logos,
+          design, text, and graphics, is owned by ALL-IN-ONE or licensed to us. You may not reproduce, distribute, or
+          use this content without our explicit permission.</h4>
+        <h4 class="terms-h4"><strong>Your Content:</strong> By uploading files to our Website, you grant us a limited
+          license to process those files for the purpose of providing our services. We do not claim ownership of your
+          original content.</h4>
+        <h4 class="terms-h4"><strong>Copyrighted Material:</strong> You agree not to upload files containing copyrighted
+          material without the owner's permission. Users who violate this may have their access terminated.</h4>
       </section>
 
       <!-- Section 10 -->
@@ -1124,9 +1156,11 @@
         <div class="section-number">11. CUSTOMER SUPPORT</div>
         <h2 class="section-title">Customer Support</h2>
         <h4 class="terms-h4">
-          We provide customer support to assist with any issues or questions regarding our services. You can contact us through:
+          We provide customer support to assist with any issues or questions regarding our services. You can contact us
+          through:
         </h4>
-        <h4 class="terms-h4">Email: <a href="mailto:support@allinone.com" class="terms-link">support@allinone.com</a></h4>
+        <h4 class="terms-h4">Email: <a href="mailto:support@allinone.com" class="terms-link">support@allinone.com</a>
+        </h4>
         <h4 class="terms-h4">Support Form: <a href="#" class="terms-link">Support Page</a></h4>
         <h4 class="terms-h4">Response Time: We aim to respond to all inquiries within 24-48 hours</h4>
         <h4 class="terms-h4">
@@ -1146,7 +1180,8 @@
         <h4 class="terms-h4">Technical issues or server problems</h4>
         <h4 class="terms-h4">Compliance with legal requirements</h4>
         <h4 class="terms-h4">
-          We will make reasonable efforts to provide advance notice of planned maintenance, but we do not guarantee uninterrupted service access.
+          We will make reasonable efforts to provide advance notice of planned maintenance, but we do not guarantee
+          uninterrupted service access.
         </h4>
       </section>
 
@@ -1171,7 +1206,8 @@
         <div class="section-number">14. ADVERTISEMENTS</div>
         <h2 class="section-title">Advertisements</h2>
         <h4 class="terms-h4">
-          ALL-IN-ONE displays advertisements on the Website to support our free services. By using our Website, you acknowledge and accept the presence of advertisements. We are not responsible for:
+          ALL-IN-ONE displays advertisements on the Website to support our free services. By using our Website, you
+          acknowledge and accept the presence of advertisements. We are not responsible for:
         </h4>
         <h4 class="terms-h4">The accuracy or claims made in advertisements</h4>
         <h4 class="terms-h4">Any damages resulting from clicking on or interacting with ads</h4>
@@ -1183,7 +1219,8 @@
         <div class="section-number">15. INDEMNIFICATION</div>
         <h2 class="section-title">Indemnification</h2>
         <h4 class="terms-h4">
-          You agree to indemnify, defend, and hold harmless ALL-IN-ONE, its owners, employees, and agents from any claims, damages, losses, or expenses (including legal fees) arising from:
+          You agree to indemnify, defend, and hold harmless ALL-IN-ONE, its owners, employees, and agents from any
+          claims, damages, losses, or expenses (including legal fees) arising from:
         </h4>
         <h4 class="terms-h4">Your violation of these T&C</h4>
         <h4 class="terms-h4">Your use or misuse of our services</h4>
@@ -1214,10 +1251,12 @@
         <div class="section-number">17. GOVERNING LAW & JURISDICTION</div>
         <h2 class="section-title">Governing Law & Jurisdiction</h2>
         <h4 class="terms-h4">
-          These Terms & Conditions are governed by and construed in accordance with the laws of <strong>India</strong>, without regard to its conflict of law principles.
+          These Terms & Conditions are governed by and construed in accordance with the laws of <strong>India</strong>,
+          without regard to its conflict of law principles.
         </h4>
         <h4 class="terms-h4">
-          You agree that any legal action or dispute arising out of or relating to these T&C or your use of our services shall be subject to the exclusive jurisdiction of the courts located in <strong>India</strong>.
+          You agree that any legal action or dispute arising out of or relating to these T&C or your use of our services
+          shall be subject to the exclusive jurisdiction of the courts located in <strong>India</strong>.
         </h4>
       </section>
 
@@ -1226,7 +1265,9 @@
         <div class="section-number">18. DISPUTE RESOLUTION</div>
         <h2 class="section-title">Dispute Resolution</h2>
         <h4 class="terms-h4">
-          Before taking legal action, we encourage you to contact us to resolve any disputes amicably through our customer support team. If a dispute cannot be resolved through discussion, it shall be governed by the laws of <strong>India</strong>.
+          Before taking legal action, we encourage you to contact us to resolve any disputes amicably through our
+          customer support team. If a dispute cannot be resolved through discussion, it shall be governed by the laws of
+          <strong>India</strong>.
         </h4>
       </section>
 
@@ -1235,7 +1276,9 @@
         <div class="section-number">19. SEVERABILITY</div>
         <h2 class="section-title">Severability</h2>
         <h4 class="terms-h4">
-          If any provision of these Terms & Conditions is found to be invalid, unenforceable, or illegal, the remaining provisions shall continue in full force and effect. We will modify the invalid provision to the minimum extent necessary to make it valid.
+          If any provision of these Terms & Conditions is found to be invalid, unenforceable, or illegal, the remaining
+          provisions shall continue in full force and effect. We will modify the invalid provision to the minimum extent
+          necessary to make it valid.
         </h4>
       </section>
 
@@ -1244,10 +1287,13 @@
         <div class="section-number">20. ENTIRE AGREEMENT</div>
         <h2 class="section-title">Entire Agreement</h2>
         <h4 class="terms-h4">
-          These Terms & Conditions, together with our Privacy Policy, constitute the entire agreement between you and ALL-IN-ONE regarding your use of our services. They supersede all prior agreements, understandings, and communications.
+          These Terms & Conditions, together with our Privacy Policy, constitute the entire agreement between you and
+          ALL-IN-ONE regarding your use of our services. They supersede all prior agreements, understandings, and
+          communications.
         </h4>
         <h4 class="terms-h4">
-          If you have entered into any prior agreements with us, those agreements are now void and replaced by these T&C.
+          If you have entered into any prior agreements with us, those agreements are now void and replaced by these
+          T&C.
         </h4>
       </section>
 
@@ -1272,7 +1318,9 @@
         <div class="section-number">22. CHANGES TO TERMS & CONDITIONS</div>
         <h2 class="section-title">Changes to Terms & Conditions</h2>
         <h4 class="terms-h4">
-          We may update these Terms & Conditions at any time without prior notice. The updated version will be effective immediately upon posting. Your continued use of the Website after any modifications constitutes your acceptance of the new T&C.
+          We may update these Terms & Conditions at any time without prior notice. The updated version will be effective
+          immediately upon posting. Your continued use of the Website after any modifications constitutes your
+          acceptance of the new T&C.
         </h4>
         <h4 class="terms-h4">
           We recommend reviewing this page periodically to stay informed of any changes.
@@ -1297,7 +1345,8 @@
         <div>
           <h3 class="footer-brand-name">ALL-IN-ONE</h3>
           <p class="footer-tagline">
-            Free online tools for document conversion, PDF management, and more. No registration required. 100% private and secure.
+            Free online tools for document conversion, PDF management, and more. No registration required. 100% private
+            and secure.
           </p>
         </div>
 

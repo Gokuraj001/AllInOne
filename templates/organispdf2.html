@@ -1,7 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    })();
+  </script>
+  <script src="{{ url_for('static', filename='theme.js') }}"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Organize PDF Pro — ALL-IN-ONE Tools</title>
@@ -1493,453 +1500,458 @@
     </div>
   </div>
 
-<<<<<<< HEAD
-  <!-- OCR Modal -->
-  <div class="modal-overlay" id="ocrModal">
-    <div class="modal-box" style="position:relative">
-      <button class="modal-close" onclick="closeOcrModal()">✕</button>
-      <div class="modal-title">🔍 OCR Result</div>
-      <textarea id="ocrText" readonly placeholder="Running OCR…"></textarea>
-      <div style="display:flex;gap:10px;margin-top:12px">
-        <button class="tool-btn primary" onclick="copyOcr()">📋 Copy</button>
-        <button class="tool-btn" onclick="closeOcrModal()">Close</button>
-      </div>
-=======
-<!-- ═══════════════════ FLOAT MODE BTN ═══════════════════ -->
-<button class="float-mode" id="floatModeBtn" onclick="toggleMode()">🌙</button>
+  <<<<<<< HEAD <!-- OCR Modal -->
+    <div class="modal-overlay" id="ocrModal">
+      <div class="modal-box" style="position:relative">
+        <button class="modal-close" onclick="closeOcrModal()">✕</button>
+        <div class="modal-title">🔍 OCR Result</div>
+        <textarea id="ocrText" readonly placeholder="Running OCR…"></textarea>
+        <div style="display:flex;gap:10px;margin-top:12px">
+          <button class="tool-btn primary" onclick="copyOcr()">📋 Copy</button>
+          <button class="tool-btn" onclick="closeOcrModal()">Close</button>
+        </div>
+        =======
+        <!-- ═══════════════════ FLOAT MODE BTN ═══════════════════ -->
+        <button class="float-mode" id="floatModeBtn" onclick="toggleMode()">🌙</button>
 
-<!-- ═══════════════════ FOOTER ═══════════════════ -->
-<footer class="site-footer" id="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">ALL-IN-ONE</div>
-    <p class="footer-tagline">Your all-in-one destination for powerful, free tools. No cost, no limits.</p>
-    <nav class="footer-nav">
-      <a href="/">Home</a>
-      <a href="/" onclick="document.getElementById('pricingPopup').classList.add('open');return false;">Pricing</a>
-      <a href="/privacy">Privacy Policy</a>
-      <a href="/terms">Terms &amp; Conditions</a>
-      <a href="/about">About Us</a>
-      <a href="/Contactus">Contact Us</a>
-    </nav>
-    <div class="footer-pills">
-      <span class="pill">Free Forever</span>
-      <span class="pill">No Sign-up</span>
-      <span class="pill">100% Private</span>
->>>>>>> b8e675f44c88279d88d7b6d8a4ef02e8cf4c1fff
-    </div>
-  </div>
+        <!-- ═══════════════════ FOOTER ═══════════════════ -->
+        <footer class="site-footer" id="footer">
+          <div class="footer-inner">
+            <div class="footer-brand">ALL-IN-ONE</div>
+            <p class="footer-tagline">Your all-in-one destination for powerful, free tools. No cost, no limits.</p>
+            <nav class="footer-nav">
+              <a href="/">Home</a>
+              <a href="/"
+                onclick="document.getElementById('pricingPopup').classList.add('open');return false;">Pricing</a>
+              <a href="/privacy">Privacy Policy</a>
+              <a href="/terms">Terms &amp; Conditions</a>
+              <a href="/about">About Us</a>
+              <a href="/Contactus">Contact Us</a>
+            </nav>
+            <div class="footer-pills">
+              <span class="pill">Free Forever</span>
+              <span class="pill">No Sign-up</span>
+              <span class="pill">100% Private</span>
+              >>>>>>> b8e675f44c88279d88d7b6d8a4ef02e8cf4c1fff
+            </div>
+          </div>
 
-  <!-- ═══════════════════ FLOAT MODE BTN ═══════════════════ -->
-  <button class="float-mode" id="floatModeBtn" onclick="toggleMode()">🌙</button>
+          <!-- ═══════════════════ FLOAT MODE BTN ═══════════════════ -->
+          <button class="float-mode" id="floatModeBtn" onclick="toggleMode()">🌙</button>
 
-  <!-- ═══════════════════ FOOTER ═══════════════════ -->
-  <footer class="site-footer" id="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">ALL-IN-ONE</div>
-      <p class="footer-tagline">Your all-in-one destination for powerful, free tools. No cost, no limits.</p>
-      <nav class="footer-nav">
-        <a href="/">Home</a>
-        <a href="/" onclick="document.getElementById('pricingPopup').classList.add('open');return false;">Pricing</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms &amp; Conditions</a>
-        <a href="/about">About Us</a>
-        <a href="/contact">Contact Us</a>
-      </nav>
-      <div class="footer-pills">
-        <span class="pill">Free Forever</span>
-        <span class="pill">No Sign-up</span>
-        <span class="pill">100% Private</span>
-      </div>
-      <p class="footer-copy" style="margin-top:16px">© 2025 ALL-IN-ONE. All rights reserved.</p>
-    </div>
-  </footer>
+          <!-- ═══════════════════ FOOTER ═══════════════════ -->
+          <footer class="site-footer" id="footer">
+            <div class="footer-inner">
+              <div class="footer-brand">ALL-IN-ONE</div>
+              <p class="footer-tagline">Your all-in-one destination for powerful, free tools. No cost, no limits.</p>
+              <nav class="footer-nav">
+                <a href="/">Home</a>
+                <a href="/"
+                  onclick="document.getElementById('pricingPopup').classList.add('open');return false;">Pricing</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms &amp; Conditions</a>
+                <a href="/about">About Us</a>
+                <a href="/contact">Contact Us</a>
+              </nav>
+              <div class="footer-pills">
+                <span class="pill">Free Forever</span>
+                <span class="pill">No Sign-up</span>
+                <span class="pill">100% Private</span>
+              </div>
+              <p class="footer-copy" style="margin-top:16px">© 2025 ALL-IN-ONE. All rights reserved.</p>
+            </div>
+          </footer>
 
-  <!-- ═══════════════════════════════════════════════════
+          <!-- ═══════════════════════════════════════════════════
      SCRIPTS
 ═══════════════════════════════════════════════════ -->
-  <script>
-    /* ──────────────────────────────────────────────────
-       PARTICLES
-    ────────────────────────────────────────────────── */
-    (function () {
-      const c = document.getElementById('px'), ctx = c.getContext('2d');
-      let W, H, pts = [];
-      const resize = () => { W = c.width = innerWidth; H = c.height = innerHeight };
-      resize(); window.addEventListener('resize', resize);
-      for (let i = 0; i < 75; i++)pts.push({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, vx: (Math.random() - .5) * .28, vy: (Math.random() - .5) * .28, r: Math.random() * 2 + .4, a: Math.random() * .28 + .05, cyan: Math.random() > .52 });
-      function draw() { ctx.clearRect(0, 0, W, H); pts.forEach(p => { p.x += p.vx; p.y += p.vy; if (p.x < 0) p.x = W; if (p.x > W) p.x = 0; if (p.y < 0) p.y = H; if (p.y > H) p.y = 0; const col = isDark ? (p.cyan ? '45,212,240' : '139,114,255') : (p.cyan ? '14,165,201' : '108,79,255'); ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${col},${p.a})`; ctx.fill(); }); requestAnimationFrame(draw); }
-      draw();
-    })();
+          <script>
+            /* ──────────────────────────────────────────────────
+               PARTICLES
+            ────────────────────────────────────────────────── */
+            (function () {
+              const c = document.getElementById('px'), ctx = c.getContext('2d');
+              let W, H, pts = [];
+              const resize = () => { W = c.width = innerWidth; H = c.height = innerHeight };
+              resize(); window.addEventListener('resize', resize);
+              for (let i = 0; i < 75; i++)pts.push({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, vx: (Math.random() - .5) * .28, vy: (Math.random() - .5) * .28, r: Math.random() * 2 + .4, a: Math.random() * .28 + .05, cyan: Math.random() > .52 });
+              function draw() { ctx.clearRect(0, 0, W, H); pts.forEach(p => { p.x += p.vx; p.y += p.vy; if (p.x < 0) p.x = W; if (p.x > W) p.x = 0; if (p.y < 0) p.y = H; if (p.y > H) p.y = 0; const col = isDark ? (p.cyan ? '45,212,240' : '139,114,255') : (p.cyan ? '14,165,201' : '108,79,255'); ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${col},${p.a})`; ctx.fill(); }); requestAnimationFrame(draw); }
+              draw();
+            })();
 
-    /* ──────────────────────────────────────────────────
-       THEME & LANGUAGE
-    ────────────────────────────────────────────────── */
-    let isDark = true;
-    let currentLang = 'en';
-    const LANGUAGES = ['English', 'Spanish', 'French', 'German', 'Japanese', 'Portuguese', 'Arabic', 'Hindi', 'Chinese', 'Korean', 'Italian', 'Russian', 'Dutch', 'Turkish', 'Polish', 'Swedish'];
-    const LANG_CODES = { English: 'en', Spanish: 'es', French: 'fr', German: 'de', Japanese: 'ja', Portuguese: 'pt', Arabic: 'ar', Hindi: 'hi', Chinese: 'zh', Korean: 'ko', Italian: 'it', Russian: 'ru', Dutch: 'nl', Turkish: 'tr', Polish: 'pl', Swedish: 'sv' };
+            /* ──────────────────────────────────────────────────
+               THEME & LANGUAGE
+            ────────────────────────────────────────────────── */
+            let isDark = true;
+            let currentLang = 'en';
+            const LANGUAGES = ['English', 'Spanish', 'French', 'German', 'Japanese', 'Portuguese', 'Arabic', 'Hindi', 'Chinese', 'Korean', 'Italian', 'Russian', 'Dutch', 'Turkish', 'Polish', 'Swedish'];
+            const LANG_CODES = { English: 'en', Spanish: 'es', French: 'fr', German: 'de', Japanese: 'ja', Portuguese: 'pt', Arabic: 'ar', Hindi: 'hi', Chinese: 'zh', Korean: 'ko', Italian: 'it', Russian: 'ru', Dutch: 'nl', Turkish: 'tr', Polish: 'pl', Swedish: 'sv' };
 
-    function toggleMode() {
-      isDark = !isDark;
-      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-      const icon = isDark ? '🌙' : '☀️';
-      document.getElementById('themeToggle').textContent = icon;
-      document.getElementById('floatModeBtn').textContent = icon;
-      // Update modal overlays
-      document.querySelectorAll('.modal-overlay').forEach(o => o.style.background = isDark ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,.9)');
-    }
+            function toggleMode() {
+              let currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
 
-    // Language dropdown
-    const langDropdown = document.getElementById('langDropdown');
-    LANGUAGES.forEach(l => {
-      const btn = document.createElement('button');
-      btn.className = 'lang-opt' + (l === 'English' ? ' active' : '');
-      btn.textContent = l;
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.lang-opt').forEach(x => x.classList.remove('active'));
-        btn.classList.add('active');
-        currentLang = LANG_CODES[l] || 'en';
-        document.getElementById('langBtn').textContent = `🌍 ${LANG_CODES[l]?.toUpperCase() || 'EN'}`;
-        langDropdown.classList.remove('open');
-      });
-      langDropdown.appendChild(btn);
-    });
-    function toggleLangDropdown() { langDropdown.classList.toggle('open'); }
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.lang-wrapper')) langDropdown.classList.remove('open');
-    });
+              const newTheme = currentTheme === "dark" ? "light" : "dark";
 
-    /* ──────────────────────────────────────────────────
-       BACK TO HOME
-    ────────────────────────────────────────────────── */
-    function backToHome() { window.location.href = '/'; }
+              document.documentElement.setAttribute("data-theme", newTheme);
+              localStorage.setItem("theme", newTheme);
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const backBtn = document.querySelector('.back-to-home');
-      if (backBtn) backBtn.addEventListener('click', backToHome);
-    });
+              const icon = document.getElementById("floatIcon");
+              if (icon) {
+                icon.textContent = newTheme === "dark" ? "🌙" : "☀️";
+              }
+            }
 
-    /* ──────────────────────────────────────────────────
-       PDF STATE
-    ────────────────────────────────────────────────── */
-    // Each entry: { pageNum, pdfDoc (PDFDocument from pdf-lib), rotation, canvas (rendered), label }
-    let pages = [];     // array of page-data objects
-    let pageIdCounter = 0;
-    let fabricEditorCanvas = null;
-    let activeFabricPageId = null;
-    let cropperInstance = null;
-    let activeCropPageId = null;
-    let fabHistory = [];  // for undo
-    let fabColor = '#ff4444';
+            // Language dropdown
+            const langDropdown = document.getElementById('langDropdown');
+            LANGUAGES.forEach(l => {
+              const btn = document.createElement('button');
+              btn.className = 'lang-opt' + (l === 'English' ? ' active' : '');
+              btn.textContent = l;
+              btn.addEventListener('click', () => {
+                document.querySelectorAll('.lang-opt').forEach(x => x.classList.remove('active'));
+                btn.classList.add('active');
+                currentLang = LANG_CODES[l] || 'en';
+                document.getElementById('langBtn').textContent = `🌍 ${LANG_CODES[l]?.toUpperCase() || 'EN'}`;
+                langDropdown.classList.remove('open');
+              });
+              langDropdown.appendChild(btn);
+            });
+            function toggleLangDropdown() { langDropdown.classList.toggle('open'); }
+            document.addEventListener('click', e => {
+              if (!e.target.closest('.lang-wrapper')) langDropdown.classList.remove('open');
+            });
 
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            /* ──────────────────────────────────────────────────
+               BACK TO HOME
+            ────────────────────────────────────────────────── */
+            function backToHome() { window.location.href = '/'; }
 
-    /* ──────────────────────────────────────────────────
-       UPLOAD
-    ────────────────────────────────────────────────── */
-    const uploadZone = document.getElementById('uploadZone');
-    const pdfInput = document.getElementById('pdfInput');
+            document.addEventListener('DOMContentLoaded', () => {
+              const backBtn = document.querySelector('.back-to-home');
+              if (backBtn) backBtn.addEventListener('click', backToHome);
+            });
 
-    uploadZone.addEventListener('click', () => pdfInput.click());
-    pdfInput.addEventListener('change', e => loadFiles(Array.from(e.target.files)));
+            /* ──────────────────────────────────────────────────
+               PDF STATE
+            ────────────────────────────────────────────────── */
+            // Each entry: { pageNum, pdfDoc (PDFDocument from pdf-lib), rotation, canvas (rendered), label }
+            let pages = [];     // array of page-data objects
+            let pageIdCounter = 0;
+            let fabricEditorCanvas = null;
+            let activeFabricPageId = null;
+            let cropperInstance = null;
+            let activeCropPageId = null;
+            let fabHistory = [];  // for undo
+            let fabColor = '#ff4444';
 
-    uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
-    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
-    uploadZone.addEventListener('drop', e => {
-      e.preventDefault(); uploadZone.classList.remove('drag-over');
-      const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
-      if (files.length) loadFiles(files);
-    });
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    async function loadFiles(files) {
-      showStatus('Loading PDFs…', 0);
-      for (let fi = 0; fi < files.length; fi++) {
-        const file = files[fi];
-        const bytes = await file.arrayBuffer();
-        // pdf-lib for extraction
-        const pdfLibDoc = await PDFLib.PDFDocument.load(bytes);
-        // pdfjs for rendering
-        const pdfjsDoc = await pdfjsLib.getDocument({ data: bytes }).promise;
-        const total = pdfjsDoc.numPages;
-        for (let p = 1; p <= total; p++) {
-          const pct = Math.round(((fi * total + p) / (files.length * total)) * 100);
-          updateProgress(`Loading ${file.name} — page ${p}/${total}`, pct);
-          const canvas = await renderPage(pdfjsDoc, p);
-          pages.push({
-            id: ++pageIdCounter,
-            pdfLibDoc,
-            pageNum: p,
-            rotation: 0,
-            canvas,
-            label: `${file.name} · p${p}`,
-            selected: false,
-          });
-        }
-      }
-      hideStatus();
-      renderGrid();
-      document.getElementById('toolBar').style.display = 'flex';
-      uploadZone.style.display = 'none';
-      pdfInput.value = '';
-    }
+            /* ──────────────────────────────────────────────────
+               UPLOAD
+            ────────────────────────────────────────────────── */
+            const uploadZone = document.getElementById('uploadZone');
+            const pdfInput = document.getElementById('pdfInput');
 
-    async function renderPage(pdfjsDoc, pageNum, scale = 1.5) {
-      const page = await pdfjsDoc.getPage(pageNum);
-      const vp = page.getViewport({ scale });
-      const canvas = document.createElement('canvas');
-      canvas.width = vp.width; canvas.height = vp.height;
-      await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
-      return canvas;
-    }
+            uploadZone.addEventListener('click', () => pdfInput.click());
+            pdfInput.addEventListener('change', e => loadFiles(Array.from(e.target.files)));
 
-    /* ──────────────────────────────────────────────────
-       GRID RENDERING
-    ────────────────────────────────────────────────── */
-    function renderGrid() {
-      const grid = document.getElementById('pageGrid');
-      grid.innerHTML = '';
-      document.getElementById('emptyState').classList.toggle('visible', pages.length === 0);
-      if (!pages.length) { grid.appendChild(document.getElementById('emptyState')); return; }
+            uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+            uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+            uploadZone.addEventListener('drop', e => {
+              e.preventDefault(); uploadZone.classList.remove('drag-over');
+              const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+              if (files.length) loadFiles(files);
+            });
 
-      pages.forEach((pg, idx) => {
-        const card = document.createElement('div');
-        card.className = 'page-card' + (pg.selected ? ' selected' : '');
-        card.dataset.id = pg.id;
+            async function loadFiles(files) {
+              showStatus('Loading PDFs…', 0);
+              for (let fi = 0; fi < files.length; fi++) {
+                const file = files[fi];
+                const bytes = await file.arrayBuffer();
+                // pdf-lib for extraction
+                const pdfLibDoc = await PDFLib.PDFDocument.load(bytes);
+                // pdfjs for rendering
+                const pdfjsDoc = await pdfjsLib.getDocument({ data: bytes }).promise;
+                const total = pdfjsDoc.numPages;
+                for (let p = 1; p <= total; p++) {
+                  const pct = Math.round(((fi * total + p) / (files.length * total)) * 100);
+                  updateProgress(`Loading ${file.name} — page ${p}/${total}`, pct);
+                  const canvas = await renderPage(pdfjsDoc, p);
+                  pages.push({
+                    id: ++pageIdCounter,
+                    pdfLibDoc,
+                    pageNum: p,
+                    rotation: 0,
+                    canvas,
+                    label: `${file.name} · p${p}`,
+                    selected: false,
+                  });
+                }
+              }
+              hideStatus();
+              renderGrid();
+              document.getElementById('toolBar').style.display = 'flex';
+              uploadZone.style.display = 'none';
+              pdfInput.value = '';
+            }
 
-        // Checkbox
-        const chk = document.createElement('div');
-        chk.className = 'card-checkbox';
-        chk.textContent = pg.selected ? '✓' : '';
-        chk.onclick = e => { e.stopPropagation(); toggleSelect(pg.id); };
-        card.appendChild(chk);
+            async function renderPage(pdfjsDoc, pageNum, scale = 1.5) {
+              const page = await pdfjsDoc.getPage(pageNum);
+              const vp = page.getViewport({ scale });
+              const canvas = document.createElement('canvas');
+              canvas.width = vp.width; canvas.height = vp.height;
+              await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+              return canvas;
+            }
 
-        // Header
-        const hdr = document.createElement('div');
-        hdr.className = 'card-header';
-        const num = document.createElement('div');
-        num.className = 'card-num';
-        num.textContent = `#${idx + 1}`;
-        hdr.appendChild(num);
-        const acts = document.createElement('div');
-        acts.className = 'card-actions';
-        [
-          { icon: '✏️', title: 'Edit', fn: () => openFabricModal(pg.id) },
-          { icon: '✂️', title: 'Crop', fn: () => openCropModal(pg.id) },
-          { icon: '🔍', title: 'OCR', fn: () => runOcr(pg.id) },
-          { icon: '↺', title: 'Rotate', fn: () => rotatePage(pg.id, -90) },
-          { icon: '↻', title: 'Rotate', fn: () => rotatePage(pg.id, 90) },
-          { icon: '🗑', title: 'Delete', fn: () => deletePage(pg.id), cls: 'del' },
-        ].forEach(a => {
-          const ico = document.createElement('div');
-          ico.className = 'action-ico' + (a.cls ? ' ' + a.cls : '');
-          ico.textContent = a.icon; ico.title = a.title;
-          ico.onclick = e => { e.stopPropagation(); a.fn(); };
-          acts.appendChild(ico);
-        });
-        hdr.appendChild(acts);
-        card.appendChild(hdr);
+            /* ──────────────────────────────────────────────────
+               GRID RENDERING
+            ────────────────────────────────────────────────── */
+            function renderGrid() {
+              const grid = document.getElementById('pageGrid');
+              grid.innerHTML = '';
+              document.getElementById('emptyState').classList.toggle('visible', pages.length === 0);
+              if (!pages.length) { grid.appendChild(document.getElementById('emptyState')); return; }
 
-        // Canvas clone
-        const wrap = document.createElement('div');
-        wrap.style.cssText = 'overflow:hidden;border-radius:4px;';
-        const cloned = pg.canvas.cloneNode(true);
-        if (pg.rotation) { cloned.style.transform = `rotate(${pg.rotation}deg)`; cloned.style.transformOrigin = 'center'; }
-        wrap.appendChild(cloned); card.appendChild(wrap);
+              pages.forEach((pg, idx) => {
+                const card = document.createElement('div');
+                card.className = 'page-card' + (pg.selected ? ' selected' : '');
+                card.dataset.id = pg.id;
 
-        // Label
-        const lbl = document.createElement('div');
-        lbl.className = 'card-label'; lbl.title = pg.label; lbl.textContent = pg.label;
-        card.appendChild(lbl);
+                // Checkbox
+                const chk = document.createElement('div');
+                chk.className = 'card-checkbox';
+                chk.textContent = pg.selected ? '✓' : '';
+                chk.onclick = e => { e.stopPropagation(); toggleSelect(pg.id); };
+                card.appendChild(chk);
 
-        card.onclick = () => toggleSelect(pg.id);
-        grid.appendChild(card);
-      });
+                // Header
+                const hdr = document.createElement('div');
+                hdr.className = 'card-header';
+                const num = document.createElement('div');
+                num.className = 'card-num';
+                num.textContent = `#${idx + 1}`;
+                hdr.appendChild(num);
+                const acts = document.createElement('div');
+                acts.className = 'card-actions';
+                [
+                  { icon: '✏️', title: 'Edit', fn: () => openFabricModal(pg.id) },
+                  { icon: '✂️', title: 'Crop', fn: () => openCropModal(pg.id) },
+                  { icon: '🔍', title: 'OCR', fn: () => runOcr(pg.id) },
+                  { icon: '↺', title: 'Rotate', fn: () => rotatePage(pg.id, -90) },
+                  { icon: '↻', title: 'Rotate', fn: () => rotatePage(pg.id, 90) },
+                  { icon: '🗑', title: 'Delete', fn: () => deletePage(pg.id), cls: 'del' },
+                ].forEach(a => {
+                  const ico = document.createElement('div');
+                  ico.className = 'action-ico' + (a.cls ? ' ' + a.cls : '');
+                  ico.textContent = a.icon; ico.title = a.title;
+                  ico.onclick = e => { e.stopPropagation(); a.fn(); };
+                  acts.appendChild(ico);
+                });
+                hdr.appendChild(acts);
+                card.appendChild(hdr);
 
-      // SortableJS
-      if (window._sortable) window._sortable.destroy();
-      window._sortable = Sortable.create(grid, {
-        animation: 180, ghostClass: 'sortable-ghost', chosenClass: 'sortable-chosen',
-        filter: '.action-ico, .card-checkbox', preventOnFilter: false,
-        onEnd(evt) {
-          const moved = pages.splice(evt.oldIndex, 1)[0];
-          pages.splice(evt.newIndex, 0, moved);
-          renderGrid();
-        }
-      });
-    }
+                // Canvas clone
+                const wrap = document.createElement('div');
+                wrap.style.cssText = 'overflow:hidden;border-radius:4px;';
+                const cloned = pg.canvas.cloneNode(true);
+                if (pg.rotation) { cloned.style.transform = `rotate(${pg.rotation}deg)`; cloned.style.transformOrigin = 'center'; }
+                wrap.appendChild(cloned); card.appendChild(wrap);
 
-    /* ──────────────────────────────────────────────────
-       SELECTION
-    ────────────────────────────────────────────────── */
-    function toggleSelect(id) { const p = pages.find(x => x.id === id); if (p) { p.selected = !p.selected; renderGrid(); } }
-    function selectAll() { pages.forEach(p => p.selected = true); renderGrid(); }
-    function deselectAll() { pages.forEach(p => p.selected = false); renderGrid(); }
+                // Label
+                const lbl = document.createElement('div');
+                lbl.className = 'card-label'; lbl.title = pg.label; lbl.textContent = pg.label;
+                card.appendChild(lbl);
 
-    /* ──────────────────────────────────────────────────
-       ROTATE / DELETE
-    ────────────────────────────────────────────────── */
-    function rotatePage(id, deg) { const p = pages.find(x => x.id === id); if (p) { p.rotation = (p.rotation + deg + 360) % 360; renderGrid(); } }
-    function rotateSelected(deg) { pages.filter(p => p.selected).forEach(p => p.rotation = (p.rotation + deg + 360) % 360); renderGrid(); }
-    function deletePage(id) { pages = pages.filter(p => p.id !== id); renderGrid(); }
-    function deleteSelected() { pages = pages.filter(p => !p.selected); renderGrid(); }
+                card.onclick = () => toggleSelect(pg.id);
+                grid.appendChild(card);
+              });
 
-    /* ──────────────────────────────────────────────────
-       SORT
-    ────────────────────────────────────────────────── */
-    function sortPages() {
-      const mode = document.getElementById('sortMode').value;
-      if (mode === 'asc') pages.sort((a, b) => a.pageNum - b.pageNum);
-      else if (mode === 'desc') pages.sort((a, b) => b.pageNum - a.pageNum);
-      else if (mode === 'shuffle') pages.sort(() => Math.random() - .5);
-      renderGrid();
-    }
+              // SortableJS
+              if (window._sortable) window._sortable.destroy();
+              window._sortable = Sortable.create(grid, {
+                animation: 180, ghostClass: 'sortable-ghost', chosenClass: 'sortable-chosen',
+                filter: '.action-ico, .card-checkbox', preventOnFilter: false,
+                onEnd(evt) {
+                  const moved = pages.splice(evt.oldIndex, 1)[0];
+                  pages.splice(evt.newIndex, 0, moved);
+                  renderGrid();
+                }
+              });
+            }
 
-    /* ──────────────────────────────────────────────────
-       CLEAR ALL
-    ────────────────────────────────────────────────── */
-    function clearAll() {
-      if (!confirm('Clear all pages? This cannot be undone.')) return;
-      pages = [];
-      document.getElementById('toolBar').style.display = 'none';
-      uploadZone.style.display = '';
-      renderGrid();
-    }
+            /* ──────────────────────────────────────────────────
+               SELECTION
+            ────────────────────────────────────────────────── */
+            function toggleSelect(id) { const p = pages.find(x => x.id === id); if (p) { p.selected = !p.selected; renderGrid(); } }
+            function selectAll() { pages.forEach(p => p.selected = true); renderGrid(); }
+            function deselectAll() { pages.forEach(p => p.selected = false); renderGrid(); }
 
-    /* ──────────────────────────────────────────────────
-       EXPORT PDF
-    ────────────────────────────────────────────────── */
-    async function exportPDF() {
-      if (!pages.length) { alert('No pages to export.'); return; }
-      showStatus('Building PDF…', 0);
-      const outDoc = await PDFLib.PDFDocument.create();
-      for (let i = 0; i < pages.length; i++) {
-        const pg = pages[i];
-        updateProgress(`Exporting page ${i + 1}/${pages.length}`, Math.round(((i + 1) / pages.length) * 100));
-        // Draw the rendered canvas to a new PDF page
-        const dataUrl = pg.canvas.toDataURL('image/jpeg', .92);
-        const imgBytes = await fetch(dataUrl).then(r => r.arrayBuffer());
-        const img = await outDoc.embedJpg(imgBytes);
-        const dims = img.scale(1);
-        const page = outDoc.addPage([dims.width, dims.height]);
-        page.drawImage(img, { x: 0, y: 0, width: dims.width, height: dims.height });
-        if (pg.rotation) page.setRotation(PDFLib.degrees(pg.rotation));
-      }
-      const pdfBytes = await outDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'organized.pdf'; a.click();
-      URL.revokeObjectURL(url);
-      hideStatus();
-    }
+            /* ──────────────────────────────────────────────────
+               ROTATE / DELETE
+            ────────────────────────────────────────────────── */
+            function rotatePage(id, deg) { const p = pages.find(x => x.id === id); if (p) { p.rotation = (p.rotation + deg + 360) % 360; renderGrid(); } }
+            function rotateSelected(deg) { pages.filter(p => p.selected).forEach(p => p.rotation = (p.rotation + deg + 360) % 360); renderGrid(); }
+            function deletePage(id) { pages = pages.filter(p => p.id !== id); renderGrid(); }
+            function deleteSelected() { pages = pages.filter(p => !p.selected); renderGrid(); }
 
-    /* ──────────────────────────────────────────────────
-       FABRIC EDITOR
-    ────────────────────────────────────────────────── */
-    function openFabricModal(id) {
-      activeFabricPageId = id;
-      const pg = pages.find(p => p.id === id);
-      if (!pg) return;
-      const modal = document.getElementById('fabricModal');
-      modal.classList.add('open');
-      setTimeout(() => {
-        const container = document.getElementById('fabricCanvas').parentElement;
-        const w = Math.min(pg.canvas.width, container.clientWidth - 40);
-        const h = Math.round(w * (pg.canvas.height / pg.canvas.width));
-        if (fabricEditorCanvas) { fabricEditorCanvas.dispose(); }
-        const el = document.getElementById('fabricCanvas');
-        el.width = w; el.height = h;
-        fabricEditorCanvas = new fabric.Canvas('fabricCanvas', { width: w, height: h, isDrawingMode: false });
-        // background image from page canvas
-        const dataUrl = pg.canvas.toDataURL();
-        fabric.Image.fromURL(dataUrl, img => {
-          img.scaleToWidth(w); fabricEditorCanvas.setBackgroundImage(img, fabricEditorCanvas.renderAll.bind(fabricEditorCanvas));
-        });
-        fabHistory = [];
-        fabricEditorCanvas.on('object:added', () => fabHistory.push(fabricEditorCanvas.toJSON()));
-      }, 100);
-    }
-    function closeFabricModal() { document.getElementById('fabricModal').classList.remove('open'); }
-    function fabAddText() { fabricEditorCanvas?.add(new fabric.IText('Edit me', { left: 60, top: 60, fill: fabColor, fontSize: 22, fontFamily: 'sans-serif' })); }
-    function fabAddRect() { fabricEditorCanvas?.add(new fabric.Rect({ left: 80, top: 80, width: 120, height: 80, fill: 'transparent', stroke: fabColor, strokeWidth: 3 })); }
-    function fabAddCircle() { fabricEditorCanvas?.add(new fabric.Circle({ left: 100, top: 100, radius: 50, fill: 'transparent', stroke: fabColor, strokeWidth: 3 })); }
-    function fabDraw() { if (fabricEditorCanvas) { fabricEditorCanvas.isDrawingMode = true; fabricEditorCanvas.freeDrawingBrush.color = fabColor; fabricEditorCanvas.freeDrawingBrush.width = 3; } }
-    function fabSelect() { if (fabricEditorCanvas) fabricEditorCanvas.isDrawingMode = false; }
-    function fabDelete() { const obj = fabricEditorCanvas?.getActiveObject(); if (obj) fabricEditorCanvas.remove(obj); }
-    function fabUndo() { if (fabHistory.length > 1) { fabHistory.pop(); fabricEditorCanvas.loadFromJSON(fabHistory[fabHistory.length - 1], fabricEditorCanvas.renderAll.bind(fabricEditorCanvas)); } }
-    function fabClear() { fabricEditorCanvas?.getObjects().forEach(o => fabricEditorCanvas.remove(o)); }
-    function fabSetColor(c) { fabColor = c; if (fabricEditorCanvas) { fabricEditorCanvas.freeDrawingBrush.color = c; const o = fabricEditorCanvas.getActiveObject(); if (o) { o.set('fill', c); fabricEditorCanvas.renderAll(); } } }
+            /* ──────────────────────────────────────────────────
+               SORT
+            ────────────────────────────────────────────────── */
+            function sortPages() {
+              const mode = document.getElementById('sortMode').value;
+              if (mode === 'asc') pages.sort((a, b) => a.pageNum - b.pageNum);
+              else if (mode === 'desc') pages.sort((a, b) => b.pageNum - a.pageNum);
+              else if (mode === 'shuffle') pages.sort(() => Math.random() - .5);
+              renderGrid();
+            }
 
-    function saveFabricEdit() {
-      if (!fabricEditorCanvas || activeFabricPageId == null) return;
-      const pg = pages.find(p => p.id === activeFabricPageId);
-      if (!pg) return;
-      const newCanvas = document.createElement('canvas');
-      newCanvas.width = fabricEditorCanvas.getWidth();
-      newCanvas.height = fabricEditorCanvas.getHeight();
-      newCanvas.getContext('2d').drawImage(fabricEditorCanvas.getElement(), 0, 0);
-      pg.canvas = newCanvas;
-      closeFabricModal(); renderGrid();
-    }
+            /* ──────────────────────────────────────────────────
+               CLEAR ALL
+            ────────────────────────────────────────────────── */
+            function clearAll() {
+              if (!confirm('Clear all pages? This cannot be undone.')) return;
+              pages = [];
+              document.getElementById('toolBar').style.display = 'none';
+              uploadZone.style.display = '';
+              renderGrid();
+            }
 
-    /* ──────────────────────────────────────────────────
-       CROP
-    ────────────────────────────────────────────────── */
-    function openCropModal(id) {
-      activeCropPageId = id;
-      const pg = pages.find(p => p.id === id); if (!pg) return;
-      const img = document.getElementById('cropImage');
-      img.src = pg.canvas.toDataURL();
-      document.getElementById('cropModal').classList.add('open');
-      if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
-      img.onload = () => {
-        cropperInstance = new Cropper(img, { viewMode: 1, autoCropArea: .8, responsive: true });
-      };
-    }
-    function closeCropModal() { document.getElementById('cropModal').classList.remove('open'); if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; } }
-    function applyCrop() {
-      if (!cropperInstance || activeCropPageId == null) return;
-      const croppedCanvas = cropperInstance.getCroppedCanvas();
-      const pg = pages.find(p => p.id === activeCropPageId);
-      if (pg) { pg.canvas = croppedCanvas; }
-      closeCropModal(); renderGrid();
-    }
+            /* ──────────────────────────────────────────────────
+               EXPORT PDF
+            ────────────────────────────────────────────────── */
+            async function exportPDF() {
+              if (!pages.length) { alert('No pages to export.'); return; }
+              showStatus('Building PDF…', 0);
+              const outDoc = await PDFLib.PDFDocument.create();
+              for (let i = 0; i < pages.length; i++) {
+                const pg = pages[i];
+                updateProgress(`Exporting page ${i + 1}/${pages.length}`, Math.round(((i + 1) / pages.length) * 100));
+                // Draw the rendered canvas to a new PDF page
+                const dataUrl = pg.canvas.toDataURL('image/jpeg', .92);
+                const imgBytes = await fetch(dataUrl).then(r => r.arrayBuffer());
+                const img = await outDoc.embedJpg(imgBytes);
+                const dims = img.scale(1);
+                const page = outDoc.addPage([dims.width, dims.height]);
+                page.drawImage(img, { x: 0, y: 0, width: dims.width, height: dims.height });
+                if (pg.rotation) page.setRotation(PDFLib.degrees(pg.rotation));
+              }
+              const pdfBytes = await outDoc.save();
+              const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a'); a.href = url; a.download = 'organized.pdf'; a.click();
+              URL.revokeObjectURL(url);
+              hideStatus();
+            }
 
-    /* ──────────────────────────────────────────────────
-       OCR
-    ────────────────────────────────────────────────── */
-    async function runOcr(id) {
-      const pg = pages.find(p => p.id === id); if (!pg) return;
-      document.getElementById('ocrText').value = 'Running OCR… please wait.';
-      document.getElementById('ocrModal').classList.add('open');
-      try {
-        const result = await Tesseract.recognize(pg.canvas, 'eng', { logger: m => { if (m.status === 'recognizing text') document.getElementById('ocrText').value = `Progress: ${Math.round(m.progress * 100)}%`; } });
-        document.getElementById('ocrText').value = result.data.text || '(No text found)';
-      } catch (e) { document.getElementById('ocrText').value = 'OCR failed: ' + e.message; }
-    }
-    function closeOcrModal() { document.getElementById('ocrModal').classList.remove('open'); }
-    function copyOcr() { navigator.clipboard.writeText(document.getElementById('ocrText').value).then(() => alert('Copied!')).catch(() => alert('Copy failed.')); }
+            /* ──────────────────────────────────────────────────
+               FABRIC EDITOR
+            ────────────────────────────────────────────────── */
+            function openFabricModal(id) {
+              activeFabricPageId = id;
+              const pg = pages.find(p => p.id === id);
+              if (!pg) return;
+              const modal = document.getElementById('fabricModal');
+              modal.classList.add('open');
+              setTimeout(() => {
+                const container = document.getElementById('fabricCanvas').parentElement;
+                const w = Math.min(pg.canvas.width, container.clientWidth - 40);
+                const h = Math.round(w * (pg.canvas.height / pg.canvas.width));
+                if (fabricEditorCanvas) { fabricEditorCanvas.dispose(); }
+                const el = document.getElementById('fabricCanvas');
+                el.width = w; el.height = h;
+                fabricEditorCanvas = new fabric.Canvas('fabricCanvas', { width: w, height: h, isDrawingMode: false });
+                // background image from page canvas
+                const dataUrl = pg.canvas.toDataURL();
+                fabric.Image.fromURL(dataUrl, img => {
+                  img.scaleToWidth(w); fabricEditorCanvas.setBackgroundImage(img, fabricEditorCanvas.renderAll.bind(fabricEditorCanvas));
+                });
+                fabHistory = [];
+                fabricEditorCanvas.on('object:added', () => fabHistory.push(fabricEditorCanvas.toJSON()));
+              }, 100);
+            }
+            function closeFabricModal() { document.getElementById('fabricModal').classList.remove('open'); }
+            function fabAddText() { fabricEditorCanvas?.add(new fabric.IText('Edit me', { left: 60, top: 60, fill: fabColor, fontSize: 22, fontFamily: 'sans-serif' })); }
+            function fabAddRect() { fabricEditorCanvas?.add(new fabric.Rect({ left: 80, top: 80, width: 120, height: 80, fill: 'transparent', stroke: fabColor, strokeWidth: 3 })); }
+            function fabAddCircle() { fabricEditorCanvas?.add(new fabric.Circle({ left: 100, top: 100, radius: 50, fill: 'transparent', stroke: fabColor, strokeWidth: 3 })); }
+            function fabDraw() { if (fabricEditorCanvas) { fabricEditorCanvas.isDrawingMode = true; fabricEditorCanvas.freeDrawingBrush.color = fabColor; fabricEditorCanvas.freeDrawingBrush.width = 3; } }
+            function fabSelect() { if (fabricEditorCanvas) fabricEditorCanvas.isDrawingMode = false; }
+            function fabDelete() { const obj = fabricEditorCanvas?.getActiveObject(); if (obj) fabricEditorCanvas.remove(obj); }
+            function fabUndo() { if (fabHistory.length > 1) { fabHistory.pop(); fabricEditorCanvas.loadFromJSON(fabHistory[fabHistory.length - 1], fabricEditorCanvas.renderAll.bind(fabricEditorCanvas)); } }
+            function fabClear() { fabricEditorCanvas?.getObjects().forEach(o => fabricEditorCanvas.remove(o)); }
+            function fabSetColor(c) { fabColor = c; if (fabricEditorCanvas) { fabricEditorCanvas.freeDrawingBrush.color = c; const o = fabricEditorCanvas.getActiveObject(); if (o) { o.set('fill', c); fabricEditorCanvas.renderAll(); } } }
 
-    /* ──────────────────────────────────────────────────
-       STATUS BAR
-    ────────────────────────────────────────────────── */
-    function showStatus(msg, pct) {
-      const bar = document.getElementById('statusBar');
-      bar.classList.add('visible');
-      document.getElementById('statusText').textContent = msg;
-      updateProgress(msg, pct);
-    }
-    function updateProgress(msg, pct) {
-      document.getElementById('statusText').textContent = msg;
-      document.getElementById('progressFill').style.width = pct + '%';
-      document.getElementById('progressPct').textContent = pct + '%';
-    }
-    function hideStatus() { document.getElementById('statusBar').classList.remove('visible'); }
+            function saveFabricEdit() {
+              if (!fabricEditorCanvas || activeFabricPageId == null) return;
+              const pg = pages.find(p => p.id === activeFabricPageId);
+              if (!pg) return;
+              const newCanvas = document.createElement('canvas');
+              newCanvas.width = fabricEditorCanvas.getWidth();
+              newCanvas.height = fabricEditorCanvas.getHeight();
+              newCanvas.getContext('2d').drawImage(fabricEditorCanvas.getElement(), 0, 0);
+              pg.canvas = newCanvas;
+              closeFabricModal(); renderGrid();
+            }
 
-    /* ──────────────────────────────────────────────────
-       SCROLL
-    ────────────────────────────────────────────────── */
-    document.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } }); });
-  </script>
+            /* ──────────────────────────────────────────────────
+               CROP
+            ────────────────────────────────────────────────── */
+            function openCropModal(id) {
+              activeCropPageId = id;
+              const pg = pages.find(p => p.id === id); if (!pg) return;
+              const img = document.getElementById('cropImage');
+              img.src = pg.canvas.toDataURL();
+              document.getElementById('cropModal').classList.add('open');
+              if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
+              img.onload = () => {
+                cropperInstance = new Cropper(img, { viewMode: 1, autoCropArea: .8, responsive: true });
+              };
+            }
+            function closeCropModal() { document.getElementById('cropModal').classList.remove('open'); if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; } }
+            function applyCrop() {
+              if (!cropperInstance || activeCropPageId == null) return;
+              const croppedCanvas = cropperInstance.getCroppedCanvas();
+              const pg = pages.find(p => p.id === activeCropPageId);
+              if (pg) { pg.canvas = croppedCanvas; }
+              closeCropModal(); renderGrid();
+            }
+
+            /* ──────────────────────────────────────────────────
+               OCR
+            ────────────────────────────────────────────────── */
+            async function runOcr(id) {
+              const pg = pages.find(p => p.id === id); if (!pg) return;
+              document.getElementById('ocrText').value = 'Running OCR… please wait.';
+              document.getElementById('ocrModal').classList.add('open');
+              try {
+                const result = await Tesseract.recognize(pg.canvas, 'eng', { logger: m => { if (m.status === 'recognizing text') document.getElementById('ocrText').value = `Progress: ${Math.round(m.progress * 100)}%`; } });
+                document.getElementById('ocrText').value = result.data.text || '(No text found)';
+              } catch (e) { document.getElementById('ocrText').value = 'OCR failed: ' + e.message; }
+            }
+            function closeOcrModal() { document.getElementById('ocrModal').classList.remove('open'); }
+            function copyOcr() { navigator.clipboard.writeText(document.getElementById('ocrText').value).then(() => alert('Copied!')).catch(() => alert('Copy failed.')); }
+
+            /* ──────────────────────────────────────────────────
+               STATUS BAR
+            ────────────────────────────────────────────────── */
+            function showStatus(msg, pct) {
+              const bar = document.getElementById('statusBar');
+              bar.classList.add('visible');
+              document.getElementById('statusText').textContent = msg;
+              updateProgress(msg, pct);
+            }
+            function updateProgress(msg, pct) {
+              document.getElementById('statusText').textContent = msg;
+              document.getElementById('progressFill').style.width = pct + '%';
+              document.getElementById('progressPct').textContent = pct + '%';
+            }
+            function hideStatus() { document.getElementById('statusBar').classList.remove('visible'); }
+
+            /* ──────────────────────────────────────────────────
+               SCROLL
+            ────────────────────────────────────────────────── */
+            document.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } }); });
+          </script>
 </body>
 
 </html>
