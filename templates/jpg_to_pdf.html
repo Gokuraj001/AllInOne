@@ -688,6 +688,17 @@
       box-shadow: 0 10px 36px var(--glow-a)
     }
 
+    #renameInput {
+      transition: border-color var(--tr-fast), background var(--tr-fast), box-shadow var(--tr-fast) !important;
+    }
+
+    #renameInput:focus {
+      outline: none !important;
+      border-color: var(--accent) !important;
+      background: var(--surface2) !important;
+      box-shadow: 0 0 12px rgba(139, 114, 255, 0.2) !important;
+    }
+
     /* ═══════════════════════════════════════════════════════════
    HERO
 ═══════════════════════════════════════════════════════════ */
@@ -1579,6 +1590,40 @@
       <div class="modal-sub" data-i18n="pricingMsg">This feature will be available soon.<br>We're crafting something
         extraordinary for you.</div>
       <button class="modal-close-btn" onclick="closeModal()" data-i18n="modalClose">Awesome, got it!</button>
+    </div>
+  </div>
+
+  <!-- RESULT MODAL -->
+  <div class="modal-overlay" id="resultModal">
+    <div class="modal-box">
+      <span class="modal-emoji" id="resultEmoji">✅</span>
+      <div class="modal-title" id="resultTitle">Your file is converted!</div>
+      <div class="modal-sub" id="resultMessage">
+        <div style="text-align: left; margin: 12px 0;">
+          <div style="margin-bottom: 14px; padding: 12px; background: rgba(139, 114, 255, 0.1); border-radius: 10px; border-left: 3px solid var(--accent);">
+            <span style="font-size: 0.85rem; color: var(--text2);">File size: </span>
+            <span style="font-weight: 600; color: var(--text);" id="fileSizeDisplay">0 KB</span>
+          </div>
+          <div style="margin-bottom: 14px;">
+            <label style="display: block; font-size: 0.82rem; font-family: var(--font-display); font-weight: 600; color: var(--text2); margin-bottom: 6px;">Rename file (optional)</label>
+            <input type="text" id="renameInput" placeholder="Enter new filename..." style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: var(--font-body); font-size: 0.9rem; transition: border-color 0.3s;">
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button class="modal-close-btn" onclick="closeResultModal()" style="flex: 1; background: var(--surface); color: var(--text); box-shadow: none;">Cancel</button>
+        <button class="modal-close-btn" onclick="downloadConvertedFile()" style="flex: 1;">📥 Download</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONVERT MORE OVERLAY -->
+  <div class="modal-overlay" id="convertMoreOverlay" onclick="closeConvertMoreOverlay()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <span class="modal-emoji">🎉</span>
+      <div class="modal-title">Ready for more?</div>
+      <div class="modal-sub">Your PDF has been downloaded successfully!</div>
+      <button class="modal-close-btn" onclick="convertMore()" style="width: 100%;">🔄 Convert More</button>
     </div>
   </div>
 
@@ -2973,8 +3018,12 @@
     /* ─────────────────────────────────────────────────────────
        FORM SUBMIT & PROGRESS
     ───────────────────────────────────────────────────────── */
-    document.getElementById('uploadForm').addEventListener('submit', function (e) {
-      if (!imageFiles.length) return; // native "required" handles empty state
+    let currentConversionResult = null;
+
+    document.getElementById('uploadForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      
+      if (!imageFiles.length) return;
 
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
@@ -2983,11 +3032,107 @@
       container.style.display = 'block';
       resetProgress();
 
-      // Animate to 92% — holds until server responds & navigates away
+      // Animate to 92% — holds until server responds
       animateProgress(0, 92, 3200, () => { });
 
-      // Do NOT prevent default — let the POST go to your backend
+      try {
+        // Submit via AJAX
+        const formData = new FormData(this);
+        const response = await fetch('/jpg_to_pdf', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Complete the progress bar
+          animateProgress(92, 100, 500, () => {
+            container.style.display = 'none';
+            resetProgress();
+          });
+
+          // Store result info
+          currentConversionResult = data;
+          
+          // Reset form and show result modal
+          setTimeout(() => {
+            showResultModal(data);
+          }, 800);
+        } else {
+          throw new Error(data.error || 'Conversion failed');
+        }
+      } catch (error) {
+        container.style.display = 'none';
+        resetProgress();
+        alert('Error: ' + error.message);
+        submitBtn.disabled = false;
+      }
     });
+
+    function showResultModal(data) {
+      const modal = document.getElementById('resultModal');
+      document.getElementById('fileSizeDisplay').textContent = `${data.file_size_kb} KB`;
+      document.getElementById('renameInput').value = data.original_name;
+      modal.classList.add('open');
+    }
+
+    function closeResultModal() {
+      const modal = document.getElementById('resultModal');
+      modal.classList.remove('open');
+      currentConversionResult = null;
+    }
+
+    async function downloadConvertedFile() {
+      if (!currentConversionResult) {
+        alert('No file to download');
+        return;
+      }
+
+      const renameInput = document.getElementById('renameInput');
+      const customName = renameInput.value.trim() || currentConversionResult.original_name;
+
+      // Ensure filename has .pdf extension
+      const finalName = customName.endsWith('.pdf') ? customName : customName + '.pdf';
+
+      try {
+        const downloadUrl = `/download/${currentConversionResult.filename}?name=${encodeURIComponent(finalName)}`;
+        
+        // Trigger download
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = finalName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        // Close result modal and show convert more overlay
+        setTimeout(() => {
+          closeResultModal();
+          showConvertMoreOverlay();
+        }, 500);
+      } catch (error) {
+        alert('Error downloading file: ' + error.message);
+      }
+    }
+
+    function showConvertMoreOverlay() {
+      const overlay = document.getElementById('convertMoreOverlay');
+      overlay.classList.add('open');
+    }
+
+    function closeConvertMoreOverlay() {
+      const overlay = document.getElementById('convertMoreOverlay');
+      overlay.classList.remove('open');
+    }
+
+    function convertMore() {
+      closeConvertMoreOverlay();
+      clearAllFiles();
+      document.getElementById('submitBtn').disabled = false;
+      // Scroll to top to see the upload area
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     function animateProgress(from, to, dur, cb) {
       const fill = document.getElementById('progressFill');

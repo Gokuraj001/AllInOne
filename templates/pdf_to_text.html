@@ -2604,20 +2604,7 @@
     function closeModal() { document.getElementById('pricingModal').classList.remove('open') }
     document.getElementById('menuPricing').addEventListener('click', () => { closeDrawer(); openPricingModal(); });
     document.getElementById('pricingModal').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
-    // function toggleMode() { isDark = !isDark; document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light'); syncModeLabels() }
-    function toggleMode() {
-      let currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
-
-      const newTheme = currentTheme === "dark" ? "light" : "dark";
-
-      document.documentElement.setAttribute("data-theme", newTheme);
-      localStorage.setItem("theme", newTheme);
-
-      const icon = document.getElementById("floatIcon");
-      if (icon) {
-        icon.textContent = newTheme === "dark" ? "🌙" : "☀️";
-      }
-    }
+    function toggleMode() { isDark = !isDark; document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light'); syncModeLabels() }
     function syncModeLabels() {
       const tl = T[currentLang] || T.en;
       const label = isDark ? (tl.modeLabel || 'Dark Mode') : (tl.modeLabelLight || 'Light Mode');

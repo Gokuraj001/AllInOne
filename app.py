@@ -416,20 +416,39 @@ def create_app():
                     cleaned_image_paths.append(cleaned_path)
 
                 except Exception as e:
-                    return f"<h2>Error processing image {filename}: {str(e)}</h2>"
+                    return jsonify({"success": False, "error": f"Error processing image {filename}: {str(e)}"})
 
             if not cleaned_image_paths:
-                return "<h2>No valid image files uploaded.</h2>"
+                return jsonify({"success": False, "error": "No valid image files uploaded."})
 
-            output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], 'images_to_pdf.pdf')
+            output_filename = f"converted_{uuid.uuid4().hex}.pdf"
+            output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], output_filename)
 
             try:
                 with open(output_path, "wb") as f:
                     f.write(img2pdf.convert(cleaned_image_paths))
             except Exception as e:
-                return f"<h2>Error converting images to PDF: {str(e)}</h2>"
+                return jsonify({"success": False, "error": f"Error converting images to PDF: {str(e)}"})
 
-            return send_file(output_path, as_attachment=True)
+            # Get file size
+            file_size = os.path.getsize(output_path)
+            file_size_kb = round(file_size / 1024, 2)
+            
+            # Clean up temporary files
+            for cleaned_path in cleaned_image_paths:
+                try:
+                    os.remove(cleaned_path)
+                except:
+                    pass
+
+            return jsonify({
+                "success": True,
+                "filename": output_filename,
+                "original_name": "converted.pdf",
+                "file_size": file_size,
+                "file_size_kb": file_size_kb,
+                "message": "Your file is converted!"
+            })
 
         return render_template('jpg_to_pdf.html')
 
@@ -600,8 +619,21 @@ def create_app():
     # ===================== DOWNLOAD =====================
     @app.route('/download/<filename>')
     def download_file(filename):
+        """Download the converted file with an optional custom name"""
+        # Get custom filename from query parameter, default to original filename
+        custom_name = request.args.get('name', filename)
+        custom_name = secure_filename(custom_name)
+        
+        if not custom_name or not filename:
+            return jsonify({"error": "Invalid filename"}), 400
+        
         file_path = os.path.join(current_app.config['OUTPUT_FOLDER'], filename)
-        return send_file(file_path, as_attachment=True)
+        
+        # Security check: ensure file exists and is in outputs folder
+        if not os.path.exists(file_path) or not os.path.isfile(file_path):
+            return jsonify({"error": "File not found"}), 404
+        
+        return send_file(file_path, as_attachment=True, download_name=custom_name)
 
     # ===================== COMPRESS PDF =====================
     @app.route('/compress', methods=['GET', 'POST'])
