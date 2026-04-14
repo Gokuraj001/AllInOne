@@ -1,11 +1,4 @@
+
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "liveServer.settings.port": 5501
-=======
     "python-envs.defaultEnvManager": "ms-python.python:system"
->>>>>>> 55856cf340c8988bacdfe4ec4d0a974e3ae616de
-=======
-    "python-envs.defaultEnvManager": "ms-python.python:system"
->>>>>>> 55856cf340c8988bacdfe4ec4d0a974e3ae616de
 }
