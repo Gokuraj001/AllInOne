@@ -1,4 +1,4 @@
-from flask import Flask, app, render_template, request, send_file, current_app, redirect, url_for
+from flask import Flask, app, render_template, request, send_file, current_app, redirect, url_for, send_from_directory
 from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 import img2pdf
 import pdfplumber
@@ -26,7 +26,7 @@ from pptx.util import Inches
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from PIL import Image, ImageOps
-from werkzeug.utils import secure_filename, send_from_directory
+from werkzeug.utils import secure_filename
 from docx import Document
 from openpyxl import load_workbook
 
@@ -127,7 +127,8 @@ def create_app():
         os.makedirs(image_folder, exist_ok=True)
 
         # IMPORTANT: Change this if your Poppler path is different
-        poppler_path = r"C:\poppler-25.12.0\Library\bin"
+        # poppler_path = r"C:\poppler-25.12.0\Library\bin"
+        poppler_path = current_app.config.get('POPPLER_PATH')
 
         pages = convert_from_path(pdf_path, dpi=200, poppler_path=poppler_path)
 
@@ -316,9 +317,9 @@ def create_app():
             return jsonify({'error': 'Failed to create PDF'}), 500
     
     # ===================== MERGE PDF =====================
-    @app.route('/output/<filename>')
-    def output_file(filename):
-        return send_from_directory(app.config['OUTPUT_FOLDER'], filename, as_attachment=True)
+    # @app.route('/output/<filename>')
+    # def output_file(filename):
+    #     return send_from_directory(app.config['OUTPUT_FOLDER'], filename, as_attachment=True)
     
 
     # ===================== MERGE PDF =====================
@@ -358,10 +359,15 @@ def create_app():
     @app.route('/qr_generator')
     def qr_generator():
         return render_template('qr_generator.html')
+    '''
+    # ===================== SERVE QR =====================
+    @app.route('/output/<filename>')
+    def serve_qr(filename):
+        return send_from_directory(current_app.config['OUTPUT_FOLDER'], filename, as_attachment=True)
     
 
     # ===================== MERGE PD =====================
-    @app.route('/generate_qr', methods=['post'])
+    @app.route('/generate_qr', methods=['POST'])
     def generate_qr():
         data = request.get_json()
         url = data.get('url', '').strip()
@@ -398,7 +404,56 @@ def create_app():
         return jsonify({
             'success': True, 
             'qr_url': f"/output/{filename}"
+        })'''
+    
+
+    @app.route('/generate_qr', methods=['POST'])
+    def generate_qr():
+        data = request.get_json() or {}
+        url = data.get('url', '').strip()
+        theme = data.get('theme', 'classic')
+
+        if not url:
+            return jsonify({'success': False, 'error': 'No URL Provided'})
+
+        theme_map = {
+            "classic":  {"fill": "black",   "back": "white"},
+            "neon":     {"fill": "#8b5cf6", "back": "#0f172a"},
+            "ocean":    {"fill": "#0891b2", "back": "#ecfeff"},
+            "sunset":   {"fill": "#ea580c", "back": "#fff7ed"},
+            "minimal":  {"fill": "#111827", "back": "#f9fafb"},
+            "midnight": {"fill": "#22d3ee", "back": "#020617"},
+        }
+
+        colors = theme_map.get(theme, theme_map["classic"])
+
+        filename = f"qr_{uuid.uuid4().hex}.png"
+        output_path = os.path.join(current_app.config['OUTPUT_FOLDER'], filename)
+
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=12,
+            border=4
+        )
+        qr.add_data(url)
+        qr.make(fit=True)
+
+        img = qr.make_image(fill_color=colors["fill"], back_color=colors["back"])
+        img.save(output_path)
+
+        print("QR saved at:", output_path)
+
+        return jsonify({
+            'success': True,
+            'qr_url': f"/output/{filename}"
         })
+
+
+    # ✅ ADD THIS ROUTE (VERY IMPORTANT)
+    @app.route('/output/<filename>')
+    def serve_qr(filename):
+        return send_from_directory(current_app.config['OUTPUT_FOLDER'], filename)
 
     # ===================== SPLIT PDF =====================
     @app.route('/split', methods=['GET', 'POST'])
@@ -562,6 +617,7 @@ def create_app():
 
                 while quality > 10:
                     img.save(output_path, "JPEG", quality=quality, optimize=True)
+                    print("QR saved at:", output_path)
                     if os.path.getsize(output_path) <= target_size:
                         break
                     quality -= 5
