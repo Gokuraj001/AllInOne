@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, current_app, redirect, url_for
+from flask import Flask, app, render_template, request, send_file, current_app, redirect, url_for
 from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 import img2pdf
 import pdfplumber
@@ -14,6 +14,10 @@ import platform
 import pythoncom
 import win32com.client
 import qrcode
+import base64
+import io
+from datetime import datetime
+from PIL import Image
 from flask import jsonify
 from pdf2docx import Converter
 from pdf2image import convert_from_path
@@ -40,6 +44,18 @@ def create_app():
     os.makedirs(app.config['OUTPUT_FOLDER'], exist_ok=True)
 
     
+
+    def process_base64_image(data_url):
+        try:
+            if ',' in data_url:
+                base64_data = data_url.split(',')[1]
+            else:
+                base64_data = data_url
+
+            return base64.b64decode(base64_data)
+
+        except Exception:
+            raise ValueError("Invalid image data")
 
     # ===================== HELPER FUNCTION =====================
     def save_uploaded_file(file, file_type='pdf'):
@@ -208,6 +224,96 @@ def create_app():
     @app.route('/')
     def home():
         return render_template('index.html')
+    
+
+    # ===================== SCANNER PAGE =====================
+    @app.route('/scan')
+    def scan():
+        return render_template('scan.html')
+    
+    # ===================== SCAN TO PDF =====================
+    @app.route('/create-pdf', methods=['POST'])
+    def create_pdf():
+        try:
+            from reportlab.pdfgen import canvas as pdf_canvas
+            from reportlab.lib.utils import ImageReader
+
+            data = request.get_json()
+
+            if not data or 'images' not in data:
+                return jsonify({'error': 'No images provided'}), 400
+
+            images_data = data['images']
+
+            # ✅ Validation
+            if not isinstance(images_data, list):
+                return jsonify({'error': 'Invalid image format'}), 400
+
+            if len(images_data) == 0:
+                return jsonify({'error': 'No images provided'}), 400
+
+            if len(images_data) > 50:
+                return jsonify({'error': 'Too many images'}), 400
+
+            pdf_buffer = io.BytesIO()
+
+            first_img = process_base64_image(images_data[0]['data'])
+            first_pil = Image.open(io.BytesIO(first_img))
+            page_width, page_height = first_pil.size
+
+            c = pdf_canvas.Canvas(pdf_buffer, pagesize=(page_width, page_height))
+
+            for i, img_data in enumerate(images_data):
+
+                try:
+                    img_bytes = process_base64_image(img_data['data'])
+                except:
+                    return jsonify({'error': 'Invalid image data'}), 400
+
+                try:
+                    pil_img = Image.open(io.BytesIO(img_bytes))
+                except:
+                    return jsonify({'error': 'Corrupted image file'}), 400
+
+                # ✅ Resize (VERY IMPORTANT)
+                pil_img.thumbnail((2000, 2000))
+
+                if pil_img.mode == 'RGBA':
+                    background = Image.new('RGB', pil_img.size, (255, 255, 255))
+                    background.paste(pil_img, mask=pil_img.split()[3])
+                    pil_img = background
+                elif pil_img.mode != 'RGB':
+                    pil_img = pil_img.convert('RGB')
+
+                img_width, img_height = pil_img.size
+
+                if i > 0:
+                    c.showPage()
+
+                c.setPageSize((img_width, img_height))
+
+                img_buffer = io.BytesIO()
+                pil_img.save(img_buffer, format='JPEG', quality=85)
+                img_buffer.seek(0)
+
+                img_reader = ImageReader(img_buffer)
+                c.drawImage(img_reader, 0, 0, width=img_width, height=img_height)
+
+            c.save()
+            pdf_buffer.seek(0)
+
+            filename = f"scan_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+
+            return send_file(
+                pdf_buffer,
+                mimetype='application/pdf',
+                as_attachment=True,
+                download_name=filename
+            )
+
+        except Exception as e:
+            print(f"[SCAN ERROR] {str(e)}")
+            return jsonify({'error': 'Failed to create PDF'}), 500
     
     # ===================== MERGE PDF =====================
     @app.route('/output/<filename>')
