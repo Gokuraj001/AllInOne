@@ -1,0 +1,3151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script>
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+  </script>
+  <script src="{{ url_for('static', filename='theme.js') }}"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compress Image — ALL-IN-ONE Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --tr: .45s cubic-bezier(.4, 0, .2, 1);
+      --tr-fast: .25s cubic-bezier(.4, 0, .2, 1);
+      --tr-spring: .55s cubic-bezier(.22, 1, .36, 1);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --radius-xs: 8px;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Instrument Sans', sans-serif
+    }
+
+    [data-theme="dark"] {
+      --bg: #060610;
+      --bg2: #0b0b1e;
+      --bg3: #0f0f28;
+      --surface: rgba(255, 255, 255, .042);
+      --surface2: rgba(255, 255, 255, .07);
+      --border: rgba(255, 255, 255, .08);
+      --border2: rgba(255, 255, 255, .14);
+      --text: #eeeef8;
+      --text2: rgba(238, 238, 248, .55);
+      --text3: rgba(238, 238, 248, .28);
+      --accent: #8b72ff;
+      --accent2: #2dd4f0;
+      --accent3: #ff6bd6;
+      --glow-a: rgba(139, 114, 255, .32);
+      --glow-b: rgba(45, 212, 240, .22);
+      --header-bg: rgba(6, 6, 16, .65);
+      --orb1: rgba(139, 114, 255, .10);
+      --orb2: rgba(45, 212, 240, .08);
+      --orb3: rgba(255, 107, 214, .07);
+      --shadow: 0 8px 40px rgba(0, 0, 0, .6);
+      --shadow-card: 0 4px 30px rgba(0, 0, 0, .5);
+      --drop-border: rgba(139, 114, 255, .30);
+      --drop-bg: rgba(139, 114, 255, .04);
+      --drop-hover: rgba(139, 114, 255, .09);
+      --drop-drag-bg: rgba(45, 212, 240, .07);
+      --drop-drag-bdr: rgba(45, 212, 240, .55);
+      --progress-track: rgba(255, 255, 255, .07);
+      --card-bg: rgba(255, 255, 255, .038);
+      --hint: rgba(238, 238, 248, .32);
+      --input-bg: rgba(255, 255, 255, .055);
+      --input-border: rgba(255, 255, 255, .12);
+      --select-arrow: rgba(238, 238, 248, .4)
+    }
+
+    [data-theme="light"] {
+      --bg: #f2f0ff;
+      --bg2: #ebe7ff;
+      --bg3: #e2dcff;
+      --surface: rgba(255, 255, 255, .75);
+      --surface2: rgba(255, 255, 255, .92);
+      --border: rgba(100, 80, 200, .11);
+      --border2: rgba(100, 80, 200, .20);
+      --text: #1a1540;
+      --text2: rgba(26, 21, 64, .58);
+      --text3: rgba(26, 21, 64, .32);
+      --accent: #6c4fff;
+      --accent2: #0ea5c9;
+      --accent3: #d946ab;
+      --glow-a: rgba(108, 79, 255, .20);
+      --glow-b: rgba(14, 165, 201, .15);
+      --header-bg: rgba(242, 240, 255, .72);
+      --orb1: rgba(108, 79, 255, .12);
+      --orb2: rgba(14, 165, 201, .09);
+      --orb3: rgba(217, 70, 171, .08);
+      --shadow: 0 8px 40px rgba(100, 80, 200, .14);
+      --shadow-card: 0 4px 30px rgba(100, 80, 200, .11);
+      --drop-border: rgba(108, 79, 255, .28);
+      --drop-bg: rgba(108, 79, 255, .04);
+      --drop-hover: rgba(108, 79, 255, .08);
+      --drop-drag-bg: rgba(14, 165, 201, .06);
+      --drop-drag-bdr: rgba(14, 165, 201, .50);
+      --progress-track: rgba(0, 0, 0, .07);
+      --card-bg: rgba(255, 255, 255, .70);
+      --hint: rgba(26, 21, 64, .38);
+      --input-bg: rgba(255, 255, 255, .85);
+      --input-border: rgba(100, 80, 200, .18);
+      --select-arrow: rgba(26, 21, 64, .5)
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background var(--tr), color var(--tr)
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font: inherit;
+      color: inherit
+    }
+
+    /* BG */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden
+    }
+
+    .bg-gradient {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 90% 60% at 18% 0%, var(--orb1) 0%, transparent 55%), radial-gradient(ellipse 70% 50% at 88% 72%, var(--orb2) 0%, transparent 55%), radial-gradient(ellipse 55% 45% at 52% 42%, var(--orb3) 0%, transparent 60%);
+      animation: bgBreath 14s ease-in-out infinite alternate
+    }
+
+    @keyframes bgBreath {
+      from {
+        opacity: .75;
+        transform: scale(1)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1.04)
+      }
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
+      transition: opacity var(--tr)
+    }
+
+    [data-theme="light"] .bg-grid {
+      opacity: .5
+    }
+
+    #px {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: var(--header-bg);
+      backdrop-filter: blur(22px) saturate(160%);
+      -webkit-backdrop-filter: blur(22px) saturate(160%);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 0 var(--border), 0 8px 40px rgba(0, 0, 0, .15);
+      transition: background var(--tr), border-color var(--tr);
+      animation: hdrSlide .8s cubic-bezier(.22, 1, .36, 1) both
+    }
+
+    @keyframes hdrSlide {
+      from {
+        transform: translateY(-100%);
+        opacity: 0
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      animation: fadeUp .8s .2s var(--tr-spring) both
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--glow-a);
+      animation: iconPulse 4s ease-in-out infinite
+    }
+
+    @keyframes iconPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 16px var(--glow-a)
+      }
+
+      50% {
+        box-shadow: 0 0 32px var(--glow-a), 0 0 50px var(--glow-b)
+      }
+    }
+
+    .brand-icon svg {
+      width: 22px;
+      height: 22px
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.18rem;
+      letter-spacing: .08em;
+      background: linear-gradient(110deg, var(--text) 30%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5.5px;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      border-radius: 12px;
+      transition: background var(--tr-fast);
+      position: relative;
+      z-index: 310
+    }
+
+    .hamburger:hover {
+      background: var(--surface2)
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform .4s cubic-bezier(.4, 0, .2, 1), opacity .25s, width .3s;
+      transform-origin: center
+    }
+
+    .hamburger span:nth-child(3) {
+      width: 65%;
+      margin-left: auto
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7.5px) rotate(45deg)
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0)
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7.5px) rotate(-45deg);
+      width: 100%
+    }
+
+    /* DRAWER */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .38s
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: all
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 260;
+      width: min(340px, 88vw);
+      height: 100vh;
+      background: var(--bg2);
+      border-left: 1px solid var(--border2);
+      box-shadow: -12px 0 60px rgba(0, 0, 0, .55);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform .48s cubic-bezier(.22, 1, .36, 1), background var(--tr);
+      overflow: hidden
+    }
+
+    .drawer.open {
+      transform: translateX(0)
+    }
+
+    .drawer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite
+    }
+
+    @keyframes shimmer {
+      from {
+        background-position: 0 0
+      }
+
+      to {
+        background-position: 200% 0
+      }
+    }
+
+    .drawer-header {
+      height: 70px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0
+    }
+
+    .drawer-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .88rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text3)
+    }
+
+    .drawer-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text2);
+      transition: background var(--tr-fast), color var(--tr-fast)
+    }
+
+    .drawer-close:hover {
+      background: var(--surface2);
+      color: var(--text)
+    }
+
+    .drawer-nav {
+      flex: 1;
+      padding: 12px 0;
+      overflow-y: auto
+    }
+
+    .drawer-nav::-webkit-scrollbar {
+      width: 3px
+    }
+
+    .drawer-nav::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 2px
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      padding: 15px 24px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .97rem;
+      color: var(--text2);
+      transition: color var(--tr-fast), background var(--tr-fast), padding-left var(--tr-fast);
+      position: relative;
+      text-align: left
+    }
+
+    .menu-item::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10%;
+      bottom: 10%;
+      width: 3px;
+      border-radius: 2px;
+      background: linear-gradient(var(--accent), var(--accent2));
+      transform: scaleY(0);
+      transition: transform var(--tr-fast)
+    }
+
+    .menu-item:hover {
+      color: var(--text);
+      padding-left: 32px;
+      background: var(--surface2)
+    }
+
+    .menu-item:hover::after {
+      transform: scaleY(1)
+    }
+
+    .menu-item-ico {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: background var(--tr-fast), border-color var(--tr-fast)
+    }
+
+    .menu-item:hover .menu-item-ico {
+      background: var(--surface2);
+      border-color: var(--border2)
+    }
+
+    .menu-item-chevron {
+      margin-left: auto;
+      font-size: .78rem;
+      color: var(--text3)
+    }
+
+    .lang-panel {
+      width: 100%;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      background: var(--bg3);
+      max-height: 0;
+      transition: max-height .42s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .lang-panel.open {
+      max-height: 280px;
+      overflow-y: auto
+    }
+
+    .lang-panel::-webkit-scrollbar {
+      width: 3px
+    }
+
+    .lang-panel::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 2px
+    }
+
+    .lang-item {
+      display: block;
+      width: 100%;
+      padding: 11px 20px 11px 44px;
+      text-align: left;
+      font-size: .87rem;
+      color: var(--text2);
+      transition: background var(--tr-fast), color var(--tr-fast), padding-left var(--tr-fast)
+    }
+
+    .lang-item:hover {
+      background: var(--surface2);
+      color: var(--text);
+      padding-left: 52px
+    }
+
+    .lang-item.active {
+      color: var(--accent);
+      font-weight: 600
+    }
+
+    .drawer-footer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0
+    }
+
+    .mode-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border)
+    }
+
+    .mode-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .88rem;
+      color: var(--text2)
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 28px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background .3s, border-color .3s
+    }
+
+    .toggle-switch.on {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent
+    }
+
+    .toggle-knob {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+      transition: transform .35s cubic-bezier(.22, 1, .36, 1)
+    }
+
+    .toggle-switch.on .toggle-knob {
+      transform: translateX(22px)
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, .72);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all
+    }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 28px;
+      padding: 52px 48px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 80px var(--glow-a), var(--shadow);
+      transform: scale(.85) translateY(24px);
+      opacity: 0;
+      transition: transform .42s cubic-bezier(.22, 1, .36, 1), opacity .3s;
+      position: relative;
+      overflow: hidden
+    }
+
+    .modal-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--glow-a), transparent 60%);
+      pointer-events: none
+    }
+
+    .modal-overlay.open .modal-box {
+      transform: scale(1) translateY(0);
+      opacity: 1
+    }
+
+    .modal-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 18px
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.4rem;
+      margin-bottom: 10px
+    }
+
+    .modal-sub {
+      font-size: .9rem;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 32px
+    }
+
+    .modal-close-btn {
+      padding: 13px 36px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .95rem;
+      box-shadow: 0 4px 24px var(--glow-a);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast)
+    }
+
+    .modal-close-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px var(--glow-a)
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 152px 24px 52px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 100px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 26px;
+      backdrop-filter: blur(10px);
+      animation: fadeUp .8s .25s var(--tr-spring) both
+    }
+
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent2);
+      animation: blink 2s infinite
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .15
+      }
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2.4rem, 6.5vw, 5rem);
+      line-height: 1.06;
+      letter-spacing: -.025em;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 45%, var(--accent2) 100%);
+      background-size: 220% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeUp .9s .38s var(--tr-spring) both, textFlow 7s linear 1.5s infinite alternate
+    }
+
+    @keyframes textFlow {
+      from {
+        background-position: 0% 50%
+      }
+
+      to {
+        background-position: 100% 50%
+      }
+    }
+
+    .hero p {
+      font-size: clamp(.95rem, 2.5vw, 1.15rem);
+      color: var(--text2);
+      max-width: 500px;
+      line-height: 1.75;
+      animation: fadeUp .9s .5s var(--tr-spring) both
+    }
+
+    /* UPLOAD CARD */
+    .upload-box {
+      position: relative;
+      z-index: 1;
+      max-width: 660px;
+      margin: 0 auto 12px;
+      padding: 0 20px;
+      animation: fadeUp .9s .62s var(--tr-spring) both
+    }
+
+    .upload-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 30px 28px;
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-card);
+      transition: box-shadow var(--tr), border-color var(--tr)
+    }
+
+    .upload-card:hover {
+      box-shadow: 0 12px 50px rgba(0, 0, 0, .45), 0 0 30px var(--glow-a);
+      border-color: var(--border2)
+    }
+
+    /* DROP ZONE */
+    .drop-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 44px 28px;
+      border: 2px dashed var(--drop-border);
+      border-radius: var(--radius-sm);
+      background: var(--drop-bg);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .32s, background .32s, transform .42s cubic-bezier(.22, 1, .36, 1), box-shadow .42s
+    }
+
+    .drop-area::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--glow-a), var(--glow-b) 60%, transparent);
+      opacity: 0;
+      transition: opacity .35s;
+      pointer-events: none;
+      border-radius: inherit
+    }
+
+    .drop-area:hover {
+      border-color: var(--accent);
+      background: var(--drop-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 18px 52px rgba(0, 0, 0, .35), 0 0 32px var(--glow-a)
+    }
+
+    .drop-area:hover::before {
+      opacity: 1
+    }
+
+    .drop-area.drag-over {
+      border-color: var(--drop-drag-bdr) !important;
+      background: var(--drop-drag-bg) !important;
+      transform: translateY(-8px) scale(1.012) !important;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .4), 0 0 65px var(--glow-b) !important;
+      animation: dragGlow 1.3s ease-in-out infinite
+    }
+
+    @keyframes dragGlow {
+
+      0%,
+      100% {
+        box-shadow: 0 24px 64px rgba(0, 0, 0, .4), 0 0 55px var(--glow-b)
+      }
+
+      50% {
+        box-shadow: 0 24px 64px rgba(0, 0, 0, .4), 0 0 90px var(--glow-b)
+      }
+    }
+
+    .drop-icon {
+      font-size: 2.8rem;
+      line-height: 1;
+      filter: drop-shadow(0 0 10px var(--glow-a));
+      transition: transform .4s cubic-bezier(.22, 1, .36, 1)
+    }
+
+    .drop-area:hover .drop-icon {
+      transform: scale(1.18) translateY(-5px)
+    }
+
+    .drop-area.drag-over .drop-icon {
+      transform: scale(1.26) translateY(-8px) rotate(-5deg)
+    }
+
+    .drop-area p {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text);
+      text-align: center;
+      line-height: 1.5
+    }
+
+    .drop-area p.drop-sub {
+      font-weight: 400;
+      font-size: .82rem;
+      color: var(--text3)
+    }
+
+    /* FILE PREVIEW */
+    #filePreview {
+      margin-top: 16px
+    }
+
+    .file-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      animation: cardPop .4s var(--tr-spring) both
+    }
+
+    @keyframes cardPop {
+      from {
+        opacity: 0;
+        transform: scale(.94) translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0)
+      }
+    }
+
+    .file-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      box-shadow: 0 0 16px var(--glow-a)
+    }
+
+    .file-card-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .file-card-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .88rem;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .file-card-meta {
+      font-size: .75rem;
+      color: var(--text3);
+      margin-top: 3px
+    }
+
+    .file-card-remove {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-xs);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      color: var(--text3);
+      transition: background var(--tr-fast), color var(--tr-fast), transform .2s
+    }
+
+    .file-card-remove:hover {
+      background: rgba(248, 113, 113, .14);
+      color: #f87171;
+      transform: scale(1.15)
+    }
+
+    /* FIELD WRAPPER — shared */
+    .field-wrap {
+      margin-top: 20px
+    }
+
+    .field-label {
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .82rem;
+      color: var(--text2);
+      margin-bottom: 8px;
+      letter-spacing: .04em
+    }
+
+    /* SELECT */
+    select[name="mode"] {
+      width: 100%;
+      padding: 14px 42px 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      color: var(--text);
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: .97rem;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%238b72ff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      transition: border-color .28s, box-shadow .28s, background-color .28s;
+    }
+
+    select[name="mode"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow-a), 0 0 24px var(--glow-a);
+      background-color: var(--surface2)
+    }
+
+    select[name="mode"] option {
+      background: var(--bg2);
+      color: var(--text)
+    }
+
+    /* NUMBER INPUT */
+    input[name="target_size"] {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      color: var(--text);
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: .97rem;
+      outline: none;
+      caret-color: var(--accent2);
+      appearance: textfield;
+      -moz-appearance: textfield;
+      transition: border-color .28s, box-shadow .28s, background .28s;
+    }
+
+    input[name="target_size"]::-webkit-outer-spin-button,
+    input[name="target_size"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0
+    }
+
+    input[name="target_size"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow-a), 0 0 24px var(--glow-a);
+      background: var(--surface2)
+    }
+
+    input[name="target_size"]::placeholder {
+      color: var(--text3)
+    }
+
+    /* DIVIDER */
+    .field-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0
+    }
+
+    .field-divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border)
+    }
+
+    .field-divider-txt {
+      font-family: var(--font-display);
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--text3);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      white-space: nowrap
+    }
+
+    /* INFO TIP */
+    .field-tip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-xs);
+      background: rgba(45, 212, 240, .06);
+      border: 1px solid rgba(45, 212, 240, .15);
+      font-size: .78rem;
+      color: var(--accent2);
+      font-family: var(--font-display);
+      font-weight: 500
+    }
+
+    /* PROGRESS */
+    #progressContainer {
+      margin-top: 22px
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px
+    }
+
+    .progress-header span {
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text2)
+    }
+
+    #progressPct {
+      color: var(--accent2)
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--progress-track);
+      border-radius: 100px;
+      overflow: hidden
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 12px var(--glow-a);
+      transition: width .35s ease;
+      position: relative;
+      overflow: hidden
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 55%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .38), transparent);
+      animation: pShimmer 1.5s linear infinite
+    }
+
+    @keyframes pShimmer {
+      from {
+        left: -100%
+      }
+
+      to {
+        left: 200%
+      }
+    }
+
+    #loadingText {
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--text2);
+      margin-top: 10px;
+      text-align: center;
+      animation: txtPulse 1.6s ease-in-out infinite
+    }
+
+    @keyframes txtPulse {
+
+      0%,
+      100% {
+        opacity: .55
+      }
+
+      50% {
+        opacity: 1
+      }
+    }
+
+    /* BUTTON */
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      width: 100%;
+      margin-top: 24px;
+      padding: 17px 32px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .02em;
+      box-shadow: 0 5px 28px var(--glow-a);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast), opacity var(--tr-fast);
+      position: relative;
+      overflow: hidden
+    }
+
+    .nav-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .14), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+      pointer-events: none
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 48px var(--glow-a), 0 0 0 1px rgba(255, 255, 255, .08)
+    }
+
+    .nav-btn:hover::before {
+      opacity: 1
+    }
+
+    .nav-btn:active {
+      transform: translateY(-1px)
+    }
+
+    .nav-btn:disabled {
+      opacity: .48;
+      cursor: not-allowed;
+      transform: none !important
+    }
+
+    /* BACK */
+    .back-wrap {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      margin: 8px 0 90px;
+      animation: fadeUp .8s .78s var(--tr-spring) both
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      backdrop-filter: blur(10px);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--text2);
+      transition: color var(--tr-fast), border-color var(--tr-fast), background var(--tr-fast), transform var(--tr-fast), box-shadow var(--tr-fast)
+    }
+
+    .back-link:hover {
+      color: var(--text);
+      border-color: var(--accent);
+      background: var(--surface2);
+      transform: translateX(-5px);
+      box-shadow: 0 4px 20px var(--glow-a)
+    }
+
+    /* FLOAT */
+    .float-mode {
+      position: fixed;
+      bottom: 30px;
+      right: 28px;
+      z-index: 300;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 28px var(--glow-a), 0 2px 8px rgba(0, 0, 0, .3);
+      transition: transform var(--tr-fast), box-shadow var(--tr-fast);
+      animation: fadeUp 1s 1.1s var(--tr-spring) both;
+      font-size: 1.3rem
+    }
+
+    .float-mode:hover {
+      transform: scale(1.13) rotate(14deg);
+      box-shadow: 0 10px 42px var(--glow-a)
+    }
+
+    .float-mode:active {
+      transform: scale(.94)
+    }
+
+    /* FOOTER */
+    footer {
+      background: #000;
+      border-top: 1px solid rgba(255, 255, 255, .06);
+      position: relative;
+      z-index: 1
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 70px 28px 40px
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 56px
+    }
+
+    @media(max-width:900px) {
+      .footer-top {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(max-width:540px) {
+      .footer-top {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .footer-brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: .06em;
+      color: #fff;
+      margin-bottom: 12px
+    }
+
+    .footer-tagline {
+      font-size: .85rem;
+      color: rgba(255, 255, 255, .32);
+      line-height: 1.7;
+      max-width: 240px
+    }
+
+    .footer-mode-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .08);
+      margin-top: 24px
+    }
+
+    .footer-mode-label {
+      font-size: .85rem;
+      color: rgba(255, 255, 255, .45);
+      font-family: var(--font-display);
+      font-weight: 600
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-display);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .22);
+      margin-bottom: 20px
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 13px
+    }
+
+    .footer-col a {
+      font-size: .88rem;
+      color: rgba(255, 255, 255, .4);
+      transition: color var(--tr-fast), padding-left var(--tr-fast);
+      display: inline-block
+    }
+
+    .footer-col a:hover {
+      color: #fff;
+      padding-left: 5px
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, .06);
+      padding-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .footer-copy {
+      font-size: .8rem;
+      color: rgba(255, 255, 255, .18)
+    }
+
+    .footer-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .pill {
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: .73rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, .08);
+      color: rgba(255, 255, 255, .22)
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(139, 114, 255, .3);
+      border-radius: 3px
+    }
+
+    @media(max-width:600px) {
+      header {
+        padding: 0 18px
+      }
+
+      .hero {
+        padding: 136px 16px 44px
+      }
+
+      .upload-box {
+        padding: 0 14px
+      }
+
+      .upload-card {
+        padding: 22px 18px 20px
+      }
+
+      .drop-area {
+        padding: 34px 16px
+      }
+
+      .modal-box {
+        padding: 38px 28px
+      }
+
+      .footer-inner {
+        padding: 50px 18px 30px
+      }
+    }
+
+    @media(max-width:420px) {
+      .hero h1 {
+        font-size: 2.1rem
+      }
+
+      .drop-icon {
+        font-size: 2.2rem
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-layer">
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+  </div>
+  <canvas id="px"></canvas>
+
+  <!-- HEADER -->
+  <header>
+    <a href="/" class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 6h16M4 12h10M4 18h13" stroke="#fff" stroke-width="2.2" stroke-linecap="round" />
+          <circle cx="19" cy="12" r="3" stroke="#fff" stroke-width="2" />
+        </svg>
+      </div>
+      <span class="brand-name" data-i18n="brand">ALL-IN-ONE</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="drawer-overlay" id="overlay"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <span class="drawer-title" data-i18n="menuTitle">Navigation</span>
+      <button class="drawer-close" id="closeDrawerBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+    <nav class="drawer-nav">
+      <button class="menu-item" id="menuPricing">
+        <span class="menu-item-ico">💎</span><span data-i18n="navPricing">Pricing</span>
+      </button>
+      <div>
+        <button class="menu-item" id="menuLang">
+          <span class="menu-item-ico">🌍</span>
+          <span data-i18n="navLang">Language</span>
+          <span class="menu-item-chevron" id="langChevron">▾</span>
+        </button>
+        <div class="lang-panel" id="langPanel"></div>
+      </div>
+      <a href="/Privacypolicy" class="menu-item" onclick="closeDrawer()">
+        <span class="menu-item-ico">🔒</span><span data-i18n="navPrivacy">Privacy Policy</span>
+      </a>
+      <a href="/Terms&Condition" class="menu-item" onclick="closeDrawer()">
+        <span class="menu-item-ico">📜</span><span data-i18n="navTerms">Terms &amp; Conditions</span>
+      </a>
+      <a href="/Creater" class="menu-item" onclick="closeDrawer()">
+        <span class="menu-item-ico">👥</span><span data-i18n="navAbout">About Us</span>
+      </a>
+      <a href="/Contactus" class="menu-item" onclick="closeDrawer()">
+        <span class="menu-item-ico">✉️</span><span data-i18n="navContact">Contact Us</span>
+      </a>
+    </nav>
+    <div class="drawer-footer">
+      <div class="mode-toggle-row">
+        <div class="mode-label">
+          <span id="drawerModeIcon">🌙</span>
+          <span id="drawerModeLabel" data-i18n="modeLabel">Dark Mode</span>
+        </div>
+        <div class="toggle-switch on" id="drawerToggle" onclick="toggleMode()">
+          <div class="toggle-knob"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="pricingModal">
+    <div class="modal-box">
+      <span class="modal-emoji">🚀</span>
+      <div class="modal-title" data-i18n="pricingTitle">Coming Soon!</div>
+      <div class="modal-sub" data-i18n="pricingMsg">This feature will be available soon.<br>We're crafting something
+        extraordinary for you.</div>
+      <button class="modal-close-btn" onclick="closeModal()" data-i18n="modalClose">Awesome, got it!</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main>
+    <div class="hero">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span data-i18n="heroBadge">Image Tool · Free · Instant</span>
+      </div>
+      <h1 data-i18n="heroTitle">Compress Image</h1>
+      <p data-i18n="heroSub">Reduce image file sizes without sacrificing visual quality — fast, free, and private.</p>
+    </div>
+
+    <div class="upload-box">
+      <div class="upload-card">
+        <form method="POST" enctype="multipart/form-data" id="uploadForm">
+
+          <!-- Drop zone -->
+          <label for="imageInput" class="drop-area" id="dropArea">
+            <span class="drop-icon">🗜️</span>
+            <p data-i18n="dropMain">Drag &amp; Drop image here</p>
+            <p class="drop-sub" data-i18n="dropSub">or click to browse (JPG, PNG, WEBP)</p>
+            <input type="file" name="image" id="imageInput" accept="image/*,.jpg,.jpeg,.png,.webp,.gif" required
+              hidden />
+          </label>
+
+          <div id="filePreview"></div>
+
+          <!-- Mode selector -->
+          <div class="field-wrap">
+            <label class="field-label" data-i18n="modeLabel2">Compression Mode</label>
+            <select name="mode">
+              <option value="maximum" data-i18n-opt="optMax">Maximum Compression</option>
+              <option value="medium" data-i18n-opt="optMed" selected>Medium Compression</option>
+              <option value="minimum" data-i18n-opt="optMin">Minimum Compression</option>
+            </select>
+            <div class="field-tip">
+              <span>💡</span>
+              <span data-i18n="modeTip">Maximum reduces size most; Minimum keeps the best quality. Medium is a balanced
+                choice.</span>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="field-divider">
+            <div class="field-divider-line"></div>
+            <span class="field-divider-txt" data-i18n="orDivider">or set target size</span>
+            <div class="field-divider-line"></div>
+          </div>
+
+          <!-- Target size input -->
+          <div class="field-wrap" style="margin-top:0">
+            <label class="field-label" for="targetSize" data-i18n="targetLabel">Target File Size (KB)</label>
+            <input type="number" name="target_size" id="targetSize" min="1" step="1" placeholder="e.g. 200" />
+            <div class="field-tip" style="margin-top:10px">
+              <span>⚡</span>
+              <span data-i18n="targetTip">Leave blank to use mode above. Enter a size in KB to compress to an exact
+                target.</span>
+            </div>
+          </div>
+
+          <!-- Progress -->
+          <div id="progressContainer" style="display:none;margin-top:20px;">
+            <div class="progress-header">
+              <span data-i18n="progressLabel">Compressing…</span>
+              <span id="progressPct">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p id="loadingText" data-i18n="loadingText">Optimising your image, please wait…</p>
+          </div>
+
+          <button type="submit" class="nav-btn" id="submitBtn">
+            <span>🗜️</span>
+            <span data-i18n="submitBtn">Compress</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="back-wrap">
+      <a href="/" class="back-link" data-i18n="backBtn">⬅ Back to All Tools</a>
+    </div>
+  </main>
+
+  <!-- RESULT MODAL -->
+  <div class="modal-overlay" id="resultModal">
+    <div class="modal-box" style="padding: 40px; text-align: center;">
+      <span class="modal-emoji">✅</span>
+      <div class="modal-title">Success!</div>
+      <div class="modal-sub">Your fille is Image is Compressed</div>
+      
+      <div style="margin-bottom: 24px; text-align: left;">
+        <label style="display: block; margin-bottom: 8px; color: var(--text2); font-size: 0.9rem;">File Size</label>
+        <div id="fileSizeDisplay" style="font-weight: 600; font-size: 1.1rem; color: var(--accent2); padding: 12px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 12px; text-align: center;">-- KB</div>
+      </div>
+
+      <div style="margin-bottom: 32px; text-align: left;">
+        <label for="renameInput" style="display: block; margin-bottom: 8px; color: var(--text2); font-size: 0.9rem;">Rename File (Optional)</label>
+        <input type="text" id="renameInput" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border2); background: var(--input-bg); color: var(--text); font-family: inherit; transition: all 0.2s; outline: none;" placeholder="e.g. compressed_photo.jpg">
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <button class="modal-close-btn" style="background: var(--surface2); color: var(--text); box-shadow: none;" onclick="closeResultModal()">Cancel</button>
+        <button class="modal-close-btn" onclick="downloadConvertedFile()">Download Image</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONVERT MORE OVERLAY -->
+  <div class="modal-overlay" id="convertMoreOverlay">
+    <div class="modal-box" style="padding: 40px; text-align: center;">
+      <span class="modal-emoji">🎉</span>
+      <div class="modal-title">All Done!</div>
+      <div class="modal-sub">Your image has been downloaded successfully.</div>
+      <button class="modal-close-btn" style="width: 100%;" onclick="convertMore()">Compress more Image</button>
+    </div>
+  </div>
+
+  <button class="float-mode" onclick="toggleMode()" title="Toggle theme">
+    <span id="floatIcon">🌙</span>
+  </button>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand-name" data-i18n="brand">ALL-IN-ONE</div>
+          <p class="footer-tagline" data-i18n="footerTagline">Your all-in-one destination for powerful, free tools. No
+            cost, no limits.</p>
+          <div class="footer-mode-row">
+            <span id="footerModeIcon">🌙</span>
+            <span class="footer-mode-label" id="footerModeLabel" data-i18n="modeLabel">Dark Mode</span>
+            <div style="margin-left:auto">
+              <div class="toggle-switch on" id="footerToggle" onclick="toggleMode()">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footerLegal">Legal</h4>
+          <ul>
+            <li><a href="/Privacypolicy" data-i18n="navPrivacy">Privacy Policy</a></li>
+            <li><a href="/Terms&Conditions" data-i18n="navTerms">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footerCompany">Company</h4>
+          <ul>
+            <li><a href="/about" data-i18n="navAbout">About Us</a></li>
+            <li><a href="/Contactus" data-i18n="navContact">Contact Us</a></li>
+            <li><a href="#" onclick="openPricingModal();return false;" data-i18n="navPricing">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footerTools">Tools</h4>
+          <ul>
+            <li><a href="/jpg_to_pdf" data-i18n="ft0">JPG to PDF</a></li>
+            <li><a href="/merge" data-i18n="ft1">Merge PDF</a></li>
+            <li><a href="/compress" data-i18n="ft2">Compress PDF</a></li>
+            <li><a href="/split" data-i18n="ft3">Split PDF</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy" data-i18n="footerCopy">© 2025 ALL-IN-ONE. All rights reserved.</p>
+        <div class="footer-pills">
+          <span class="pill" data-i18n="pill1">Free Forever</span>
+          <span class="pill" data-i18n="pill2">No Sign-up</span>
+          <span class="pill" data-i18n="pill3">100% Private</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const LANG_MAP = {
+      English: 'en', Spanish: 'es', French: 'fr', German: 'de', Japanese: 'ja',
+      Portuguese: 'pt', Arabic: 'ar', Hindi: 'hi', 'Chinese (Simplified)': 'zh',
+      Korean: 'ko', Italian: 'it', Russian: 'ru', Dutch: 'nl', Turkish: 'tr',
+      Polish: 'pl', Swedish: 'sv', Indonesian: 'id', Vietnamese: 'vi',
+      Thai: 'th', Greek: 'el', Czech: 'cs', Romanian: 'ro', Hungarian: 'hu',
+      Finnish: 'fi', Danish: 'da', Norwegian: 'no'
+    };
+
+    const T = {
+      // English
+      en: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigation',
+        navPricing: 'Pricing',
+        navLang: 'Language',
+        navPrivacy: 'Privacy Policy',
+        navTerms: 'Terms & Conditions',
+        navAbout: 'About Us',
+        navContact: 'Contact Us',
+        pricingTitle: 'Coming Soon!',
+        pricingMsg: "This feature will be available soon.<br>We're crafting something extraordinary for you.",
+        modalClose: 'Awesome, got it!',
+        modeLabel: 'Dark Mode',
+        modeLabelLight: 'Light Mode',
+        heroBadge: 'Image Tool · Free · Instant',
+        heroTitle: 'Compress Image',
+        heroSub: 'Reduce image file sizes without sacrificing visual quality — fast, free, and private.',
+        dropMain: 'Drag & Drop image here',
+        dropSub: 'or click to browse (JPG, PNG, WEBP)',
+        modeLabel2: 'Compression Mode',
+        optMax: 'Maximum Compression',
+        optMed: 'Medium Compression',
+        optMin: 'Minimum Compression',
+        modeTip: 'Maximum reduces size most; Minimum keeps the best quality. Medium is a balanced choice.',
+        orDivider: 'or set target size',
+        targetLabel: 'Target File Size (KB)',
+        targetTip: 'Leave blank to use mode above. Enter a size in KB to compress to an exact target.',
+        progressLabel: 'Compressing…',
+        loadingText: 'Optimising your image, please wait…',
+        submitBtn: 'Compress',
+        backBtn: '⬅ Back to All Tools',
+        footerTagline: 'Your all-in-one destination for powerful, free tools. No cost, no limits.',
+        footerLegal: 'Legal',
+        footerCompany: 'Company',
+        footerTools: 'Tools',
+        footerCopy: '© 2025 ALL-IN-ONE. All rights reserved.',
+        pill1: 'Free Forever',
+        pill2: 'No Sign-up',
+        pill3: '100% Private',
+        ft0: 'JPG to PDF',
+        ft1: 'Merge PDF',
+        ft2: 'Compress PDF',
+        ft3: 'Split PDF'
+      },
+
+      // Spanish
+      es: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navegación',
+        navPricing: 'Precios',
+        navLang: 'Idioma',
+        navPrivacy: 'Política de Privacidad',
+        navTerms: 'Términos y Condiciones',
+        navAbout: 'Sobre Nosotros',
+        navContact: 'Contáctenos',
+        pricingTitle: '¡Próximamente!',
+        pricingMsg: 'Esta función estará disponible pronto.<br>Estamos creando algo extraordinario para ti.',
+        modalClose: '¡Entendido!',
+        modeLabel: 'Modo Oscuro',
+        modeLabelLight: 'Modo Claro',
+        heroBadge: 'Herramienta Imagen · Gratis · Instantáneo',
+        heroTitle: 'Comprimir Imagen',
+        heroSub: 'Reduce el tamaño de imagen sin perder calidad visual — rápido, gratis y privado.',
+        dropMain: 'Arrastra y suelta imagen aquí',
+        dropSub: 'o haz clic para buscar (JPG, PNG, WEBP)',
+        modeLabel2: 'Modo de compresión',
+        optMax: 'Compresión máxima',
+        optMed: 'Compresión media',
+        optMin: 'Compresión mínima',
+        modeTip: 'Máxima reduce más el tamaño; Mínima conserva mejor calidad. Media es un equilibrio.',
+        orDivider: 'o indicar tamaño objetivo',
+        targetLabel: 'Tamaño objetivo (KB)',
+        targetTip: 'Deja en blanco para usar el modo. Ingresa KB para comprimir a un tamaño exacto.',
+        progressLabel: 'Comprimiendo…',
+        loadingText: 'Optimizando tu imagen, por favor espera…',
+        submitBtn: 'Comprimir',
+        backBtn: '⬅ Volver a todas las herramientas',
+        footerTagline: 'Tu destino todo en uno para herramientas potentes y gratuitas. Sin costo, sin límites.',
+        footerLegal: 'Legal',
+        footerCompany: 'Empresa',
+        footerTools: 'Herramientas',
+        footerCopy: '© 2025 ALL-IN-ONE. Todos los derechos reservados.',
+        pill1: 'Siempre gratis',
+        pill2: 'Sin registro',
+        pill3: '100% Privado',
+        ft0: 'JPG a PDF',
+        ft1: 'Unir PDF',
+        ft2: 'Comprimir PDF',
+        ft3: 'Dividir PDF'
+      },
+
+      // French
+      fr: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigation',
+        navPricing: 'Tarifs',
+        navLang: 'Langue',
+        navPrivacy: 'Politique de Confidentialité',
+        navTerms: 'Conditions Générales',
+        navAbout: 'À Propos',
+        navContact: 'Contact',
+        pricingTitle: 'Bientôt disponible!',
+        pricingMsg: 'Cette fonctionnalité sera bientôt disponible.<br>Nous créons quelque chose d\'extraordinaire pour vous.',
+        modalClose: 'Compris!',
+        modeLabel: 'Mode Sombre',
+        modeLabelLight: 'Mode Clair',
+        heroBadge: 'Outil Image · Gratuit · Instantané',
+        heroTitle: 'Compresser Image',
+        heroSub: 'Réduisez la taille des images sans perte de qualité — rapide, gratuit et privé.',
+        dropMain: 'Glissez-déposez l\'image ici',
+        dropSub: 'ou cliquez pour parcourir (JPG, PNG, WEBP)',
+        modeLabel2: 'Mode de compression',
+        optMax: 'Compression maximale',
+        optMed: 'Compression moyenne',
+        optMin: 'Compression minimale',
+        modeTip: 'Maximum réduit le plus; Minimum conserve la meilleure qualité. Moyen est équilibré.',
+        orDivider: 'ou définir la taille cible',
+        targetLabel: 'Taille cible (Ko)',
+        targetTip: 'Laissez vide pour utiliser le mode. Entrez une taille en Ko pour une cible exacte.',
+        progressLabel: 'Compression…',
+        loadingText: 'Optimisation de votre image, veuillez patienter…',
+        submitBtn: 'Compresser',
+        backBtn: '⬅ Retour aux outils',
+        footerTagline: 'Votre destination tout-en-un pour des outils puissants et gratuits. Sans frais, sans limites.',
+        footerLegal: 'Légal',
+        footerCompany: 'Entreprise',
+        footerTools: 'Outils',
+        footerCopy: '© 2025 ALL-IN-ONE. Tous droits réservés.',
+        pill1: 'Toujours gratuit',
+        pill2: 'Sans inscription',
+        pill3: '100% Privé',
+        ft0: 'JPG vers PDF',
+        ft1: 'Fusionner PDF',
+        ft2: 'Compresser PDF',
+        ft3: 'Diviser PDF'
+      },
+
+      // German
+      de: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigation',
+        navPricing: 'Preise',
+        navLang: 'Sprache',
+        navPrivacy: 'Datenschutzrichtlinie',
+        navTerms: 'AGB',
+        navAbout: 'Über uns',
+        navContact: 'Kontakt',
+        pricingTitle: 'Demnächst verfügbar!',
+        pricingMsg: 'Diese Funktion wird bald verfügbar sein.<br>Wir entwickeln etwas Außergewöhnliches für Sie.',
+        modalClose: 'Verstanden!',
+        modeLabel: 'Dunkelmodus',
+        modeLabelLight: 'Hellmodus',
+        heroBadge: 'Bild-Tool · Kostenlos · Sofort',
+        heroTitle: 'Bild komprimieren',
+        heroSub: 'Bilddateigröße reduzieren ohne Qualitätsverlust — schnell, kostenlos und privat.',
+        dropMain: 'Bild hier ablegen',
+        dropSub: 'oder klicken zum Durchsuchen (JPG, PNG, WEBP)',
+        modeLabel2: 'Kompressionsmodus',
+        optMax: 'Maximale Kompression',
+        optMed: 'Mittlere Kompression',
+        optMin: 'Minimale Kompression',
+        modeTip: 'Maximum reduziert am meisten; Minimum behält beste Qualität. Mittel ist ausgewogen.',
+        orDivider: 'oder Zielgröße festlegen',
+        targetLabel: 'Zielgröße (KB)',
+        targetTip: 'Leer lassen für den Modus oben. KB eingeben für genaue Zielgröße.',
+        progressLabel: 'Komprimierung…',
+        loadingText: 'Bild wird optimiert, bitte warten…',
+        submitBtn: 'Komprimieren',
+        backBtn: '⬅ Zurück zu allen Tools',
+        footerTagline: 'Ihre All-in-One-Plattform für leistungsstarke, kostenlose Tools. Keine Kosten, keine Limits.',
+        footerLegal: 'Rechtliches',
+        footerCompany: 'Unternehmen',
+        footerTools: 'Tools',
+        footerCopy: '© 2025 ALL-IN-ONE. Alle Rechte vorbehalten.',
+        pill1: 'Immer kostenlos',
+        pill2: 'Keine Anmeldung',
+        pill3: '100% Privat',
+        ft0: 'JPG zu PDF',
+        ft1: 'PDF zusammenführen',
+        ft2: 'PDF komprimieren',
+        ft3: 'PDF aufteilen'
+      },
+
+      // Japanese
+      ja: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'ナビゲーション',
+        navPricing: '料金',
+        navLang: '言語',
+        navPrivacy: 'プライバシーポリシー',
+        navTerms: '利用規約',
+        navAbout: '会社概要',
+        navContact: 'お問い合わせ',
+        pricingTitle: '近日公開！',
+        pricingMsg: 'この機能は近日公開予定です。<br>特別なものを準備しています。',
+        modalClose: '了解！',
+        modeLabel: 'ダークモード',
+        modeLabelLight: 'ライトモード',
+        heroBadge: '画像ツール · 無料 · 即時',
+        heroTitle: '画像圧縮',
+        heroSub: '視覚品質を維持しながら画像ファイルサイズを削減 — 高速、無料、プライベート。',
+        dropMain: '画像をここにドラッグ＆ドロップ',
+        dropSub: 'またはクリックして参照（JPG, PNG, WEBP）',
+        modeLabel2: '圧縮モード',
+        optMax: '最大圧縮',
+        optMed: '中程度の圧縮',
+        optMin: '最小圧縮',
+        modeTip: '最大は最もサイズを削減。最小は品質を維持。中程度はバランス良し。',
+        orDivider: 'または目標サイズを設定',
+        targetLabel: '目標ファイルサイズ (KB)',
+        targetTip: '上のモードを使う場合は空白のまま。KBを入力して正確なサイズに圧縮。',
+        progressLabel: '圧縮中…',
+        loadingText: '画像を最適化しています、お待ちください…',
+        submitBtn: '圧縮',
+        backBtn: '⬅ ツール一覧に戻る',
+        footerTagline: '強力で無料なツールのオールインワンプラットフォーム。無料、制限なし。',
+        footerLegal: '法的事項',
+        footerCompany: '会社情報',
+        footerTools: 'ツール',
+        footerCopy: '© 2025 ALL-IN-ONE. 無断複製禁止。',
+        pill1: '永久無料',
+        pill2: '登録不要',
+        pill3: '完全プライベート',
+        ft0: 'JPG→PDF',
+        ft1: 'PDF結合',
+        ft2: 'PDF圧縮',
+        ft3: 'PDF分割'
+      },
+
+      // Portuguese
+      pt: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navegação',
+        navPricing: 'Preços',
+        navLang: 'Idioma',
+        navPrivacy: 'Política de Privacidade',
+        navTerms: 'Termos e Condições',
+        navAbout: 'Sobre Nós',
+        navContact: 'Contato',
+        pricingTitle: 'Em Breve!',
+        pricingMsg: 'Este recurso estará disponível em breve.<br>Estamos criando algo extraordinário para você.',
+        modalClose: 'Entendi!',
+        modeLabel: 'Modo Escuro',
+        modeLabelLight: 'Modo Claro',
+        heroBadge: 'Ferramenta de Imagem · Grátis · Instantâneo',
+        heroTitle: 'Comprimir Imagem',
+        heroSub: 'Reduza o tamanho dos arquivos de imagem sem perder qualidade visual — rápido, grátis e privado.',
+        dropMain: 'Arraste e solte a imagem aqui',
+        dropSub: 'ou clique para procurar (JPG, PNG, WEBP)',
+        modeLabel2: 'Modo de Compressão',
+        optMax: 'Compressão Máxima',
+        optMed: 'Compressão Média',
+        optMin: 'Compressão Mínima',
+        modeTip: 'Máxima reduz mais o tamanho; Mínima mantém melhor qualidade. Média é equilibrada.',
+        orDivider: 'ou definir tamanho alvo',
+        targetLabel: 'Tamanho Alvo (KB)',
+        targetTip: 'Deixe em branco para usar o modo acima. Digite um tamanho em KB para comprimir exatamente.',
+        progressLabel: 'Comprimindo…',
+        loadingText: 'Otimizando sua imagem, aguarde…',
+        submitBtn: 'Comprimir',
+        backBtn: '⬅ Voltar para Todas as Ferramentas',
+        footerTagline: 'Seu destino completo para ferramentas poderosas e gratuitas. Sem custo, sem limites.',
+        footerLegal: 'Legal',
+        footerCompany: 'Empresa',
+        footerTools: 'Ferramentas',
+        footerCopy: '© 2025 ALL-IN-ONE. Todos os direitos reservados.',
+        pill1: 'Grátis para Sempre',
+        pill2: 'Sem Cadastro',
+        pill3: '100% Privado',
+        ft0: 'JPG para PDF',
+        ft1: 'Mesclar PDF',
+        ft2: 'Comprimir PDF',
+        ft3: 'Dividir PDF'
+      },
+
+      // Arabic
+      ar: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'التنقل',
+        navPricing: 'الأسعار',
+        navLang: 'اللغة',
+        navPrivacy: 'سياسة الخصوصية',
+        navTerms: 'الشروط والأحكام',
+        navAbout: 'من نحن',
+        navContact: 'اتصل بنا',
+        pricingTitle: 'قريباً!',
+        pricingMsg: 'ستكون هذه الميزة متاحة قريباً.<br>نحن نصنع شيئاً استثنائياً لك.',
+        modalClose: 'رائع، فهمت!',
+        modeLabel: 'الوضع الداكن',
+        modeLabelLight: 'الوضع الفاتح',
+        heroBadge: 'أداة الصور · مجاني · فوري',
+        heroTitle: 'ضغط الصورة',
+        heroSub: 'قلل حجم ملفات الصور دون التضحية بالجودة المرئية — سريع ومجاني وخاص.',
+        dropMain: 'اسحب وأفلت الصورة هنا',
+        dropSub: 'أو انقر للتصفح (JPG, PNG, WEBP)',
+        modeLabel2: 'وضع الضغط',
+        optMax: 'ضغط أقصى',
+        optMed: 'ضغط متوسط',
+        optMin: 'ضغط أدنى',
+        modeTip: 'الأقصى يقلل الحجم أكثر؛ الأدنى يحافظ على أفضل جودة. المتوسط خيار متوازن.',
+        orDivider: 'أو تحديد الحجم المستهدف',
+        targetLabel: 'حجم الملف المستهدف (KB)',
+        targetTip: 'اتركه فارغاً لاستخدام الوضع أعلاه. أدخل حجماً بالكيلوبايت للضغط إلى هدف محدد.',
+        progressLabel: 'جارٍ الضغط…',
+        loadingText: 'جارٍ تحسين صورتك، يرجى الانتظار…',
+        submitBtn: 'ضغط',
+        backBtn: '⬅ العودة إلى جميع الأدوات',
+        footerTagline: 'وجهتك الشاملة للأدوات القوية والمجانية. بدون تكلفة، بدون حدود.',
+        footerLegal: 'قانوني',
+        footerCompany: 'الشركة',
+        footerTools: 'الأدوات',
+        footerCopy: '© 2025 ALL-IN-ONE. جميع الحقوق محفوظة.',
+        pill1: 'مجاني للأبد',
+        pill2: 'بدون تسجيل',
+        pill3: '100% خاص',
+        ft0: 'JPG إلى PDF',
+        ft1: 'دمج PDF',
+        ft2: 'ضغط PDF',
+        ft3: 'تقسيم PDF'
+      },
+
+      // Hindi
+      hi: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'नेविगेशन',
+        navPricing: 'मूल्य निर्धारण',
+        navLang: 'भाषा',
+        navPrivacy: 'गोपनीयता नीति',
+        navTerms: 'नियम और शर्तें',
+        navAbout: 'हमारे बारे में',
+        navContact: 'संपर्क करें',
+        pricingTitle: 'जल्द आ रहा है!',
+        pricingMsg: 'यह सुविधा जल्द ही उपलब्ध होगी।<br>हम आपके लिए कुछ असाधारण बना रहे हैं।',
+        modalClose: 'बढ़िया, समझ गया!',
+        modeLabel: 'डार्क मोड',
+        modeLabelLight: 'लाइट मोड',
+        heroBadge: 'इमेज टूल · मुफ्त · तुरंत',
+        heroTitle: 'इमेज कंप्रेस करें',
+        heroSub: 'दृश्य गुणवत्ता से समझौता किए बिना इमेज फ़ाइल का आकार कम करें — तेज़, मुफ्त और निजी।',
+        dropMain: 'इमेज यहाँ खींचें और छोड़ें',
+        dropSub: 'या ब्राउज़ करने के लिए क्लिक करें (JPG, PNG, WEBP)',
+        modeLabel2: 'कंप्रेशन मोड',
+        optMax: 'अधिकतम कंप्रेशन',
+        optMed: 'मध्यम कंप्रेशन',
+        optMin: 'न्यूनतम कंप्रेशन',
+        modeTip: 'अधिकतम आकार सबसे ज्यादा कम करता है; न्यूनतम सर्वोत्तम गुणवत्ता रखता है। मध्यम संतुलित विकल्प है।',
+        orDivider: 'या लक्ष्य आकार सेट करें',
+        targetLabel: 'लक्ष्य फ़ाइल आकार (KB)',
+        targetTip: 'ऊपर के मोड का उपयोग करने के लिए खाली छोड़ें। सटीक लक्ष्य के लिए KB में आकार दर्ज करें।',
+        progressLabel: 'कंप्रेस हो रहा है…',
+        loadingText: 'आपकी इमेज ऑप्टिमाइज़ हो रही है, कृपया प्रतीक्षा करें…',
+        submitBtn: 'कंप्रेस करें',
+        backBtn: '⬅ सभी टूल्स पर वापस जाएं',
+        footerTagline: 'शक्तिशाली, मुफ्त टूल्स के लिए आपका ऑल-इन-वन डेस्टिनेशन। कोई लागत नहीं, कोई सीमा नहीं।',
+        footerLegal: 'कानूनी',
+        footerCompany: 'कंपनी',
+        footerTools: 'टूल्स',
+        footerCopy: '© 2025 ALL-IN-ONE. सर्वाधिकार सुरक्षित।',
+        pill1: 'हमेशा मुफ्त',
+        pill2: 'साइन-अप नहीं',
+        pill3: '100% निजी',
+        ft0: 'JPG से PDF',
+        ft1: 'PDF मर्ज करें',
+        ft2: 'PDF कंप्रेस करें',
+        ft3: 'PDF विभाजित करें'
+      },
+
+      // Chinese (Simplified)
+      zh: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: '导航',
+        navPricing: '定价',
+        navLang: '语言',
+        navPrivacy: '隐私政策',
+        navTerms: '条款和条件',
+        navAbout: '关于我们',
+        navContact: '联系我们',
+        pricingTitle: '即将推出！',
+        pricingMsg: '此功能即将推出。<br>我们正在为您打造非凡的体验。',
+        modalClose: '好的，明白了！',
+        modeLabel: '深色模式',
+        modeLabelLight: '浅色模式',
+        heroBadge: '图像工具 · 免费 · 即时',
+        heroTitle: '压缩图像',
+        heroSub: '在不牺牲视觉质量的情况下减小图像文件大小——快速、免费、私密。',
+        dropMain: '拖放图像到这里',
+        dropSub: '或点击浏览（JPG, PNG, WEBP）',
+        modeLabel2: '压缩模式',
+        optMax: '最大压缩',
+        optMed: '中等压缩',
+        optMin: '最小压缩',
+        modeTip: '最大压缩减小尺寸最多；最小压缩保持最佳质量。中等是平衡选择。',
+        orDivider: '或设置目标大小',
+        targetLabel: '目标文件大小 (KB)',
+        targetTip: '留空则使用上述模式。输入KB大小以压缩到精确目标。',
+        progressLabel: '压缩中…',
+        loadingText: '正在优化您的图像，请稍候…',
+        submitBtn: '压缩',
+        backBtn: '⬅ 返回所有工具',
+        footerTagline: '您的一站式强大免费工具平台。无需付费，无限制。',
+        footerLegal: '法律',
+        footerCompany: '公司',
+        footerTools: '工具',
+        footerCopy: '© 2025 ALL-IN-ONE. 保留所有权利。',
+        pill1: '永久免费',
+        pill2: '无需注册',
+        pill3: '100% 私密',
+        ft0: 'JPG转PDF',
+        ft1: '合并PDF',
+        ft2: '压缩PDF',
+        ft3: '拆分PDF'
+      },
+
+      // Korean
+      ko: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: '탐색',
+        navPricing: '가격',
+        navLang: '언어',
+        navPrivacy: '개인정보처리방침',
+        navTerms: '이용약관',
+        navAbout: '회사 소개',
+        navContact: '문의하기',
+        pricingTitle: '곧 출시됩니다!',
+        pricingMsg: '이 기능은 곧 제공될 예정입니다.<br>특별한 것을 준비하고 있습니다.',
+        modalClose: '알겠습니다!',
+        modeLabel: '다크 모드',
+        modeLabelLight: '라이트 모드',
+        heroBadge: '이미지 도구 · 무료 · 즉시',
+        heroTitle: '이미지 압축',
+        heroSub: '시각적 품질을 유지하면서 이미지 파일 크기를 줄이세요 — 빠르고, 무료이며, 프라이빗합니다.',
+        dropMain: '이미지를 여기에 끌어다 놓으세요',
+        dropSub: '또는 클릭하여 찾아보기 (JPG, PNG, WEBP)',
+        modeLabel2: '압축 모드',
+        optMax: '최대 압축',
+        optMed: '중간 압축',
+        optMin: '최소 압축',
+        modeTip: '최대는 크기를 가장 많이 줄이고, 최소는 최상의 품질을 유지합니다. 중간은 균형 잡힌 선택입니다.',
+        orDivider: '또는 목표 크기 설정',
+        targetLabel: '목표 파일 크기 (KB)',
+        targetTip: '위 모드를 사용하려면 비워두세요. 정확한 목표로 압축하려면 KB 크기를 입력하세요.',
+        progressLabel: '압축 중…',
+        loadingText: '이미지를 최적화하는 중입니다. 잠시 기다려 주세요…',
+        submitBtn: '압축',
+        backBtn: '⬅ 모든 도구로 돌아가기',
+        footerTagline: '강력한 무료 도구를 위한 올인원 플랫폼. 비용 없음, 제한 없음.',
+        footerLegal: '법적 고지',
+        footerCompany: '회사',
+        footerTools: '도구',
+        footerCopy: '© 2025 ALL-IN-ONE. 모든 권리 보유.',
+        pill1: '영원히 무료',
+        pill2: '가입 불필요',
+        pill3: '100% 프라이빗',
+        ft0: 'JPG를 PDF로',
+        ft1: 'PDF 병합',
+        ft2: 'PDF 압축',
+        ft3: 'PDF 분할'
+      },
+
+      // Italian
+      it: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigazione',
+        navPricing: 'Prezzi',
+        navLang: 'Lingua',
+        navPrivacy: 'Informativa sulla Privacy',
+        navTerms: 'Termini e Condizioni',
+        navAbout: 'Chi Siamo',
+        navContact: 'Contattaci',
+        pricingTitle: 'Prossimamente!',
+        pricingMsg: 'Questa funzionalità sarà disponibile presto.<br>Stiamo creando qualcosa di straordinario per te.',
+        modalClose: 'Perfetto, capito!',
+        modeLabel: 'Modalità Scura',
+        modeLabelLight: 'Modalità Chiara',
+        heroBadge: 'Strumento Immagine · Gratuito · Istantaneo',
+        heroTitle: 'Comprimi Immagine',
+        heroSub: 'Riduci le dimensioni dei file immagine senza sacrificare la qualità visiva — veloce, gratuito e privato.',
+        dropMain: 'Trascina e rilascia l\'immagine qui',
+        dropSub: 'o clicca per sfogliare (JPG, PNG, WEBP)',
+        modeLabel2: 'Modalità Compressione',
+        optMax: 'Compressione Massima',
+        optMed: 'Compressione Media',
+        optMin: 'Compressione Minima',
+        modeTip: 'Massima riduce di più le dimensioni; Minima mantiene la migliore qualità. Media è equilibrata.',
+        orDivider: 'o imposta dimensione target',
+        targetLabel: 'Dimensione File Target (KB)',
+        targetTip: 'Lascia vuoto per usare la modalità sopra. Inserisci una dimensione in KB per comprimere a un target esatto.',
+        progressLabel: 'Compressione…',
+        loadingText: 'Ottimizzazione dell\'immagine in corso, attendere…',
+        submitBtn: 'Comprimi',
+        backBtn: '⬅ Torna a Tutti gli Strumenti',
+        footerTagline: 'La tua destinazione all-in-one per strumenti potenti e gratuiti. Nessun costo, nessun limite.',
+        footerLegal: 'Legale',
+        footerCompany: 'Azienda',
+        footerTools: 'Strumenti',
+        footerCopy: '© 2025 ALL-IN-ONE. Tutti i diritti riservati.',
+        pill1: 'Gratis per Sempre',
+        pill2: 'Nessuna Registrazione',
+        pill3: '100% Privato',
+        ft0: 'JPG in PDF',
+        ft1: 'Unisci PDF',
+        ft2: 'Comprimi PDF',
+        ft3: 'Dividi PDF'
+      },
+
+      // Russian
+      ru: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Навигация',
+        navPricing: 'Цены',
+        navLang: 'Язык',
+        navPrivacy: 'Политика конфиденциальности',
+        navTerms: 'Условия использования',
+        navAbout: 'О нас',
+        navContact: 'Связаться с нами',
+        pricingTitle: 'Скоро!',
+        pricingMsg: 'Эта функция будет доступна в ближайшее время.<br>Мы создаём для вас нечто особенное.',
+        modalClose: 'Отлично, понял!',
+        modeLabel: 'Тёмный режим',
+        modeLabelLight: 'Светлый режим',
+        heroBadge: 'Инструмент для изображений · Бесплатно · Мгновенно',
+        heroTitle: 'Сжать изображение',
+        heroSub: 'Уменьшите размер файлов изображений без потери качества — быстро, бесплатно и конфиденциально.',
+        dropMain: 'Перетащите изображение сюда',
+        dropSub: 'или нажмите для выбора (JPG, PNG, WEBP)',
+        modeLabel2: 'Режим сжатия',
+        optMax: 'Максимальное сжатие',
+        optMed: 'Среднее сжатие',
+        optMin: 'Минимальное сжатие',
+        modeTip: 'Максимальное сжатие уменьшает размер больше всего; Минимальное сохраняет лучшее качество. Среднее — сбалансированный выбор.',
+        orDivider: 'или задать целевой размер',
+        targetLabel: 'Целевой размер файла (КБ)',
+        targetTip: 'Оставьте пустым для использования режима выше. Введите размер в КБ для точного сжатия.',
+        progressLabel: 'Сжатие…',
+        loadingText: 'Оптимизация изображения, пожалуйста подождите…',
+        submitBtn: 'Сжать',
+        backBtn: '⬅ Вернуться ко всем инструментам',
+        footerTagline: 'Ваша универсальная платформа для мощных бесплатных инструментов. Без затрат, без ограничений.',
+        footerLegal: 'Правовая информация',
+        footerCompany: 'Компания',
+        footerTools: 'Инструменты',
+        footerCopy: '© 2025 ALL-IN-ONE. Все права защищены.',
+        pill1: 'Бесплатно навсегда',
+        pill2: 'Без регистрации',
+        pill3: '100% Конфиденциально',
+        ft0: 'JPG в PDF',
+        ft1: 'Объединить PDF',
+        ft2: 'Сжать PDF',
+        ft3: 'Разделить PDF'
+      },
+
+      // Dutch
+      nl: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigatie',
+        navPricing: 'Prijzen',
+        navLang: 'Taal',
+        navPrivacy: 'Privacybeleid',
+        navTerms: 'Algemene Voorwaarden',
+        navAbout: 'Over Ons',
+        navContact: 'Contact',
+        pricingTitle: 'Binnenkort beschikbaar!',
+        pricingMsg: 'Deze functie is binnenkort beschikbaar.<br>We maken iets bijzonders voor je.',
+        modalClose: 'Geweldig, begrepen!',
+        modeLabel: 'Donkere Modus',
+        modeLabelLight: 'Lichte Modus',
+        heroBadge: 'Afbeeldingstool · Gratis · Direct',
+        heroTitle: 'Afbeelding Comprimeren',
+        heroSub: 'Verklein afbeeldingsbestanden zonder kwaliteitsverlies — snel, gratis en privé.',
+        dropMain: 'Sleep afbeelding hierheen',
+        dropSub: 'of klik om te bladeren (JPG, PNG, WEBP)',
+        modeLabel2: 'Compressiemodus',
+        optMax: 'Maximale Compressie',
+        optMed: 'Gemiddelde Compressie',
+        optMin: 'Minimale Compressie',
+        modeTip: 'Maximum verkleint het meest; Minimum behoudt de beste kwaliteit. Medium is gebalanceerd.',
+        orDivider: 'of doelgrootte instellen',
+        targetLabel: 'Doelbestandsgrootte (KB)',
+        targetTip: 'Laat leeg om de bovenstaande modus te gebruiken. Voer een grootte in KB in voor exacte compressie.',
+        progressLabel: 'Comprimeren…',
+        loadingText: 'Afbeelding optimaliseren, even geduld…',
+        submitBtn: 'Comprimeren',
+        backBtn: '⬅ Terug naar Alle Tools',
+        footerTagline: 'Jouw alles-in-één bestemming voor krachtige, gratis tools. Geen kosten, geen limieten.',
+        footerLegal: 'Juridisch',
+        footerCompany: 'Bedrijf',
+        footerTools: 'Tools',
+        footerCopy: '© 2025 ALL-IN-ONE. Alle rechten voorbehouden.',
+        pill1: 'Altijd Gratis',
+        pill2: 'Geen Registratie',
+        pill3: '100% Privé',
+        ft0: 'JPG naar PDF',
+        ft1: 'PDF Samenvoegen',
+        ft2: 'PDF Comprimeren',
+        ft3: 'PDF Splitsen'
+      },
+
+      // Turkish
+      tr: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigasyon',
+        navPricing: 'Fiyatlandırma',
+        navLang: 'Dil',
+        navPrivacy: 'Gizlilik Politikası',
+        navTerms: 'Şartlar ve Koşullar',
+        navAbout: 'Hakkımızda',
+        navContact: 'İletişim',
+        pricingTitle: 'Yakında!',
+        pricingMsg: 'Bu özellik yakında kullanıma sunulacak.<br>Sizin için olağanüstü bir şey hazırlıyoruz.',
+        modalClose: 'Harika, anladım!',
+        modeLabel: 'Karanlık Mod',
+        modeLabelLight: 'Aydınlık Mod',
+        heroBadge: 'Görsel Aracı · Ücretsiz · Anında',
+        heroTitle: 'Görsel Sıkıştır',
+        heroSub: 'Görsel kaliteden ödün vermeden dosya boyutunu küçültün — hızlı, ücretsiz ve gizli.',
+        dropMain: 'Görseli buraya sürükleyin',
+        dropSub: 'veya göz atmak için tıklayın (JPG, PNG, WEBP)',
+        modeLabel2: 'Sıkıştırma Modu',
+        optMax: 'Maksimum Sıkıştırma',
+        optMed: 'Orta Sıkıştırma',
+        optMin: 'Minimum Sıkıştırma',
+        modeTip: 'Maksimum boyutu en çok küçültür; Minimum en iyi kaliteyi korur. Orta dengeli bir seçimdir.',
+        orDivider: 'veya hedef boyut belirle',
+        targetLabel: 'Hedef Dosya Boyutu (KB)',
+        targetTip: 'Yukarıdaki modu kullanmak için boş bırakın. Tam hedefe sıkıştırmak için KB cinsinden boyut girin.',
+        progressLabel: 'Sıkıştırılıyor…',
+        loadingText: 'Görseliniz optimize ediliyor, lütfen bekleyin…',
+        submitBtn: 'Sıkıştır',
+        backBtn: '⬅ Tüm Araçlara Dön',
+        footerTagline: 'Güçlü, ücretsiz araçlar için hepsi bir arada platformunuz. Maliyet yok, limit yok.',
+        footerLegal: 'Yasal',
+        footerCompany: 'Şirket',
+        footerTools: 'Araçlar',
+        footerCopy: '© 2025 ALL-IN-ONE. Tüm hakları saklıdır.',
+        pill1: 'Sonsuza Kadar Ücretsiz',
+        pill2: 'Kayıt Yok',
+        pill3: '100% Gizli',
+        ft0: 'JPG\'den PDF\'e',
+        ft1: 'PDF Birleştir',
+        ft2: 'PDF Sıkıştır',
+        ft3: 'PDF Böl'
+      },
+
+      // Polish
+      pl: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Nawigacja',
+        navPricing: 'Cennik',
+        navLang: 'Język',
+        navPrivacy: 'Polityka Prywatności',
+        navTerms: 'Regulamin',
+        navAbout: 'O Nas',
+        navContact: 'Kontakt',
+        pricingTitle: 'Wkrótce!',
+        pricingMsg: 'Ta funkcja będzie wkrótce dostępna.<br>Tworzymy dla Ciebie coś niezwykłego.',
+        modalClose: 'Świetnie, rozumiem!',
+        modeLabel: 'Tryb Ciemny',
+        modeLabelLight: 'Tryb Jasny',
+        heroBadge: 'Narzędzie do obrazów · Bezpłatne · Natychmiastowe',
+        heroTitle: 'Kompresuj Obraz',
+        heroSub: 'Zmniejsz rozmiar plików obrazów bez utraty jakości — szybko, za darmo i prywatnie.',
+        dropMain: 'Przeciągnij i upuść obraz tutaj',
+        dropSub: 'lub kliknij, aby przeglądać (JPG, PNG, WEBP)',
+        modeLabel2: 'Tryb Kompresji',
+        optMax: 'Maksymalna Kompresja',
+        optMed: 'Średnia Kompresja',
+        optMin: 'Minimalna Kompresja',
+        modeTip: 'Maksymalna najbardziej zmniejsza rozmiar; Minimalna zachowuje najlepszą jakość. Średnia to zrównoważony wybór.',
+        orDivider: 'lub ustaw rozmiar docelowy',
+        targetLabel: 'Docelowy Rozmiar Pliku (KB)',
+        targetTip: 'Pozostaw puste, aby użyć powyższego trybu. Wpisz rozmiar w KB dla dokładnej kompresji.',
+        progressLabel: 'Kompresowanie…',
+        loadingText: 'Optymalizacja obrazu, proszę czekać…',
+        submitBtn: 'Kompresuj',
+        backBtn: '⬅ Powrót do Wszystkich Narzędzi',
+        footerTagline: 'Twoje kompleksowe miejsce dla potężnych, darmowych narzędzi. Bez kosztów, bez limitów.',
+        footerLegal: 'Prawne',
+        footerCompany: 'Firma',
+        footerTools: 'Narzędzia',
+        footerCopy: '© 2025 ALL-IN-ONE. Wszelkie prawa zastrzeżone.',
+        pill1: 'Na Zawsze Bezpłatne',
+        pill2: 'Bez Rejestracji',
+        pill3: '100% Prywatne',
+        ft0: 'JPG do PDF',
+        ft1: 'Połącz PDF',
+        ft2: 'Kompresuj PDF',
+        ft3: 'Podziel PDF'
+      },
+
+      // Swedish
+      sv: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigation',
+        navPricing: 'Priser',
+        navLang: 'Språk',
+        navPrivacy: 'Integritetspolicy',
+        navTerms: 'Villkor',
+        navAbout: 'Om Oss',
+        navContact: 'Kontakta Oss',
+        pricingTitle: 'Kommer snart!',
+        pricingMsg: 'Den här funktionen blir tillgänglig snart.<br>Vi skapar något extraordinärt för dig.',
+        modalClose: 'Toppen, förstått!',
+        modeLabel: 'Mörkt Läge',
+        modeLabelLight: 'Ljust Läge',
+        heroBadge: 'Bildverktyg · Gratis · Omedelbart',
+        heroTitle: 'Komprimera Bild',
+        heroSub: 'Minska bildfilstorlekar utan att offra visuell kvalitet — snabbt, gratis och privat.',
+        dropMain: 'Dra och släpp bild här',
+        dropSub: 'eller klicka för att bläddra (JPG, PNG, WEBP)',
+        modeLabel2: 'Komprimeringsläge',
+        optMax: 'Maximal Komprimering',
+        optMed: 'Medium Komprimering',
+        optMin: 'Minimal Komprimering',
+        modeTip: 'Maximum minskar storleken mest; Minimum behåller bästa kvalitet. Medium är balanserat.',
+        orDivider: 'eller ställ in målstorlek',
+        targetLabel: 'Målfilstorlek (KB)',
+        targetTip: 'Lämna tomt för att använda läget ovan. Ange en storlek i KB för exakt komprimering.',
+        progressLabel: 'Komprimerar…',
+        loadingText: 'Optimerar din bild, vänta…',
+        submitBtn: 'Komprimera',
+        backBtn: '⬅ Tillbaka till Alla Verktyg',
+        footerTagline: 'Din allt-i-ett-destination för kraftfulla, gratis verktyg. Ingen kostnad, inga begränsningar.',
+        footerLegal: 'Juridiskt',
+        footerCompany: 'Företag',
+        footerTools: 'Verktyg',
+        footerCopy: '© 2025 ALL-IN-ONE. Alla rättigheter förbehållna.',
+        pill1: 'Gratis För Alltid',
+        pill2: 'Ingen Registrering',
+        pill3: '100% Privat',
+        ft0: 'JPG till PDF',
+        ft1: 'Slå ihop PDF',
+        ft2: 'Komprimera PDF',
+        ft3: 'Dela PDF'
+      },
+
+      // Indonesian
+      id: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigasi',
+        navPricing: 'Harga',
+        navLang: 'Bahasa',
+        navPrivacy: 'Kebijakan Privasi',
+        navTerms: 'Syarat & Ketentuan',
+        navAbout: 'Tentang Kami',
+        navContact: 'Hubungi Kami',
+        pricingTitle: 'Segera Hadir!',
+        pricingMsg: 'Fitur ini akan segera tersedia.<br>Kami sedang membuat sesuatu yang luar biasa untuk Anda.',
+        modalClose: 'Keren, mengerti!',
+        modeLabel: 'Mode Gelap',
+        modeLabelLight: 'Mode Terang',
+        heroBadge: 'Alat Gambar · Gratis · Instan',
+        heroTitle: 'Kompres Gambar',
+        heroSub: 'Kurangi ukuran file gambar tanpa mengorbankan kualitas visual — cepat, gratis, dan pribadi.',
+        dropMain: 'Seret & Lepas gambar di sini',
+        dropSub: 'atau klik untuk menelusuri (JPG, PNG, WEBP)',
+        modeLabel2: 'Mode Kompresi',
+        optMax: 'Kompresi Maksimum',
+        optMed: 'Kompresi Sedang',
+        optMin: 'Kompresi Minimum',
+        modeTip: 'Maksimum mengurangi ukuran paling banyak; Minimum menjaga kualitas terbaik. Sedang adalah pilihan seimbang.',
+        orDivider: 'atau atur ukuran target',
+        targetLabel: 'Ukuran File Target (KB)',
+        targetTip: 'Biarkan kosong untuk menggunakan mode di atas. Masukkan ukuran dalam KB untuk kompresi tepat.',
+        progressLabel: 'Mengompresi…',
+        loadingText: 'Mengoptimalkan gambar Anda, mohon tunggu…',
+        submitBtn: 'Kompres',
+        backBtn: '⬅ Kembali ke Semua Alat',
+        footerTagline: 'Tujuan lengkap Anda untuk alat yang kuat dan gratis. Tanpa biaya, tanpa batasan.',
+        footerLegal: 'Hukum',
+        footerCompany: 'Perusahaan',
+        footerTools: 'Alat',
+        footerCopy: '© 2025 ALL-IN-ONE. Hak cipta dilindungi.',
+        pill1: 'Gratis Selamanya',
+        pill2: 'Tanpa Daftar',
+        pill3: '100% Pribadi',
+        ft0: 'JPG ke PDF',
+        ft1: 'Gabung PDF',
+        ft2: 'Kompres PDF',
+        ft3: 'Pisah PDF'
+      },
+
+      // Vietnamese
+      vi: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Điều hướng',
+        navPricing: 'Bảng giá',
+        navLang: 'Ngôn ngữ',
+        navPrivacy: 'Chính sách Bảo mật',
+        navTerms: 'Điều khoản & Điều kiện',
+        navAbout: 'Về Chúng tôi',
+        navContact: 'Liên hệ',
+        pricingTitle: 'Sắp ra mắt!',
+        pricingMsg: 'Tính năng này sẽ sớm được ra mắt.<br>Chúng tôi đang tạo ra điều phi thường dành cho bạn.',
+        modalClose: 'Tuyệt vời, đã hiểu!',
+        modeLabel: 'Chế độ Tối',
+        modeLabelLight: 'Chế độ Sáng',
+        heroBadge: 'Công cụ Hình ảnh · Miễn phí · Tức thì',
+        heroTitle: 'Nén Hình ảnh',
+        heroSub: 'Giảm kích thước tệp hình ảnh mà không ảnh hưởng chất lượng — nhanh, miễn phí và riêng tư.',
+        dropMain: 'Kéo và thả hình ảnh vào đây',
+        dropSub: 'hoặc nhấp để duyệt (JPG, PNG, WEBP)',
+        modeLabel2: 'Chế độ Nén',
+        optMax: 'Nén Tối đa',
+        optMed: 'Nén Trung bình',
+        optMin: 'Nén Tối thiểu',
+        modeTip: 'Tối đa giảm kích thước nhiều nhất; Tối thiểu giữ chất lượng tốt nhất. Trung bình là lựa chọn cân bằng.',
+        orDivider: 'hoặc đặt kích thước mục tiêu',
+        targetLabel: 'Kích thước Tệp Mục tiêu (KB)',
+        targetTip: 'Để trống để sử dụng chế độ trên. Nhập kích thước bằng KB để nén chính xác.',
+        progressLabel: 'Đang nén…',
+        loadingText: 'Đang tối ưu hóa hình ảnh, vui lòng đợi…',
+        submitBtn: 'Nén',
+        backBtn: '⬅ Quay lại Tất cả Công cụ',
+        footerTagline: 'Điểm đến tất-cả-trong-một cho các công cụ mạnh mẽ và miễn phí. Không mất phí, không giới hạn.',
+        footerLegal: 'Pháp lý',
+        footerCompany: 'Công ty',
+        footerTools: 'Công cụ',
+        footerCopy: '© 2025 ALL-IN-ONE. Đã đăng ký bản quyền.',
+        pill1: 'Miễn phí Mãi mãi',
+        pill2: 'Không Đăng ký',
+        pill3: '100% Riêng tư',
+        ft0: 'JPG sang PDF',
+        ft1: 'Gộp PDF',
+        ft2: 'Nén PDF',
+        ft3: 'Tách PDF'
+      },
+
+      // Thai
+      th: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'การนำทาง',
+        navPricing: 'ราคา',
+        navLang: 'ภาษา',
+        navPrivacy: 'นโยบายความเป็นส่วนตัว',
+        navTerms: 'ข้อกำหนดและเงื่อนไข',
+        navAbout: 'เกี่ยวกับเรา',
+        navContact: 'ติดต่อเรา',
+        pricingTitle: 'เร็วๆ นี้!',
+        pricingMsg: 'ฟีเจอร์นี้จะพร้อมใช้งานเร็วๆ นี้<br>เรากำลังสร้างสิ่งพิเศษสำหรับคุณ',
+        modalClose: 'เยี่ยม เข้าใจแล้ว!',
+        modeLabel: 'โหมดมืด',
+        modeLabelLight: 'โหมดสว่าง',
+        heroBadge: 'เครื่องมือรูปภาพ · ฟรี · ทันที',
+        heroTitle: 'บีบอัดรูปภาพ',
+        heroSub: 'ลดขนาดไฟล์รูปภาพโดยไม่เสียคุณภาพ — รวดเร็ว ฟรี และเป็นส่วนตัว',
+        dropMain: 'ลากและวางรูปภาพที่นี่',
+        dropSub: 'หรือคลิกเพื่อเลือกไฟล์ (JPG, PNG, WEBP)',
+        modeLabel2: 'โหมดบีบอัด',
+        optMax: 'บีบอัดสูงสุด',
+        optMed: 'บีบอัดปานกลาง',
+        optMin: 'บีบอัดต่ำสุด',
+        modeTip: 'สูงสุดลดขนาดมากที่สุด; ต่ำสุดรักษาคุณภาพดีที่สุด ปานกลางเป็นตัวเลือกที่สมดุล',
+        orDivider: 'หรือกำหนดขนาดเป้าหมาย',
+        targetLabel: 'ขนาดไฟล์เป้าหมาย (KB)',
+        targetTip: 'เว้นว่างเพื่อใช้โหมดด้านบน ป้อนขนาดเป็น KB เพื่อบีบอัดตามเป้าหมาย',
+        progressLabel: 'กำลังบีบอัด…',
+        loadingText: 'กำลังปรับแต่งรูปภาพของคุณ กรุณารอ…',
+        submitBtn: 'บีบอัด',
+        backBtn: '⬅ กลับไปยังเครื่องมือทั้งหมด',
+        footerTagline: 'จุดหมายครบวงจรสำหรับเครื่องมือที่ทรงพลังและฟรี ไม่มีค่าใช้จ่าย ไม่มีข้อจำกัด',
+        footerLegal: 'กฎหมาย',
+        footerCompany: 'บริษัท',
+        footerTools: 'เครื่องมือ',
+        footerCopy: '© 2025 ALL-IN-ONE สงวนลิขสิทธิ์',
+        pill1: 'ฟรีตลอดไป',
+        pill2: 'ไม่ต้องสมัคร',
+        pill3: '100% เป็นส่วนตัว',
+        ft0: 'JPG เป็น PDF',
+        ft1: 'รวม PDF',
+        ft2: 'บีบอัด PDF',
+        ft3: 'แยก PDF'
+      },
+
+      // Greek
+      el: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Πλοήγηση',
+        navPricing: 'Τιμές',
+        navLang: 'Γλώσσα',
+        navPrivacy: 'Πολιτική Απορρήτου',
+        navTerms: 'Όροι & Προϋποθέσεις',
+        navAbout: 'Σχετικά με Εμάς',
+        navContact: 'Επικοινωνία',
+        pricingTitle: 'Έρχεται σύντομα!',
+        pricingMsg: 'Αυτή η λειτουργία θα είναι διαθέσιμη σύντομα.<br>Δημιουργούμε κάτι εξαιρετικό για εσάς.',
+        modalClose: 'Τέλεια, κατάλαβα!',
+        modeLabel: 'Σκοτεινή Λειτουργία',
+        modeLabelLight: 'Φωτεινή Λειτουργία',
+        heroBadge: 'Εργαλείο Εικόνας · Δωρεάν · Άμεσο',
+        heroTitle: 'Συμπίεση Εικόνας',
+        heroSub: 'Μειώστε το μέγεθος αρχείων εικόνας χωρίς απώλεια ποιότητας — γρήγορα, δωρεάν και ιδιωτικά.',
+        dropMain: 'Σύρετε και αποθέστε την εικόνα εδώ',
+        dropSub: 'ή κάντε κλικ για περιήγηση (JPG, PNG, WEBP)',
+        modeLabel2: 'Λειτουργία Συμπίεσης',
+        optMax: 'Μέγιστη Συμπίεση',
+        optMed: 'Μέτρια Συμπίεση',
+        optMin: 'Ελάχιστη Συμπίεση',
+        modeTip: 'Η Μέγιστη μειώνει περισσότερο το μέγεθος. Η Ελάχιστη διατηρεί την καλύτερη ποιότητα. Η Μέτρια είναι ισορροπημένη.',
+        orDivider: 'ή ορίστε μέγεθος στόχου',
+        targetLabel: 'Μέγεθος Αρχείου Στόχου (KB)',
+        targetTip: 'Αφήστε κενό για να χρησιμοποιήσετε τη λειτουργία. Εισάγετε μέγεθος σε KB για ακριβή συμπίεση.',
+        progressLabel: 'Συμπίεση…',
+        loadingText: 'Βελτιστοποίηση εικόνας, παρακαλώ περιμένετε…',
+        submitBtn: 'Συμπίεση',
+        backBtn: '⬅ Πίσω στα Εργαλεία',
+        footerTagline: 'Ο προορισμός σας all-in-one για ισχυρά, δωρεάν εργαλεία. Χωρίς κόστος, χωρίς όρια.',
+        footerLegal: 'Νομικά',
+        footerCompany: 'Εταιρεία',
+        footerTools: 'Εργαλεία',
+        footerCopy: '© 2025 ALL-IN-ONE. Όλα τα δικαιώματα κατοχυρωμένα.',
+        pill1: 'Δωρεάν για Πάντα',
+        pill2: 'Χωρίς Εγγραφή',
+        pill3: '100% Ιδιωτικό',
+        ft0: 'JPG σε PDF',
+        ft1: 'Συγχώνευση PDF',
+        ft2: 'Συμπίεση PDF',
+        ft3: 'Διαχωρισμός PDF'
+      },
+
+      // Czech
+      cs: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigace',
+        navPricing: 'Ceník',
+        navLang: 'Jazyk',
+        navPrivacy: 'Zásady ochrany osobních údajů',
+        navTerms: 'Podmínky použití',
+        navAbout: 'O nás',
+        navContact: 'Kontakt',
+        pricingTitle: 'Již brzy!',
+        pricingMsg: 'Tato funkce bude brzy k dispozici.<br>Připravujeme pro vás něco výjimečného.',
+        modalClose: 'Skvělé, rozumím!',
+        modeLabel: 'Tmavý režim',
+        modeLabelLight: 'Světlý režim',
+        heroBadge: 'Nástroj pro obrázky · Zdarma · Okamžitě',
+        heroTitle: 'Komprimovat obrázek',
+        heroSub: 'Zmenšete velikost souborů obrázků bez ztráty kvality — rychle, zdarma a soukromě.',
+        dropMain: 'Přetáhněte obrázek sem',
+        dropSub: 'nebo klikněte pro výběr (JPG, PNG, WEBP)',
+        modeLabel2: 'Režim komprese',
+        optMax: 'Maximální komprese',
+        optMed: 'Střední komprese',
+        optMin: 'Minimální komprese',
+        modeTip: 'Maximum zmenšuje velikost nejvíce; Minimum zachovává nejlepší kvalitu. Střední je vyvážená volba.',
+        orDivider: 'nebo nastavte cílovou velikost',
+        targetLabel: 'Cílová velikost souboru (KB)',
+        targetTip: 'Ponechte prázdné pro použití režimu výše. Zadejte velikost v KB pro přesnou kompresi.',
+        progressLabel: 'Komprimování…',
+        loadingText: 'Optimalizace obrázku, prosím čekejte…',
+        submitBtn: 'Komprimovat',
+        backBtn: '⬅ Zpět na všechny nástroje',
+        footerTagline: 'Vaše all-in-one destinace pro výkonné, bezplatné nástroje. Bez nákladů, bez omezení.',
+        footerLegal: 'Právní informace',
+        footerCompany: 'Společnost',
+        footerTools: 'Nástroje',
+        footerCopy: '© 2025 ALL-IN-ONE. Všechna práva vyhrazena.',
+        pill1: 'Navždy zdarma',
+        pill2: 'Bez registrace',
+        pill3: '100% Soukromé',
+        ft0: 'JPG do PDF',
+        ft1: 'Sloučit PDF',
+        ft2: 'Komprimovat PDF',
+        ft3: 'Rozdělit PDF'
+      },
+
+      // Romanian
+      ro: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigare',
+        navPricing: 'Prețuri',
+        navLang: 'Limbă',
+        navPrivacy: 'Politica de Confidențialitate',
+        navTerms: 'Termeni și Condiții',
+        navAbout: 'Despre Noi',
+        navContact: 'Contact',
+        pricingTitle: 'În curând!',
+        pricingMsg: 'Această funcție va fi disponibilă în curând.<br>Creăm ceva extraordinar pentru tine.',
+        modalClose: 'Super, am înțeles!',
+        modeLabel: 'Mod Întunecat',
+        modeLabelLight: 'Mod Luminos',
+        heroBadge: 'Instrument Imagine · Gratuit · Instant',
+        heroTitle: 'Comprimă Imaginea',
+        heroSub: 'Reduce dimensiunea fișierelor imagine fără a sacrifica calitatea vizuală — rapid, gratuit și privat.',
+        dropMain: 'Trage și plasează imaginea aici',
+        dropSub: 'sau click pentru a răsfoi (JPG, PNG, WEBP)',
+        modeLabel2: 'Mod Compresie',
+        optMax: 'Compresie Maximă',
+        optMed: 'Compresie Medie',
+        optMin: 'Compresie Minimă',
+        modeTip: 'Maxim reduce cel mai mult dimensiunea; Minim păstrează cea mai bună calitate. Mediu este o alegere echilibrată.',
+        orDivider: 'sau setează dimensiunea țintă',
+        targetLabel: 'Dimensiune Fișier Țintă (KB)',
+        targetTip: 'Lasă gol pentru a folosi modul de mai sus. Introdu o dimensiune în KB pentru compresie exactă.',
+        progressLabel: 'Se comprimă…',
+        loadingText: 'Se optimizează imaginea, te rugăm așteaptă…',
+        submitBtn: 'Comprimă',
+        backBtn: '⬅ Înapoi la Toate Instrumentele',
+        footerTagline: 'Destinația ta all-in-one pentru instrumente puternice și gratuite. Fără costuri, fără limite.',
+        footerLegal: 'Legal',
+        footerCompany: 'Companie',
+        footerTools: 'Instrumente',
+        footerCopy: '© 2025 ALL-IN-ONE. Toate drepturile rezervate.',
+        pill1: 'Gratuit pentru Totdeauna',
+        pill2: 'Fără Înregistrare',
+        pill3: '100% Privat',
+        ft0: 'JPG în PDF',
+        ft1: 'Unește PDF',
+        ft2: 'Comprimă PDF',
+        ft3: 'Împarte PDF'
+      },
+
+      // Hungarian
+      hu: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigáció',
+        navPricing: 'Árak',
+        navLang: 'Nyelv',
+        navPrivacy: 'Adatvédelmi Irányelvek',
+        navTerms: 'Általános Szerződési Feltételek',
+        navAbout: 'Rólunk',
+        navContact: 'Kapcsolat',
+        pricingTitle: 'Hamarosan!',
+        pricingMsg: 'Ez a funkció hamarosan elérhető lesz.<br>Valami rendkívülit készítünk neked.',
+        modalClose: 'Remek, értem!',
+        modeLabel: 'Sötét Mód',
+        modeLabelLight: 'Világos Mód',
+        heroBadge: 'Képeszköz · Ingyenes · Azonnali',
+        heroTitle: 'Kép Tömörítése',
+        heroSub: 'Csökkentsd a képfájlok méretét a vizuális minőség feláldozása nélkül — gyors, ingyenes és privát.',
+        dropMain: 'Húzd ide a képet',
+        dropSub: 'vagy kattints a tallózáshoz (JPG, PNG, WEBP)',
+        modeLabel2: 'Tömörítési Mód',
+        optMax: 'Maximális Tömörítés',
+        optMed: 'Közepes Tömörítés',
+        optMin: 'Minimális Tömörítés',
+        modeTip: 'A Maximum csökkenti a méretet a legjobban; a Minimum tartja a legjobb minőséget. A Közepes kiegyensúlyozott.',
+        orDivider: 'vagy állítsd be a célméretet',
+        targetLabel: 'Célfájlméret (KB)',
+        targetTip: 'Hagyd üresen a fenti mód használatához. Add meg a méretet KB-ban a pontos tömörítéshez.',
+        progressLabel: 'Tömörítés…',
+        loadingText: 'Kép optimalizálása, kérjük várj…',
+        submitBtn: 'Tömörítés',
+        backBtn: '⬅ Vissza az Összes Eszközhöz',
+        footerTagline: 'Az all-in-one célpont erős, ingyenes eszközökhöz. Nincs költség, nincs korlátozás.',
+        footerLegal: 'Jogi információk',
+        footerCompany: 'Cég',
+        footerTools: 'Eszközök',
+        footerCopy: '© 2025 ALL-IN-ONE. Minden jog fenntartva.',
+        pill1: 'Örökre Ingyenes',
+        pill2: 'Nincs Regisztráció',
+        pill3: '100% Privát',
+        ft0: 'JPG-ből PDF',
+        ft1: 'PDF Összefűzés',
+        ft2: 'PDF Tömörítés',
+        ft3: 'PDF Felosztás'
+      },
+
+      // Finnish
+      fi: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigointi',
+        navPricing: 'Hinnoittelu',
+        navLang: 'Kieli',
+        navPrivacy: 'Tietosuojakäytäntö',
+        navTerms: 'Käyttöehdot',
+        navAbout: 'Tietoa meistä',
+        navContact: 'Ota yhteyttä',
+        pricingTitle: 'Tulossa pian!',
+        pricingMsg: 'Tämä ominaisuus on pian saatavilla.<br>Luomme jotain poikkeuksellista sinulle.',
+        modalClose: 'Mahtavaa, selvä!',
+        modeLabel: 'Tumma tila',
+        modeLabelLight: 'Vaalea tila',
+        heroBadge: 'Kuvatyökalu · Ilmainen · Välitön',
+        heroTitle: 'Pakkaa kuva',
+        heroSub: 'Pienennä kuvatiedostojen kokoa laadusta tinkimättä — nopeasti, ilmaiseksi ja yksityisesti.',
+        dropMain: 'Vedä ja pudota kuva tähän',
+        dropSub: 'tai napsauta selataksesi (JPG, PNG, WEBP)',
+        modeLabel2: 'Pakkaustila',
+        optMax: 'Maksimipakkaus',
+        optMed: 'Keskipakkaus',
+        optMin: 'Minimipakkaus',
+        modeTip: 'Maksimi pienentää kokoa eniten; Minimi säilyttää parhaan laadun. Keski on tasapainoinen valinta.',
+        orDivider: 'tai aseta tavoitekoko',
+        targetLabel: 'Tavoitetiedostokoko (KB)',
+        targetTip: 'Jätä tyhjäksi käyttääksesi yllä olevaa tilaa. Syötä koko KB:na tarkkaa pakkausta varten.',
+        progressLabel: 'Pakataan…',
+        loadingText: 'Optimoidaan kuvaa, odota…',
+        submitBtn: 'Pakkaa',
+        backBtn: '⬅ Takaisin kaikkiin työkaluihin',
+        footerTagline: 'All-in-one-kohteesi tehokkaille, ilmaisille työkaluille. Ei kustannuksia, ei rajoituksia.',
+        footerLegal: 'Lakiasiat',
+        footerCompany: 'Yritys',
+        footerTools: 'Työkalut',
+        footerCopy: '© 2025 ALL-IN-ONE. Kaikki oikeudet pidätetään.',
+        pill1: 'Ikuisesti ilmainen',
+        pill2: 'Ei rekisteröitymistä',
+        pill3: '100% Yksityinen',
+        ft0: 'JPG PDF:ksi',
+        ft1: 'Yhdistä PDF',
+        ft2: 'Pakkaa PDF',
+        ft3: 'Jaa PDF'
+      },
+
+      // Danish
+      da: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigation',
+        navPricing: 'Priser',
+        navLang: 'Sprog',
+        navPrivacy: 'Privatlivspolitik',
+        navTerms: 'Vilkår og Betingelser',
+        navAbout: 'Om Os',
+        navContact: 'Kontakt Os',
+        pricingTitle: 'Kommer snart!',
+        pricingMsg: 'Denne funktion vil være tilgængelig snart.<br>Vi skaber noget ekstraordinært til dig.',
+        modalClose: 'Fantastisk, forstået!',
+        modeLabel: 'Mørk tilstand',
+        modeLabelLight: 'Lys tilstand',
+        heroBadge: 'Billedværktøj · Gratis · Øjeblikkeligt',
+        heroTitle: 'Komprimer billede',
+        heroSub: 'Reducer billedfilstørrelser uden at gå på kompromis med visuel kvalitet — hurtigt, gratis og privat.',
+        dropMain: 'Træk og slip billede her',
+        dropSub: 'eller klik for at gennemse (JPG, PNG, WEBP)',
+        modeLabel2: 'Komprimeringstilstand',
+        optMax: 'Maksimal komprimering',
+        optMed: 'Medium komprimering',
+        optMin: 'Minimal komprimering',
+        modeTip: 'Maksimal reducerer størrelsen mest; Minimal bevarer den bedste kvalitet. Medium er et afbalanceret valg.',
+        orDivider: 'eller indstil målstørrelse',
+        targetLabel: 'Målfilstørrelse (KB)',
+        targetTip: 'Lad stå tom for at bruge tilstanden ovenfor. Indtast en størrelse i KB for præcis komprimering.',
+        progressLabel: 'Komprimerer…',
+        loadingText: 'Optimerer dit billede, vent venligst…',
+        submitBtn: 'Komprimer',
+        backBtn: '⬅ Tilbage til alle værktøjer',
+        footerTagline: 'Din alt-i-én destination for kraftfulde, gratis værktøjer. Ingen omkostninger, ingen begrænsninger.',
+        footerLegal: 'Juridisk',
+        footerCompany: 'Virksomhed',
+        footerTools: 'Værktøjer',
+        footerCopy: '© 2025 ALL-IN-ONE. Alle rettigheder forbeholdes.',
+        pill1: 'Gratis for altid',
+        pill2: 'Ingen tilmelding',
+        pill3: '100% Privat',
+        ft0: 'JPG til PDF',
+        ft1: 'Flet PDF',
+        ft2: 'Komprimer PDF',
+        ft3: 'Opdel PDF'
+      },
+
+      // Norwegian
+      no: {
+        brand: 'ALL-IN-ONE',
+        menuTitle: 'Navigasjon',
+        navPricing: 'Priser',
+        navLang: 'Språk',
+        navPrivacy: 'Personvernerklæring',
+        navTerms: 'Vilkår og betingelser',
+        navAbout: 'Om oss',
+        navContact: 'Kontakt oss',
+        pricingTitle: 'Kommer snart!',
+        pricingMsg: 'Denne funksjonen vil være tilgjengelig snart.<br>Vi lager noe ekstraordinært for deg.',
+        modalClose: 'Flott, skjønner!',
+        modeLabel: 'Mørk modus',
+        modeLabelLight: 'Lys modus',
+        heroBadge: 'Bildeverktøy · Gratis · Umiddelbart',
+        heroTitle: 'Komprimer bilde',
+        heroSub: 'Reduser bildefilstørrelsen uten å ofre visuell kvalitet — raskt, gratis og privat.',
+        dropMain: 'Dra og slipp bilde her',
+        dropSub: 'eller klikk for å bla gjennom (JPG, PNG, WEBP)',
+        modeLabel2: 'Komprimeringsmodus',
+        optMax: 'Maksimal komprimering',
+        optMed: 'Middels komprimering',
+        optMin: 'Minimal komprimering',
+        modeTip: 'Maksimal reduserer størrelsen mest; Minimal beholder best kvalitet. Middels er et balansert valg.',
+        orDivider: 'eller angi målstørrelse',
+        targetLabel: 'Mål filstørrelse (KB)',
+        targetTip: 'La stå tom for å bruke modusen ovenfor. Skriv inn en størrelse i KB for å komprimere til et nøyaktig mål.',
+        progressLabel: 'Komprimerer…',
+        loadingText: 'Optimaliserer bildet ditt, vennligst vent…',
+        submitBtn: 'Komprimer',
+        backBtn: '⬅ Tilbake til alle verktøy',
+        footerTagline: 'Din alt-i-ett-destinasjon for kraftige, gratis verktøy. Ingen kostnad, ingen begrensninger.',
+        footerLegal: 'Juridisk',
+        footerCompany: 'Selskap',
+        footerTools: 'Verktøy',
+        footerCopy: '© 2025 ALL-IN-ONE. Alle rettigheter reservert.',
+        pill1: 'Gratis for alltid',
+        pill2: 'Ingen registrering',
+        pill3: '100% Privat',
+        ft0: 'JPG til PDF',
+        ft1: 'Slå sammen PDF',
+        ft2: 'Komprimer PDF',
+        ft3: 'Del PDF'
+      }
+    };
+
+    const ALL_LANGUAGES = Object.keys(LANG_MAP);
+
+    let isDark = true, currentLang = 'en', drawerOpen = false, langPanelOpen = false;
+
+    /* PARTICLES */
+    (function () {
+      const c = document.getElementById('px'), ctx = c.getContext('2d');
+      let W, H, pts = [];
+      const resize = () => { W = c.width = innerWidth; H = c.height = innerHeight };
+      resize(); window.addEventListener('resize', resize);
+      for (let i = 0; i < 72; i++)pts.push({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, vx: (Math.random() - .5) * .28, vy: (Math.random() - .5) * .28, r: Math.random() * 2 + .4, a: Math.random() * .28 + .05, cyan: Math.random() > .52 });
+      function draw() { ctx.clearRect(0, 0, W, H); pts.forEach(p => { p.x += p.vx; p.y += p.vy; if (p.x < 0) p.x = W; if (p.x > W) p.x = 0; if (p.y < 0) p.y = H; if (p.y > H) p.y = 0; const col = isDark ? (p.cyan ? '45,212,240' : '139,114,255') : (p.cyan ? '14,165,201' : '108,79,255'); ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${col},${p.a})`; ctx.fill(); }); requestAnimationFrame(draw); }
+      draw();
+    })();
+
+    /* LANGUAGE PANEL */
+    const langPanel = document.getElementById('langPanel');
+    ALL_LANGUAGES.forEach(l => {
+      const btn = document.createElement('button');
+      btn.className = 'lang-item' + (l === 'English' ? ' active' : '');
+      btn.textContent = l;
+      btn.addEventListener('click', () => { document.querySelectorAll('.lang-item').forEach(x => x.classList.remove('active')); btn.classList.add('active'); applyLang(LANG_MAP[l] || 'en'); toggleLangPanel(false); closeDrawer(); });
+      langPanel.appendChild(btn);
+    });
+
+    function applyLang(code) {
+      currentLang = code; const tl = T[code] || T.en;
+      document.querySelectorAll('[data-i18n]').forEach(el => { const k = el.getAttribute('data-i18n'); if (tl[k] !== undefined) el.innerHTML = tl[k]; });
+      // Update select options
+      const sel = document.querySelector('select[name="mode"]');
+      if (sel) {
+        sel.options[0].text = tl.optMax || 'Maximum Compression';
+        sel.options[1].text = tl.optMed || 'Medium Compression';
+        sel.options[2].text = tl.optMin || 'Minimum Compression';
+      }
+      const ts = document.getElementById('targetSize');
+      if (ts) ts.placeholder = tl.targetTip ? 'e.g. 200' : 'e.g. 200';
+      syncModeLabels();
+    }
+
+    /* DRAWER */
+    function openDrawer() { drawerOpen = true; document.getElementById('drawer').classList.add('open'); document.getElementById('overlay').classList.add('open'); document.getElementById('hamburger').classList.add('open') }
+    function closeDrawer() { drawerOpen = false; document.getElementById('drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); document.getElementById('hamburger').classList.remove('open'); toggleLangPanel(false) }
+    document.getElementById('hamburger').addEventListener('click', () => drawerOpen ? closeDrawer() : openDrawer());
+    document.getElementById('closeDrawerBtn').addEventListener('click', closeDrawer);
+    document.getElementById('overlay').addEventListener('click', closeDrawer);
+    function toggleLangPanel(force) { langPanelOpen = force !== undefined ? force : !langPanelOpen; langPanel.classList.toggle('open', langPanelOpen); document.getElementById('langChevron').textContent = langPanelOpen ? '▴' : '▾' }
+    document.getElementById('menuLang').addEventListener('click', e => { e.stopPropagation(); toggleLangPanel(); });
+
+    /* MODAL */
+    function openPricingModal() { document.getElementById('pricingModal').classList.add('open') }
+    function closeModal() { document.getElementById('pricingModal').classList.remove('open') }
+    document.getElementById('menuPricing').addEventListener('click', () => { closeDrawer(); openPricingModal(); });
+    document.getElementById('pricingModal').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
+
+    /* MODE */
+    // function toggleMode() { isDark = !isDark; document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light'); syncModeLabels() }
+    function toggleMode() {
+      let currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+
+      const icon = document.getElementById("floatIcon");
+      if (icon) {
+        icon.textContent = newTheme === "dark" ? "🌙" : "☀️";
+      }
+    }
+    function syncModeLabels() {
+      const tl = T[currentLang] || T.en;
+      const label = isDark ? (tl.modeLabel || 'Dark Mode') : (tl.modeLabelLight || 'Light Mode');
+      const icon = isDark ? '🌙' : '☀️';
+      document.getElementById('floatIcon').textContent = icon;
+      document.getElementById('drawerModeIcon').textContent = icon;
+      document.getElementById('footerModeIcon').textContent = icon;
+      const dml = document.getElementById('drawerModeLabel'); const fml = document.getElementById('footerModeLabel');
+      if (dml) dml.textContent = label; if (fml) fml.textContent = label;
+      ['drawerToggle', 'footerToggle'].forEach(id => document.getElementById(id)?.classList.toggle('on', isDark));
+    }
+
+    /* DRAG & DROP */
+    const dropArea = document.getElementById('dropArea');
+    const imgInput = document.getElementById('imageInput');
+    ['dragenter', 'dragover'].forEach(evt => { dropArea.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); dropArea.classList.add('drag-over'); }); });
+    ['dragleave', 'dragend'].forEach(evt => { dropArea.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); dropArea.classList.remove('drag-over'); }); });
+    dropArea.addEventListener('drop', e => {
+      e.preventDefault(); e.stopPropagation(); dropArea.classList.remove('drag-over');
+      const file = e.dataTransfer?.files?.[0];
+      if (file && file.type.startsWith('image/')) {
+        setFile(file); try { const dt = new DataTransfer(); dt.items.add(file); imgInput.files = dt.files; } catch (_) { }
+      }
+    });
+    imgInput.addEventListener('change', () => { if (imgInput.files[0]) setFile(imgInput.files[0]); });
+
+    function setFile(file) {
+      const preview = document.getElementById('filePreview');
+      const size = file.size < 1048576 ? `${(file.size / 1024).toFixed(1)} KB` : `${(file.size / 1048576).toFixed(2)} MB`;
+      const ext = file.name.split('.').pop().toUpperCase();
+      const url = URL.createObjectURL(file);
+      preview.innerHTML = `
+    <div class="file-card" style="margin-top:14px">
+      <div style="width:44px;height:44px;border-radius:10px;flex-shrink:0;overflow:hidden;border:1px solid var(--border2)">
+        <img src="${url}" alt="" style="width:100%;height:100%;object-fit:cover" onload="URL.revokeObjectURL(this.src)"/>
+      </div>
+      <div class="file-card-info">
+        <div class="file-card-name" title="${esc(file.name)}">${esc(file.name.length > 40 ? file.name.slice(0, 37) + '…' : file.name)}</div>
+        <div class="file-card-meta">${size} · ${ext}</div>
+      </div>
+      <button type="button" class="file-card-remove" onclick="clearFile()" title="Remove">✕</button>
+    </div>`;
+    }
+    function clearFile() { imgInput.value = ''; document.getElementById('filePreview').innerHTML = ''; document.getElementById('progressContainer').style.display = 'none'; resetProgress() }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') }
+
+    /* SUBMIT */
+    let currentConversionResult = null;
+
+    document.getElementById('uploadForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (!imgInput.files[0]) return;
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('progressContainer').style.display = 'block';
+      resetProgress(); animateProgress(0, 93, 3000, () => { });
+
+      try {
+        const formData = new FormData(this);
+        const response = await fetch('/compress_image', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          animateProgress(93, 100, 500, () => {
+            document.getElementById('progressContainer').style.display = 'none';
+            resetProgress();
+          });
+
+          currentConversionResult = data;
+          setTimeout(() => { showResultModal(data); }, 800);
+        } else {
+          throw new Error(data.error || 'Compression failed');
+        }
+      } catch (error) {
+        document.getElementById('progressContainer').style.display = 'none';
+        resetProgress();
+        alert('Error: ' + error.message);
+        document.getElementById('submitBtn').disabled = false;
+      }
+    });
+
+    function showResultModal(data) {
+      const modal = document.getElementById('resultModal');
+      document.getElementById('fileSizeDisplay').textContent = `${data.file_size_kb} KB`;
+      document.getElementById('renameInput').value = data.original_name;
+      modal.classList.add('open');
+    }
+
+    function closeResultModal() {
+      const modal = document.getElementById('resultModal');
+      modal.classList.remove('open');
+      currentConversionResult = null;
+    }
+
+    async function downloadConvertedFile() {
+      if (!currentConversionResult) {
+        alert('No file to download');
+        return;
+      }
+
+      const renameInput = document.getElementById('renameInput');
+      const customName = renameInput.value.trim() || currentConversionResult.original_name;
+      const finalName = customName.endsWith('.jpg') ? customName : customName + '.jpg';
+
+      try {
+        const downloadUrl = `/download/${currentConversionResult.filename}?name=${encodeURIComponent(finalName)}`;
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = finalName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        setTimeout(() => {
+          closeResultModal();
+          showConvertMoreOverlay();
+        }, 500);
+      } catch (error) {
+        alert('Error downloading file: ' + error.message);
+      }
+    }
+
+    function showConvertMoreOverlay() {
+      const overlay = document.getElementById('convertMoreOverlay');
+      overlay.classList.add('open');
+    }
+
+    function closeConvertMoreOverlay() {
+      const overlay = document.getElementById('convertMoreOverlay');
+      overlay.classList.remove('open');
+    }
+
+    function convertMore() {
+      closeConvertMoreOverlay();
+      clearFile();
+      document.getElementById('submitBtn').disabled = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function animateProgress(from, to, dur, cb) {
+      const fill = document.getElementById('progressFill'), pct = document.getElementById('progressPct');
+      const start = performance.now();
+      function step(now) { const frac = Math.min((now - start) / dur, 1); const eased = 1 - Math.pow(1 - frac, 3); const val = Math.round(from + (to - from) * eased); fill.style.width = val + '%'; pct.textContent = val + '%'; if (frac < 1) requestAnimationFrame(step); else if (cb) cb(); }
+      requestAnimationFrame(step);
+    }
+    function resetProgress() { const f = document.getElementById('progressFill'), p = document.getElementById('progressPct'); if (f) f.style.width = '0%'; if (p) p.textContent = '0%' }
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } }); });
+  </script>
+</body>
+
+</html>

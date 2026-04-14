@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem("theme") || "dark";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+        })();
+    </script>
+    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="hero fade-in">
+        <div class="hero-badge">❌ Error</div>
+        <h1>Something went wrong</h1>
+        <p>{{ error_message }}</p>
+
+        <div class="hero-buttons">
+            <a href="{{ back_url }}" class="hero-btn primary">🔙 Try Again</a>
+            <a href="/" class="hero-btn secondary">🏠 Back to Home</a>
+        </div>
+    </div>
+
+</body>
+
+</html>
