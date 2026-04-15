@@ -35,6 +35,8 @@ from openpyxl import load_workbook
 def create_app():
     app = Flask(__name__)
 
+    app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB limit
+
     app.config.from_mapping(
         UPLOAD_FOLDER=os.path.join(app.root_path, 'uploads'),
         OUTPUT_FOLDER=os.path.join(app.root_path, 'outputs')
