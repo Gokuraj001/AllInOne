@@ -1,4 +1,4 @@
-from flask import Flask, app, render_template, request, send_file, current_app, redirect, url_for, send_from_directory
+from flask import Flask, app, render_template, request, send_file, current_app, redirect, url_for, send_from_directory, jsonify
 from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 import img2pdf
 import pdfplumber
@@ -7,6 +7,7 @@ import zipfile
 import pymupdf as fitz  # PyMuPDF
 import uuid
 import pandas as pd
+import pytesseract
 import tabula
 import comtypes.client
 import tempfile
@@ -16,6 +17,7 @@ import win32com.client
 import qrcode
 import base64
 import io
+import pytesseract
 from datetime import datetime
 from PIL import Image
 from flask import jsonify
@@ -29,6 +31,8 @@ from PIL import Image, ImageOps
 from werkzeug.utils import secure_filename
 from docx import Document
 from openpyxl import load_workbook
+
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"  # Update this path if Tesseract is installed elsewhere
 
 
 # ===================== APP SETUP =====================
@@ -229,6 +233,41 @@ def create_app():
         return render_template('index.html')
     
 
+    # ===================== OCR PAGE =====================
+    @app.route('/ocr')
+    def ocr_page():
+        return render_template('ocr.html')
+    
+
+    # ===================== OCR PROCESS =====================
+    @app.route('/process_ocr', methods=['POST'])
+    def process_ocr():
+        try:
+            if 'image' not in request.files:
+                return jsonify({'error': 'No image provided'}), 400
+
+            file = request.files['image']
+            img = Image.open(file.stream)
+
+            # Convert to RGB
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+
+            # Improve quality
+            img = img.resize((img.width * 2, img.height * 2), Image.Resampling.LANCZOS)
+
+            # OCR
+            text = pytesseract.image_to_string(img)
+
+            return jsonify({
+                'success': True,
+                'text': text
+            })
+
+        except Exception as e:
+            print("OCR ERROR:", str(e))
+            return jsonify({'error': 'OCR failed'}), 500
+
     # ===================== SCANNER PAGE =====================
     @app.route('/scan')
     def scan():
@@ -363,9 +402,9 @@ def create_app():
         return render_template('qr_generator.html')
     '''
     # ===================== SERVE QR =====================
-    @app.route('/output/<filename>')
-    def serve_qr(filename):
-        return send_from_directory(current_app.config['OUTPUT_FOLDER'], filename, as_attachment=True)
+    # @app.route('/output/<filename>')
+    # def serve_qr(filename):
+    #     return send_from_directory(current_app.config['OUTPUT_FOLDER'], filename, as_attachment=True)
     
 
     # ===================== MERGE PD =====================
