@@ -273,8 +273,13 @@ def create_app():
     def scan():
         return render_template('scan.html')
     
+
+    @app.route('/create')
+    def create_document():
+        return render_template('create.html')
+    
     # ===================== SCAN TO PDF =====================
-    @app.route('/create-pdf', methods=['POST'])
+    @app.route('/create_document', methods=['POST'])
     def create_pdf():
         try:
             from reportlab.pdfgen import canvas as pdf_canvas

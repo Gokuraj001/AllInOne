@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8" />
@@ -9,13 +9,12 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
         rel="stylesheet" />
-    <!-- External libraries — preserved from original -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
     <style>
-        /* ═══════════════════════════════════════════════════
-   DESIGN TOKENS — ALL-IN-ONE exact match
-═══════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════
+           DESIGN TOKENS
+        ═══════════════════════════════════════════════ */
         :root {
             --tr: 0.45s cubic-bezier(0.4, 0, 0.2, 1);
             --tr-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -25,6 +24,8 @@
             --radius-xs: 8px;
             --font-display: 'Outfit', sans-serif;
             --font-body: 'Instrument Sans', sans-serif;
+            --page-width: 794px;
+            --page-height: 1123px;
         }
 
         [data-theme="dark"] {
@@ -93,19 +94,19 @@
             --err-color: #ef4444;
         }
 
-        /* ═══════════════════════════════════════════════════
-   RESET & BASE
-═══════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════
+           RESET & BASE
+        ═══════════════════════════════════════════════ */
         *,
         *::before,
         *::after {
             box-sizing: border-box;
             margin: 0;
-            padding: 0
+            padding: 0;
         }
 
         html {
-            scroll-behavior: smooth
+            scroll-behavior: smooth;
         }
 
         body {
@@ -119,7 +120,7 @@
 
         a {
             color: inherit;
-            text-decoration: none
+            text-decoration: none;
         }
 
         button {
@@ -127,25 +128,25 @@
             border: none;
             background: none;
             font: inherit;
-            color: inherit
+            color: inherit;
         }
 
         input,
         select,
         textarea {
             font: inherit;
-            color: inherit
+            color: inherit;
         }
 
-        /* ═══════════════════════════════════════════════════
-   BACKGROUND
-═══════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════
+           BACKGROUND
+        ═══════════════════════════════════════════════ */
         .bg-layer {
             position: fixed;
             inset: 0;
             z-index: 0;
             pointer-events: none;
-            overflow: hidden
+            overflow: hidden;
         }
 
         .bg-gradient {
@@ -161,38 +162,40 @@
         @keyframes bgBreath {
             from {
                 opacity: .75;
-                transform: scale(1)
+                transform: scale(1);
             }
 
             to {
                 opacity: 1;
-                transform: scale(1.04)
+                transform: scale(1.04);
             }
         }
 
         .bg-grid {
             position: absolute;
             inset: 0;
-            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
             background-size: 52px 52px;
             mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
             transition: opacity var(--tr);
         }
 
         [data-theme="light"] .bg-grid {
-            opacity: .5
+            opacity: .5;
         }
 
         #px {
             position: fixed;
             inset: 0;
             z-index: 0;
-            pointer-events: none
+            pointer-events: none;
         }
 
-        /* ═══════════════════════════════════════════════════
-   HEADER — exact ALL-IN-ONE match
-═══════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════
+           HEADER
+        ═══════════════════════════════════════════════ */
         .site-header {
             position: fixed;
             top: 0;
@@ -216,19 +219,19 @@
         @keyframes hdrSlide {
             from {
                 transform: translateY(-100%);
-                opacity: 0
+                opacity: 0;
             }
 
             to {
                 transform: translateY(0);
-                opacity: 1
+                opacity: 1;
             }
         }
 
         .header-left {
             display: flex;
             align-items: center;
-            gap: 16px
+            gap: 16px;
         }
 
         .brand {
@@ -236,7 +239,7 @@
             align-items: center;
             gap: 11px;
             cursor: pointer;
-            animation: fadeUp .8s .2s var(--tr-spring) both
+            animation: fadeUp .8s .2s var(--tr-spring) both;
         }
 
         .brand-icon {
@@ -256,17 +259,17 @@
 
             0%,
             100% {
-                box-shadow: 0 0 16px var(--glow-a)
+                box-shadow: 0 0 16px var(--glow-a);
             }
 
             50% {
-                box-shadow: 0 0 32px var(--glow-a), 0 0 50px var(--glow-b)
+                box-shadow: 0 0 32px var(--glow-a), 0 0 50px var(--glow-b);
             }
         }
 
         .brand-icon svg {
             width: 22px;
-            height: 22px
+            height: 22px;
         }
 
         .brand-name {
@@ -284,7 +287,7 @@
             width: 1px;
             height: 24px;
             background: var(--border2);
-            border-radius: 1px
+            border-radius: 1px;
         }
 
         .header-page-title {
@@ -302,7 +305,7 @@
             height: 6px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--accent), var(--accent2));
-            box-shadow: 0 0 8px var(--glow-a)
+            box-shadow: 0 0 8px var(--glow-a);
         }
 
         .back-btn {
@@ -318,7 +321,8 @@
             font-weight: 600;
             font-size: .85rem;
             color: var(--text2);
-            transition: color var(--tr-fast), border-color var(--tr-fast), background var(--tr-fast), transform var(--tr-fast), box-shadow var(--tr-fast);
+            transition: color var(--tr-fast), border-color var(--tr-fast), background var(--tr-fast),
+                transform var(--tr-fast), box-shadow var(--tr-fast);
             animation: fadeUp .8s .3s var(--tr-spring) both;
         }
 
@@ -327,13 +331,13 @@
             border-color: var(--accent);
             background: var(--surface2);
             transform: translateX(-4px);
-            box-shadow: 0 4px 20px var(--glow-a)
+            box-shadow: 0 4px 20px var(--glow-a);
         }
 
         .header-right {
             display: flex;
             align-items: center;
-            gap: 10px
+            gap: 10px;
         }
 
         .hamburger {
@@ -350,7 +354,7 @@
         }
 
         .hamburger:hover {
-            background: var(--surface2)
+            background: var(--surface2);
         }
 
         .hamburger span {
@@ -360,31 +364,31 @@
             background: var(--text);
             border-radius: 2px;
             transition: transform .4s cubic-bezier(.4, 0, .2, 1), opacity .25s, width .3s;
-            transform-origin: center
+            transform-origin: center;
         }
 
         .hamburger span:nth-child(3) {
             width: 65%;
-            margin-left: auto
+            margin-left: auto;
         }
 
         .hamburger.open span:nth-child(1) {
-            transform: translateY(7.5px) rotate(45deg)
+            transform: translateY(7.5px) rotate(45deg);
         }
 
         .hamburger.open span:nth-child(2) {
             opacity: 0;
-            transform: scaleX(0)
+            transform: scaleX(0);
         }
 
         .hamburger.open span:nth-child(3) {
             transform: translateY(-7.5px) rotate(-45deg);
-            width: 100%
+            width: 100%;
         }
 
-        /* ═══════════════════════════════════════════════════
-   DRAWER
-═══════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════
+           DRAWER
+        ═══════════════════════════════════════════════ */
         .drawer-overlay {
             position: fixed;
             inset: 0;
@@ -393,12 +397,12 @@
             backdrop-filter: blur(6px);
             opacity: 0;
             pointer-events: none;
-            transition: opacity .38s
+            transition: opacity .38s;
         }
 
         .drawer-overlay.open {
             opacity: 1;
-            pointer-events: all
+            pointer-events: all;
         }
 
         .drawer {
@@ -415,11 +419,11 @@
             flex-direction: column;
             transform: translateX(100%);
             transition: transform .48s cubic-bezier(.22, 1, .36, 1), background var(--tr);
-            overflow: hidden
+            overflow: hidden;
         }
 
         .drawer.open {
-            transform: translateX(0)
+            transform: translateX(0);
         }
 
         .drawer::before {
@@ -431,16 +435,16 @@
             height: 2px;
             background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
             background-size: 200% 100%;
-            animation: shimmer 3s linear infinite
+            animation: shimmer 3s linear infinite;
         }
 
         @keyframes shimmer {
             from {
-                background-position: 0 0
+                background-position: 0 0;
             }
 
             to {
-                background-position: 200% 0
+                background-position: 200% 0;
             }
         }
 
@@ -451,7 +455,7 @@
             align-items: center;
             justify-content: space-between;
             border-bottom: 1px solid var(--border);
-            flex-shrink: 0
+            flex-shrink: 0;
         }
 
         .drawer-title {
@@ -460,7 +464,7 @@
             font-size: .88rem;
             letter-spacing: .12em;
             text-transform: uppercase;
-            color: var(--text3)
+            color: var(--text3);
         }
 
         .drawer-close {
@@ -471,27 +475,27 @@
             align-items: center;
             justify-content: center;
             color: var(--text2);
-            transition: background var(--tr-fast), color var(--tr-fast)
+            transition: background var(--tr-fast), color var(--tr-fast);
         }
 
         .drawer-close:hover {
             background: var(--surface2);
-            color: var(--text)
+            color: var(--text);
         }
 
         .drawer-nav {
             flex: 1;
             padding: 12px 0;
-            overflow-y: auto
+            overflow-y: auto;
         }
 
         .drawer-nav::-webkit-scrollbar {
-            width: 3px
+            width: 3px;
         }
 
         .drawer-nav::-webkit-scrollbar-thumb {
             background: var(--border2);
-            border-radius: 2px
+            border-radius: 2px;
         }
 
         .menu-item {
@@ -506,7 +510,7 @@
             color: var(--text2);
             transition: color var(--tr-fast), background var(--tr-fast), padding-left var(--tr-fast);
             position: relative;
-            text-align: left
+            text-align: left;
         }
 
         .menu-item::after {
@@ -519,17 +523,17 @@
             border-radius: 2px;
             background: linear-gradient(var(--accent), var(--accent2));
             transform: scaleY(0);
-            transition: transform var(--tr-fast)
+            transition: transform var(--tr-fast);
         }
 
         .menu-item:hover {
             color: var(--text);
             padding-left: 32px;
-            background: var(--surface2)
+            background: var(--surface2);
         }
 
         .menu-item:hover::after {
-            transform: scaleY(1)
+            transform: scaleY(1);
         }
 
         .menu-item-ico {
@@ -543,18 +547,18 @@
             font-size: 1.1rem;
             background: var(--surface);
             border: 1px solid var(--border);
-            transition: background var(--tr-fast), border-color var(--tr-fast)
+            transition: background var(--tr-fast), border-color var(--tr-fast);
         }
 
         .menu-item:hover .menu-item-ico {
             background: var(--surface2);
-            border-color: var(--border2)
+            border-color: var(--border2);
         }
 
         .menu-item-chevron {
             margin-left: auto;
             font-size: .78rem;
-            color: var(--text3)
+            color: var(--text3);
         }
 
         .lang-panel {
@@ -563,21 +567,21 @@
             border-top: 1px solid var(--border);
             background: var(--bg3);
             max-height: 0;
-            transition: max-height .42s cubic-bezier(.4, 0, .2, 1)
+            transition: max-height .42s cubic-bezier(.4, 0, .2, 1);
         }
 
         .lang-panel.open {
             max-height: 280px;
-            overflow-y: auto
+            overflow-y: auto;
         }
 
         .lang-panel::-webkit-scrollbar {
-            width: 3px
+            width: 3px;
         }
 
         .lang-panel::-webkit-scrollbar-thumb {
             background: var(--border2);
-            border-radius: 2px
+            border-radius: 2px;
         }
 
         .lang-item {
@@ -587,24 +591,24 @@
             text-align: left;
             font-size: .87rem;
             color: var(--text2);
-            transition: background var(--tr-fast), color var(--tr-fast), padding-left var(--tr-fast)
+            transition: background var(--tr-fast), color var(--tr-fast), padding-left var(--tr-fast);
         }
 
         .lang-item:hover {
             background: var(--surface2);
             color: var(--text);
-            padding-left: 52px
+            padding-left: 52px;
         }
 
         .lang-item.active {
             color: var(--accent);
-            font-weight: 600
+            font-weight: 600;
         }
 
         .drawer-footer {
             padding: 20px 24px;
             border-top: 1px solid var(--border);
-            flex-shrink: 0
+            flex-shrink: 0;
         }
 
         .mode-toggle-row {
@@ -614,7 +618,7 @@
             padding: 12px 16px;
             border-radius: 12px;
             background: var(--surface);
-            border: 1px solid var(--border)
+            border: 1px solid var(--border);
         }
 
         .mode-label {
@@ -624,7 +628,7 @@
             font-family: var(--font-display);
             font-weight: 600;
             font-size: .88rem;
-            color: var(--text2)
+            color: var(--text2);
         }
 
         .toggle-switch {
@@ -635,12 +639,12 @@
             border: 1px solid var(--border2);
             border-radius: 100px;
             cursor: pointer;
-            transition: background .3s, border-color .3s
+            transition: background .3s, border-color .3s;
         }
 
         .toggle-switch.on {
             background: linear-gradient(135deg, var(--accent), var(--accent2));
-            border-color: transparent
+            border-color: transparent;
         }
 
         .toggle-knob {
@@ -652,16 +656,16 @@
             border-radius: 50%;
             background: #fff;
             box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
-            transition: transform .35s cubic-bezier(.22, 1, .36, 1)
+            transition: transform .35s cubic-bezier(.22, 1, .36, 1);
         }
 
         .toggle-switch.on .toggle-knob {
-            transform: translateX(22px)
+            transform: translateX(22px);
         }
 
-        /* ═══════════════════════════════════════════════════
-   PRICING MODAL
-═══════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════
+           PRICING MODAL
+        ═══════════════════════════════════════════════ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -678,7 +682,7 @@
 
         .modal-overlay.open {
             opacity: 1;
-            pointer-events: all
+            pointer-events: all;
         }
 
         .modal-box {
@@ -702,32 +706,32 @@
             position: absolute;
             inset: 0;
             background: linear-gradient(135deg, var(--glow-a), transparent 60%);
-            pointer-events: none
+            pointer-events: none;
         }
 
         .modal-overlay.open .modal-box {
             transform: scale(1) translateY(0);
-            opacity: 1
+            opacity: 1;
         }
 
         .modal-emoji {
             font-size: 3rem;
             display: block;
-            margin-bottom: 18px
+            margin-bottom: 18px;
         }
 
         .modal-title {
             font-family: var(--font-display);
             font-weight: 800;
             font-size: 1.4rem;
-            margin-bottom: 10px
+            margin-bottom: 10px;
         }
 
         .modal-sub {
             font-size: .9rem;
             color: var(--text2);
             line-height: 1.7;
-            margin-bottom: 32px
+            margin-bottom: 32px;
         }
 
         .modal-close-btn {
@@ -744,12 +748,12 @@
 
         .modal-close-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 36px var(--glow-a)
+            box-shadow: 0 10px 36px var(--glow-a);
         }
 
-        /* ═══════════════════════════════════════════════════
-   DOCUMENT CREATOR LAYOUT
-═══════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════
+           APP SHELL
+        ═══════════════════════════════════════════════ */
         .app-shell {
             position: relative;
             z-index: 1;
@@ -759,9 +763,11 @@
             overflow: hidden;
         }
 
-        /* ─── SIDEBAR ──────────────────────────────────── */
+        /* ═══════════════════════════════════════════════
+           SIDEBAR
+        ═══════════════════════════════════════════════ */
         .doc-sidebar {
-            width: 280px;
+            width: 290px;
             flex-shrink: 0;
             background: var(--sidebar-bg);
             border-right: 1px solid var(--border);
@@ -775,16 +781,6 @@
             animation: fadeUp .8s .4s var(--tr-spring) both;
         }
 
-        .doc-sidebar::-webkit-scrollbar {
-            width: 3px
-        }
-
-        .doc-sidebar::-webkit-scrollbar-thumb {
-            background: var(--border2);
-            border-radius: 2px
-        }
-
-        /* Sidebar header */
         .sidebar-header {
             padding: 18px 20px 14px;
             border-bottom: 1px solid var(--border);
@@ -799,10 +795,6 @@
             text-transform: uppercase;
             color: var(--accent2);
             margin-bottom: 10px;
-        }
-
-        .sidebar-doc-name-wrap {
-            position: relative
         }
 
         .doc-title-input {
@@ -822,27 +814,26 @@
         .doc-title-input:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 3px var(--glow-a);
-            background: var(--surface2)
+            background: var(--surface2);
         }
 
         .doc-title-input::placeholder {
-            color: var(--text3)
+            color: var(--text3);
         }
 
-        /* Sidebar sections */
         .sidebar-scroll {
             flex: 1;
             overflow-y: auto;
-            padding: 12px 0
+            padding: 12px 0;
         }
 
         .sidebar-scroll::-webkit-scrollbar {
-            width: 3px
+            width: 3px;
         }
 
         .sidebar-scroll::-webkit-scrollbar-thumb {
             background: var(--border2);
-            border-radius: 2px
+            border-radius: 2px;
         }
 
         .tool-group {
@@ -864,10 +855,9 @@
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
-            margin-bottom: 2px
+            margin-bottom: 2px;
         }
 
-        /* Tool buttons */
         .tool-btn {
             display: inline-flex;
             align-items: center;
@@ -880,7 +870,8 @@
             background: var(--surface);
             border: 1px solid var(--border2);
             color: var(--text2);
-            transition: background var(--tr-fast), color var(--tr-fast), border-color var(--tr-fast), transform var(--tr-fast), box-shadow var(--tr-fast);
+            transition: background var(--tr-fast), color var(--tr-fast), border-color var(--tr-fast),
+                transform var(--tr-fast), box-shadow var(--tr-fast);
             white-space: nowrap;
         }
 
@@ -899,16 +890,6 @@
             box-shadow: 0 4px 16px var(--glow-a);
         }
 
-        .tool-btn.danger {
-            border-color: rgba(248, 113, 113, .25);
-            color: var(--err-color)
-        }
-
-        .tool-btn.danger:hover {
-            background: rgba(248, 113, 113, .12);
-            border-color: var(--err-color)
-        }
-
         .tool-btn.primary {
             width: 100%;
             justify-content: center;
@@ -922,16 +903,15 @@
 
         .tool-btn.primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 28px var(--glow-a)
+            box-shadow: 0 8px 28px var(--glow-a);
         }
 
-        /* Prop rows */
         .prop-row {
             display: flex;
             align-items: center;
             gap: 8px;
             padding: 4px 8px;
-            margin-bottom: 4px
+            margin-bottom: 4px;
         }
 
         .prop-label {
@@ -939,11 +919,10 @@
             font-size: .78rem;
             color: var(--text2);
             min-width: 56px;
-            font-weight: 600
+            font-weight: 600;
         }
 
-        .prop-select,
-        .prop-input {
+        .prop-select {
             flex: 1;
             padding: 7px 10px;
             border-radius: var(--radius-xs);
@@ -963,30 +942,23 @@
             padding-right: 28px;
         }
 
-        .prop-input {
-            background-image: none;
-            padding-right: 10px
-        }
-
-        .prop-select:focus,
-        .prop-input:focus {
+        .prop-select:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 2px var(--glow-a)
+            box-shadow: 0 0 0 2px var(--glow-a);
         }
 
         .prop-select option {
             background: var(--bg2);
-            color: var(--text)
+            color: var(--text);
         }
 
-        /* Color picker row */
         .color-row {
             display: flex;
             align-items: center;
             gap: 6px;
             padding: 4px 8px;
             flex-wrap: wrap;
-            margin-bottom: 4px
+            margin-bottom: 4px;
         }
 
         .color-swatch {
@@ -995,17 +967,18 @@
             border-radius: 6px;
             cursor: pointer;
             border: 2px solid transparent;
+            flex-shrink: 0;
             transition: transform .2s, border-color .2s, box-shadow .2s;
         }
 
         .color-swatch:hover {
             transform: scale(1.15);
-            box-shadow: 0 0 10px rgba(255, 255, 255, .3)
+            box-shadow: 0 0 10px rgba(255, 255, 255, .3);
         }
 
         .color-swatch.active {
             border-color: var(--text);
-            transform: scale(1.2)
+            transform: scale(1.2);
         }
 
         .color-swatch-custom {
@@ -1014,7 +987,6 @@
             border-radius: 6px;
             border: 2px solid var(--border2);
             cursor: pointer;
-            overflow: hidden;
             padding: 0;
             background: var(--surface2);
             display: flex;
@@ -1022,24 +994,28 @@
             justify-content: center;
             font-size: .6rem;
             color: var(--text3);
+            position: relative;
+            flex-shrink: 0;
+            overflow: hidden;
         }
 
         .color-swatch-custom input[type="color"] {
             position: absolute;
+            inset: 0;
             opacity: 0;
-            width: 26px;
-            height: 26px;
+            width: 100%;
+            height: 100%;
             cursor: pointer;
+            padding: 0;
+            border: none;
         }
 
-        /* Sidebar divider */
         .tool-divider {
             height: 1px;
             background: var(--border);
-            margin: 8px 20px
+            margin: 8px 20px;
         }
 
-        /* Pages panel */
         .pages-panel {
             border-top: 1px solid var(--border);
             padding: 12px;
@@ -1054,46 +1030,46 @@
             text-transform: uppercase;
             color: var(--text3);
             margin-bottom: 8px;
-            padding: 0 4px
+            padding: 0 4px;
         }
 
         .pages-strip {
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            padding-bottom: 4px
+            padding-bottom: 4px;
         }
 
         .pages-strip::-webkit-scrollbar {
-            height: 3px
+            height: 3px;
         }
 
         .pages-strip::-webkit-scrollbar-thumb {
             background: var(--border2);
-            border-radius: 2px
+            border-radius: 2px;
         }
 
         .page-thumb {
-            min-width: 56px;
-            height: 72px;
+            min-width: 52px;
+            height: 68px;
             border-radius: var(--radius-xs);
             background: rgba(255, 255, 255, .9);
             border: 2px solid var(--border);
             cursor: pointer;
             flex-shrink: 0;
             overflow: hidden;
-            transition: border-color .25s, box-shadow .25s, transform .25s;
             position: relative;
+            transition: border-color .25s, box-shadow .25s, transform .25s;
         }
 
         .page-thumb:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, .3)
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .3);
         }
 
         .page-thumb.active {
             border-color: var(--accent2);
-            box-shadow: 0 0 16px var(--glow-b)
+            box-shadow: 0 0 16px var(--glow-b);
         }
 
         .page-thumb-num {
@@ -1110,7 +1086,6 @@
             color: #fff;
         }
 
-        /* Mobile sidebar toggle */
         .sidebar-toggle-btn {
             display: none;
             position: fixed;
@@ -1130,10 +1105,12 @@
 
         .sidebar-toggle-btn:hover {
             transform: scale(1.12);
-            box-shadow: 0 8px 36px var(--glow-a)
+            box-shadow: 0 8px 36px var(--glow-a);
         }
 
-        /* ─── CANVAS AREA ──────────────────────────────── */
+        /* ═══════════════════════════════════════════════
+           CANVAS + RULER AREA
+        ═══════════════════════════════════════════════ */
         .canvas-area {
             flex: 1;
             overflow: auto;
@@ -1141,58 +1118,61 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 24px 80px;
+            padding: 0 0 80px 0;
             position: relative;
         }
 
         .canvas-area::-webkit-scrollbar {
-            width: 5px;
-            height: 5px
+            width: 6px;
+            height: 6px;
         }
 
         .canvas-area::-webkit-scrollbar-thumb {
             background: rgba(139, 114, 255, .3);
-            border-radius: 3px
+            border-radius: 3px;
         }
 
-        /* Floating toolbar */
-        .doc-toolbar {
+        /* sticky top wrapper */
+        .ruler-h-wrap {
             position: sticky;
             top: 0;
-            z-index: 20;
+            z-index: 30;
+            width: 100%;
+            background: var(--sidebar-bg);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: var(--shadow-card);
+            flex-shrink: 0;
+        }
+
+        /* toolbar */
+        .doc-toolbar {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
-            padding: 12px 16px;
-            margin-bottom: 28px;
-            background: var(--sidebar-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            backdrop-filter: blur(18px);
-            box-shadow: var(--shadow-card);
+            padding: 10px 16px 0;
             width: 100%;
-            max-width: 900px;
-            animation: fadeUp .8s .5s var(--tr-spring) both;
         }
 
         .toolbar-sep {
             width: 1px;
-            height: 24px;
+            height: 22px;
             background: var(--border2);
             align-self: center;
-            margin: 0 4px
+            margin: 0 2px;
         }
 
         .toolbar-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 7px 14px;
+            gap: 5px;
+            padding: 6px 12px;
             border-radius: var(--radius-xs);
             font-family: var(--font-display);
             font-weight: 600;
-            font-size: .82rem;
+            font-size: .78rem;
             background: var(--surface);
             border: 1px solid var(--border2);
             color: var(--text2);
@@ -1203,7 +1183,7 @@
             background: var(--surface2);
             color: var(--text);
             border-color: var(--accent);
-            transform: translateY(-1px)
+            transform: translateY(-1px);
         }
 
         .toolbar-btn.primary {
@@ -1215,291 +1195,232 @@
 
         .toolbar-btn.primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px var(--glow-a)
+            box-shadow: 0 8px 24px var(--glow-a);
         }
 
         .toolbar-btn.danger {
             color: var(--err-color);
-            border-color: rgba(248, 113, 113, .25)
+            border-color: rgba(248, 113, 113, .25);
         }
 
         .toolbar-btn.danger:hover {
-            background: rgba(248, 113, 113, .1)
+            background: rgba(248, 113, 113, .1);
         }
 
-        /* ─── DOCUMENT PAGE ────────────────────────────── */
-        .doc-page-wrap {
-            width: 100%;
-            max-width: 860px;
-            margin-bottom: 24px;
-            position: relative;
-            animation: fadeUp .7s .6s var(--tr-spring) both;
-        }
-
-        .doc-page {
-            background: var(--page-bg);
-            color: #000;
-            min-height: 1100px;
-            padding: 72px;
-            border-radius: var(--radius-sm);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, .4), 0 0 0 1px rgba(255, 255, 255, .08);
-            position: relative;
-            overflow: hidden;
-            transition: box-shadow var(--tr);
-        }
-
-        [data-theme="light"] .doc-page {
-            box-shadow: 0 8px 40px rgba(100, 80, 200, .15), 0 0 0 1px rgba(100, 80, 200, .08)
-        }
-
-        .doc-page:focus {
-            outline: none
-        }
-
-        .doc-page-overlay {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 80%, rgba(240, 240, 255, .5) 100%);
-        }
-
-        /* ─── DOCUMENT MODALS (editor-specific, z-index above header) ── */
-        .editor-modal {
-            position: fixed;
-            inset: 0;
-            z-index: 800;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, .75);
-            backdrop-filter: blur(8px);
-            padding: 20px;
-        }
-
-        .editor-modal.open {
-            display: flex
-        }
-
-        .editor-modal-box {
-            background: var(--bg2);
-            border: 1px solid var(--border2);
-            border-radius: var(--radius);
-            padding: 32px 28px;
-            max-width: 520px;
-            width: 100%;
-            box-shadow: 0 0 60px var(--glow-a), var(--shadow);
-            animation: modalPop .4s var(--tr-spring) both;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .editor-modal-box::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--glow-a), transparent 60%);
-            pointer-events: none
-        }
-
-        @keyframes modalPop {
-            from {
-                transform: scale(.88) translateY(20px);
-                opacity: 0
-            }
-
-            to {
-                transform: scale(1) translateY(0);
-                opacity: 1
-            }
-        }
-
-        .editor-modal-title {
+        .zoom-badge {
             font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 1.2rem;
-            margin-bottom: 20px
-        }
-
-        .editor-modal-close {
-            position: absolute;
-            top: 14px;
-            right: 14px;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: .9rem;
-            color: var(--text3);
-            transition: background var(--tr-fast), color var(--tr-fast);
-        }
-
-        .editor-modal-close:hover {
-            background: var(--surface2);
-            color: var(--text)
-        }
-
-        /* Modal fields */
-        .field-group {
-            margin-bottom: 16px
-        }
-
-        .field-label {
-            font-family: var(--font-display);
-            font-size: .8rem;
-            font-weight: 600;
+            font-size: .75rem;
+            font-weight: 700;
             color: var(--text2);
-            margin-bottom: 6px;
-            display: block
-        }
-
-        .field-input {
-            width: 100%;
-            padding: 11px 14px;
+            padding: 5px 10px;
             border-radius: var(--radius-xs);
-            background: var(--input-bg);
-            border: 1.5px solid var(--input-border);
-            color: var(--text);
-            font-family: var(--font-display);
-            font-size: .88rem;
-            outline: none;
-            transition: border-color .25s, box-shadow .25s;
-        }
-
-        .field-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--glow-a)
-        }
-
-        .field-textarea {
-            min-height: 80px;
-            resize: vertical
-        }
-
-        .field-select {
-            appearance: none;
-            -webkit-appearance: none;
-            padding-right: 32px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%238b72ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 10px center
-        }
-
-        .field-select option {
-            background: var(--bg2)
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 20px
-        }
-
-        .modal-btn {
-            padding: 10px 22px;
-            border-radius: var(--radius-xs);
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: .88rem;
             background: var(--surface);
             border: 1px solid var(--border2);
-            color: var(--text2);
-            transition: background var(--tr-fast), color var(--tr-fast), transform var(--tr-fast);
+            min-width: 52px;
+            text-align: center;
+            user-select: none;
         }
 
-        .modal-btn:hover {
-            background: var(--surface2);
-            color: var(--text);
-            transform: translateY(-1px)
-        }
-
-        .modal-btn.primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            color: #fff;
-            border-color: transparent;
-            box-shadow: 0 4px 16px var(--glow-a);
-        }
-
-        .modal-btn.primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px var(--glow-a)
-        }
-
-        /* OCR progress */
-        .ocr-progress {
-            height: 6px;
-            background: var(--border);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 12px;
-        }
-
-        .ocr-fill {
-            height: 100%;
-            width: 0%;
-            border-radius: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--accent2));
-            transition: width .3s ease;
-        }
-
-        /* Signature canvas */
-        .sig-canvas {
-            width: 100%;
-            height: 140px;
-            background: var(--input-bg);
-            border: 1.5px solid var(--input-border);
-            border-radius: var(--radius-xs);
-            cursor: crosshair;
+        /* horizontal ruler canvas */
+        .ruler-h {
             display: block;
-            transition: border-color .25s;
+            width: 100%;
+            height: 24px;
+            cursor: default;
+            margin-top: 6px;
         }
 
-        .sig-canvas:hover {
-            border-color: var(--accent)
+        /* status bar row */
+        .status-row {
+            width: 100%;
+            padding: 4px 16px 0;
+            min-height: 0;
         }
 
-        /* Status bar */
         .status-bar {
             display: none;
             align-items: center;
             gap: 10px;
-            padding: 10px 14px;
+            padding: 6px 12px;
             border-radius: var(--radius-xs);
             background: var(--surface);
             border: 1px solid var(--border);
             font-family: var(--font-display);
-            font-size: .8rem;
+            font-size: .78rem;
             color: var(--text2);
-            margin-bottom: 16px;
-            width: 100%;
-            max-width: 860px;
         }
 
         .status-bar.visible {
             display: flex;
-            animation: fadeUp .4s ease both
+            animation: fadeUp .4s ease both;
         }
 
         .status-spinner {
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             border: 2px solid var(--border);
             border-top-color: var(--accent2);
-            animation: spin 1s linear infinite
+            animation: spin 1s linear infinite;
+            flex-shrink: 0;
         }
 
         @keyframes spin {
             to {
-                transform: rotate(360deg)
+                transform: rotate(360deg);
             }
         }
 
-        /* ═══════════════════════════════════════════════════
-   FLOATING MODE BUTTON
-═══════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════
+           PAGES CONTAINER & FIXED-SIZE PAGES
+           THE CORE FIX: pages are absolutely-sized, never grow
+        ═══════════════════════════════════════════════ */
+        .pages-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 32px 24px 60px;
+            gap: 32px;
+            /* allow horizontal scroll when zoomed large */
+            min-width: fit-content;
+            width: 100%;
+        }
+
+        /*
+         * Each page wrapper is EXACTLY page-width × page-height.
+         * CSS transform zoom scales it visually without changing layout flow.
+         * margin-bottom is adjusted by JS to prevent overlap when scaled.
+         */
+        .doc-page-wrap {
+            position: relative;
+            width: var(--page-width);
+            height: var(--page-height);
+            flex-shrink: 0;
+            transform-origin: top center;
+            /* Transition for smooth size changes */
+            transition: width .3s var(--tr-spring), height .3s var(--tr-spring), filter var(--tr);
+            filter: drop-shadow(0 20px 60px rgba(0, 0, 0, .45));
+        }
+
+        [data-theme="light"] .doc-page-wrap {
+            filter: drop-shadow(0 8px 32px rgba(100, 80, 200, .18));
+        }
+
+        /*
+         * The white editable surface.
+         * position:absolute + inset:0 makes it fill the wrapper exactly.
+         * overflow:hidden clips content at the page boundary — text does NOT push the page taller.
+         */
+        .doc-page {
+            position: absolute;
+            inset: 0;
+            background: var(--page-bg);
+            color: #1a1a1a;
+            border-radius: var(--radius-xs);
+            /* CRITICAL — clips content that exceeds page height */
+            overflow: hidden;
+            /* Typography defaults */
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            /* default 1in = 96px padding (margin) */
+            padding: 96px;
+            cursor: text;
+            /* focus ring */
+            outline: none;
+            /* word wrap — do NOT use white-space:pre-wrap globally */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            transition: box-shadow var(--tr);
+        }
+
+        .doc-page:focus {
+            box-shadow: 0 0 0 3px rgba(45, 212, 240, .4), 0 20px 60px rgba(0, 0, 0, .4);
+        }
+
+        /* Ensure child elements wrap properly — no white-space:pre-wrap on * which breaks tables */
+        .doc-page p,
+        .doc-page div,
+        .doc-page span,
+        .doc-page h1,
+        .doc-page h2,
+        .doc-page h3,
+        .doc-page h4,
+        .doc-page h5,
+        .doc-page h6 {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Red overflow indicator bar at bottom of page */
+        .page-overflow-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent3), #ff5555);
+            border-radius: 0 0 var(--radius-xs) var(--radius-xs);
+            opacity: 0;
+            transition: opacity .3s;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .doc-page-wrap.overflow .page-overflow-bar {
+            opacity: 1;
+        }
+
+        /* Overflow tooltip */
+        .page-overflow-tip {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: rgba(255, 85, 85, .9);
+            color: #fff;
+            font-family: var(--font-display);
+            font-size: .68rem;
+            font-weight: 700;
+            pointer-events: none;
+            z-index: 6;
+            opacity: 0;
+            transition: opacity .3s;
+            white-space: nowrap;
+            box-shadow: 0 4px 16px rgba(255, 85, 85, .4);
+        }
+
+        .doc-page-wrap.overflow .page-overflow-tip {
+            opacity: 1;
+        }
+
+        /* Page number badge */
+        .page-num-badge {
+            position: absolute;
+            bottom: -26px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-display);
+            font-size: .7rem;
+            font-weight: 600;
+            color: var(--text3);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        /* Dashed margin guide overlay */
+        .margin-guide {
+            position: absolute;
+            pointer-events: none;
+            z-index: 3;
+            border: 1px dashed rgba(139, 114, 255, .22);
+            border-radius: 2px;
+            transition: all .3s var(--tr-spring);
+        }
+
+        /* Float mode button */
         .float-mode {
             position: fixed;
             bottom: 30px;
@@ -1520,41 +1441,480 @@
 
         .float-mode:hover {
             transform: scale(1.12) rotate(14deg);
-            box-shadow: 0 10px 42px var(--glow-a)
+            box-shadow: 0 10px 42px var(--glow-a);
         }
 
-        /* ═══════════════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════
+           EDITOR MODALS (z-index 800)
+        ═══════════════════════════════════════════════ */
+        .editor-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 800;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, .75);
+            backdrop-filter: blur(8px);
+            padding: 20px;
+        }
+
+        .editor-modal.open {
+            display: flex;
+        }
+
+        .editor-modal-box {
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 0 60px var(--glow-a), var(--shadow);
+            animation: modalPop .4s var(--tr-spring) both;
+            position: relative;
+            overflow: hidden;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .editor-modal-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--glow-a), transparent 60%);
+            pointer-events: none;
+        }
+
+        @keyframes modalPop {
+            from {
+                transform: scale(.88) translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .editor-modal-title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.15rem;
+            margin-bottom: 18px;
+        }
+
+        .editor-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem;
+            color: var(--text3);
+            transition: background var(--tr-fast), color var(--tr-fast);
+        }
+
+        .editor-modal-close:hover {
+            background: var(--surface2);
+            color: var(--text);
+        }
+
+        .field-group {
+            margin-bottom: 14px;
+        }
+
+        .field-label {
+            font-family: var(--font-display);
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--text2);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: var(--radius-xs);
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            color: var(--text);
+            font-family: var(--font-display);
+            font-size: .85rem;
+            outline: none;
+            transition: border-color .25s, box-shadow .25s;
+        }
+
+        .field-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--glow-a);
+        }
+
+        .field-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 18px;
+        }
+
+        .modal-btn {
+            padding: 9px 20px;
+            border-radius: var(--radius-xs);
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: .85rem;
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            color: var(--text2);
+            transition: background var(--tr-fast), color var(--tr-fast), transform var(--tr-fast);
+        }
+
+        .modal-btn:hover {
+            background: var(--surface2);
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        .modal-btn.primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px var(--glow-a);
+        }
+
+        .modal-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--glow-a);
+        }
+
+        .ocr-progress {
+            height: 5px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .ocr-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            transition: width .3s ease;
+        }
+
+        .sig-canvas {
+            width: 100%;
+            height: 130px;
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: var(--radius-xs);
+            cursor: crosshair;
+            display: block;
+            transition: border-color .25s;
+            touch-action: none;
+        }
+
+        .sig-canvas:hover {
+            border-color: var(--accent);
+        }
+
+        .table-modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* ── Margin Modal ── */
+        .margin-presets {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .margin-preset-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 6px;
+            border-radius: var(--radius-xs);
+            border: 1.5px solid var(--border2);
+            background: var(--surface);
+            cursor: pointer;
+            transition: all var(--tr-fast);
+            flex: 1;
+            min-width: 60px;
+        }
+
+        .margin-preset-btn:hover {
+            border-color: var(--accent);
+            background: var(--surface2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--glow-a);
+        }
+
+        .margin-preset-btn.active {
+            border-color: var(--accent2);
+            background: linear-gradient(135deg, rgba(139, 114, 255, .12), rgba(45, 212, 240, .08));
+        }
+
+        .margin-preset-icon {
+            width: 34px;
+            height: 42px;
+            border-radius: 3px;
+            border: 1.5px solid var(--text3);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .margin-preset-icon .inner {
+            background: var(--accent);
+            opacity: .22;
+            border-radius: 1px;
+        }
+
+        .margin-preset-label {
+            font-family: var(--font-display);
+            font-size: .6rem;
+            font-weight: 700;
+            letter-spacing: .04em;
+            color: var(--text3);
+            text-transform: uppercase;
+        }
+
+        .margin-preset-btn.active .margin-preset-label {
+            color: var(--accent2);
+        }
+
+        .margin-diagram {
+            position: relative;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto 12px;
+            aspect-ratio: 8.5 / 11;
+            border: 2px solid var(--border2);
+            border-radius: 5px;
+            background: var(--surface);
+            overflow: hidden;
+        }
+
+        .margin-diagram-page {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(139, 114, 255, .08), rgba(45, 212, 240, .06));
+            border: 1.5px dashed var(--accent);
+            border-radius: 2px;
+            transition: all .3s var(--tr-spring);
+        }
+
+        .margin-diagram-label {
+            position: absolute;
+            font-family: var(--font-display);
+            font-size: .55rem;
+            font-weight: 700;
+            color: var(--accent2);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .margin-diagram-label.top {
+            top: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .margin-diagram-label.bottom {
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .margin-diagram-label.left {
+            left: 2px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+        }
+
+        .margin-diagram-label.right {
+            right: 2px;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+        }
+
+        .margin-inputs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .margin-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .margin-input-label {
+            font-family: var(--font-display);
+            font-size: .66rem;
+            font-weight: 700;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+
+        .margin-input-field {
+            width: 100%;
+            padding: 7px 10px;
+            border-radius: var(--radius-xs);
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            color: var(--text);
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: .78rem;
+            outline: none;
+            transition: border-color .25s, box-shadow .25s;
+            text-align: center;
+        }
+
+        .margin-input-field:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--glow-a);
+        }
+
+        .margin-unit-select {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 6px 8px;
+            border-radius: var(--radius-xs);
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            color: var(--text);
+            font-family: var(--font-display);
+            font-weight: 500;
+            font-size: .75rem;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%238b72ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 6px center;
+            padding-right: 24px;
+            transition: border-color .25s, box-shadow .25s;
+        }
+
+        .margin-unit-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--glow-a);
+        }
+
+        .margin-unit-select option {
+            background: var(--bg2);
+            color: var(--text);
+        }
+
+        /* ── Page Size Modal ── */
+        .page-size-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .page-size-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 4px;
+            border-radius: var(--radius-xs);
+            border: 1.5px solid var(--border2);
+            background: var(--surface);
+            cursor: pointer;
+            transition: all var(--tr-fast);
+        }
+
+        .page-size-btn:hover {
+            border-color: var(--accent);
+            background: var(--surface2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--glow-a);
+        }
+
+        .page-size-btn.active {
+            border-color: var(--accent2);
+            background: linear-gradient(135deg, rgba(139, 114, 255, .12), rgba(45, 212, 240, .08));
+        }
+
+        .page-size-icon {
+            font-size: 1.1rem;
+        }
+
+        .page-size-label {
+            font-family: var(--font-display);
+            font-size: .62rem;
+            font-weight: 700;
+            color: var(--text3);
+            text-transform: uppercase;
+        }
+
+        .page-size-btn.active .page-size-label {
+            color: var(--accent2);
+        }
+
+        .page-size-dims {
+            font-family: var(--font-display);
+            font-size: .55rem;
+            color: var(--text3);
+        }
+
+        /* ═══════════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════════ */
         .site-footer {
             background: #000;
             border-top: 1px solid rgba(255, 255, 255, .06);
             position: relative;
-            z-index: 1
+            z-index: 1;
         }
 
         .footer-inner {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 70px 28px 40px
+            padding: 70px 28px 40px;
         }
 
         .footer-top {
             display: grid;
             grid-template-columns: 1.4fr 1fr 1fr 1fr;
             gap: 48px;
-            margin-bottom: 56px
+            margin-bottom: 56px;
         }
 
-        @media(max-width:900px) {
+        @media (max-width: 900px) {
             .footer-top {
-                grid-template-columns: 1fr 1fr
+                grid-template-columns: 1fr 1fr;
             }
         }
 
-        @media(max-width:540px) {
+        @media (max-width: 540px) {
             .footer-top {
-                grid-template-columns: 1fr
+                grid-template-columns: 1fr;
             }
         }
 
@@ -1564,14 +1924,14 @@
             font-size: 1.2rem;
             letter-spacing: .06em;
             color: #fff;
-            margin-bottom: 12px
+            margin-bottom: 12px;
         }
 
         .footer-tagline {
             font-size: .85rem;
             color: rgba(255, 255, 255, .32);
             line-height: 1.7;
-            max-width: 240px
+            max-width: 240px;
         }
 
         .footer-mode-row {
@@ -1582,14 +1942,14 @@
             border-radius: 14px;
             background: rgba(255, 255, 255, .04);
             border: 1px solid rgba(255, 255, 255, .08);
-            margin-top: 24px
+            margin-top: 24px;
         }
 
         .footer-mode-label {
             font-size: .85rem;
             color: rgba(255, 255, 255, .45);
             font-family: var(--font-display);
-            font-weight: 600
+            font-weight: 600;
         }
 
         .footer-col h4 {
@@ -1599,26 +1959,26 @@
             letter-spacing: .14em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, .22);
-            margin-bottom: 20px
+            margin-bottom: 20px;
         }
 
         .footer-col ul {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 13px
+            gap: 13px;
         }
 
         .footer-col a {
             font-size: .88rem;
             color: rgba(255, 255, 255, .4);
             transition: color var(--tr-fast), padding-left var(--tr-fast);
-            display: inline-block
+            display: inline-block;
         }
 
         .footer-col a:hover {
             color: #fff;
-            padding-left: 5px
+            padding-left: 5px;
         }
 
         .footer-bottom {
@@ -1628,18 +1988,18 @@
             flex-wrap: wrap;
             gap: 14px;
             align-items: center;
-            justify-content: space-between
+            justify-content: space-between;
         }
 
         .footer-copy {
             font-size: .8rem;
-            color: rgba(255, 255, 255, .18)
+            color: rgba(255, 255, 255, .18);
         }
 
         .footer-pills {
             display: flex;
             gap: 8px;
-            flex-wrap: wrap
+            flex-wrap: wrap;
         }
 
         .pill {
@@ -1648,41 +2008,41 @@
             font-size: .73rem;
             font-weight: 600;
             border: 1px solid rgba(255, 255, 255, .08);
-            color: rgba(255, 255, 255, .22)
+            color: rgba(255, 255, 255, .22);
         }
 
-        /* ═══════════════════════════════════════════════════
-   UTILITIES
-═══════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════
+           UTILITIES + ANIMATIONS
+        ═══════════════════════════════════════════════ */
         @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(28px)
+                transform: translateY(28px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0)
+                transform: translateY(0);
             }
         }
 
         ::-webkit-scrollbar {
-            width: 5px
+            width: 5px;
         }
 
         ::-webkit-scrollbar-track {
-            background: transparent
+            background: transparent;
         }
 
         ::-webkit-scrollbar-thumb {
             background: rgba(139, 114, 255, .3);
-            border-radius: 3px
+            border-radius: 3px;
         }
 
-        /* ═══════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════ */
-        @media(max-width:900px) {
+        /* ═══════════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════════ */
+        @media (max-width: 900px) {
             .doc-sidebar {
                 position: fixed;
                 top: 70px;
@@ -1693,7 +2053,7 @@
             }
 
             .doc-sidebar.mobile-open {
-                transform: translateX(0)
+                transform: translateX(0);
             }
 
             .sidebar-overlay {
@@ -1702,51 +2062,41 @@
                 z-index: 170;
                 background: rgba(0, 0, 0, .5);
                 backdrop-filter: blur(4px);
-                display: none
+                display: none;
             }
 
             .sidebar-overlay.visible {
-                display: block
+                display: block;
             }
 
             .sidebar-toggle-btn {
-                display: flex
+                display: flex;
             }
 
-            .canvas-area {
-                padding: 20px 14px 100px
+            .pages-container {
+                padding: 20px 12px 60px;
             }
 
             .doc-toolbar {
-                flex-wrap: wrap;
-                gap: 6px
-            }
-
-            .doc-page {
-                padding: 40px 28px;
-                min-height: 800px
+                gap: 4px;
             }
         }
 
-        @media(max-width:600px) {
+        @media (max-width: 600px) {
             .site-header {
-                padding: 0 16px
+                padding: 0 16px;
             }
 
             .brand-name {
-                display: none
+                display: none;
             }
 
             .header-sep {
-                display: none
-            }
-
-            .doc-page {
-                padding: 24px 16px
+                display: none;
             }
 
             .footer-inner {
-                padding: 50px 18px 30px
+                padding: 50px 18px 30px;
             }
         }
     </style>
@@ -1761,11 +2111,12 @@
     </div>
     <canvas id="px"></canvas>
 
-    <!-- ═══════════════════ HEADER ═══════════════════ -->
+    <!-- ═══════════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════════ -->
     <header class="site-header">
         <div class="header-left">
-            <!-- BACK BUTTON — far left, first element -->
-            <a href="/" class="back-btn" id="backBtn">
+            <a href="/" class="back-btn">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                     <path d="M19 12H5M5 12l7 7M5 12l7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
                         stroke-linejoin="round" />
@@ -1773,7 +2124,6 @@
                 Back
             </a>
             <div class="header-sep"></div>
-            <!-- Brand -->
             <div class="brand" onclick="window.location='/'">
                 <div class="brand-icon">
                     <svg viewBox="0 0 24 24" fill="none">
@@ -1781,7 +2131,7 @@
                         <circle cx="19" cy="12" r="3" stroke="#fff" stroke-width="2" />
                     </svg>
                 </div>
-                <span class="brand-name" data-i18n="brand">ALL-IN-ONE</span>
+                <span class="brand-name">ALL-IN-ONE</span>
             </div>
             <div class="header-sep"></div>
             <div class="header-page-title">
@@ -1808,25 +2158,34 @@
             </button>
         </div>
         <nav class="drawer-nav">
-            <button class="menu-item" id="menuPricing"><span
-                    class="menu-item-ico">💎</span><span>Pricing</span></button>
+            <button class="menu-item" id="menuPricing">
+                <span class="menu-item-ico">💎</span><span>Pricing</span>
+            </button>
             <div>
-                <button class="menu-item" id="menuLang"><span class="menu-item-ico">🌍</span><span>Language</span><span
-                        class="menu-item-chevron" id="langChevron">▾</span></button>
+                <button class="menu-item" id="menuLang">
+                    <span class="menu-item-ico">🌍</span><span>Language</span>
+                    <span class="menu-item-chevron" id="langChevron">▾</span>
+                </button>
                 <div class="lang-panel" id="langPanel"></div>
             </div>
-            <a href="/" class="menu-item" onclick="closeDrawer()"><span
-                    class="menu-item-ico">🏠</span><span>Home</span></a>
-            <a href="#siteFooter" class="menu-item" onclick="closeDrawer()"><span
-                    class="menu-item-ico">🔒</span><span>Privacy Policy</span></a>
-            <a href="#siteFooter" class="menu-item" onclick="closeDrawer()"><span
-                    class="menu-item-ico">📜</span><span>Terms &amp; Conditions</span></a>
-            <a href="#siteFooter" class="menu-item" onclick="closeDrawer()"><span
-                    class="menu-item-ico">✉️</span><span>Contact Us</span></a>
+            <a href="/" class="menu-item" onclick="closeDrawer()">
+                <span class="menu-item-ico">🏠</span><span>Home</span>
+            </a>
+            <a href="#siteFooter" class="menu-item" onclick="closeDrawer()">
+                <span class="menu-item-ico">🔒</span><span>Privacy Policy</span>
+            </a>
+            <a href="#siteFooter" class="menu-item" onclick="closeDrawer()">
+                <span class="menu-item-ico">📜</span><span>Terms &amp; Conditions</span>
+            </a>
+            <a href="#siteFooter" class="menu-item" onclick="closeDrawer()">
+                <span class="menu-item-ico">✉️</span><span>Contact Us</span>
+            </a>
         </nav>
         <div class="drawer-footer">
             <div class="mode-toggle-row">
-                <div class="mode-label"><span id="drawerModeIcon">🌙</span><span id="drawerModeLabel">Dark Mode</span>
+                <div class="mode-label">
+                    <span id="drawerModeIcon">🌙</span>
+                    <span id="drawerModeLabel">Dark Mode</span>
                 </div>
                 <div class="toggle-switch on" id="drawerToggle" onclick="toggleMode()">
                     <div class="toggle-knob"></div>
@@ -1835,241 +2194,190 @@
         </div>
     </div>
 
-    <!-- PRICING MODAL (z-index 700, below editor modals at 800) -->
+    <!-- PRICING MODAL -->
     <div class="modal-overlay" id="pricingModal">
         <div class="modal-box">
             <span class="modal-emoji">🚀</span>
             <div class="modal-title">Coming Soon!</div>
             <div class="modal-sub">This feature will be available soon.<br>We're crafting something extraordinary for
                 you.</div>
-            <button class="modal-close-btn"
-                onclick="document.getElementById('pricingModal').classList.remove('open')">Awesome, got it!</button>
+            <button class="modal-close-btn" onclick="document.getElementById('pricingModal').classList.remove('open')">
+                Awesome, got it!
+            </button>
         </div>
     </div>
 
     <!-- Mobile sidebar overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
-    <!-- ═══════════════════ APP SHELL ═══════════════════ -->
-    <div class="app-shell">
+    <!-- ═══════════════════════════════════════════════
+     EDITOR MODALS (z-index 800)
+═══════════════════════════════════════════════ -->
 
-        <!-- ─── SIDEBAR ─────────────────────────────── -->
-        <aside class="doc-sidebar" id="docSidebar">
-
-            <!-- Document name -->
-            <div class="sidebar-header">
-                <div class="sidebar-label">Document</div>
-                <div class="sidebar-doc-name-wrap">
-                    <input type="text" class="doc-title-input" id="docTitle" value="Untitled Document"
-                        placeholder="Document title…" />
+    <!-- TABLE -->
+    <div class="editor-modal" id="tableModal">
+        <div class="editor-modal-box">
+            <button class="editor-modal-close" onclick="closeModal('tableModal')">✕</button>
+            <div class="editor-modal-title">⊞ Insert Table</div>
+            <div class="table-modal-grid">
+                <div class="field-group">
+                    <label class="field-label">Rows</label>
+                    <input type="number" class="field-input" id="tableRows" value="3" min="1" max="20" />
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Columns</label>
+                    <input type="number" class="field-input" id="tableCols" value="3" min="1" max="10" />
                 </div>
             </div>
+            <div class="modal-actions">
+                <button class="modal-btn" onclick="closeModal('tableModal')">Cancel</button>
+                <button class="modal-btn primary" onclick="doInsertTable()">Insert</button>
+            </div>
+        </div>
+    </div>
 
-            <div class="sidebar-scroll">
+    <!-- MARGIN -->
+    <div class="editor-modal" id="marginModal">
+        <div class="editor-modal-box" style="max-width:440px">
+            <button class="editor-modal-close" onclick="closeModal('marginModal')">✕</button>
+            <div class="editor-modal-title">📐 Page Margins</div>
 
-                <!-- TEXT TOOLS -->
-                <div class="tool-group">
-                    <div class="tool-group-title">Text</div>
-                    <div class="prop-row">
-                        <span class="prop-label">Font</span>
-                        <select class="prop-select" id="fontFamily" onchange="applyStyle('fontFamily',this.value)">
-                            <option value="Arial">Arial</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Courier New">Courier New</option>
-                            <option value="Verdana">Verdana</option>
-                            <option value="Outfit">Outfit</option>
-                        </select>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">Size</span>
-                        <select class="prop-select" id="fontSize" onchange="applyStyle('fontSize',this.value)">
-                            <option>10px</option>
-                            <option>12px</option>
-                            <option>14px</option>
-                            <option selected>16px</option>
-                            <option>18px</option>
-                            <option>20px</option>
-                            <option>24px</option>
-                            <option>28px</option>
-                            <option>32px</option>
-                            <option>36px</option>
-                            <option>48px</option>
-                            <option>64px</option>
-                        </select>
-                    </div>
-                    <div class="tool-row">
-                        <button class="tool-btn" onclick="applyFormat('bold')"><b>B</b></button>
-                        <button class="tool-btn" onclick="applyFormat('italic')"><i>I</i></button>
-                        <button class="tool-btn" onclick="applyFormat('underline')"><u>U</u></button>
-                        <button class="tool-btn" onclick="applyFormat('strikeThrough')"><s>S</s></button>
-                    </div>
-                    <div class="tool-row" style="margin-top:6px">
-                        <button class="tool-btn" onclick="applyFormat('justifyLeft')">⬅</button>
-                        <button class="tool-btn" onclick="applyFormat('justifyCenter')">≡</button>
-                        <button class="tool-btn" onclick="applyFormat('justifyRight')">➡</button>
-                        <button class="tool-btn" onclick="applyFormat('justifyFull')">☰</button>
-                    </div>
-                </div>
-
-                <div class="tool-divider"></div>
-
-                <!-- COLOR -->
-                <div class="tool-group">
-                    <div class="tool-group-title">Color</div>
-                    <div class="prop-row">
-                        <span class="prop-label">Text</span>
-                        <div class="color-row" style="flex:1;padding:0">
-                            <div class="color-swatch active" style="background:#000000"
-                                onclick="applyColor('#000000',this)" title="Black"></div>
-                            <div class="color-swatch" style="background:#1a1a2e" onclick="applyColor('#1a1a2e',this)"
-                                title="Dark"></div>
-                            <div class="color-swatch" style="background:#8b72ff" onclick="applyColor('#8b72ff',this)"
-                                title="Purple"></div>
-                            <div class="color-swatch" style="background:#2dd4f0" onclick="applyColor('#2dd4f0',this)"
-                                title="Cyan"></div>
-                            <div class="color-swatch" style="background:#ff6bd6" onclick="applyColor('#ff6bd6',this)"
-                                title="Pink"></div>
-                            <div class="color-swatch" style="background:#ff5555" onclick="applyColor('#ff5555',this)"
-                                title="Red"></div>
-                            <div class="color-swatch" style="background:#22c55e" onclick="applyColor('#22c55e',this)"
-                                title="Green"></div>
-                            <div class="color-swatch-custom" title="Custom">
-                                🎨<input type="color" id="textColorPicker" onchange="applyColor(this.value,null)" />
-                            </div>
+            <div class="field-group">
+                <label class="field-label">Presets</label>
+                <div class="margin-presets" id="marginPresets">
+                    <button class="margin-preset-btn active" data-preset="normal"
+                        onclick="applyMarginPreset('normal',this)">
+                        <div class="margin-preset-icon">
+                            <div class="inner" style="width:20px;height:28px"></div>
                         </div>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">Highlight</span>
-                        <div class="color-row" style="flex:1;padding:0">
-                            <div class="color-swatch" style="background:#fef08a"
-                                onclick="applyHighlight('#fef08a',this)" title="Yellow"></div>
-                            <div class="color-swatch" style="background:#bbf7d0"
-                                onclick="applyHighlight('#bbf7d0',this)" title="Green"></div>
-                            <div class="color-swatch" style="background:#bfdbfe"
-                                onclick="applyHighlight('#bfdbfe',this)" title="Blue"></div>
-                            <div class="color-swatch" style="background:#fecaca"
-                                onclick="applyHighlight('#fecaca',this)" title="Red"></div>
-                            <div class="color-swatch" style="background:transparent;border:1px solid var(--border2)"
-                                onclick="applyHighlight('transparent',this)" title="None">✕</div>
+                        <span class="margin-preset-label">Normal</span>
+                    </button>
+                    <button class="margin-preset-btn" data-preset="narrow" onclick="applyMarginPreset('narrow',this)">
+                        <div class="margin-preset-icon">
+                            <div class="inner" style="width:28px;height:36px"></div>
                         </div>
-                    </div>
+                        <span class="margin-preset-label">Narrow</span>
+                    </button>
+                    <button class="margin-preset-btn" data-preset="wide" onclick="applyMarginPreset('wide',this)">
+                        <div class="margin-preset-icon">
+                            <div class="inner" style="width:14px;height:22px"></div>
+                        </div>
+                        <span class="margin-preset-label">Wide</span>
+                    </button>
+                    <button class="margin-preset-btn" data-preset="moderate"
+                        onclick="applyMarginPreset('moderate',this)">
+                        <div class="margin-preset-icon">
+                            <div class="inner" style="width:18px;height:30px"></div>
+                        </div>
+                        <span class="margin-preset-label">Moderate</span>
+                    </button>
                 </div>
-
-                <div class="tool-divider"></div>
-
-                <!-- LISTS & INDENT -->
-                <div class="tool-group">
-                    <div class="tool-group-title">Lists &amp; Indent</div>
-                    <div class="tool-row">
-                        <button class="tool-btn" onclick="applyFormat('insertUnorderedList')">• List</button>
-                        <button class="tool-btn" onclick="applyFormat('insertOrderedList')">1. List</button>
-                        <button class="tool-btn" onclick="applyFormat('indent')">→ In</button>
-                        <button class="tool-btn" onclick="applyFormat('outdent')">← Out</button>
-                    </div>
-                </div>
-
-                <div class="tool-divider"></div>
-
-                <!-- INSERT -->
-                <div class="tool-group">
-                    <div class="tool-group-title">Insert</div>
-                    <div class="tool-row">
-                        <button class="tool-btn" onclick="insertHR()">— Line</button>
-                        <button class="tool-btn" onclick="insertTable()">⊞ Table</button>
-                        <button class="tool-btn" onclick="openImageModal()">🖼 Image</button>
-                        <button class="tool-btn" onclick="openLinkModal()">🔗 Link</button>
-                    </div>
-                    <div class="tool-row" style="margin-top:6px">
-                        <button class="tool-btn" onclick="openSignatureModal()">✍ Sign</button>
-                        <button class="tool-btn" onclick="openOcrModal()">🔍 OCR</button>
-                        <button class="tool-btn" onclick="insertDate()">📅 Date</button>
-                        <button class="tool-btn" onclick="insertPageBreak()">↕ Break</button>
-                    </div>
-                </div>
-
-                <div class="tool-divider"></div>
-
-                <!-- EXPORT -->
-                <div class="tool-group">
-                    <div class="tool-group-title">Export</div>
-                    <div class="tool-row" style="flex-direction:column;gap:6px">
-                        <button class="tool-btn primary" onclick="exportPDF()">⬇ Export PDF</button>
-                        <button class="tool-btn primary" onclick="exportWord()"
-                            style="background:linear-gradient(135deg,#2563eb,#0ea5c9)">⬇ Export Word</button>
-                        <button class="tool-btn" onclick="printDoc()">🖨 Print</button>
-                        <button class="tool-btn" onclick="saveDoc()">💾 Save</button>
-                    </div>
-                </div>
-
-                <div class="tool-divider"></div>
-
-                <!-- HISTORY -->
-                <div class="tool-group">
-                    <div class="tool-group-title">History</div>
-                    <div class="tool-row">
-                        <button class="tool-btn" onclick="document.execCommand('undo')">↩ Undo</button>
-                        <button class="tool-btn" onclick="document.execCommand('redo')">↪ Redo</button>
-                        <button class="tool-btn" onclick="clearContent()"
-                            style="color:var(--err-color);border-color:rgba(248,113,113,.25)">🗑 Clear</button>
-                    </div>
-                </div>
-
-            </div><!-- /sidebar-scroll -->
-
-            <!-- Page thumbnails -->
-            <div class="pages-panel">
-                <div class="pages-label">Pages</div>
-                <div class="pages-strip" id="pagesStrip"></div>
             </div>
 
-        </aside><!-- /doc-sidebar -->
-
-        <!-- ─── CANVAS AREA ───────────────────────────── -->
-        <div class="canvas-area" id="canvasArea">
-
-            <!-- Status bar -->
-            <div class="status-bar" id="statusBar">
-                <div class="status-spinner"></div>
-                <span id="statusMsg">Processing…</span>
+            <div class="field-group">
+                <label class="field-label">Preview</label>
+                <div class="margin-diagram" id="marginDiagram">
+                    <div class="margin-diagram-page" id="marginDiagramPage"></div>
+                    <div class="margin-diagram-label top" id="marginLabelTop">1 in</div>
+                    <div class="margin-diagram-label bottom" id="marginLabelBottom">1 in</div>
+                    <div class="margin-diagram-label left" id="marginLabelLeft">1 in</div>
+                    <div class="margin-diagram-label right" id="marginLabelRight">1 in</div>
+                </div>
             </div>
 
-            <!-- Floating toolbar -->
-            <div class="doc-toolbar" id="docToolbar">
-                <button class="toolbar-btn" onclick="addPage()">＋ Page</button>
-                <button class="toolbar-btn danger" onclick="removePage()">− Page</button>
-                <div class="toolbar-sep"></div>
-                <button class="toolbar-btn" onclick="zoomIn()">🔍＋</button>
-                <button class="toolbar-btn" onclick="zoomOut()">🔍−</button>
-                <button class="toolbar-btn" onclick="zoomReset()">100%</button>
-                <div class="toolbar-sep"></div>
-                <button class="toolbar-btn" onclick="selectAll()">☑ Select All</button>
-                <button class="toolbar-btn" onclick="copyContent()">📋 Copy</button>
-                <button class="toolbar-btn" onclick="pasteContent()">📌 Paste</button>
-                <div class="toolbar-sep"></div>
-                <button class="toolbar-btn primary" onclick="exportPDF()">⬇ PDF</button>
+            <div class="field-group">
+                <label class="field-label">Custom Margins</label>
+                <select class="margin-unit-select" id="marginUnit" onchange="onMarginUnitChange()">
+                    <option value="in" selected>Inches (in)</option>
+                    <option value="cm">Centimeters (cm)</option>
+                    <option value="px">Pixels (px)</option>
+                    <option value="pt">Points (pt)</option>
+                </select>
+                <div class="margin-inputs-grid">
+                    <div class="margin-input-group">
+                        <span class="margin-input-label">↑ Top</span>
+                        <input type="number" class="margin-input-field" id="marginTop" value="1" step="0.1" min="0"
+                            max="6" oninput="onMarginInputChange()" />
+                    </div>
+                    <div class="margin-input-group">
+                        <span class="margin-input-label">↓ Bottom</span>
+                        <input type="number" class="margin-input-field" id="marginBottom" value="1" step="0.1" min="0"
+                            max="6" oninput="onMarginInputChange()" />
+                    </div>
+                    <div class="margin-input-group">
+                        <span class="margin-input-label">← Left</span>
+                        <input type="number" class="margin-input-field" id="marginLeft" value="1" step="0.1" min="0"
+                            max="6" oninput="onMarginInputChange()" />
+                    </div>
+                    <div class="margin-input-group">
+                        <span class="margin-input-label">→ Right</span>
+                        <input type="number" class="margin-input-field" id="marginRight" value="1" step="0.1" min="0"
+                            max="6" oninput="onMarginInputChange()" />
+                    </div>
+                </div>
             </div>
 
-            <!-- Document pages -->
-            <div id="docPages"></div>
+            <div class="field-group">
+                <label class="field-label">Apply to</label>
+                <select class="field-input" id="marginScope"
+                    style="appearance:none;-webkit-appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%238b72ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 10px center;padding-right:32px;">
+                    <option value="all">All pages</option>
+                    <option value="current">Current page only</option>
+                </select>
+            </div>
 
-        </div><!-- /canvas-area -->
+            <div class="modal-actions">
+                <button class="modal-btn" onclick="closeModal('marginModal')">Cancel</button>
+                <button class="modal-btn primary" onclick="applyCustomMargins()">Apply</button>
+            </div>
+        </div>
+    </div>
 
-    </div><!-- /app-shell -->
+    <!-- PAGE SIZE -->
+    <div class="editor-modal" id="pageSizeModal">
+        <div class="editor-modal-box" style="max-width:400px">
+            <button class="editor-modal-close" onclick="closeModal('pageSizeModal')">✕</button>
+            <div class="editor-modal-title">📄 Page Size</div>
 
-    <!-- Mobile sidebar toggle -->
-    <button class="sidebar-toggle-btn" id="sidebarToggleBtn" onclick="toggleSidebar()" title="Open tools">
-        🛠
-    </button>
+            <div class="field-group">
+                <label class="field-label">Preset Sizes</label>
+                <div class="page-size-grid" id="pageSizeGrid"></div>
+            </div>
 
-    <!-- Float mode -->
-    <button class="float-mode" onclick="toggleMode()" title="Toggle theme">
-        <span id="floatIcon">🌙</span>
-    </button>
+            <div class="field-group">
+                <label class="field-label">Custom Size (px)</label>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                    <div class="margin-input-group">
+                        <span class="margin-input-label">Width</span>
+                        <input type="number" class="margin-input-field" id="customPageW" value="794" min="200"
+                            max="2000" />
+                    </div>
+                    <div class="margin-input-group">
+                        <span class="margin-input-label">Height</span>
+                        <input type="number" class="margin-input-field" id="customPageH" value="1123" min="200"
+                            max="3000" />
+                    </div>
+                </div>
+            </div>
 
-    <!-- ═══════════════════ EDITOR MODALS (z-index: 800) ═══════════════════ -->
+            <div class="field-group">
+                <label class="field-label">Orientation</label>
+                <div style="display:flex;gap:8px">
+                    <button class="modal-btn primary" id="orientPortrait" onclick="setOrientation('portrait')"
+                        style="flex:1">Portrait</button>
+                    <button class="modal-btn" id="orientLandscape" onclick="setOrientation('landscape')"
+                        style="flex:1">Landscape</button>
+                </div>
+            </div>
 
-    <!-- Image Modal -->
+            <div class="modal-actions">
+                <button class="modal-btn" onclick="closeModal('pageSizeModal')">Cancel</button>
+                <button class="modal-btn primary" onclick="applyPageSize()">Apply Size</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- IMAGE -->
     <div class="editor-modal" id="imageModal">
         <div class="editor-modal-box">
             <button class="editor-modal-close" onclick="closeModal('imageModal')">✕</button>
@@ -2093,7 +2401,7 @@
         </div>
     </div>
 
-    <!-- Link Modal -->
+    <!-- LINK -->
     <div class="editor-modal" id="linkModal">
         <div class="editor-modal-box">
             <button class="editor-modal-close" onclick="closeModal('linkModal')">✕</button>
@@ -2103,8 +2411,8 @@
                 <input type="text" class="field-input" id="linkUrl" placeholder="https://example.com" />
             </div>
             <div class="field-group">
-                <label class="field-label">Display text</label>
-                <input type="text" class="field-input" id="linkText" placeholder="Link text (optional)" />
+                <label class="field-label">Display text (optional)</label>
+                <input type="text" class="field-input" id="linkText" placeholder="Link text" />
             </div>
             <div class="modal-actions">
                 <button class="modal-btn" onclick="closeModal('linkModal')">Cancel</button>
@@ -2113,13 +2421,13 @@
         </div>
     </div>
 
-    <!-- Signature Modal -->
+    <!-- SIGNATURE -->
     <div class="editor-modal" id="signatureModal">
         <div class="editor-modal-box">
             <button class="editor-modal-close" onclick="closeModal('signatureModal')">✕</button>
             <div class="editor-modal-title">✍ Draw Signature</div>
-            <canvas class="sig-canvas" id="sigCanvas" width="460" height="140"></canvas>
-            <div class="modal-actions" style="margin-top:12px">
+            <canvas class="sig-canvas" id="sigCanvas" width="460" height="130"></canvas>
+            <div class="modal-actions" style="margin-top:10px">
                 <button class="modal-btn" onclick="clearSignature()">🧹 Clear</button>
                 <button class="modal-btn" onclick="closeModal('signatureModal')">Cancel</button>
                 <button class="modal-btn primary" onclick="insertSignature()">Insert</button>
@@ -2127,7 +2435,7 @@
         </div>
     </div>
 
-    <!-- OCR Modal -->
+    <!-- OCR -->
     <div class="editor-modal" id="ocrModal">
         <div class="editor-modal-box">
             <button class="editor-modal-close" onclick="closeModal('ocrModal')">✕</button>
@@ -2139,10 +2447,10 @@
             <div class="ocr-progress" id="ocrProgress">
                 <div class="ocr-fill" id="ocrFill"></div>
             </div>
-            <div class="field-group" style="margin-top:14px">
+            <div class="field-group" style="margin-top:12px">
                 <label class="field-label">Extracted text</label>
                 <textarea class="field-input field-textarea" id="ocrResult" readonly
-                    placeholder="OCR result will appear here…" style="min-height:120px"></textarea>
+                    placeholder="OCR result will appear here…" style="min-height:100px"></textarea>
             </div>
             <div class="modal-actions">
                 <button class="modal-btn" onclick="closeModal('ocrModal')">Cancel</button>
@@ -2151,7 +2459,265 @@
         </div>
     </div>
 
-    <!-- ═══════════════════ FOOTER ═══════════════════ -->
+    <!-- ═══════════════════════════════════════════════
+     APP SHELL
+═══════════════════════════════════════════════ -->
+    <div class="app-shell">
+
+        <!-- SIDEBAR -->
+        <aside class="doc-sidebar" id="docSidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-label">Document</div>
+                <input type="text" class="doc-title-input" id="docTitle" value="Untitled Document"
+                    placeholder="Document title…" />
+            </div>
+
+            <div class="sidebar-scroll">
+
+                <!-- TEXT -->
+                <div class="tool-group">
+                    <div class="tool-group-title">Text</div>
+                    <div class="prop-row">
+                        <span class="prop-label">Font</span>
+                        <select class="prop-select" id="fontFamily" onchange="applyFontFamily(this.value)">
+                            <option value="Arial">Arial</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Courier New">Courier New</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Outfit">Outfit</option>
+                        </select>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Size</span>
+                        <select class="prop-select" id="fontSize" onchange="applyFontSize(this.value)">
+                            <option value="10px">10px</option>
+                            <option value="12px">12px</option>
+                            <option value="14px">14px</option>
+                            <option value="16px" selected>16px</option>
+                            <option value="18px">18px</option>
+                            <option value="20px">20px</option>
+                            <option value="24px">24px</option>
+                            <option value="28px">28px</option>
+                            <option value="32px">32px</option>
+                            <option value="36px">36px</option>
+                            <option value="48px">48px</option>
+                            <option value="64px">64px</option>
+                        </select>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Line</span>
+                        <select class="prop-select" id="lineHeight" onchange="applyLineHeight(this.value)">
+                            <option value="1">Single</option>
+                            <option value="1.15">1.15</option>
+                            <option value="1.5">1.5</option>
+                            <option value="1.7" selected>1.7</option>
+                            <option value="2">Double</option>
+                            <option value="2.5">2.5</option>
+                        </select>
+                    </div>
+                    <div class="tool-row">
+                        <button class="tool-btn" onclick="applyFormat('bold')" title="Bold (Ctrl+B)"><b>B</b></button>
+                        <button class="tool-btn" onclick="applyFormat('italic')"
+                            title="Italic (Ctrl+I)"><i>I</i></button>
+                        <button class="tool-btn" onclick="applyFormat('underline')"
+                            title="Underline (Ctrl+U)"><u>U</u></button>
+                        <button class="tool-btn" onclick="applyFormat('strikeThrough')"
+                            title="Strikethrough"><s>S</s></button>
+                        <button class="tool-btn" onclick="applyFormat('superscript')" title="Superscript">x²</button>
+                        <button class="tool-btn" onclick="applyFormat('subscript')" title="Subscript">x₂</button>
+                    </div>
+                    <div class="tool-row" style="margin-top:5px">
+                        <button class="tool-btn" onclick="applyFormat('justifyLeft')" title="Align Left">⬅</button>
+                        <button class="tool-btn" onclick="applyFormat('justifyCenter')" title="Center">≡</button>
+                        <button class="tool-btn" onclick="applyFormat('justifyRight')" title="Align Right">➡</button>
+                        <button class="tool-btn" onclick="applyFormat('justifyFull')" title="Justify">☰</button>
+                    </div>
+                </div>
+
+                <div class="tool-divider"></div>
+
+                <!-- COLOR -->
+                <div class="tool-group">
+                    <div class="tool-group-title">Color</div>
+                    <div class="prop-row">
+                        <span class="prop-label">Text</span>
+                        <div class="color-row" style="flex:1;padding:0">
+                            <div class="color-swatch active" style="background:#000000"
+                                onclick="applyColor('#000000',this)" title="Black"></div>
+                            <div class="color-swatch" style="background:#1a1a2e" onclick="applyColor('#1a1a2e',this)"
+                                title="Dark Navy"></div>
+                            <div class="color-swatch" style="background:#8b72ff" onclick="applyColor('#8b72ff',this)"
+                                title="Purple"></div>
+                            <div class="color-swatch" style="background:#2dd4f0" onclick="applyColor('#2dd4f0',this)"
+                                title="Cyan"></div>
+                            <div class="color-swatch" style="background:#ff6bd6" onclick="applyColor('#ff6bd6',this)"
+                                title="Pink"></div>
+                            <div class="color-swatch" style="background:#ff5555" onclick="applyColor('#ff5555',this)"
+                                title="Red"></div>
+                            <div class="color-swatch" style="background:#22c55e" onclick="applyColor('#22c55e',this)"
+                                title="Green"></div>
+                            <div class="color-swatch-custom" title="Custom color">
+                                🎨<input type="color" id="textColorPicker" onchange="applyColor(this.value,null)" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Highlight</span>
+                        <div class="color-row" style="flex:1;padding:0">
+                            <div class="color-swatch" style="background:#fef08a"
+                                onclick="applyHighlight('#fef08a',this)" title="Yellow"></div>
+                            <div class="color-swatch" style="background:#bbf7d0"
+                                onclick="applyHighlight('#bbf7d0',this)" title="Green"></div>
+                            <div class="color-swatch" style="background:#bfdbfe"
+                                onclick="applyHighlight('#bfdbfe',this)" title="Blue"></div>
+                            <div class="color-swatch" style="background:#fecaca"
+                                onclick="applyHighlight('#fecaca',this)" title="Red"></div>
+                            <div class="color-swatch"
+                                style="background:transparent;border:2px solid var(--border2);font-size:.7rem;display:flex;align-items:center;justify-content:center"
+                                onclick="applyHighlight('transparent',this)" title="Remove highlight">✕</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-divider"></div>
+
+                <!-- LISTS & INDENT -->
+                <div class="tool-group">
+                    <div class="tool-group-title">Lists &amp; Indent</div>
+                    <div class="tool-row">
+                        <button class="tool-btn" onclick="applyFormat('insertUnorderedList')">• List</button>
+                        <button class="tool-btn" onclick="applyFormat('insertOrderedList')">1. List</button>
+                        <button class="tool-btn" onclick="applyFormat('indent')">→ In</button>
+                        <button class="tool-btn" onclick="applyFormat('outdent')">← Out</button>
+                    </div>
+                </div>
+
+                <div class="tool-divider"></div>
+
+                <!-- PAGE SETUP -->
+                <div class="tool-group">
+                    <div class="tool-group-title">Page Setup</div>
+                    <div class="tool-row" style="flex-direction:column;gap:5px">
+                        <button class="tool-btn" style="width:100%;justify-content:center"
+                            onclick="openMarginModal()">📐 Margins</button>
+                        <button class="tool-btn" style="width:100%;justify-content:center"
+                            onclick="openPageSizeModal()">📄 Page Size</button>
+                    </div>
+                    <div style="display:flex;gap:4px;flex-wrap:wrap;padding:6px 8px 2px">
+                        <button class="tool-btn active" data-preset="normal" onclick="applyMarginPreset('normal',this)"
+                            style="padding:5px 10px;font-size:.72rem">Normal</button>
+                        <button class="tool-btn" data-preset="narrow" onclick="applyMarginPreset('narrow',this)"
+                            style="padding:5px 10px;font-size:.72rem">Narrow</button>
+                        <button class="tool-btn" data-preset="wide" onclick="applyMarginPreset('wide',this)"
+                            style="padding:5px 10px;font-size:.72rem">Wide</button>
+                        <button class="tool-btn" data-preset="moderate" onclick="applyMarginPreset('moderate',this)"
+                            style="padding:5px 10px;font-size:.72rem">Moderate</button>
+                    </div>
+                </div>
+
+                <div class="tool-divider"></div>
+
+                <!-- INSERT -->
+                <div class="tool-group">
+                    <div class="tool-group-title">Insert</div>
+                    <div class="tool-row">
+                        <button class="tool-btn" onclick="insertHR()">— Line</button>
+                        <button class="tool-btn" onclick="openTableModal()">⊞ Table</button>
+                        <button class="tool-btn" onclick="openImageModal()">🖼 Image</button>
+                        <button class="tool-btn" onclick="openLinkModal()">🔗 Link</button>
+                    </div>
+                    <div class="tool-row" style="margin-top:4px">
+                        <button class="tool-btn" onclick="openSignatureModal()">✍ Sign</button>
+                        <button class="tool-btn" onclick="openOcrModal()">🔍 OCR</button>
+                        <button class="tool-btn" onclick="insertDate()">📅 Date</button>
+                        <button class="tool-btn" onclick="insertPageBreakMark()">↕ Break</button>
+                    </div>
+                </div>
+
+                <div class="tool-divider"></div>
+
+                <!-- EXPORT -->
+                <div class="tool-group">
+                    <div class="tool-group-title">Export</div>
+                    <div class="tool-row" style="flex-direction:column;gap:5px">
+                        <button class="tool-btn primary" onclick="exportPDF()">⬇ Export PDF</button>
+                        <button class="tool-btn primary" onclick="exportWord()"
+                            style="background:linear-gradient(135deg,#2563eb,#0ea5c9)">⬇ Export Word</button>
+                        <button class="tool-btn" onclick="printDoc()">🖨 Print</button>
+                        <button class="tool-btn" onclick="saveDoc()">💾 Save</button>
+                    </div>
+                </div>
+
+                <div class="tool-divider"></div>
+
+                <!-- HISTORY -->
+                <div class="tool-group">
+                    <div class="tool-group-title">History</div>
+                    <div class="tool-row">
+                        <button class="tool-btn" onclick="document.execCommand('undo')">↩ Undo</button>
+                        <button class="tool-btn" onclick="document.execCommand('redo')">↪ Redo</button>
+                        <button class="tool-btn" style="color:var(--err-color);border-color:rgba(248,113,113,.25)"
+                            onclick="clearContent()">🗑 Clear</button>
+                    </div>
+                </div>
+
+            </div><!-- /sidebar-scroll -->
+
+            <!-- PAGE THUMBNAILS -->
+            <div class="pages-panel">
+                <div class="pages-label">Pages</div>
+                <div class="pages-strip" id="pagesStrip"></div>
+            </div>
+        </aside>
+
+        <!-- CANVAS AREA -->
+        <div class="canvas-area" id="canvasArea">
+
+            <!-- Sticky ruler + toolbar -->
+            <div class="ruler-h-wrap">
+                <div class="doc-toolbar">
+                    <button class="toolbar-btn" onclick="addPage()">＋ Page</button>
+                    <button class="toolbar-btn danger" onclick="removePage()">− Page</button>
+                    <div class="toolbar-sep"></div>
+                    <button class="toolbar-btn" onclick="zoomOut()">🔍−</button>
+                    <span class="zoom-badge" id="zoomBadge">100%</span>
+                    <button class="toolbar-btn" onclick="zoomIn()">🔍＋</button>
+                    <button class="toolbar-btn" onclick="zoomReset()">Reset</button>
+                    <div class="toolbar-sep"></div>
+                    <button class="toolbar-btn" onclick="openMarginModal()">📐 Margins</button>
+                    <button class="toolbar-btn" onclick="openPageSizeModal()">📄 Size</button>
+                    <div class="toolbar-sep"></div>
+                    <button class="toolbar-btn" onclick="selectAll()">☑ All</button>
+                    <button class="toolbar-btn" onclick="copyContent()">📋 Copy</button>
+                    <button class="toolbar-btn" onclick="pasteContent()">📌 Paste</button>
+                    <div class="toolbar-sep"></div>
+                    <button class="toolbar-btn primary" onclick="exportPDF()">⬇ PDF</button>
+                </div>
+
+                <div class="status-row">
+                    <div class="status-bar" id="statusBar">
+                        <div class="status-spinner"></div>
+                        <span id="statusMsg">Processing…</span>
+                    </div>
+                </div>
+
+                <canvas class="ruler-h" id="rulerH" height="24"></canvas>
+            </div>
+
+            <!-- Pages go here -->
+            <div class="pages-container" id="pagesContainer"></div>
+
+        </div><!-- /canvas-area -->
+
+    </div><!-- /app-shell -->
+
+    <button class="sidebar-toggle-btn" id="sidebarToggleBtn" onclick="toggleSidebar()" title="Open tools">🛠</button>
+    <button class="float-mode" onclick="toggleMode()" title="Toggle theme"><span id="floatIcon">🌙</span></button>
+
+    <!-- ═══════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════ -->
     <footer class="site-footer" id="siteFooter">
         <div class="footer-inner">
             <div class="footer-top">
@@ -2196,122 +2762,532 @@
             </div>
             <div class="footer-bottom">
                 <p class="footer-copy">© 2025 ALL-IN-ONE. All rights reserved.</p>
-                <div class="footer-pills"><span class="pill">Free Forever</span><span class="pill">No
-                        Sign-up</span><span class="pill">100% Private</span></div>
+                <div class="footer-pills">
+                    <span class="pill">Free Forever</span>
+                    <span class="pill">No Sign-up</span>
+                    <span class="pill">100% Private</span>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- ═══════════════════════════════════════════════════
+    <!-- ═══════════════════════════════════════════════
      JAVASCRIPT
-═══════════════════════════════════════════════════ -->
+═══════════════════════════════════════════════ -->
     <script>
-        /* ══════════════════════════════════════════════════
-           PLATFORM JS — ALL-IN-ONE system
-        ══════════════════════════════════════════════════ */
+        /* ════════════════════════════════════════════════
+           PLATFORM
+        ════════════════════════════════════════════════ */
         const ALL_LANGUAGES = ['English', 'Spanish', 'French', 'German', 'Japanese', 'Portuguese', 'Arabic', 'Hindi', 'Chinese', 'Korean', 'Italian', 'Russian', 'Dutch', 'Turkish', 'Polish', 'Swedish'];
         let isDark = true, drawerOpen = false, langPanelOpen = false;
 
-        /* Particles */
+        /* ── Particles ── */
         (function () {
             const c = document.getElementById('px'), ctx = c.getContext('2d');
             let W, H, pts = [];
-            const resize = () => { W = c.width = innerWidth; H = c.height = innerHeight };
+            function resize() { W = c.width = innerWidth; H = c.height = innerHeight; }
             resize(); window.addEventListener('resize', resize);
-            for (let i = 0; i < 72; i++)pts.push({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, vx: (Math.random() - .5) * .28, vy: (Math.random() - .5) * .28, r: Math.random() * 2 + .4, a: Math.random() * .28 + .05, cyan: Math.random() > .52 });
-            function draw() { ctx.clearRect(0, 0, W, H); pts.forEach(p => { p.x += p.vx; p.y += p.vy; if (p.x < 0) p.x = W; if (p.x > W) p.x = 0; if (p.y < 0) p.y = H; if (p.y > H) p.y = 0; const col = isDark ? (p.cyan ? '45,212,240' : '139,114,255') : (p.cyan ? '14,165,201' : '108,79,255'); ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${col},${p.a})`; ctx.fill(); }); requestAnimationFrame(draw); }
+            for (let i = 0; i < 72; i++) pts.push({
+                x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+                vx: (Math.random() - .5) * .28, vy: (Math.random() - .5) * .28,
+                r: Math.random() * 2 + .4, a: Math.random() * .28 + .05, cyan: Math.random() > .52
+            });
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                pts.forEach(p => {
+                    p.x += p.vx; p.y += p.vy;
+                    if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+                    if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+                    const col = isDark ? (p.cyan ? '45,212,240' : '139,114,255') : (p.cyan ? '14,165,201' : '108,79,255');
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${col},${p.a})`; ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
             draw();
         })();
 
-        /* Language panel */
+        /* ── Language panel ── */
         const langPanel = document.getElementById('langPanel');
-        ALL_LANGUAGES.forEach(l => { const btn = document.createElement('button'); btn.className = 'lang-item' + (l === 'English' ? ' active' : ''); btn.textContent = l; btn.addEventListener('click', () => { document.querySelectorAll('.lang-item').forEach(x => x.classList.remove('active')); btn.classList.add('active'); toggleLangPanel(false); closeDrawer(); }); langPanel.appendChild(btn); });
+        ALL_LANGUAGES.forEach(l => {
+            const btn = document.createElement('button');
+            btn.className = 'lang-item' + (l === 'English' ? ' active' : '');
+            btn.textContent = l;
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.lang-item').forEach(x => x.classList.remove('active'));
+                btn.classList.add('active'); toggleLangPanel(false); closeDrawer();
+            });
+            langPanel.appendChild(btn);
+        });
 
-        /* Drawer */
-        function openDrawer() { drawerOpen = true; document.getElementById('drawer').classList.add('open'); document.getElementById('overlay').classList.add('open'); document.getElementById('hamburger').classList.add('open') }
-        function closeDrawer() { drawerOpen = false; document.getElementById('drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); document.getElementById('hamburger').classList.remove('open'); toggleLangPanel(false) }
+        /* ── Drawer ── */
+        function openDrawer() {
+            drawerOpen = true;
+            document.getElementById('drawer').classList.add('open');
+            document.getElementById('overlay').classList.add('open');
+            document.getElementById('hamburger').classList.add('open');
+        }
+        function closeDrawer() {
+            drawerOpen = false;
+            document.getElementById('drawer').classList.remove('open');
+            document.getElementById('overlay').classList.remove('open');
+            document.getElementById('hamburger').classList.remove('open');
+            toggleLangPanel(false);
+        }
         document.getElementById('hamburger').addEventListener('click', () => drawerOpen ? closeDrawer() : openDrawer());
         document.getElementById('closeDrawerBtn').addEventListener('click', closeDrawer);
         document.getElementById('overlay').addEventListener('click', closeDrawer);
-        function toggleLangPanel(force) { langPanelOpen = force !== undefined ? force : !langPanelOpen; langPanel.classList.toggle('open', langPanelOpen); document.getElementById('langChevron').textContent = langPanelOpen ? '▴' : '▾' }
+
+        function toggleLangPanel(force) {
+            langPanelOpen = force !== undefined ? force : !langPanelOpen;
+            langPanel.classList.toggle('open', langPanelOpen);
+            document.getElementById('langChevron').textContent = langPanelOpen ? '▴' : '▾';
+        }
         document.getElementById('menuLang').addEventListener('click', e => { e.stopPropagation(); toggleLangPanel(); });
         document.getElementById('menuPricing').addEventListener('click', () => { closeDrawer(); openPricingModal(); });
 
-        /* Mode */
+        /* ── Mode toggle — syncs ALL toggles including footer ── */
         function toggleMode() {
             isDark = !isDark;
             document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-            const icon = isDark ? '🌙' : '☀️'; const label = isDark ? 'Dark Mode' : 'Light Mode';
-            ['floatIcon', 'drawerModeIcon', 'footerModeIcon'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = icon; });
-            const dml = document.getElementById('drawerModeLabel'); const fml = document.getElementById('footerModeLabel');
-            if (dml) dml.textContent = label; if (fml) fml.textContent = label;
-            ['drawerToggle', 'footerToggle'].forEach(id => document.getElementById(id)?.classList.toggle('on', isDark));
+            const icon = isDark ? '🌙' : '☀️', label = isDark ? 'Dark Mode' : 'Light Mode';
+            ['floatIcon', 'drawerModeIcon', 'footerModeIcon'].forEach(id => {
+                const el = document.getElementById(id); if (el) el.textContent = icon;
+            });
+            const dml = document.getElementById('drawerModeLabel');
+            const fml = document.getElementById('footerModeLabel');
+            if (dml) dml.textContent = label;
+            if (fml) fml.textContent = label;
+            /* Sync all toggle switches */
+            ['drawerToggle', 'footerToggle'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('on', isDark);
+            });
+            if (sigCtx) sigCtx.strokeStyle = isDark ? '#eeeef8' : '#1a1540';
+            requestAnimationFrame(drawRuler);
         }
-        function openPricingModal() { document.getElementById('pricingModal').classList.add('open') }
-        document.getElementById('pricingModal').addEventListener('click', function (e) { if (e.target === this) this.classList.remove('open'); });
 
-        /* Mobile sidebar */
+        function openPricingModal() { document.getElementById('pricingModal').classList.add('open'); }
+
+        document.getElementById('pricingModal').addEventListener('click', function (e) {
+            if (e.target === this) this.classList.remove('open');
+        });
+
         function toggleSidebar() {
-            const s = document.getElementById('docSidebar'); const o = document.getElementById('sidebarOverlay');
-            s.classList.toggle('mobile-open'); o.classList.toggle('visible');
+            document.getElementById('docSidebar').classList.toggle('mobile-open');
+            document.getElementById('sidebarOverlay').classList.toggle('visible');
         }
         function closeSidebar() {
             document.getElementById('docSidebar').classList.remove('mobile-open');
             document.getElementById('sidebarOverlay').classList.remove('visible');
         }
 
-        /* Editor modals */
-        function closeModal(id) { document.getElementById(id).classList.remove('open') }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-        /* ══════════════════════════════════════════════════
-           DOCUMENT CREATOR — CORE JS
-        ══════════════════════════════════════════════════ */
+        /* Close editor modals on backdrop click */
+        document.querySelectorAll('.editor-modal').forEach(m => {
+            m.addEventListener('click', function (e) { if (e.target === this) closeModal(this.id); });
+        });
+
+        /* ════════════════════════════════════════════════
+           PAGE SIZE & MARGIN SYSTEM
+        ════════════════════════════════════════════════ */
+        const PAGE_SIZES = {
+            'A4': { w: 794, h: 1123, label: 'A4', dims: '210×297mm' },
+            'Letter': { w: 816, h: 1056, label: 'Letter', dims: '8.5×11in' },
+            'Legal': { w: 816, h: 1344, label: 'Legal', dims: '8.5×14in' },
+            'A3': { w: 1123, h: 1587, label: 'A3', dims: '297×420mm' },
+            'A5': { w: 559, h: 794, label: 'A5', dims: '148×210mm' }
+        };
+
+        let pageSize = { w: 794, h: 1123 };
+        let currentOrientation = 'portrait';
+        let currentSizeKey = 'A4';
+
+        const MARGIN_PRESETS_DATA = {
+            normal: { top: 1, bottom: 1, left: 1, right: 1 },
+            narrow: { top: 0.5, bottom: 0.5, left: 0.5, right: 0.5 },
+            wide: { top: 1, bottom: 1, left: 2, right: 2 },
+            moderate: { top: 1, bottom: 1, left: 0.75, right: 0.75 }
+        };
+
+        let currentMargins = { top: 1, bottom: 1, left: 1, right: 1 };
+        let currentPreset = 'normal';
+
+        const UNIT_TO_IN = { 'in': 1, 'cm': 1 / 2.54, 'px': 1 / 96, 'pt': 1 / 72 };
+        const IN_TO_UNIT = { 'in': 1, 'cm': 2.54, 'px': 96, 'pt': 72 };
+        const UNIT_DEC = { 'in': 2, 'cm': 2, 'px': 0, 'pt': 0 };
+
+        function inToPx(v) { return Math.round(v * 96); }
+        function convertFromIn(v, u) { return +(v * IN_TO_UNIT[u]).toFixed(UNIT_DEC[u]); }
+        function convertToIn(v, u) { return v * UNIT_TO_IN[u]; }
+
+        /* Build page size preset buttons */
+        (function buildPageSizeGrid() {
+            const grid = document.getElementById('pageSizeGrid');
+            if (!grid) return;
+            Object.entries(PAGE_SIZES).forEach(([key, s]) => {
+                const btn = document.createElement('button');
+                btn.className = 'page-size-btn' + (key === 'A4' ? ' active' : '');
+                btn.setAttribute('data-size', key);
+                btn.innerHTML = `<span class="page-size-icon">📄</span><span class="page-size-label">${s.label}</span><span class="page-size-dims">${s.dims}</span>`;
+                btn.onclick = () => selectPageSizePreset(key, btn);
+                grid.appendChild(btn);
+            });
+        })();
+
+        function selectPageSizePreset(key, btn) {
+            currentSizeKey = key;
+            const s = PAGE_SIZES[key];
+            if (currentOrientation === 'landscape') {
+                document.getElementById('customPageW').value = Math.max(s.w, s.h);
+                document.getElementById('customPageH').value = Math.min(s.w, s.h);
+            } else {
+                document.getElementById('customPageW').value = Math.min(s.w, s.h);
+                document.getElementById('customPageH').value = Math.max(s.w, s.h);
+            }
+            document.querySelectorAll('.page-size-btn').forEach(b =>
+                b.classList.toggle('active', b.getAttribute('data-size') === key)
+            );
+        }
+
+        function setOrientation(o) {
+            currentOrientation = o;
+            const w = parseInt(document.getElementById('customPageW').value) || 794;
+            const h = parseInt(document.getElementById('customPageH').value) || 1123;
+            if (o === 'portrait' && w > h) {
+                document.getElementById('customPageW').value = h;
+                document.getElementById('customPageH').value = w;
+            }
+            if (o === 'landscape' && h > w) {
+                document.getElementById('customPageW').value = h;
+                document.getElementById('customPageH').value = w;
+            }
+            document.getElementById('orientPortrait').className = 'modal-btn' + (o === 'portrait' ? ' primary' : '');
+            document.getElementById('orientLandscape').className = 'modal-btn' + (o === 'landscape' ? ' primary' : '');
+        }
+
+        function openPageSizeModal() {
+            document.getElementById('customPageW').value = pageSize.w;
+            document.getElementById('customPageH').value = pageSize.h;
+            document.getElementById('pageSizeModal').classList.add('open');
+        }
+
+        function applyPageSize() {
+            const w = Math.max(200, Math.min(2000, parseInt(document.getElementById('customPageW').value) || 794));
+            const h = Math.max(200, Math.min(3000, parseInt(document.getElementById('customPageH').value) || 1123));
+            pageSize = { w, h };
+            /* Update CSS variables */
+            document.documentElement.style.setProperty('--page-width', w + 'px');
+            document.documentElement.style.setProperty('--page-height', h + 'px');
+            /* Update each page wrapper */
+            pages.forEach(p => {
+                const wrap = p.closest('.doc-page-wrap');
+                wrap.style.width = w + 'px';
+                wrap.style.height = h + 'px';
+                checkPageOverflow(p, wrap);
+            });
+            applyZoom();
+            updateMarginGuides();
+            requestAnimationFrame(drawRuler);
+            closeModal('pageSizeModal');
+            showStatus('Page size updated!', 2000);
+        }
+
+        /* ── Margin ── */
+        function openMarginModal() {
+            populateMarginInputs();
+            updateMarginDiagram();
+            syncPresetBtns();
+            document.getElementById('marginModal').classList.add('open');
+        }
+
+        function populateMarginInputs() {
+            const u = document.getElementById('marginUnit').value;
+            ['Top', 'Bottom', 'Left', 'Right'].forEach(s => {
+                const el = document.getElementById('margin' + s);
+                el.value = convertFromIn(currentMargins[s.toLowerCase()], u);
+                el.step = UNIT_DEC[u] > 0 ? 0.1 : 1;
+            });
+        }
+
+        function onMarginUnitChange() { readMarginsFromInputs(); populateMarginInputs(); updateMarginDiagram(); }
+
+        function readMarginsFromInputs() {
+            const u = document.getElementById('marginUnit').value;
+            ['Top', 'Bottom', 'Left', 'Right'].forEach(s => {
+                currentMargins[s.toLowerCase()] = Math.max(0,
+                    convertToIn(parseFloat(document.getElementById('margin' + s).value) || 0, u)
+                );
+            });
+        }
+
+        function onMarginInputChange() { readMarginsFromInputs(); updateMarginDiagram(); detectPresetMatch(); }
+
+        function updateMarginDiagram() {
+            const page = document.getElementById('marginDiagramPage'); if (!page) return;
+            const pT = Math.min((currentMargins.top / 11) * 100, 45);
+            const pB = Math.min((currentMargins.bottom / 11) * 100, 45);
+            const pL = Math.min((currentMargins.left / 8.5) * 100, 45);
+            const pR = Math.min((currentMargins.right / 8.5) * 100, 45);
+            page.style.top = pT + '%'; page.style.bottom = pB + '%';
+            page.style.left = pL + '%'; page.style.right = pR + '%';
+            const u = document.getElementById('marginUnit')?.value || 'in';
+            document.getElementById('marginLabelTop').textContent = convertFromIn(currentMargins.top, u) + ' ' + u;
+            document.getElementById('marginLabelBottom').textContent = convertFromIn(currentMargins.bottom, u) + ' ' + u;
+            document.getElementById('marginLabelLeft').textContent = convertFromIn(currentMargins.left, u) + ' ' + u;
+            document.getElementById('marginLabelRight').textContent = convertFromIn(currentMargins.right, u) + ' ' + u;
+        }
+
+        function applyMarginPreset(name, btn) {
+            const preset = MARGIN_PRESETS_DATA[name]; if (!preset) return;
+            currentMargins = { ...preset }; currentPreset = name;
+            /* Sync all preset buttons across both sidebar and modal */
+            document.querySelectorAll('[data-preset]').forEach(b =>
+                b.classList.toggle('active', b.getAttribute('data-preset') === name)
+            );
+            if (document.getElementById('marginModal').classList.contains('open')) {
+                populateMarginInputs(); updateMarginDiagram();
+            }
+            applyMarginsToPagesDOM('all');
+            updateMarginGuides();
+            requestAnimationFrame(drawRuler);
+            showStatus(`"${name.charAt(0).toUpperCase() + name.slice(1)}" margins applied!`, 2000);
+        }
+
+        function detectPresetMatch() {
+            currentPreset = 'custom';
+            for (const [name, p] of Object.entries(MARGIN_PRESETS_DATA)) {
+                if (Math.abs(currentMargins.top - p.top) < .01 &&
+                    Math.abs(currentMargins.bottom - p.bottom) < .01 &&
+                    Math.abs(currentMargins.left - p.left) < .01 &&
+                    Math.abs(currentMargins.right - p.right) < .01) {
+                    currentPreset = name; break;
+                }
+            }
+            syncPresetBtns();
+        }
+
+        function syncPresetBtns() {
+            document.querySelectorAll('[data-preset]').forEach(b =>
+                b.classList.toggle('active', b.getAttribute('data-preset') === currentPreset)
+            );
+        }
+
+        function applyCustomMargins() {
+            readMarginsFromInputs();
+            ['top', 'bottom'].forEach(k => { currentMargins[k] = Math.max(0, Math.min(5, currentMargins[k])); });
+            ['left', 'right'].forEach(k => { currentMargins[k] = Math.max(0, Math.min(4, currentMargins[k])); });
+            const scope = document.getElementById('marginScope').value;
+            applyMarginsToPagesDOM(scope);
+            updateMarginGuides();
+            detectPresetMatch();
+            closeModal('marginModal');
+            requestAnimationFrame(drawRuler);
+            showStatus('Margins applied!', 2000);
+        }
+
+        function applyMarginsToPagesDOM(scope) {
+            const pT = inToPx(currentMargins.top) + 'px';
+            const pB = inToPx(currentMargins.bottom) + 'px';
+            const pL = inToPx(currentMargins.left) + 'px';
+            const pR = inToPx(currentMargins.right) + 'px';
+            const target = scope === 'current' ? [pages[currentPageIndex]] : pages;
+            target.forEach(p => {
+                if (!p) return;
+                p.style.paddingTop = pT; p.style.paddingBottom = pB;
+                p.style.paddingLeft = pL; p.style.paddingRight = pR;
+            });
+        }
+
+        function updateMarginGuides() {
+            /* Remove old guides */
+            document.querySelectorAll('.margin-guide').forEach(g => g.remove());
+            pages.forEach(p => {
+                const wrap = p.closest('.doc-page-wrap');
+                const guide = document.createElement('div');
+                guide.className = 'margin-guide';
+                guide.style.top = inToPx(currentMargins.top) + 'px';
+                guide.style.bottom = inToPx(currentMargins.bottom) + 'px';
+                guide.style.left = inToPx(currentMargins.left) + 'px';
+                guide.style.right = inToPx(currentMargins.right) + 'px';
+                wrap.appendChild(guide);
+            });
+        }
+
+        /* ════════════════════════════════════════════════
+           RULER
+        ════════════════════════════════════════════════ */
+        function drawRuler() {
+            const canvas = document.getElementById('rulerH'); if (!canvas) return;
+            const canvasArea = document.getElementById('canvasArea');
+            canvas.width = canvasArea.clientWidth;
+            const RH = 24; canvas.height = RH;
+            const ctx = canvas.getContext('2d');
+            const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+            ctx.clearRect(0, 0, canvas.width, RH);
+            /* Background */
+            ctx.fillStyle = dark ? 'rgba(11,11,30,0.9)' : 'rgba(235,231,255,0.92)';
+            ctx.fillRect(0, 0, canvas.width, RH);
+
+            /* Find page position relative to canvas area scroll */
+            const container = document.getElementById('pagesContainer');
+            const cRect = container.getBoundingClientRect();
+            const aRect = canvasArea.getBoundingClientRect();
+            const scrollLeft = canvasArea.scrollLeft;
+            const containerLeft = (cRect.left - aRect.left) + scrollLeft;
+            /* Page is centered in container */
+            const scaledPageW = pageSize.w * zoom;
+            const pageLeft = containerLeft + (container.offsetWidth / 2) - (scaledPageW / 2);
+            const pageRight = pageLeft + scaledPageW;
+
+            const markColor = dark ? 'rgba(255,255,255,0.28)' : 'rgba(26,21,64,0.28)';
+            const numColor = dark ? 'rgba(255,255,255,0.44)' : 'rgba(26,21,64,0.46)';
+            const accentCol = dark ? 'rgba(45,212,240,0.8)' : 'rgba(14,165,201,0.9)';
+
+            /* Page area background on ruler */
+            ctx.fillStyle = dark ? 'rgba(255,255,255,0.03)' : 'rgba(100,80,200,0.04)';
+            const pl = Math.max(0, pageLeft), pr = Math.min(canvas.width, pageRight);
+            if (pr > pl) ctx.fillRect(pl, 0, pr - pl, RH);
+
+            /* Inch ticks */
+            const inchPx = 96 * zoom;
+            ctx.font = '500 9px Outfit, sans-serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+
+            for (let inch = 0; inch <= 24; inch += 0.5) {
+                const x = Math.round(pageLeft + inch * inchPx);
+                if (x < -2 || x > canvas.width + 2) continue;
+                const isMajor = Number.isInteger(inch);
+                ctx.strokeStyle = markColor; ctx.lineWidth = isMajor ? 1.2 : 0.7;
+                ctx.beginPath();
+                ctx.moveTo(x, RH - (isMajor ? 12 : 6));
+                ctx.lineTo(x, RH);
+                ctx.stroke();
+                if (isMajor && inch > 0) {
+                    ctx.fillStyle = numColor;
+                    ctx.fillText(String(inch), x, 2);
+                }
+            }
+
+            /* Left and right margin dashed lines on ruler */
+            const mLx = Math.round(pageLeft + inToPx(currentMargins.left) * zoom);
+            const mRx = Math.round(pageLeft + (pageSize.w - inToPx(currentMargins.right)) * zoom);
+
+            [mLx, mRx].forEach(x => {
+                if (x < -2 || x > canvas.width + 2) return;
+                ctx.save();
+                ctx.strokeStyle = accentCol; ctx.lineWidth = 1.5; ctx.setLineDash([3, 3]);
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, RH); ctx.stroke();
+                ctx.restore();
+            });
+
+            /* Shade margin zones on ruler */
+            ctx.fillStyle = dark ? 'rgba(139,114,255,0.07)' : 'rgba(108,79,255,0.07)';
+            if (mLx > pageLeft && mLx > 0)
+                ctx.fillRect(Math.max(0, pageLeft), 0, mLx - Math.max(0, pageLeft), RH);
+            if (pageRight > mRx && mRx < canvas.width)
+                ctx.fillRect(mRx, 0, Math.min(canvas.width, pageRight) - mRx, RH);
+        }
+
+        window.addEventListener('resize', () => requestAnimationFrame(drawRuler));
+        document.getElementById('canvasArea').addEventListener('scroll', () => requestAnimationFrame(drawRuler), { passive: true });
+
+        /* ════════════════════════════════════════════════
+           DOCUMENT EDITOR CORE
+        ════════════════════════════════════════════════ */
         let pages = [];
         let currentPageIndex = 0;
         let zoom = 1.0;
-        const savedSelection = {};
+        let savedRng = null;
+        let sigCtx = null, sigDrawing = false;
 
-        /* Init */
         function init() {
             addPage();
             renderPageThumbs();
             initSignatureCanvas();
+            applyZoom();
+            /* Draw ruler after layout settles */
+            setTimeout(drawRuler, 120);
         }
 
-        /* ─── PAGES ─────────────────────────────────────── */
+        /* ── ADD PAGE ── */
         function addPage() {
-            const pageWrap = document.createElement('div');
-            pageWrap.className = 'doc-page-wrap';
-            pageWrap.id = 'pageWrap-' + pages.length;
+            const idx = pages.length;
 
+            const wrap = document.createElement('div');
+            wrap.className = 'doc-page-wrap';
+            wrap.id = 'pageWrap-' + idx;
+            wrap.style.width = pageSize.w + 'px';
+            wrap.style.height = pageSize.h + 'px';
+
+            /* The fixed-size editable white page */
             const page = document.createElement('div');
             page.className = 'doc-page';
-            page.contentEditable = true;
+            page.contentEditable = 'true';
             page.spellcheck = true;
-            page.setAttribute('data-page', pages.length);
+            page.setAttribute('data-page', idx);
             page.innerHTML = '<p><br></p>';
-            page.style.fontFamily = 'Arial';
+            page.style.fontFamily = 'Arial, sans-serif';
             page.style.fontSize = '16px';
             page.style.lineHeight = '1.7';
-            page.style.minHeight = '1100px';
+            /* Apply current margins as padding */
+            page.style.paddingTop = inToPx(currentMargins.top) + 'px';
+            page.style.paddingBottom = inToPx(currentMargins.bottom) + 'px';
+            page.style.paddingLeft = inToPx(currentMargins.left) + 'px';
+            page.style.paddingRight = inToPx(currentMargins.right) + 'px';
 
-            // Focus tracking
-            page.addEventListener('focus', () => { currentPageIndex = parseInt(page.getAttribute('data-page')); updateThumbSelection(); });
-            page.addEventListener('input', () => throttle(renderPageThumbs, 800));
+            /* Red overflow bar */
+            const overflowBar = document.createElement('div');
+            overflowBar.className = 'page-overflow-bar';
+
+            /* Overflow tooltip */
+            const overflowTip = document.createElement('div');
+            overflowTip.className = 'page-overflow-tip';
+            overflowTip.textContent = '⚠ Content exceeds page — add a new page';
+
+            /* Page number label below the page */
+            const badge = document.createElement('div');
+            badge.className = 'page-num-badge';
+            badge.textContent = 'Page ' + (idx + 1);
+
+            /* Dashed margin guide */
+            const guide = document.createElement('div');
+            guide.className = 'margin-guide';
+            guide.style.top = inToPx(currentMargins.top) + 'px';
+            guide.style.bottom = inToPx(currentMargins.bottom) + 'px';
+            guide.style.left = inToPx(currentMargins.left) + 'px';
+            guide.style.right = inToPx(currentMargins.right) + 'px';
+
+            page.addEventListener('focus', () => {
+                currentPageIndex = parseInt(page.getAttribute('data-page'));
+                updateThumbSelection();
+            });
+            page.addEventListener('input', () => {
+                checkPageOverflow(page, wrap);
+                scheduleThumbRender();
+            });
             page.addEventListener('keydown', handleKeydown);
 
-            // Overlay (decorative gradient fade)
-            const overlay = document.createElement('div');
-            overlay.className = 'doc-page-overlay';
+            wrap.appendChild(page);
+            wrap.appendChild(overflowBar);
+            wrap.appendChild(overflowTip);
+            wrap.appendChild(badge);
+            wrap.appendChild(guide);
 
-            pageWrap.appendChild(page);
-            pageWrap.appendChild(overlay);
-            document.getElementById('docPages').appendChild(pageWrap);
-
+            document.getElementById('pagesContainer').appendChild(wrap);
             pages.push(page);
-            currentPageIndex = pages.length - 1;
+            currentPageIndex = idx;
             setTimeout(() => page.focus(), 50);
             renderPageThumbs();
+        }
+
+        /* Check if content overflows the fixed page height */
+        function checkPageOverflow(page, wrap) {
+            /* scrollHeight > clientHeight means content is taller than the visible box */
+            const overflows = page.scrollHeight > page.clientHeight + 4;
+            wrap.classList.toggle('overflow', overflows);
         }
 
         function removePage() {
@@ -2320,70 +3296,127 @@
             const wrap = document.getElementById('pageWrap-' + idx);
             if (wrap) wrap.remove();
             pages.splice(idx, 1);
-            // Re-index
-            pages.forEach((p, i) => { p.setAttribute('data-page', i); p.closest('.doc-page-wrap').id = 'pageWrap-' + i; });
+            /* Re-index */
+            pages.forEach((p, i) => {
+                p.setAttribute('data-page', i);
+                const w = p.closest('.doc-page-wrap');
+                if (w) {
+                    w.id = 'pageWrap-' + i;
+                    const b = w.querySelector('.page-num-badge');
+                    if (b) b.textContent = 'Page ' + (i + 1);
+                }
+            });
             currentPageIndex = Math.max(0, idx - 1);
             pages[currentPageIndex].focus();
             renderPageThumbs();
         }
 
-        function insertPageBreak() {
-            document.execCommand('insertHTML', false, '<div style="page-break-after:always;border-bottom:2px dashed rgba(139,114,255,.4);margin:24px 0;height:1px"></div><p><br></p>');
+        function insertPageBreakMark() {
+            focusCurrentPage();
+            document.execCommand('insertHTML', false,
+                '<div style="page-break-after:always;border-bottom:2px dashed rgba(139,114,255,.35);margin:20px 0;height:1px;width:100%"></div><p><br></p>'
+            );
         }
 
-        /* ─── PAGE THUMBNAILS ──────────────────────────── */
-        let thumbThrottle;
-        function throttle(fn, ms) { clearTimeout(thumbThrottle); thumbThrottle = setTimeout(fn, ms) }
+        /* ── THUMBNAILS ── */
+        let thumbTimer = null;
+        function scheduleThumbRender() {
+            clearTimeout(thumbTimer);
+            thumbTimer = setTimeout(renderPageThumbs, 600);
+        }
 
         function renderPageThumbs() {
-            const strip = document.getElementById('pagesStrip'); strip.innerHTML = '';
+            const strip = document.getElementById('pagesStrip');
+            strip.innerHTML = '';
             pages.forEach((p, i) => {
                 const thumb = document.createElement('div');
                 thumb.className = 'page-thumb' + (i === currentPageIndex ? ' active' : '');
-                thumb.onclick = () => { currentPageIndex = i; pages[i].focus(); pages[i].scrollIntoView({ behavior: 'smooth', block: 'start' }); updateThumbSelection(); };
-                const num = document.createElement('div'); num.className = 'page-thumb-num'; num.textContent = i + 1;
+                thumb.title = 'Page ' + (i + 1);
+                thumb.onclick = () => {
+                    currentPageIndex = i;
+                    pages[i].focus();
+                    pages[i].closest('.doc-page-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    updateThumbSelection();
+                };
+                const num = document.createElement('div');
+                num.className = 'page-thumb-num'; num.textContent = i + 1;
                 thumb.appendChild(num); strip.appendChild(thumb);
             });
         }
+
         function updateThumbSelection() {
-            document.querySelectorAll('.page-thumb').forEach((t, i) => t.classList.toggle('active', i === currentPageIndex));
+            document.querySelectorAll('.page-thumb').forEach((t, i) =>
+                t.classList.toggle('active', i === currentPageIndex)
+            );
         }
 
-        /* ─── TEXT FORMATTING ──────────────────────────── */
-        function saveSelection() { const sel = window.getSelection(); if (sel.rangeCount > 0) return sel.getRangeAt(0).cloneRange(); return null }
-        function restoreSelection(range) { if (range) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); } }
+        function focusCurrentPage() { if (pages[currentPageIndex]) pages[currentPageIndex].focus(); }
 
-        function applyFormat(cmd) { document.execCommand(cmd, false, null); }
+        /* ── Selection helpers ── */
+        function saveSelection() {
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount > 0) return sel.getRangeAt(0).cloneRange();
+            return null;
+        }
+        function restoreSelection(range) {
+            if (!range) return;
+            const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        }
 
-        function applyStyle(prop, val) {
+        /* ── TEXT FORMATTING ── */
+        function applyFormat(cmd) { focusCurrentPage(); document.execCommand(cmd, false, null); }
+
+        function applyFontFamily(val) {
+            focusCurrentPage();
+            document.execCommand('styleWithCSS', false, true);
+            document.execCommand('fontName', false, val);
+        }
+
+        function applyFontSize(val) {
+            focusCurrentPage();
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+                const range = sel.getRangeAt(0);
+                const span = document.createElement('span'); span.style.fontSize = val;
+                try { range.surroundContents(span); } catch (e) {
+                    const f = range.extractContents(); span.appendChild(f); range.insertNode(span);
+                    range.setStartAfter(span); range.collapse(true);
+                    sel.removeAllRanges(); sel.addRange(range);
+                }
+            } else {
+                if (pages[currentPageIndex]) pages[currentPageIndex].style.fontSize = val;
+            }
+        }
+
+        /* Line height — applies to current page or selection */
+        function applyLineHeight(val) {
+            focusCurrentPage();
             const sel = window.getSelection();
             if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
                 document.execCommand('styleWithCSS', false, true);
-                if (prop === 'fontFamily') document.execCommand('fontName', false, val);
-                else if (prop === 'fontSize') document.execCommand('fontSize', false, '7');
-                // For fontSize we use a span approach
+                document.execCommand('insertHTML', false,
+                    `<span style="line-height:${val}">${sel.toString()}</span>`
+                );
             } else {
-                // Apply to current page default
-                if (pages[currentPageIndex]) pages[currentPageIndex].style[prop] = val;
-            }
-            if (prop === 'fontSize') {
-                const spans = document.querySelectorAll('font[size="7"]');
-                spans.forEach(s => { s.removeAttribute('size'); s.style.fontSize = val; });
+                if (pages[currentPageIndex]) pages[currentPageIndex].style.lineHeight = val;
             }
         }
 
         function applyColor(color, el) {
+            focusCurrentPage();
             document.execCommand('styleWithCSS', false, true);
             document.execCommand('foreColor', false, color);
             if (el) {
-                document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                const row = el.closest('.color-row') || el.closest('.prop-row');
+                if (row) row.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
                 el.classList.add('active');
             }
         }
 
         function applyHighlight(color, el) {
+            focusCurrentPage();
             document.execCommand('styleWithCSS', false, true);
-            document.execCommand('backColor', false, color);
+            document.execCommand('backColor', false, color === 'transparent' ? 'transparent' : color);
             if (el) {
                 const row = el.closest('.color-row');
                 if (row) row.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
@@ -2391,217 +3424,436 @@
             }
         }
 
-        /* ─── INSERT HELPERS ───────────────────────────── */
-        function insertHR() { document.execCommand('insertHorizontalRule'); }
+        /* ── INSERT HELPERS ── */
+        function insertHR() { focusCurrentPage(); document.execCommand('insertHorizontalRule'); }
 
-        function insertTable() {
-            const rows = parseInt(prompt('Number of rows:', 3) || 3);
-            const cols = parseInt(prompt('Number of columns:', 3) || 3);
-            if (isNaN(rows) || isNaN(cols)) return;
-            let html = '<table style="border-collapse:collapse;width:100%;margin:12px 0">';
+        function openTableModal() { document.getElementById('tableModal').classList.add('open'); }
+
+        function doInsertTable() {
+            const rows = Math.min(Math.max(parseInt(document.getElementById('tableRows').value) || 3, 1), 20);
+            const cols = Math.min(Math.max(parseInt(document.getElementById('tableCols').value) || 3, 1), 10);
+            focusCurrentPage();
+            let html = '<table style="border-collapse:collapse;width:100%;margin:10px 0;table-layout:fixed">';
             for (let r = 0; r < rows; r++) {
                 html += '<tr>';
                 for (let c = 0; c < cols; c++) {
-                    html += `<td style="border:1px solid #ccc;padding:8px 12px;min-width:40px" contenteditable="true">${r === 0 ? '<b>Header ' + (c + 1) + '</b>' : ''}</td>`;
+                    const tag = r === 0 ? 'th' : 'td';
+                    const st = 'border:1px solid #bbb;padding:7px 10px;word-wrap:break-word;' +
+                        (r === 0 ? 'background:#f0f0f0;font-weight:700;' : '');
+                    html += `<${tag} style="${st}">${r === 0 ? 'Header ' + (c + 1) : ''}</${tag}>`;
                 }
                 html += '</tr>';
             }
             html += '</table><p><br></p>';
             document.execCommand('insertHTML', false, html);
+            closeModal('tableModal');
         }
 
         function insertDate() {
-            const d = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            focusCurrentPage();
+            const d = new Date().toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
             document.execCommand('insertHTML', false, `<span>${d}</span>`);
         }
 
-        function selectAll() { document.execCommand('selectAll'); }
-        function copyContent() { document.execCommand('copy'); showStatus('Copied!', 1500); }
-        async function pasteContent() { try { const text = await navigator.clipboard.readText(); document.execCommand('insertText', false, text); } catch (e) { showStatus('Paste failed — try Ctrl+V', 2000); } }
+        /* selectAll — selects content in current focused page only */
+        function selectAll() { focusCurrentPage(); document.execCommand('selectAll'); }
+
+        function copyContent() {
+            focusCurrentPage();
+            document.execCommand('selectAll');
+            document.execCommand('copy');
+            const sel = window.getSelection(); if (sel) sel.collapseToEnd();
+            showStatus('Copied!', 1500);
+        }
+
+        async function pasteContent() {
+            focusCurrentPage();
+            try {
+                if (navigator.clipboard && navigator.clipboard.readText) {
+                    const t = await navigator.clipboard.readText();
+                    document.execCommand('insertText', false, t);
+                } else {
+                    showStatus('Use Ctrl+V / Cmd+V to paste.', 2500);
+                }
+            } catch (e) {
+                showStatus('Paste permission denied — use Ctrl+V.', 2500);
+            }
+        }
 
         function clearContent() {
             if (!confirm('Clear all content from this page?')) return;
-            pages[currentPageIndex].innerHTML = '<p><br></p>';
-            pages[currentPageIndex].focus();
-            renderPageThumbs();
+            if (pages[currentPageIndex]) {
+                pages[currentPageIndex].innerHTML = '<p><br></p>';
+                pages[currentPageIndex].focus();
+                const wrap = pages[currentPageIndex].closest('.doc-page-wrap');
+                wrap.classList.remove('overflow');
+                scheduleThumbRender();
+            }
         }
 
-        /* ─── IMAGE MODAL ──────────────────────────────── */
+        /* ── IMAGE ── */
         function openImageModal() {
             savedRng = saveSelection();
+            document.getElementById('imageUrl').value = '';
+            document.getElementById('imageFile').value = '';
+            document.getElementById('imageWidth').value = '';
             document.getElementById('imageModal').classList.add('open');
         }
+
         function insertImage() {
             const url = document.getElementById('imageUrl').value.trim();
             const file = document.getElementById('imageFile').files[0];
-            const w = document.getElementById('imageWidth').value.trim() || 'auto';
-            restoreSelection(savedRng);
+            const w = document.getElementById('imageWidth').value.trim() || '100%';
+            focusCurrentPage(); restoreSelection(savedRng);
             if (file) {
                 const reader = new FileReader();
-                reader.onload = e => document.execCommand('insertHTML', false, `<img src="${e.target.result}" style="max-width:${w};height:auto;display:block;margin:8px 0;border-radius:6px"/>`);
+                reader.onload = e => document.execCommand('insertHTML', false,
+                    `<img src="${e.target.result}" style="max-width:${w};height:auto;display:block;margin:6px 0;border-radius:4px" alt="image"/>`
+                );
                 reader.readAsDataURL(file);
             } else if (url) {
-                document.execCommand('insertHTML', false, `<img src="${url}" style="max-width:${w};height:auto;display:block;margin:8px 0;border-radius:6px"/>`);
-            }
+                document.execCommand('insertHTML', false,
+                    `<img src="${url}" style="max-width:${w};height:auto;display:block;margin:6px 0;border-radius:4px" alt="image"/>`
+                );
+            } else { showStatus('Provide an image URL or file.', 2000); return; }
             closeModal('imageModal');
-            document.getElementById('imageUrl').value = '';
-            document.getElementById('imageWidth').value = '';
         }
 
-        /* ─── LINK MODAL ───────────────────────────────── */
-        let savedRng = null;
-        function openLinkModal() { savedRng = saveSelection(); document.getElementById('linkModal').classList.add('open'); }
+        /* ── LINK ── */
+        function openLinkModal() {
+            savedRng = saveSelection();
+            document.getElementById('linkUrl').value = '';
+            document.getElementById('linkText').value = '';
+            document.getElementById('linkModal').classList.add('open');
+        }
+
         function insertLink() {
             const url = document.getElementById('linkUrl').value.trim();
             const text = document.getElementById('linkText').value.trim();
-            if (!url) return;
-            restoreSelection(savedRng);
-            if (text) document.execCommand('insertHTML', false, `<a href="${url}" target="_blank" style="color:var(--accent2)">${text}</a>`);
-            else document.execCommand('createLink', false, url);
+            if (!url) { showStatus('Enter a URL.', 2000); return; }
+            const fullUrl = (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/'))
+                ? url : 'https://' + url;
+            focusCurrentPage(); restoreSelection(savedRng);
+            if (text) {
+                document.execCommand('insertHTML', false,
+                    `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" style="color:#2dd4f0">${text}</a>`
+                );
+            } else {
+                document.execCommand('createLink', false, fullUrl);
+                const sel = window.getSelection();
+                if (sel && sel.anchorNode) {
+                    const link = sel.anchorNode.parentElement?.closest('a');
+                    if (link) { link.target = '_blank'; link.rel = 'noopener noreferrer'; link.style.color = '#2dd4f0'; }
+                }
+            }
             closeModal('linkModal');
-            document.getElementById('linkUrl').value = ''; document.getElementById('linkText').value = '';
         }
 
-        /* ─── SIGNATURE ────────────────────────────────── */
-        let sigCtx, sigDrawing = false;
+        /* ── SIGNATURE ── */
         function initSignatureCanvas() {
-            const canvas = document.getElementById('sigCanvas');
-            if (!canvas) return;
+            const canvas = document.getElementById('sigCanvas'); if (!canvas) return;
             sigCtx = canvas.getContext('2d');
-            sigCtx.strokeStyle = isDark ? '#eeeef8' : '#1a1540';
-            sigCtx.lineWidth = 2.5; sigCtx.lineCap = 'round'; sigCtx.lineJoin = 'round';
-            canvas.addEventListener('mousedown', e => { sigDrawing = true; sigCtx.beginPath(); const r = canvas.getBoundingClientRect(); sigCtx.moveTo(e.clientX - r.left, e.clientY - r.top); });
-            canvas.addEventListener('mousemove', e => { if (!sigDrawing) return; const r = canvas.getBoundingClientRect(); sigCtx.lineTo(e.clientX - r.left, e.clientY - r.top); sigCtx.stroke(); });
-            canvas.addEventListener('mouseup', () => sigDrawing = false); canvas.addEventListener('mouseleave', () => sigDrawing = false);
-            canvas.addEventListener('touchstart', e => { e.preventDefault(); sigDrawing = true; sigCtx.beginPath(); const r = canvas.getBoundingClientRect(); const t = e.touches[0]; sigCtx.moveTo(t.clientX - r.left, t.clientY - r.top); }, { passive: false });
-            canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!sigDrawing) return; const r = canvas.getBoundingClientRect(); const t = e.touches[0]; sigCtx.lineTo(t.clientX - r.left, t.clientY - r.top); sigCtx.stroke(); }, { passive: false });
+            sigCtx.strokeStyle = '#1a1540'; sigCtx.lineWidth = 2.5;
+            sigCtx.lineCap = 'round'; sigCtx.lineJoin = 'round';
+
+            function getPos(e) {
+                const r = canvas.getBoundingClientRect();
+                const sx = canvas.width / r.width, sy = canvas.height / r.height;
+                if (e.touches) return { x: (e.touches[0].clientX - r.left) * sx, y: (e.touches[0].clientY - r.top) * sy };
+                return { x: (e.clientX - r.left) * sx, y: (e.clientY - r.top) * sy };
+            }
+
+            canvas.addEventListener('mousedown', e => {
+                sigDrawing = true; sigCtx.strokeStyle = isDark ? '#eeeef8' : '#1a1540';
+                sigCtx.beginPath(); const p = getPos(e); sigCtx.moveTo(p.x, p.y);
+            });
+            canvas.addEventListener('mousemove', e => {
+                if (!sigDrawing) return; const p = getPos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke();
+            });
+            canvas.addEventListener('mouseup', () => sigDrawing = false);
+            canvas.addEventListener('mouseleave', () => sigDrawing = false);
+            canvas.addEventListener('touchstart', e => {
+                e.preventDefault(); sigDrawing = true; sigCtx.strokeStyle = isDark ? '#eeeef8' : '#1a1540';
+                sigCtx.beginPath(); const p = getPos(e); sigCtx.moveTo(p.x, p.y);
+            }, { passive: false });
+            canvas.addEventListener('touchmove', e => {
+                e.preventDefault(); if (!sigDrawing) return;
+                const p = getPos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke();
+            }, { passive: false });
             canvas.addEventListener('touchend', () => sigDrawing = false);
         }
-        function clearSignature() { sigCtx.clearRect(0, 0, 460, 140); }
+
+        function clearSignature() {
+            if (sigCtx) { const c = document.getElementById('sigCanvas'); sigCtx.clearRect(0, 0, c.width, c.height); }
+        }
+
         function openSignatureModal() { savedRng = saveSelection(); document.getElementById('signatureModal').classList.add('open'); }
+
         function insertSignature() {
-            const canvas = document.getElementById('sigCanvas');
-            const dataUrl = canvas.toDataURL('image/png');
-            restoreSelection(savedRng);
-            document.execCommand('insertHTML', false, `<img src="${dataUrl}" style="max-width:280px;height:auto;display:inline-block;margin:4px 0"/>`);
+            const dataUrl = document.getElementById('sigCanvas').toDataURL('image/png');
+            focusCurrentPage(); restoreSelection(savedRng);
+            document.execCommand('insertHTML', false,
+                `<img src="${dataUrl}" style="max-width:260px;height:auto;display:inline-block;margin:3px 0" alt="Signature"/>`
+            );
             clearSignature(); closeModal('signatureModal');
         }
 
-        /* ─── OCR ──────────────────────────────────────── */
-        function openOcrModal() { document.getElementById('ocrModal').classList.add('open'); }
+        /* ── OCR ── */
+        function openOcrModal() {
+            /* Save selection BEFORE opening modal so we know where to insert */
+            savedRng = saveSelection();
+            document.getElementById('ocrFile').value = '';
+            document.getElementById('ocrResult').value = '';
+            document.getElementById('ocrFill').style.width = '0%';
+            document.getElementById('ocrModal').classList.add('open');
+        }
+
         async function runOcr(input) {
             if (!input.files[0]) return;
             showOcrProgress(0);
-            document.getElementById('ocrResult').value = 'Running OCR…';
+            document.getElementById('ocrResult').value = 'Running OCR, please wait…';
+            showStatus('Running OCR…');
             try {
                 const result = await Tesseract.recognize(input.files[0], 'eng', {
                     logger: m => { if (m.status === 'recognizing text') showOcrProgress(Math.round(m.progress * 100)); }
                 });
                 document.getElementById('ocrResult').value = result.data.text || '(No text found)';
                 showOcrProgress(100);
+                showStatus('OCR complete!', 2000);
             } catch (e) {
                 document.getElementById('ocrResult').value = 'OCR failed: ' + e.message;
+                showStatus('OCR failed.', 3000);
             }
         }
-        function showOcrProgress(pct) {
-            document.getElementById('ocrFill').style.width = pct + '%';
-        }
+
+        function showOcrProgress(p) { document.getElementById('ocrFill').style.width = p + '%'; }
+
         function insertOcrText() {
-            const text = document.getElementById('ocrResult').value;
-            if (!text) return;
-            restoreSelection(savedRng);
-            document.execCommand('insertHTML', false, text.replace(/\n/g, '<br>'));
+            const text = document.getElementById('ocrResult').value.trim();
+            if (!text) { showStatus('No OCR text to insert.', 2000); return; }
+            focusCurrentPage(); restoreSelection(savedRng);
+            const html = text
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/\n/g, '<br>');
+            document.execCommand('insertHTML', false, html);
             closeModal('ocrModal');
         }
 
-        /* ─── ZOOM ─────────────────────────────────────── */
-        function zoomIn() { zoom = Math.min(zoom + .1, 2.0); applyZoom(); }
-        function zoomOut() { zoom = Math.max(zoom - .1, .5); applyZoom(); }
+        /* ── ZOOM ── */
+        function zoomIn() { zoom = Math.min(zoom + .1, 2.5); applyZoom(); }
+        function zoomOut() { zoom = Math.max(zoom - .1, .3); applyZoom(); }
         function zoomReset() { zoom = 1.0; applyZoom(); }
-        function applyZoom() { pages.forEach(p => { p.style.transform = `scale(${zoom})`; p.style.transformOrigin = 'top center'; p.closest('.doc-page-wrap').style.height = (zoom * 1100 + 80) + 'px'; }); }
 
-        /* ─── EXPORT PDF ───────────────────────────────── */
+        function applyZoom() {
+            pages.forEach(p => {
+                const wrap = p.closest('.doc-page-wrap'); if (!wrap) return;
+                wrap.style.transform = `scale(${zoom})`;
+                wrap.style.transformOrigin = 'top center';
+                /*
+                 * When scaling up (zoom > 1): scaledH > naturalH → diff > 0 → add positive margin-bottom
+                 * When scaling down (zoom < 1): scaledH < naturalH → diff < 0 → add negative margin-bottom (shrink gap)
+                 * This keeps pages from overlapping or having massive gaps.
+                 */
+                const naturalH = pageSize.h;
+                const scaledH = naturalH * zoom;
+                const diff = scaledH - naturalH;
+                wrap.style.marginBottom = diff + 'px';
+            });
+            document.getElementById('zoomBadge').textContent = Math.round(zoom * 100) + '%';
+            requestAnimationFrame(drawRuler);
+        }
+
+        /* ── EXPORT PDF ── */
         async function exportPDF() {
             showStatus('Generating PDF…');
             try {
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
                 const A4W = 595.28, A4H = 841.89;
+                const mT = currentMargins.top * 72, mB = currentMargins.bottom * 72;
+                const mL = currentMargins.left * 72, mR = currentMargins.right * 72;
+                const usableW = A4W - mL - mR;
+
                 for (let i = 0; i < pages.length; i++) {
                     if (i > 0) pdf.addPage();
-                    const page = pages[i];
-                    // Clone into temp container for rendering
-                    const clone = page.cloneNode(true);
-                    clone.style.transform = 'scale(1)';
-                    clone.style.width = A4W + 'pt';
-                    clone.style.position = 'fixed';
-                    clone.style.top = '-9999px';
-                    clone.style.left = '-9999px';
-                    document.body.appendChild(clone);
-                    const text = clone.innerText || '';
-                    pdf.setFontSize(12);
-                    const lines = pdf.splitTextToSize(text, A4W - 80);
-                    let y = 60;
-                    lines.forEach(line => {
-                        if (y > A4H - 60) { pdf.addPage(); y = 60; }
-                        pdf.text(line, 40, y); y += 16;
-                    });
-                    document.body.removeChild(clone);
+                    const blocks = extractTextBlocks(pages[i]);
+                    let y = mT;
+                    for (const block of blocks) {
+                        if (y > A4H - mB) { pdf.addPage(); y = mT; }
+                        pdf.setFontSize(block.fontSize || 12);
+                        let fs = 'normal';
+                        if (block.bold && block.italic) fs = 'bolditalic';
+                        else if (block.bold) fs = 'bold';
+                        else if (block.italic) fs = 'italic';
+                        pdf.setFont('helvetica', fs);
+                        if (block.color) {
+                            const rgb = parseColor(block.color);
+                            if (rgb) pdf.setTextColor(rgb.r, rgb.g, rgb.b);
+                            else pdf.setTextColor(0, 0, 0);
+                        } else { pdf.setTextColor(0, 0, 0); }
+                        const lines = pdf.splitTextToSize(block.text, usableW);
+                        const lineH = (block.fontSize || 12) * 1.4;
+                        for (const line of lines) {
+                            if (y > A4H - mB) { pdf.addPage(); y = mT; }
+                            pdf.text(line, mL, y);
+                            if (block.underline) {
+                                const tw = pdf.getTextWidth(line);
+                                pdf.setDrawColor(0, 0, 0); pdf.setLineWidth(.5);
+                                pdf.line(mL, y + 2, mL + tw, y + 2);
+                            }
+                            y += lineH;
+                        }
+                        if (block.isBlock) y += 4;
+                    }
                 }
-                const name = (document.getElementById('docTitle').value || 'Document').replace(/[^a-z0-9]/gi, '_');
+                const name = (document.getElementById('docTitle').value || 'Document')
+                    .replace(/[^a-z0-9_\-\s]/gi, '_').trim() || 'Document';
                 pdf.save(name + '.pdf');
                 showStatus('PDF downloaded!', 2000);
-            } catch (e) { showStatus('Export failed: ' + e.message, 3000); }
+            } catch (e) { showStatus('Export failed: ' + e.message, 3000); console.error(e); }
         }
 
-        /* ─── EXPORT WORD (basic HTML→DOCX via blob) ─── */
+        function extractTextBlocks(container) {
+            const blocks = [];
+            function proc(node, inh) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const t = node.textContent; if (t) blocks.push({ ...inh, text: t, isBlock: false }); return;
+                }
+                if (node.nodeType !== Node.ELEMENT_NODE) return;
+                const cs = window.getComputedStyle(node);
+                const style = {
+                    ...inh,
+                    fontSize: Math.round(parseFloat(cs.fontSize)) || inh.fontSize || 12,
+                    bold: cs.fontWeight >= 600 || inh.bold,
+                    italic: cs.fontStyle === 'italic' || inh.italic,
+                    underline: cs.textDecoration.includes('underline') || inh.underline,
+                    color: cs.color || inh.color || '#000'
+                };
+                const blockTags = ['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'LI', 'TR', 'BR'];
+                if (node.tagName === 'BR') { blocks.push({ ...style, text: '', isBlock: true }); return; }
+                if (node.tagName === 'IMG') return;
+                for (const child of node.childNodes) proc(child, style);
+                if (blockTags.includes(node.tagName)) blocks.push({ ...style, text: '', isBlock: true });
+            }
+            proc(container, { fontSize: 12, bold: false, italic: false, underline: false, color: '#000' });
+            return blocks;
+        }
+
+        function parseColor(color) {
+            if (!color) return null;
+            const m = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+            if (m) return { r: +m[1], g: +m[2], b: +m[3] };
+            if (color.startsWith('#')) {
+                const h = color.replace('#', '');
+                if (h.length === 3) return { r: parseInt(h[0] + h[0], 16), g: parseInt(h[1] + h[1], 16), b: parseInt(h[2] + h[2], 16) };
+                if (h.length === 6) return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) };
+            }
+            return null;
+        }
+
+        /* ── EXPORT WORD ── */
         function exportWord() {
-            const name = (document.getElementById('docTitle').value || 'Document');
+            const name = document.getElementById('docTitle').value || 'Document';
+            const mT = currentMargins.top * 2.54, mB = currentMargins.bottom * 2.54;
+            const mL = currentMargins.left * 2.54, mR = currentMargins.right * 2.54;
             const content = pages.map(p => p.innerHTML).join('<br style="page-break-after:always">');
-            const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>${name}</title></head><body>${content}</body></html>`;
+            const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:w="urn:schemas-microsoft-com:office:word"
+        xmlns="http://www.w3.org/TR/REC-html40">
+        <head><meta charset="utf-8"><title>${name}</title>
+        <style>@page{margin:${mT}cm ${mR}cm ${mB}cm ${mL}cm;}body{font-family:Arial,sans-serif;font-size:12pt;}</style>
+        </head><body>${content}</body></html>`;
             const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
             const url = URL.createObjectURL(blob);
-            const a = document.createElement('a'); a.href = url; a.download = name + '.doc'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+            const a = document.createElement('a'); a.href = url;
+            a.download = name.replace(/[^a-z0-9_\-\s]/gi, '_') + '.doc';
+            document.body.appendChild(a); a.click();
+            document.body.removeChild(a); URL.revokeObjectURL(url);
             showStatus('Word document downloaded!', 2000);
         }
 
-        /* ─── PRINT ────────────────────────────────────── */
+        /* ── PRINT ── */
         function printDoc() {
-            const content = pages.map(p => p.innerHTML).join('<div style="page-break-after:always"></div>');
+            const title = document.getElementById('docTitle').value || 'Document';
+            const mT = currentMargins.top, mB = currentMargins.bottom;
+            const mL = currentMargins.left, mR = currentMargins.right;
+            const content = pages.map(p => `<div class="page">${p.innerHTML}</div>`).join('<div style="page-break-after:always"></div>');
             const w = window.open('', '_blank');
-            w.document.write(`<html><head><title>Print</title><style>body{font-family:Arial,sans-serif;padding:40px;max-width:800px;margin:0 auto}</style></head><body>${content}</body></html>`);
-            w.document.close(); w.print();
+            if (!w) { showStatus('Pop-up blocked.', 3000); return; }
+            w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${title}</title>
+    <style>
+        @page { margin: ${mT}in ${mR}in ${mB}in ${mL}in; }
+        body { font-family:Arial,sans-serif; font-size:12pt; padding:0; margin:0; }
+        .page { min-height:200px; }
+        @media print { .page { page-break-after:always; } }
+        img { max-width:100%; }
+        table { border-collapse:collapse; width:100%; }
+        td, th { border:1px solid #bbb; padding:6px 10px; }
+    </style></head><body>${content}</body></html>`);
+            w.document.close();
+            setTimeout(() => { w.focus(); w.print(); }, 400);
         }
 
-        /* ─── SAVE (localStorage) ──────────────────────── */
+        /* ── SAVE / LOAD ── */
         function saveDoc() {
-            const data = { title: document.getElementById('docTitle').value, pages: pages.map(p => p.innerHTML) };
-            localStorage.setItem('allInOneDoc', JSON.stringify(data));
-            showStatus('Saved to browser storage!', 2000);
+            try {
+                const data = {
+                    title: document.getElementById('docTitle').value,
+                    pages: pages.map(p => p.innerHTML),
+                    margins: currentMargins,
+                    pageSize,
+                    savedAt: new Date().toISOString()
+                };
+                localStorage.setItem('allInOneDoc', JSON.stringify(data));
+                showStatus('Saved ✓', 2000);
+            } catch (e) { showStatus('Save failed: ' + e.message, 3000); }
         }
+
         function loadDoc() {
             try {
-                const data = JSON.parse(localStorage.getItem('allInOneDoc'));
-                if (!data) return;
+                const raw = localStorage.getItem('allInOneDoc'); if (!raw) return;
+                const data = JSON.parse(raw);
                 document.getElementById('docTitle').value = data.title || 'Untitled';
-                // Clear existing pages
-                document.getElementById('docPages').innerHTML = ''; pages = [];
-                data.pages.forEach((html, i) => {
-                    addPage(); pages[i].innerHTML = html;
-                });
-                showStatus('Document loaded!', 2000);
-            } catch (e) { }
+                if (data.margins) currentMargins = { ...data.margins };
+                if (data.pageSize) {
+                    pageSize = { ...data.pageSize };
+                    document.documentElement.style.setProperty('--page-width', pageSize.w + 'px');
+                    document.documentElement.style.setProperty('--page-height', pageSize.h + 'px');
+                }
+                document.getElementById('pagesContainer').innerHTML = '';
+                pages = []; currentPageIndex = 0;
+                if (data.pages && data.pages.length > 0) {
+                    data.pages.forEach((html, i) => {
+                        addPage(); pages[i].innerHTML = html;
+                        checkPageOverflow(pages[i], pages[i].closest('.doc-page-wrap'));
+                    });
+                } else { addPage(); }
+                applyMarginsToPagesDOM('all');
+                updateMarginGuides();
+                detectPresetMatch();
+                renderPageThumbs();
+                applyZoom();
+                showStatus('Document loaded.', 2000);
+            } catch (e) { console.warn('Load error:', e); if (pages.length === 0) addPage(); }
         }
 
-        /* ─── KEYBOARD ─────────────────────────────────── */
+        /* ── KEYBOARD SHORTCUTS ── */
         function handleKeydown(e) {
-            if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveDoc(); }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'p') { e.preventDefault(); printDoc(); }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'e') { e.preventDefault(); exportPDF(); }
+            if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 's') { e.preventDefault(); saveDoc(); }
+            if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 'p') { e.preventDefault(); printDoc(); }
+            if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 'e') { e.preventDefault(); exportPDF(); }
         }
 
-        /* ─── STATUS BAR ───────────────────────────────── */
-        let statusTimer;
+        document.addEventListener('keydown', e => {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'Z') {
+                document.execCommand('redo'); e.preventDefault();
+            }
+        });
+
+        /* ── STATUS BAR ── */
+        let statusTimer = null;
         function showStatus(msg, hideAfter) {
             clearTimeout(statusTimer);
             const bar = document.getElementById('statusBar');
@@ -2610,17 +3862,20 @@
             if (hideAfter) statusTimer = setTimeout(() => bar.classList.remove('visible'), hideAfter);
         }
 
-        /* ─── INIT ─────────────────────────────────────── */
+        /* ── INITIALISE ── */
         document.addEventListener('DOMContentLoaded', () => {
-            init();
-            // Try restore saved doc
-            if (localStorage.getItem('allInOneDoc')) loadDoc();
-            // Keyboard shortcuts
-            document.addEventListener('keydown', e => {
-                if ((e.ctrlKey || e.metaKey) && e.key === 'z' && e.shiftKey) { document.execCommand('redo'); e.preventDefault(); }
+            /* Sync initial dark-mode state of all toggles */
+            ['drawerToggle', 'footerToggle'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('on', isDark);
             });
+
+            init();
+
+            if (localStorage.getItem('allInOneDoc')) loadDoc();
         });
     </script>
+
 </body>
 
 </html>
